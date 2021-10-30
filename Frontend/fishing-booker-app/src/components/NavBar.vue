@@ -6,7 +6,7 @@
         </ul>
         <ul>
             <li><router-link to="/login">Login</router-link></li>
-            <li><router-link to="">Register</router-link></li>
+            <li><router-link to="/register">Register</router-link></li>
         </ul>
     </header>
 </template>
@@ -30,7 +30,7 @@ export default {
 li, a, router-link {
     font-family: 'Montserrat', sans-serif;
     font-size: 18px;
-    color:lightgray;
+    color:rgb(238, 241, 232);
     text-decoration: none;
     list-style: none;
 }

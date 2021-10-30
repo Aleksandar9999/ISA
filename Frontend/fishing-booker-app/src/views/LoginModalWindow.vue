@@ -11,22 +11,16 @@
 
               <div class="modal-body">
                 <slot name="body">
-                    <div>
-                        <label for="">Email:</label>
-                        <input type="text">
-                    </div>
-                    <div>
-                        <label for="">Password</label>
-                        <input type="password">
-                    </div>
+                    <tr><td><label for="">Email:</label></td><td><input type="text"></td></tr>
+                    <tr><td><label for="">Password:</label></td><td><input type="password"></td></tr>                                                               
                 </slot>
               </div>
 
               <div class="modal-footer">
                 <slot name="footer">
-                <button>Login</button>
+                <button class="butn">Login</button>
                 <router-link to="/">
-                <button class="modal-default-button" @click="$emit('close')">
+                <button class="butn" >
                     Close
                 </button>
                 </router-link>
@@ -44,6 +38,11 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+td{
+  text-align: left;
+}
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -69,7 +68,7 @@ export default {
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .modal-header h3 {
@@ -81,8 +80,19 @@ export default {
   margin: 20px 0;
 }
 
-.modal-default-button {
-  float: right;
+.butn{
+	font-size: 16px;
+	background-color: lightgreen;
+	border: 1px;
+	border-radius: 6px;
+	padding: 10px 20px;
+	margin: 4px 2px;
+	transition-duration: 0.4s;
+}
+
+.butn:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
 }
 
 .modal-enter {

@@ -1,11 +1,13 @@
 package com.isa.FishingBooker.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.dao.UsersDAO;
+import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.User;
 
 
@@ -22,6 +24,9 @@ public class ClientRegistrationService implements UsersService {
 	@Override
 	public void addNew(User item) {
 		// TODO Auto-generated method stub
+		item.setStatus(Status.PENDING);
+		item.setId(UUID.randomUUID().toString());
+		dao.addNew(item);
 	}
 
 	@Override
