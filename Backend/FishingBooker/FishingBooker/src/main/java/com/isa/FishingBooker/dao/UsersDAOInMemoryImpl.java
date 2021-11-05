@@ -2,14 +2,13 @@ package com.isa.FishingBooker.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.User;
-@Component("usersDAO")
+
+
+@Repository
 public class UsersDAOInMemoryImpl implements UsersDAO {
 	private List<User> users = new ArrayList<User>();
 
