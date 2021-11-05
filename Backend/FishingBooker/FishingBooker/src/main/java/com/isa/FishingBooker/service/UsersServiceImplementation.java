@@ -11,7 +11,7 @@ import com.isa.FishingBooker.dao.UsersDAO;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.User;
 @Service
-public class UsersServiceInMemoryImpl implements UsersService {
+public class UsersServiceImplementation implements UsersService {
 	
 	@Autowired
 	private UsersDAO dao;
@@ -43,6 +43,30 @@ public class UsersServiceInMemoryImpl implements UsersService {
 		item.setStatus(Status.PENDING);
 		item.setId(UUID.randomUUID().toString());
 		dao.addNew(item);
+	}
+
+	@Override
+	public String Login(User user) {
+		for(User u : dao.getAll()) {
+			
+			if(u.getPassword().equals(user.getPassword())) {
+				if(u.getEmail().equals(user.getEmail())) {
+					if(u.getStatus()!=Status.CONFIRMED) {
+						return "You must confirm you status first.";
+					}
+					return "Successfuly loged in!";
+				}
+				return "Bad password.";
+			}
+		}
+		
+		return "Bad email or user do not exist.";
+	}
+
+	@Override
+	public boolean Register(User user) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
