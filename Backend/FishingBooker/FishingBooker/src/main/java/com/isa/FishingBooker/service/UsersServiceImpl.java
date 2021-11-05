@@ -4,14 +4,13 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.dao.UsersDAO;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.User;
 @Service
-public class UsersServiceInMemoryImpl implements UsersService {
+public class UsersServiceImpl implements UsersService {
 	
 	@Autowired
 	private UsersDAO dao;
