@@ -24,7 +24,9 @@
                     </table>                   
                 </slot>
               </div>
-
+              <br>
+              <p class="warning" v-if="warning">{{warningMessage}}</p>
+              <br>
               <div class="modal-footer">
                 <slot name="footer">
                 <button class="butn" v-on:click="this.register">Register</button>
@@ -56,14 +58,20 @@ export default {
            adress:'',
            city:'',
            state:'',
-           phoneNum:''
+           phoneNum:'',
+
+           warning:false,
+           warningMessage:''
         }
     },
     methods: {
       validate(){
         if(this.password!==this.rpassword){
+          this.warningMessage='Passwords are not equal.'
+          this.warning=true;
           return false;
         }
+        this.warning=false;
         return true;
       },
       register(){
@@ -71,7 +79,7 @@ export default {
           return;
         }
         this.collectData();
-        axios.post('http://localhost:4000/register', this.regReqData)
+        axios.post('http://localhost:8080/register', this.regReqData)
           .then(response=>console.log(response))
       },   
       collectData(){
@@ -84,7 +92,7 @@ export default {
         this.regReqData.city=this.city;
         this.regReqData.country=this.state;
         this.regReqData.phoneNumber=this.phoneNum;
-        this.regReqData.status='';
+        this.regReqData.status='PENDING';
       }
 
     }
@@ -115,7 +123,7 @@ td{
 }
 
 .modal-container {
-  width: 300px;
+  width: 400px;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
@@ -162,4 +170,10 @@ td{
   background-color: #4CAF50; /* Green */
   color: white;
 }
+
+.warning{
+  font-size: 16px;
+  color: red;
+}
+
 </style>

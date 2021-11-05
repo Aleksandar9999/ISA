@@ -3,6 +3,7 @@
         <router-link to="/about"><img class="logo" src="../assets/logo.jpg" alt="Logo"></router-link>
         <ul>
             <li><router-link to="">Home</router-link></li>
+            <li><router-link to="/profile">My profile</router-link></li>
         </ul>
         <ul>
             <li><router-link to="/login">Login</router-link></li>

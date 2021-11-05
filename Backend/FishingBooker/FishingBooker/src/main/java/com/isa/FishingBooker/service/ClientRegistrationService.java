@@ -12,7 +12,7 @@ import com.isa.FishingBooker.model.User;
 
 
 @Service
-public class ClientRegistrationService implements UsersService {
+public class ClientRegistrationService implements RegistrationService {
 	
 	@Autowired
 	UsersDAO dao;
