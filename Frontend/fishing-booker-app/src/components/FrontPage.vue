@@ -43,9 +43,9 @@ export default {
     data(){
       return{
         tabType: 'resort',
-        resortHeader:['ID','Name','Location','Price'],
-        boatsHeader:['ID','Manufacturer','Engine','HorsePowers'],
-        tutorsHeader:['ID','Name','Surname'],
+        resortHeader:['ID','Name','Location','Number of rooms'],
+        boatsHeader:['ID','Manufacturer','Capacity','Navigation'],
+        tutorsHeader:['ID','Name','Surname','Adventure','Rate'],
         headerList: this.resortHeader,
         dataList: []
     }

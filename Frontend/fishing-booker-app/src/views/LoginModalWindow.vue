@@ -11,14 +11,14 @@
 
               <div class="modal-body">
                 <slot name="body">
-                    <tr><td><label for="">Email:</label></td><td><input type="text"></td></tr>
-                    <tr><td><label for="">Password:</label></td><td><input type="password"></td></tr>                                                               
+                    <tr><td><label for="">Email:</label></td><td><input type="text" v-model="email"></td></tr>
+                    <tr><td><label for="">Password:</label></td><td><input type="password" v-model="password"></td></tr>                                                               
                 </slot>
               </div>
 
               <div class="modal-footer">
                 <slot name="footer">
-                <button class="butn">Login</button>
+                <button class="butn" @click="login()">Login</button>
                 <router-link to="/">
                 <button class="butn" >
                     Close
@@ -32,8 +32,37 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-    name: 'Login'
+    name: 'Login',
+    data(){
+      return{
+        email:'',
+        password:'',
+        regReqData:{}
+      }
+    },
+    methods:{
+      login(){
+        this.collectData()
+        axios.post('http://localhost:8080/login', this.regReqData)
+          .then(response=>console.log(response))
+      },
+      collectData(){
+        this.regReqData.id='';
+        this.regReqData.email=this.email;
+        this.regReqData.password=this.password;
+        this.regReqData.name=''
+        this.regReqData.surname=''
+        this.regReqData.address=''
+        this.regReqData.city=''
+        this.regReqData.country=''
+        this.regReqData.phoneNumber=''
+        this.regReqData.status='CONFIRMED';
+      }
+
+    }
 }
 </script>
 
