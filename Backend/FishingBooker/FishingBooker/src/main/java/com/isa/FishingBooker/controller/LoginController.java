@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.model.User;
-import com.isa.FishingBooker.service.UsersServiceImpl;
+import com.isa.FishingBooker.service.UsersServiceImplementation;
+
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/login")
 public class LoginController {
 	@Autowired
-	private UsersServiceImpl service;
+	private UsersServiceImplementation service;
 	
 	@PostMapping("")
 	public String Login(@RequestBody User user) {
