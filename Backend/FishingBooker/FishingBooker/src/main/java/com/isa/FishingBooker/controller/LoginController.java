@@ -11,7 +11,7 @@ import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.service.UsersServiceImpl;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/login")
 public class LoginController {
 	@Autowired
