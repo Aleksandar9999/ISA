@@ -1,6 +1,7 @@
 package com.isa.FishingBooker.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,14 +17,13 @@ public class BoatsServiceImplementation implements BoatsService {
 	
 	@Override
 	public void addNew(Boat item) {
-		// TODO Auto-generated method stub
-		
+		 item.setId(UUID.randomUUID().toString());
+		 dao.addNew(item);
 	}
 
 	@Override
 	public List<Boat> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.getAll();
 	}
 
 	@Override

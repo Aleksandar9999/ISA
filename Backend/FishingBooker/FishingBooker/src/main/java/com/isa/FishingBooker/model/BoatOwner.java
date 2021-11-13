@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BoatOwner  extends User {
-	private List<BoatOwnerServices> services;
+	private List<Boat> boats;
 	
-	public List<BoatOwnerServices> getServices() {
-		return services;
+	public List<Boat> getBoats() {
+		return boats;
 	}
 
-	public void setServices(BoatOwnerServices service) {
-		services.add(service);
+	public void setServices(Boat boat) {
+		boats.add(boat);
 	}
 
 	public BoatOwner(){
-		services=new ArrayList<>();
+		boats=new ArrayList<>();
 	}
 }

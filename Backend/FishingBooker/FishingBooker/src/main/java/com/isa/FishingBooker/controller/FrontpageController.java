@@ -21,15 +21,15 @@ import com.isa.FishingBooker.service.TutorsServiceImplementation;
 public class FrontpageController {
 	
 	@Autowired
-	private BoatsServiceImplementation bService;
+//	private BoatsServiceImplementation bService;
 	private ResortsServiceImplementation rService;
 	private TutorsServiceImplementation tService;
 	
-	@GetMapping("/boats")
+/*	@GetMapping("/boats")
 	public List<Boat> getAllBoats(){
 		return bService.getAll();
 	}
-	
+*/
 	@GetMapping("/resorts")
 	public List<Resort> getAllResorts(){
 		return rService.getAll();
