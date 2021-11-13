@@ -44,4 +44,16 @@ public class UsersServiceImpl implements UsersService {
 		dao.addNew(item);
 	}
 
+	@Override
+	public String Login(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean Register(User user) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
