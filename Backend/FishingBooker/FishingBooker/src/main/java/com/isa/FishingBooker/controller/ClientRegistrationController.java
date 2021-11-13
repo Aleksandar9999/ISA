@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.service.UsersServiceImplementation;
 
+
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/register")
