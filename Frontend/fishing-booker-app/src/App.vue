@@ -16,12 +16,19 @@ export default {
 </script>
 
 <style>
+body{
+  background:linear-gradient(to right,#7980ce,rgb(134, 190, 209));
+    height: 100%;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background:linear-gradient(to right,#7980ce,rgb(134, 190, 209));
+    height: 100%;
 }
 
 #nav {
