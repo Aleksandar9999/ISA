@@ -39,15 +39,17 @@
         <button >Edit profile data</button>
     </div>
     <div class="edit-profile">
-        <button >Edit password</button>
+        <button  v-bind="togglePass" v-on:click="toggle()">Edit password</button>
         <br/>
     </div>
     <div class="edit-profile">
-        <div>
+        <div id="passChangeBox" class="toggle-pass-hidden">
             <label for="">New Password: </label>
-            <input type="text"> <br/><br/>
+            <input type="password"> <br/><br/>
             <label for="">Retype Password: </label>
-            <input type="text">
+            <input type="password"> <br/>
+            <div id="warnBox" class="pass-warning"><p >Passwords are not equal.</p></div>
+            <button v-on:click="submitPass()">Submit</button>
         </div>
     </div>
         </div>
@@ -57,7 +59,32 @@
  //var warningB= false;
  
  export default {
+     data(){
+         return {
+             togglePass: false,
+             newPass:'',
+             newPassRetype:'',
+            
+         }
+     },
+     methods: {
+         toggle(){
+             this.togglePass=true;
+             document.getElementById("passChangeBox").classList.toggle("toggle-pass-show")
+         },
 
+         submitPass(){
+             this.validatePass()
+         },
+
+         validatePass(){
+             if(this.newPass===this.newPassRetype){
+                 return
+             } else {
+                 document.getElementById("warnBox").classList.toggle("pass-warning-act")
+             }
+         }
+     }
 }
 </script>
 
@@ -102,5 +129,28 @@
 
 .items{
     float: left;
+}
+
+.toggle-pass-hidden{
+    display: none;
+    border: solid 2px black;
+    padding: 15px
+}
+
+.toggle-pass-show{
+    display: inline-block;
+}
+
+.pass-warning{
+    display: none;
+}
+
+.pass-warning p {
+    font-size: 16px;
+    color: red;
+}
+
+.pass-warning-act{
+    display: inline-block;
 }
 </style>
