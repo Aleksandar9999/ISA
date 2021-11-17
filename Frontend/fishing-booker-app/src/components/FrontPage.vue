@@ -3,13 +3,58 @@
       <input type="text" placeholder="Type your search here">
       <button @click="search()">Search</button>
       <div>
-        <button class="advanced-src" @click="advancedSrc()">Advanced search</button>
+        <button class="advanced-src" @click="advancedSrcToggle()">Advanced search</button>
       </div>      
     </div>
     <div class="advanced-drop">
     <div id="dropMenu" class="advanced-drop-data">
-            
-        </div>
+          <div class="adv-div" v-if="boatsAdv">
+              <label for="">Minimal number of boat horsepowers:</label><input type="text">
+              <label for="">Name of engine trademark:</label><input style="width:100px" type="text"><br/>
+              <br/>
+              <label for="">Select rate of boat:</label>
+              <select name="" id="rateSelect">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select> <br/>
+              <button class="advanced-btn" v-on:click="advancesSearch()">Search</button>
+          </div>
+          <div class="adv-div" v-if="tutorsAdv">            
+            <label for="">Name of adventure:</label><input style="width:150px" type="text"><br/>
+            <label for="">Maximal number of persons on adventure:</label><input type="text">
+            <label for="">Maximal price of adventure:</label><input type="text">
+            <br/>
+              <label for="">Select tutors rate:</label>
+              <select name="" id="rateSelect">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select> <br/>
+              <button class="advanced-btn" v-on:click="advancesSearch()">Search</button>
+          </div>
+          <div class="adv-div" v-if="resortsAdv">
+            <label for="">Minimal number of rooms:</label><input type="text">
+            <label for="">Maximal number of rooms:</label><input type="text"><br/>
+
+            <label for="">Minimal number of beds:</label><input type="text">
+            <label for="">Maximal number of beds:</label><input type="text">
+            <br/>
+              <label for="">Select rate of resort:</label>
+              <select name="" id="rateSelect">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select> <br/>
+              <button class="advanced-btn" v-on:click="advancesSearch()">Search</button>
+          </div>     
+    </div>
     </div>
     <div>
         <div class="tab">
@@ -47,7 +92,10 @@ export default {
         boatsHeader:['ID','Manufacturer','Engine','HorsePowers'],
         tutorsHeader:['ID','Name','Surname'],
         headerList: this.resortHeader,
-        dataList: []
+        dataList: [],
+        tutorsAdv: false,
+        boatsAdv:false,
+        resortsAdv:true
     }
     } ,
     methods:{
@@ -55,10 +103,19 @@ export default {
         this.tabType=type;
         if(type==='boats'){
           this.headerList=this.boatsHeader
+          this.boatsAdv=true;
+          this.resortsAdv=false;
+          this.tutorsAdv=false;
         } else if(type==='tutors'){
           this.headerList=this.tutorsHeader
+          this.boatsAdv=false;
+          this.resortsAdv=false;
+          this.tutorsAdv=true;
         } else {
           this.headerList=this.resortHeader
+          this.boatsAdv=false;
+          this.resortsAdv=true;
+          this.tutorsAdv=false;
         }
         
       },
@@ -74,8 +131,12 @@ export default {
       search(){
 
       },
-      advancedSrc(){
+      advancedSrcToggle(){
         document.getElementById("dropMenu").classList.toggle("show-drop")
+      },
+      
+      advancedSearch(){
+
       }
 
     }
@@ -159,11 +220,6 @@ export default {
     word-wrap: break-word;
   }
   
-  .r-table td img {
-    
-    
-  }
-  
   .r-table td img:hover {
     transform: scale(1.1);
   }
@@ -218,7 +274,7 @@ export default {
   .advanced-drop-data{
     display: none;
     width: 60%;
-    height: 100px;
+    height: 160px;
     border: solid 3px black;
     background-color: white;
     border-radius: 5px;
@@ -228,4 +284,40 @@ export default {
     display: block;
   }
 
+  .advanced-btn{
+    font-size: 18px;
+    border: 3px black;
+    padding: 4px 5px;
+    color: whitesmoke;
+    background-color: rgb(15, 71, 10); 
+    margin-left: 10px;
+    border-radius: 15px;
+    width: 160px;
+    height:  30px;
+    transition: 0.8s;
+  }
+
+  .advanced-btn:hover{
+    background-color: rgb(10, 226, 28);
+  }
+
+  .adv-div {
+    margin: 0.5%;
+    height: 100px;
+    
+  }
+  
+  .adv-div input{
+    justify-content: left;
+    display: inline-block;
+    align-items: left;
+    padding: 5px;
+    margin: 5px;
+    width:40px;
+  }
+
+  .adv-div select{
+    margin: 6px;
+  }
+  
 </style>
