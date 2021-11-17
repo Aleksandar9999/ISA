@@ -62,11 +62,14 @@
         <div class="points-row"><label for="">Cathegory:</label><input type="text"><br/></div>
         <div class="points-row"><label for="">Benefits:</label><input type="text"><br/></div>        
     </div>
-        </div>
+    </div>
+    <div>
+        <button class="delete" v-on:click="deleteProfile">Delete profile</button>
+    </div>
 </template>
 
 <script>
- //var warningB= false;
+import axios from 'axios';
  
  export default {
      data(){
@@ -82,7 +85,10 @@
              address:'',
              city:'',
              state:'',
-             phoneNum:''
+             phoneNum:'',
+             id:'',
+             password:'',
+             profileReqData:{}
          }
      },
      methods: {
@@ -93,6 +99,8 @@
 
          submitPass(){
              this.validatePass()
+             this.collectPassData()
+             axios.post('http://localhost:8080/editPassword', this.profileReqData).then(response=>console.log(response.data))
          },
 
          validatePass(){
@@ -103,7 +111,16 @@
              }
          },
          collectPassData(){
-
+            this.profileReqData.id=this.id;
+            this.profileReqData.email=this.email;
+            this.profileReqData.password=this.newPass
+            this.profileReqData.name=this.name;
+            this.profileReqData.surname=this.surname;
+            this.profileReqData.address=this.address;
+            this.profileReqData.city=this.city;
+            this.profileReqData.country=this.state;
+            this.profileReqData.phoneNumber=this.phoneNum;
+            this.profileReqData.status='CONFIRMED';
          },
 
          editData(){
@@ -128,7 +145,7 @@
 
          saveEdited(){
              this.collectData()
-
+             axios.post('http://localhost:8080/editProfile', this.profileReqData).then(response=>console.log(response.data))
 
              let ipts= document.getElementsByName('input');
                  for(let i =0; i < ipts.length; i++){
@@ -138,7 +155,22 @@
          },
 
          collectData(){
+            this.profileReqData.id=this.id;
+            this.profileReqData.email=this.email;
+            this.profileReqData.password=this.password;
+            this.profileReqData.name=this.name;
+            this.profileReqData.surname=this.surname;
+            this.profileReqData.address=this.address;
+            this.profileReqData.city=this.city;
+            this.profileReqData.country=this.state;
+            this.profileReqData.phoneNumber=this.phoneNum;
+            this.profileReqData.status='CONFIRMED';
+         },
 
+         deleteProfile(){
+             if(confirm('Do you really want to delete your profile?')){
+                 axios.delete('http://localhost:8080/deleteProfile',this.id).then(response=>console.log(response.data))
+             }
          }
      }
 }
@@ -250,5 +282,22 @@
 
 .points-row input{
     border:none;
+}
+
+.delete{
+    display: inline-block;
+    margin: 20px;
+    width: 160px;
+    height: 50px;
+    border-radius: 15px;
+    border: 0px;
+    background-color: red;
+    font-size: medium;
+    color: black;
+    transition: 0.5s;
+}
+
+.delete:hover{
+    background-color: rgb(184, 91, 91);
 }
 </style>
