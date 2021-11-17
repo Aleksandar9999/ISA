@@ -1,42 +1,47 @@
 <template>
 <div class="profile">
     <div class=items>
+        <br/><br/><br/><br/>
             <div style="margin:30px">
                 <span class="profile-title">Name:</span>
-                <span class="profile-value" id='name'><input type="text"></span>
+                <span class="profile-value"><input name="input" v-bind="name" type="text"></span>
             </div>
             <div style="margin:30px">
                 <span class="profile-title">Surname:</span>
-                <span class="profile-value" id='lastname'><input type="text"></span>
+                <span class="profile-value"><input name="input" v-bind="surname" type="text"></span>
             </div>
             <div style="margin:30px">
                 <span class="profile-title">E-mail address:</span>
-                <span class="profile-value" id='username'><input type="text" disabled></span>
+                <span class="profile-value"><input type="text" v-bind="mail" disabled></span>
             </div>
 
             <div style="margin:30px">
-                <span class="profile-title">Datum rođenja:</span>
-                <span class="profile-value" id='birthDate'><input type="text"></span>
+                <span class="profile-title">Birth date:</span>
+                <span class="profile-value"><input name="input" v-bind="bdate" type="text"></span>
             </div>
             <div style="margin:30px">
                 <span class="profile-title">Address:</span>
-                <span class="profile-value" id='gender' ><input type="text"></span>
+                <span class="profile-value"><input name="input" v-bind="address" type="text"></span>
             </div>
             <div style="margin:30px">
                 <span class="profile-title">City:</span>
-                <span class="profile-value" id='category' ><input type="text"></span>
+                <span class="profile-value"><input name="input" v-bind="city" type="text"></span>
             </div>
             <div style="margin:30px">
                 <span class="profile-title">State:</span>
-                <span class="profile-value" id='points' ><input type="text"></span>
+                <span class="profile-value" ><input name="input" v-bind="state" type="text"></span>
             </div>
             <div style="margin:30px">
                 <span class="profile-title">Phone number:</span>
-                <span class="profile-value" id='discount' ><input type="text"></span>
+                <span class="profile-value"><input name="input" v-bind="phoneNum" type="text"></span>
+            </div>
+            <div >
+                <button id="btnSave" class="toggle-btn-hidden" v-on:click="saveEdited()">Save changes</button>               
             </div>
     </div>
+    <br/>
     <div class="edit-profile">
-        <button >Edit profile data</button>
+        <button v-on:click="editData()">{{editProfile}}</button>
     </div>
     <div class="edit-profile">
         <button  v-bind="togglePass" v-on:click="toggle()">Edit password</button>
@@ -52,11 +57,19 @@
             <button v-on:click="submitPass()">Submit</button>
         </div>
     </div>
-        </div>
+    <div class="points">
+        <div class="points-row"><label for="">Points:</label><input type="text"><br/></div>
+        <div class="points-row"><label for="">Cathegory:</label><input type="text"><br/></div>
+        <div class="points-row"><label for="">Benefits:</label><input type="text"><br/></div>        
+    </div>
+    </div>
+    <div>
+        <button class="delete" v-on:click="deleteProfile">Delete profile</button>
+    </div>
 </template>
 
 <script>
- //var warningB= false;
+import axios from 'axios';
  
  export default {
      data(){
@@ -64,7 +77,18 @@
              togglePass: false,
              newPass:'',
              newPassRetype:'',
-            
+             editProfile: 'Edit profile data',
+             name:'',
+             surname:'',
+             mail:'',
+             bdate:'',
+             address:'',
+             city:'',
+             state:'',
+             phoneNum:'',
+             id:'',
+             password:'',
+             profileReqData:{}
          }
      },
      methods: {
@@ -75,6 +99,8 @@
 
          submitPass(){
              this.validatePass()
+             this.collectPassData()
+             axios.post('http://localhost:8080/editPassword', this.profileReqData).then(response=>console.log(response.data))
          },
 
          validatePass(){
@@ -82,6 +108,68 @@
                  return
              } else {
                  document.getElementById("warnBox").classList.toggle("pass-warning-act")
+             }
+         },
+         collectPassData(){
+            this.profileReqData.id=this.id;
+            this.profileReqData.email=this.email;
+            this.profileReqData.password=this.newPass
+            this.profileReqData.name=this.name;
+            this.profileReqData.surname=this.surname;
+            this.profileReqData.address=this.address;
+            this.profileReqData.city=this.city;
+            this.profileReqData.country=this.state;
+            this.profileReqData.phoneNumber=this.phoneNum;
+            this.profileReqData.status='CONFIRMED';
+         },
+
+         editData(){
+             if(this.editProfile==='Quit editing'){
+                 let ipts= document.getElementsByName('input');
+                 for(let i =0; i < ipts.length; i++){
+                     ipts[i].setAttribute('disabled', true);
+                 }   
+                 this.editProfile='Edit profile data'
+             } else {
+                 let ipts= document.getElementsByName('input');
+                 for(let i =0; i < ipts.length; i++){
+                     ipts[i].removeAttribute('disabled');
+                 }   
+                 this.editProfile='Quit editing' 
+            }
+
+
+             document.getElementById("btnSave").classList.toggle("toggle-btn-show")
+             document.getElementById("input").removeAttribute('disabled');
+         },
+
+         saveEdited(){
+             this.collectData()
+             axios.post('http://localhost:8080/editProfile', this.profileReqData).then(response=>console.log(response.data))
+
+             let ipts= document.getElementsByName('input');
+                 for(let i =0; i < ipts.length; i++){
+                     ipts[i].setAttribute('disabled', true);
+                 }   
+                 this.editProfile='Edit profile data'
+         },
+
+         collectData(){
+            this.profileReqData.id=this.id;
+            this.profileReqData.email=this.email;
+            this.profileReqData.password=this.password;
+            this.profileReqData.name=this.name;
+            this.profileReqData.surname=this.surname;
+            this.profileReqData.address=this.address;
+            this.profileReqData.city=this.city;
+            this.profileReqData.country=this.state;
+            this.profileReqData.phoneNumber=this.phoneNum;
+            this.profileReqData.status='CONFIRMED';
+         },
+
+         deleteProfile(){
+             if(confirm('Do you really want to delete your profile?')){
+                 axios.delete('http://localhost:8080/deleteProfile',this.id).then(response=>console.log(response.data))
              }
          }
      }
@@ -92,7 +180,7 @@
 .profile{
     width: 60%;
     background-color: white;
-    height: 450px;
+    height: 600px;
     border-radius: 10px;
     margin-top: 50px;
     align-items: left;
@@ -139,6 +227,28 @@
 
 .toggle-pass-show{
     display: inline-block;
+    
+}
+
+.toggle-btn-hidden{
+    display: none;
+}
+
+.toggle-btn-show{
+    display: inline-block;
+    margin: 20px;
+    width: 160px;
+    height: 50px;
+    border-radius: 15px;
+    border: 0px;
+    background-color: green;
+    font-size: medium;
+    color: white;
+    transition: 0.5s;
+}
+
+.toggle-btn-show:hover{
+    background-color: chartreuse;
 }
 
 .pass-warning{
@@ -152,5 +262,42 @@
 
 .pass-warning-act{
     display: inline-block;
+}
+
+.points{
+    margin-top: 5px;
+    align-items: left;
+    display: inline-block;
+    width: 200px;
+    border: 2px solid black;
+    border-radius: 20px;
+    padding: 3%;
+}
+
+.points-row{
+    display: flex;
+    justify-content: space-around;
+    margin:5px;
+}
+
+.points-row input{
+    border:none;
+}
+
+.delete{
+    display: inline-block;
+    margin: 20px;
+    width: 160px;
+    height: 50px;
+    border-radius: 15px;
+    border: 0px;
+    background-color: red;
+    font-size: medium;
+    color: black;
+    transition: 0.5s;
+}
+
+.delete:hover{
+    background-color: rgb(184, 91, 91);
 }
 </style>
