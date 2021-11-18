@@ -10,7 +10,7 @@ public class BoatOwner  extends User {
 		return boats;
 	}
 
-	public void setServices(Boat boat) {
+	public void setBoats(Boat boat) {
 		boats.add(boat);
 	}
 

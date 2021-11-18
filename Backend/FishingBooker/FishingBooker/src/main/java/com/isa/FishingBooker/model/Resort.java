@@ -4,79 +4,126 @@ import java.util.Date;
 import java.util.List;
 
 public class Resort {
-	private String id;
-	private String name;
-	private Address address;
-	private String prom;
-	private String images;
-	private String numOfRooms;
-	private String numOfBeds;
-	private List<Date> freeTerms;
-	private List<String> rules;
-	private List<String> prices;
 	
-	public Resort() {}
+	private String name;
+	private String description;
+	private Address resortAddress;
+	private int numOfRooms;
+	private int numOfBeds;
+	private String rules;
+
+
+	private List<Photo> photos;
+	private List<Extras> extrasServices;
+	private List<DiscountOffer> disconutOffers;
+	private String resortOwnerId;
+	private String id;
+	
+	public Resort(String name, String description, Address resortAddress, int numOfRooms, int numOfBeds, String rules) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.resortAddress = resortAddress;
+		this.numOfRooms = numOfRooms;
+		this.numOfBeds = numOfBeds;
+		this.rules = rules;
+	}
 	
 	public String getId() {
 		return id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Address getAddress() {
-		return address;
+
+	public String getDescription() {
+		return description;
 	}
-	public void setAddress(Address address) {
-		this.address = address;
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	public String getProm() {
-		return prom;
+
+	public Address getResortAddress() {
+		return resortAddress;
 	}
-	public void setProm(String prom) {
-		this.prom = prom;
+
+	public void setResortAddress(Address resortAddress) {
+		this.resortAddress = resortAddress;
 	}
-	public String getImages() {
-		return images;
-	}
-	public void setImages(String images) {
-		this.images = images;
-	}
-	public String getNumOfRooms() {
+
+
+
+	public int getNumOfRooms() {
 		return numOfRooms;
 	}
-	public void setNumOfRooms(String numOfRooms) {
+
+	public void setNumOfRooms(int numOfRooms) {
 		this.numOfRooms = numOfRooms;
 	}
-	public String getNumOfBeds() {
+
+	public int getNumOfBeds() {
 		return numOfBeds;
 	}
-	public void setNumOfBeds(String numOfBeds) {
+
+	public void setNumOfBeds(int numOfBeds) {
 		this.numOfBeds = numOfBeds;
 	}
-	public List<Date> getFreeTerms() {
-		return freeTerms;
-	}
-	public void setFreeTerms(List<Date> freeTerms) {
-		this.freeTerms = freeTerms;
-	}
-	public List<String> getRules() {
+
+	public String getRules() {
 		return rules;
 	}
-	public void setRules(List<String> rules) {
+
+	public void setRules(String rules) {
 		this.rules = rules;
 	}
-	public List<String> getPrices() {
-		return prices;
+
+	public List<Photo> getPhotos() {
+		return photos;
 	}
-	public void setPrices(List<String> prices) {
-		this.prices = prices;
+
+	public void setPhotos(List<Photo> photos) {
+		this.photos = photos;
 	}
+
+	public List<Extras> getExtrasServices() {
+		return extrasServices;
+	}
+
+	public void setExtrasServices(List<Extras> extrasServices) {
+		this.extrasServices = extrasServices;
+	}
+
+	public List<DiscountOffer> getDisconutOffers() {
+		return disconutOffers;
+	}
+
+	public void setDisconutOffers(List<DiscountOffer> disconutOffers) {
+		this.disconutOffers = disconutOffers;
+	}
+
+	public String getResortOwnerId() {
+		return resortOwnerId;
+	}
+
+	public void setResortOwnerId(String resortOwnerId) {
+		this.resortOwnerId = resortOwnerId;
+	}
+
+	
+	
+	public Resort() {}
+	
+	
 	
 	
 	

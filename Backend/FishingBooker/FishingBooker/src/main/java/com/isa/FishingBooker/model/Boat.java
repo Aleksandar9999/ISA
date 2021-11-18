@@ -11,7 +11,7 @@ public class Boat {
 	private String engineId;
 	private String enginePower;
 	private int maxSpeed;
-	private NavigationEquipment navigationEquipment;
+	private String navigationEquipment;
 	private Address boatAddress;
 	private String description;
 	private int maxPerson;
@@ -19,6 +19,7 @@ public class Boat {
 	private String fishingEquipment;
 	private double cancelPercentage;
 	
+	private List<Photo> photos;
 	private List<Extras> extrasServices;
 	private List<DiscountOffer> disconutOffers;
 	private String boatOwnerId;
@@ -29,7 +30,7 @@ public class Boat {
 	 }
 
 	 public Boat(String name, String type, String length, String engineId, String enginePower, int maxSpeed,
-			NavigationEquipment navigationEquipment, Address boatAddress, String description, int maxPerson,
+			String navigationEquipment, Address boatAddress, String description, int maxPerson,
 			String rules, String fishingEquipment) {
 		super();
 		this.name = name;
@@ -46,7 +47,7 @@ public class Boat {
 		this.fishingEquipment = fishingEquipment;
 	}
 
-	private List<Photo> photos;
+	
 	 public String getName() {
 		return name;
 	}
@@ -95,11 +96,11 @@ public class Boat {
 		this.maxSpeed = maxSpeed;
 	}
 
-	public NavigationEquipment getNavigationEquipment() {
+	public String getNavigationEquipment() {
 		return navigationEquipment;
 	}
 
-	public void setNavigationEquipment(NavigationEquipment navigationEquipment) {
+	public void setNavigationEquipment(String navigationEquipment) {
 		this.navigationEquipment = navigationEquipment;
 	}
 
