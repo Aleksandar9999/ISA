@@ -3,16 +3,18 @@ package com.isa.FishingBooker.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 @Entity
 public class Boat {
-	
+	@Column(nullable=false)
 	private String name;
 	private String type;
 	private String length;
@@ -20,7 +22,8 @@ public class Boat {
 	private String enginePower;
 	private int maxSpeed;
 	private String navigationEquipment;
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="address_id")
 	private Address boatAddress;
 	private String description;
 	private int maxPerson;
@@ -36,6 +39,7 @@ public class Boat {
 	private Set<DiscountOffer> disconutOffers;
 	
 	@ManyToOne
+	@JoinColumn(name="boatOwner_id")
 	private BoatOwner boatOwner;
 	
 	@Id
@@ -193,11 +197,11 @@ public class Boat {
 		this.disconutOffers = disconutOffers;
 	}
 
-	public BoatOwner getBoatOwnerId() {
+	public BoatOwner getBoatOwner() {
 		return boatOwner;
 	}
 
-	public void setBoatOwnerId(BoatOwner boatOwnerId) {
+	public void setBoatOwner(BoatOwner boatOwner) {
 		this.boatOwner = boatOwner;
 	}
 

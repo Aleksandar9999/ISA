@@ -3,21 +3,38 @@ package com.isa.FishingBooker.model;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TutorService {
-	
-   private Integer id;
-   private String name;
-   private String description;
-   private int maxPerson;
-   private String rules;
-   private String fishingEquipment;
-   private double cancelProcentage;
-   private Address address;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
-   private Set<Photo> photos;
-   private Set<Extras> extrasServices;
-   private Set<DiscountOffer> disconutOffers;
-   private String tutorId;
+@Entity
+public class TutorService {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	private String name;
+	private String description;
+	private int maxPerson;
+	private String rules;
+	private String fishingEquipment;
+	private double cancelProcentage;
+	@OneToOne
+	private Address address;
+   
+	@OneToMany
+	private Set<Photo> photos;
+	@OneToMany
+	private Set<Extras> extrasServices;
+	@OneToMany
+   	private Set<DiscountOffer> disconutOffers;
+	@ManyToOne
+	@JoinColumn(name="tutor_id")
+	private Tutor tutor;
  
    
    public TutorService() {
@@ -40,12 +57,12 @@ public class TutorService {
       this.address = address;
    }
 
-   public String getTutorId() {
-      return tutorId;
+   public Tutor getTutor() {
+      return tutor;
    }
 
-   public void setTutorId(String tutorId) {
-      this.tutorId = tutorId;
+   public void setTutor(Tutor tutor) {
+      this.tutor = tutor;
    }
 
    public Set<Photo> getPhotos() {

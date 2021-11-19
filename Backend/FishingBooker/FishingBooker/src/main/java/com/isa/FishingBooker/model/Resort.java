@@ -2,19 +2,37 @@ package com.isa.FishingBooker.model;
 
 import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Resort {
-	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 	private String description;
+	@ManyToOne
+	@JoinColumn(name="address_id")
 	private Address resortAddress;
 	private int numOfRooms;
 	private int numOfBeds;
 	private String rules;
+	@OneToMany
 	private Set<Photo> photos;
+	@ManyToMany
 	private Set<Extras> extrasServices;
+	@ManyToMany
 	private Set<DiscountOffer> disconutOffers;
-	private String resortOwnerId;
+	@ManyToOne
+	@JoinColumn(name="resortOwner_id")
+	private ResortOwner resortOwner;
 
 	
 	public Resort(String name, String description, Address resortAddress, int numOfRooms, int numOfBeds, String rules) {
@@ -107,12 +125,12 @@ public class Resort {
 		this.disconutOffers = disconutOffers;
 	}
 
-	public String getResortOwnerId() {
-		return resortOwnerId;
+	public ResortOwner getResortOwner() {
+		return resortOwner;
 	}
 
-	public void setResortOwnerId(String resortOwnerId) {
-		this.resortOwnerId = resortOwnerId;
+	public void setResortOwner(ResortOwner resortOwner) {
+		this.resortOwner = resortOwner;
 	}
 
 	

@@ -3,19 +3,15 @@ package com.isa.FishingBooker.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+@Entity
 public class BoatOwner  extends User {
-	private Integer id;
+
+	@OneToMany(fetch=FetchType.LAZY)
 	private Set<Boat> boats;
 	
-	
-	
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public Set<Boat> getBoats() {
 		return boats;

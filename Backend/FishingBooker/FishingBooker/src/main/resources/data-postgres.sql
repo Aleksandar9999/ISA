@@ -1,0 +1,1 @@
+insert into clients (dtype, email, password, name, surname, address, city, country, phone_number, status) values ('User','badzaic@gmail.com', 'bojan', 'Blagoje', 'Adzic', 'Maksima Gorkog 5', 'Novi Sad', 'Srbija','021334563','CONFIRMED');

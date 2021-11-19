@@ -3,19 +3,15 @@ package com.isa.FishingBooker.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Tutor extends User {
 	
-	private Integer id;
 	private String bio;
+	@OneToMany
 	private Set<TutorService> services;
-	
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public Tutor() {
 		services=new HashSet<>();
