@@ -74,7 +74,7 @@
               </th>
           </thead>       
           <tbody class="tbl-content">
-                
+                <router-link :to="{name:'ResortProfile', params:{item} }"><tr v-on:click="openProfile()"><td>a</td><td>b</td><td>c</td></tr></router-link>
           </tbody>                   
       </table>
       </div>     
@@ -95,7 +95,8 @@ export default {
         dataList: [],
         tutorsAdv: false,
         boatsAdv:false,
-        resortsAdv:true
+        resortsAdv:true,
+        item: 'probaNeka'
     }
     } ,
     methods:{
