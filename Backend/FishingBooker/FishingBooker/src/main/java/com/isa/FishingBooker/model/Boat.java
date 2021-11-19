@@ -1,8 +1,16 @@
 package com.isa.FishingBooker.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+@Entity
 public class Boat {
 	
 	private String name;
@@ -12,6 +20,7 @@ public class Boat {
 	private String enginePower;
 	private int maxSpeed;
 	private String navigationEquipment;
+	@ManyToOne
 	private Address boatAddress;
 	private String description;
 	private int maxPerson;
@@ -19,11 +28,19 @@ public class Boat {
 	private String fishingEquipment;
 	private double cancelPercentage;
 	
-	private List<Photo> photos;
-	private List<Extras> extrasServices;
-	private List<DiscountOffer> disconutOffers;
-	private String boatOwnerId;
-	private String id;
+	@OneToMany(fetch=FetchType.LAZY)
+	private Set<Photo> photos;
+	@OneToMany(fetch=FetchType.LAZY)
+	private Set<Extras> extrasServices;
+	@OneToMany(fetch=FetchType.LAZY)
+	private Set<DiscountOffer> disconutOffers;
+	
+	@ManyToOne
+	private BoatOwner boatOwner;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
 	 
 	 public Boat() {
 		 
@@ -152,61 +169,61 @@ public class Boat {
 		this.cancelPercentage = cancelPercentage;
 	}
 	 
-	 public List<Photo> getPhotos() {
+	 public Set<Photo> getPhotos() {
 		return photos;
 	}
 
-	public void setPhotos(List<Photo> photos) {
+	public void setPhotos(Set<Photo> photos) {
 		this.photos = photos;
 	}
 
-	public List<Extras> getExtrasServices() {
+	public Set<Extras> getExtrasServices() {
 		return extrasServices;
 	}
 
-	public void setExtrasServices(List<Extras> extrasServices) {
+	public void setExtrasServices(Set<Extras> extrasServices) {
 		this.extrasServices = extrasServices;
 	}
 
-	public List<DiscountOffer> getDisconutOffers() {
+	public Set<DiscountOffer> getDisconutOffers() {
 		return disconutOffers;
 	}
 
-	public void setDisconutOffers(List<DiscountOffer> disconutOffers) {
+	public void setDisconutOffers(Set<DiscountOffer> disconutOffers) {
 		this.disconutOffers = disconutOffers;
 	}
 
-	public String getBoatOwnerId() {
-		return boatOwnerId;
+	public BoatOwner getBoatOwnerId() {
+		return boatOwner;
 	}
 
-	public void setBoatOwnerId(String boatOwnerId) {
-		this.boatOwnerId = boatOwnerId;
+	public void setBoatOwnerId(BoatOwner boatOwnerId) {
+		this.boatOwner = boatOwner;
 	}
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	
 	 public void addPhoto(Photo photo) {
 	      if (photos == null)
-	         photos = new ArrayList<>();
+	         photos = new HashSet<>();
 	      photos.add(photo);
 	   }
 
 	   public void addExtraService(Extras extras) {
 	      if (extrasServices == null)
-	         extrasServices = new ArrayList<>();
+	         extrasServices = new HashSet<>();
 	      extrasServices.add(extras);
 	   }
 
 	   public void addDiscountOffer(DiscountOffer offer) {
 	      if (disconutOffers == null)
-	         disconutOffers = new ArrayList<>();
+	         disconutOffers = new HashSet<>();
 	      disconutOffers.add(offer);
 	   }
 	

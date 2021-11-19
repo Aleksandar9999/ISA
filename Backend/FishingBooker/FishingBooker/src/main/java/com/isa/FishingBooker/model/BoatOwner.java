@@ -1,12 +1,23 @@
 package com.isa.FishingBooker.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class BoatOwner  extends User {
-	private List<Boat> boats;
+	private Integer id;
+	private Set<Boat> boats;
 	
-	public List<Boat> getBoats() {
+	
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Set<Boat> getBoats() {
 		return boats;
 	}
 
@@ -15,6 +26,6 @@ public class BoatOwner  extends User {
 	}
 
 	public BoatOwner(){
-		boats=new ArrayList<>();
+		boats=new HashSet<>();
 	}
 }

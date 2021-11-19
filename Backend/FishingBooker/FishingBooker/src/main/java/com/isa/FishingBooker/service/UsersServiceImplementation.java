@@ -41,7 +41,6 @@ public class UsersServiceImplementation implements UsersService {
 	@Override
 	public void addNew(User item) {
 		item.setStatus(Status.PENDING);
-		item.setId(UUID.randomUUID().toString());
 		dao.addNew(item);
 	}
 

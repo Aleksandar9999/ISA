@@ -1,12 +1,28 @@
 package com.isa.FishingBooker.model;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class DiscountOffer {
+   private Integer id;
    private Period validityPeriod;
    private Period reservationPeriod;
    private String place;
    private int maxPerson;
    private String additionalServices;
    private double price;
+   @ManyToOne
+   private Boat boat;
+   
+   
+   public Integer getId() {
+	return id;
+   }
+
+   public void setId(Integer id) {
+	this.id = id;
+   }
 
    public Period getValidityPeriod() {
       return validityPeriod;

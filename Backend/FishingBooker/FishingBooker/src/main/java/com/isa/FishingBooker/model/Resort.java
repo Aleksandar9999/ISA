@@ -1,23 +1,21 @@
 package com.isa.FishingBooker.model;
 
-import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 public class Resort {
 	
+	private Integer id;
 	private String name;
 	private String description;
 	private Address resortAddress;
 	private int numOfRooms;
 	private int numOfBeds;
 	private String rules;
-
-
-	private List<Photo> photos;
-	private List<Extras> extrasServices;
-	private List<DiscountOffer> disconutOffers;
+	private Set<Photo> photos;
+	private Set<Extras> extrasServices;
+	private Set<DiscountOffer> disconutOffers;
 	private String resortOwnerId;
-	private String id;
+
 	
 	public Resort(String name, String description, Address resortAddress, int numOfRooms, int numOfBeds, String rules) {
 		super();
@@ -29,11 +27,11 @@ public class Resort {
 		this.rules = rules;
 	}
 	
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -61,8 +59,6 @@ public class Resort {
 		this.resortAddress = resortAddress;
 	}
 
-
-
 	public int getNumOfRooms() {
 		return numOfRooms;
 	}
@@ -87,27 +83,27 @@ public class Resort {
 		this.rules = rules;
 	}
 
-	public List<Photo> getPhotos() {
+	public Set<Photo> getPhotos() {
 		return photos;
 	}
 
-	public void setPhotos(List<Photo> photos) {
+	public void setPhotos(Set<Photo> photos) {
 		this.photos = photos;
 	}
 
-	public List<Extras> getExtrasServices() {
+	public Set<Extras> getExtrasServices() {
 		return extrasServices;
 	}
 
-	public void setExtrasServices(List<Extras> extrasServices) {
+	public void setExtrasServices(Set<Extras> extrasServices) {
 		this.extrasServices = extrasServices;
 	}
 
-	public List<DiscountOffer> getDisconutOffers() {
+	public Set<DiscountOffer> getDisconutOffers() {
 		return disconutOffers;
 	}
 
-	public void setDisconutOffers(List<DiscountOffer> disconutOffers) {
+	public void setDisconutOffers(Set<DiscountOffer> disconutOffers) {
 		this.disconutOffers = disconutOffers;
 	}
 

@@ -1,10 +1,21 @@
 package com.isa.FishingBooker.model;
 
 public class Photo {
+	private Integer id;
     private String url;
     private String title;
 
-    public Photo(String url, String title) {
+    
+    
+    public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Photo(String url, String title) {
         this.url = url;
         this.title = title;
     }

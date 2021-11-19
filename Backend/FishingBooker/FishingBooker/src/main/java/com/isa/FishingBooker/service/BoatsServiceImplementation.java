@@ -16,8 +16,7 @@ public class BoatsServiceImplementation implements BoatsService {
 	private BoatsDAO dao;
 	
 	@Override
-	public void addNew(Boat item) {
-		 item.setId(UUID.randomUUID().toString());
+	public void addNew(Boat item) {		
 		 dao.addNew(item);
 	}
 

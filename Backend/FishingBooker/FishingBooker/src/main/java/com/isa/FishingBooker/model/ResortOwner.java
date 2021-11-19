@@ -1,19 +1,32 @@
 package com.isa.FishingBooker.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ResortOwner extends User {
-	private List<Resort> resorts;
-	public List<Resort> getResorts() {
+	private Integer id;
+	private Set<Resort> resorts;
+	
+	
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	
+	public void setResorts(Set<Resort> resorts) {
+		this.resorts = resorts;
+	}
+
+	public Set<Resort> getResorts() {
 		return resorts;
 	}
 
-	public void setResorts(Resort resort) {
-		resorts.add(resort);
-	}
-
 	public ResortOwner(){
-		resorts=new ArrayList<>();
+		resorts=new HashSet<>();
 	}
 }

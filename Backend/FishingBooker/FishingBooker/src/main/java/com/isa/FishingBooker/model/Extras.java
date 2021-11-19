@@ -1,8 +1,19 @@
 package com.isa.FishingBooker.model;
 
 public class Extras {
+	private Integer id;
    private String service;
    private String price;
+
+   
+   
+   public Integer getId() {
+	return id;
+   }
+
+   public void setId(Integer id) {
+	this.id = id;
+   }
 
    public String getService() {
       return service;

@@ -1,9 +1,11 @@
 package com.isa.FishingBooker.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TutorService {
+	
+   private Integer id;
    private String name;
    private String description;
    private int maxPerson;
@@ -12,19 +14,19 @@ public class TutorService {
    private double cancelProcentage;
    private Address address;
 
-   private List<Photo> photos;
-   private List<Extras> extrasServices;
-   private List<DiscountOffer> disconutOffers;
-
+   private Set<Photo> photos;
+   private Set<Extras> extrasServices;
+   private Set<DiscountOffer> disconutOffers;
    private String tutorId;
-   private String id;
+ 
+   
    public TutorService() {
       
    }
-   public String getId() {
+   public Integer getId() {
       return id;
    }
-   public void setId(String id) {
+   public void setId(Integer id) {
       this.id = id;
    }
    public TutorService(String name, String description, int maxPerson, String rules, String fishingEquipment,
@@ -46,33 +48,33 @@ public class TutorService {
       this.tutorId = tutorId;
    }
 
-   public List<Photo> getPhotos() {
+   public Set<Photo> getPhotos() {
       return photos;
    }
 
-   public List<Extras> getExtrasServices() {
+   public Set<Extras> getExtrasServices() {
       return extrasServices;
    }
 
-   public List<DiscountOffer> getDisconutOffers() {
+   public Set<DiscountOffer> getDisconutOffers() {
       return disconutOffers;
    }
 
    public void addPhoto(Photo photo) {
       if (photos == null)
-         photos = new ArrayList<>();
+         photos = new HashSet<>();
       photos.add(photo);
    }
 
    public void addExtraService(Extras extras) {
       if (extrasServices == null)
-         extrasServices = new ArrayList<>();
+         extrasServices = new HashSet<>();
       extrasServices.add(extras);
    }
 
    public void addDiscountOffer(DiscountOffer offer) {
       if (disconutOffers == null)
-         disconutOffers = new ArrayList<>();
+         disconutOffers = new HashSet<>();
       disconutOffers.add(offer);
    }
 

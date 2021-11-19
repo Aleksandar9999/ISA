@@ -1,11 +1,22 @@
 package com.isa.FishingBooker.model;
 
 public class Address {
+   private Integer id;
    private String street;
    private String country;
    private double lat;
    private double lng;
    
+   
+   
+   public Integer getId() {
+	return id;
+   }
+
+   public void setId(Integer id) {
+	this.id = id;
+   }
+
    public String getStreet() {
       return street;
    }

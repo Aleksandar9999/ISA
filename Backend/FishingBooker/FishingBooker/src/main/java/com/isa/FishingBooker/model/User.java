@@ -1,7 +1,18 @@
 package com.isa.FishingBooker.model;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class User {
-	private String id;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
 	private String email;
 	private String password;
 	private String name;
@@ -10,15 +21,16 @@ public class User {
 	private String city;
 	private String country;
 	private String phoneNumber;
+	@Enumerated(EnumType.STRING)
 	private Status status;
 	
 	public User() {}
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
