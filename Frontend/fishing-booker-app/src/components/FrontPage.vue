@@ -74,7 +74,7 @@
               </th>
           </thead>       
           <tbody class="tbl-content">
-                <router-link :to="{name:'BoatProfile', params:{item} }"><tr v-on:click="openProfile()"><td>a</td><td>b</td><td>c</td></tr></router-link>
+                <router-link :to="{name:'ResortProfile', params:{item} }"><tr><td>a</td><td>b</td><td>c</td></tr></router-link>
           </tbody>                   
       </table>
       </div>     
