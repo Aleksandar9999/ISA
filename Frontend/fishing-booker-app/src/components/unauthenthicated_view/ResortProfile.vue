@@ -2,11 +2,11 @@
 <div class="profile-box">
     <div class="info">
     <div style="display:inline; float:left; justify-content:center; margin-left:40px;">
-    <div><div>Name</div><input type="text" name="" id=""></div>
-    <div><div>Address</div><input type="text" name="" id=""></div>
+    <div><div>Name: </div><input type="text" name="" id=""></div>
+    <div><div>Address: </div><input type="text" name="" id=""></div>
     <div><div>Ratings:</div><input type="text" name="" id=""></div>
     </div>
-    <div class="promo"><div>Promo:</div><input type="text" name="" id=""></div>   
+    <div class="promo"><div>Promo:</div><textarea name="" id="" cols="30" rows="6"></textarea></div>   
     </div>
     <div class="map">
 
@@ -44,7 +44,7 @@ export default {
     align-items: left;
     justify-content: left;
     display: inline-block;
-    width: 60%;
+    width: 40%;
     height: auto;
     padding: 20px;
     margin: 5%;

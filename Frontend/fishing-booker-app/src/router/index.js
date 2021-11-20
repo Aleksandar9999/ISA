@@ -4,6 +4,7 @@ import Login from '../views/LoginModalWindow.vue'
 import Register from '../views/RegistrationModalWindow.vue'
 import Profile from '../views/ClientProfile.vue'
 import ResortProfile from '../components/unauthenthicated_view/ResortProfile.vue'
+import BoatProfile from '../components/unauthenthicated_view/BoatProfile.vue'
 
 const routes = [
   {
@@ -39,6 +40,12 @@ const routes = [
     name: 'ResortProfile',
     component: ResortProfile,
     props: true
+  },
+  {
+    path:'/boatProfile',
+    name: 'BoatProfile',
+    component:BoatProfile,
+    props:true
   }
 ]
 

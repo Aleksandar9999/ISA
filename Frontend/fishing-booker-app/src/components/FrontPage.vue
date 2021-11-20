@@ -74,7 +74,7 @@
               </th>
           </thead>       
           <tbody class="tbl-content">
-                <router-link :to="{name:'ResortProfile', params:{item} }"><tr v-on:click="openProfile()"><td>a</td><td>b</td><td>c</td></tr></router-link>
+                <router-link :to="{name:'BoatProfile', params:{item} }"><tr v-on:click="openProfile()"><td>a</td><td>b</td><td>c</td></tr></router-link>
           </tbody>                   
       </table>
       </div>     
@@ -219,10 +219,6 @@ export default {
     color: #000;
     border-bottom: solid 1px rgba(0, 0, 0, 0.1);
     word-wrap: break-word;
-  }
-  
-  .r-table td img:hover {
-    transform: scale(1.1);
   }
   
   .r-table .td-center {
