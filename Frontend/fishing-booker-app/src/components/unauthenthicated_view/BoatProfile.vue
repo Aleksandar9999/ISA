@@ -36,7 +36,7 @@
         </table>
     </div>
     </div>
-    <div class="map" ref="map">
+    <div class="map" ref="map" id="map-box">
 
     </div>
     <div>
@@ -102,10 +102,13 @@ export default {
         createMap(){
             //getCoordinates(this.item.address)
             this.getCoordinates('Maksima Gorkog 9 Novi Sad')
+        },
+        showMapEvent(){
+            document.getElementById("map-box").classList.toggle("map-show")
+            this.createMap();
         }
     },
     mounted(){
-        this.createMap();
     }
 }
 </script>
@@ -155,7 +158,7 @@ export default {
 }
 
 .map-show{
-    display: inherit;
+    display: block;
 }
 
 .buttons {

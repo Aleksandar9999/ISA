@@ -20,7 +20,7 @@
                 <option value="4">4</option>
                 <option value="5">5</option>
               </select> <br/>
-              <button class="advanced-btn" v-on:click="advancesSearch()">Search</button>
+              <button class="advanced-btn" v-on:click="advancedSearch()">Search</button>
           </div>
           <div class="adv-div" v-if="tutorsAdv">            
             <label for="">Name of adventure:</label><input style="width:150px" type="text"><br/>
@@ -35,7 +35,7 @@
                 <option value="4">4</option>
                 <option value="5">5</option>
               </select> <br/>
-              <button class="advanced-btn" v-on:click="advancesSearch()">Search</button>
+              <button class="advanced-btn" v-on:click="advancedSearch()">Search</button>
           </div>
           <div class="adv-div" v-if="resortsAdv">
             <label for="">Minimal number of rooms:</label><input type="text">
@@ -52,7 +52,7 @@
                 <option value="4">4</option>
                 <option value="5">5</option>
               </select> <br/>
-              <button class="advanced-btn" v-on:click="advancesSearch()">Search</button>
+              <button class="advanced-btn" v-on:click="advancedSearch()">Search</button>
           </div>     
     </div>
     </div>
@@ -74,7 +74,7 @@
               </th>
           </thead>       
           <tbody class="tbl-content">
-                <router-link :to="{name:'ResortProfile', params:{item} }"><tr><td>a</td><td>b</td><td>c</td></tr></router-link>
+                <router-link :to="{name:'AdventureProfile', params:{item} }"><tr><td>a</td><td>b</td><td>c</td></tr></router-link>
           </tbody>                   
       </table>
       </div>     
@@ -140,6 +140,9 @@ export default {
 
       }
 
+    },
+    mounted(){
+      this.changeTab('resort')
     }
 
 }

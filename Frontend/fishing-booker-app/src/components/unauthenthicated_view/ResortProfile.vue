@@ -8,7 +8,7 @@
     </div>
     <div class="promo"><div>Promo:</div><textarea name="" id="" cols="30" rows="6"></textarea></div>   
     </div>
-    <div class="map" ref="map">
+    <div class="map" ref="map" id="map-box">
 
     </div>
     <div>
@@ -73,10 +73,13 @@ export default {
         createMap(){
             //getCoordinates(this.item.address)
             this.getCoordinates('Zivojina Misica Ljubovija')
+        },
+        showMapEvent(){
+            document.getElementById("map-box").classList.toggle("map-show")
+            this.createMap();
         }   
         },
     mounted(){
-        this.createMap();
     }
 }
 </script>
@@ -126,7 +129,7 @@ export default {
 }
 
 .map-show{
-    display: inherit;
+    display: block;
 }
 
 .buttons {
