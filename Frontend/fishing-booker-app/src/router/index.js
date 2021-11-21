@@ -3,6 +3,9 @@ import Home from '../views/Home.vue'
 import Login from '../views/LoginModalWindow.vue'
 import Register from '../views/RegistrationModalWindow.vue'
 import Profile from '../views/ClientProfile.vue'
+import ResortProfile from '../components/unauthenthicated_view/ResortProfile.vue'
+import BoatProfile from '../components/unauthenthicated_view/BoatProfile.vue'
+import AdventureProfile from '../components/unauthenthicated_view/AdventureProfile.vue'
 
 const routes = [
   {
@@ -32,6 +35,24 @@ const routes = [
     path: '/profile',
     name:'Profile',
     component: Profile
+  },
+  {
+    path: '/resortProfile',
+    name: 'ResortProfile',
+    component: ResortProfile,
+    props: true
+  },
+  {
+    path:'/boatProfile',
+    name: 'BoatProfile',
+    component:BoatProfile,
+    props:true
+  },
+  {
+    path:'/adventureProfile',
+    name:'AdventureProfile',
+    component: AdventureProfile,
+    props:true
   }
 ]
 
