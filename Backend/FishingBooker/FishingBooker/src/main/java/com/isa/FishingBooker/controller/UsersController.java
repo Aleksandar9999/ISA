@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isa.FishingBooker.dto.LoginInfoDTO;
+import com.isa.FishingBooker.dto.RegistrationDTO;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.service.UsersService;
@@ -29,6 +31,16 @@ public class UsersController {
 	public ResponseEntity<Tutor> addNew(@RequestBody Tutor tutor) {
 		usersService.addNew(tutor);
 		return ResponseEntity.ok(tutor);
+	}
+	
+	@PostMapping("login")
+	public ResponseEntity<String> login(@RequestBody LoginInfoDTO user) {
+		return ResponseEntity.ok(usersService.Login(user));
+	}
+	
+	@PostMapping("register")
+	public ResponseEntity<String> register(@RequestBody RegistrationDTO user){
+		return ResponseEntity.ok(usersService.Register(user));
 	}
 	
 }
