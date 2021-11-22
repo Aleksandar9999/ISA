@@ -73,8 +73,8 @@
                   <td>{{header}}</td>                
               </th>
           </thead>       
-          <tbody class="tbl-content">
-                <router-link :to="{name:'AdventureProfile', params:{item} }"><tr><td>a</td><td>b</td><td>c</td></tr></router-link>
+          <tbody class="tbl-content" v-for="item in dataList" :key="item">
+                <router-link :to="{name:profileName, params:{item} }"><tr><td>item.id</td><td>item.name</td><td>item.maxPersons</td><td>item.navigationEquipment</td></tr></router-link>
           </tbody>                   
       </table>
       </div>     
@@ -83,20 +83,22 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name: 'FrontPage',   
     data(){
       return{
         tabType: 'resort',
         resortHeader:['ID','Name','Location','Number of rooms'],
-        boatsHeader:['ID','Manufacturer','Capacity','Navigation'],
+        boatsHeader:['ID','Name','Capacity','Navigation'],
         tutorsHeader:['ID','Name','Surname','Adventure','Rate'],
         headerList: this.resortHeader,
         dataList: [],
         tutorsAdv: false,
         boatsAdv:false,
         resortsAdv:true,
-        item: 'probaNeka'
+        item: 'probaNeka',
+        profileName:'ResortProfile'
     }
     } ,
     methods:{
@@ -107,16 +109,22 @@ export default {
           this.boatsAdv=true;
           this.resortsAdv=false;
           this.tutorsAdv=false;
+          this.profileName='BoatProfile'
+          this.getData()
         } else if(type==='tutors'){
           this.headerList=this.tutorsHeader
           this.boatsAdv=false;
           this.resortsAdv=false;
           this.tutorsAdv=true;
+          this.profileName='AdventureProfile'
+          this.getData()
         } else {
           this.headerList=this.resortHeader
           this.boatsAdv=false;
           this.resortsAdv=true;
           this.tutorsAdv=false;
+          this.profileName='ResortProfile'
+          this.getData()
         }
         
       },
@@ -138,11 +146,24 @@ export default {
       
       advancedSearch(){
 
+      },
+      getData(){
+        if(this.tabType==='boats'){
+          axios.get('http://localhost:8080/getBoats').then(response=>
+          this.dataList=response);
+        } else if(this.tabType==='tutors'){
+          axios.get('http://localhost:8080/getAdventures').then(response=>
+          this.dataList=response);
+        } else{
+          axios.get('http://localhost:8080/getResorts').then(response=>
+          this.dataList=response);
+        }
       }
 
     },
     mounted(){
-      this.changeTab('resort')
+      this.changeTab('resort');
+      this.getData();
     }
 
 }
