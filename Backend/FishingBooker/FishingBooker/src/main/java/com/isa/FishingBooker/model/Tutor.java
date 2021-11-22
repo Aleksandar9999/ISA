@@ -12,7 +12,6 @@ public class Tutor extends User {
 	private String bio;
 	@OneToMany
 	private Set<TutorService> services;
-
 	public Tutor() {
 		services=new HashSet<>();
 	}	
@@ -21,7 +20,7 @@ public class Tutor extends User {
 		this.services = services;
 	}
 
-	public void addSrervice(TutorService service){
+	public void addService(TutorService service){
 		services.add(service);
 	}
 
@@ -36,5 +35,7 @@ public class Tutor extends User {
 	public void setBio(String bio) {
 		this.bio = bio;
 	}
+
+	
 
 }

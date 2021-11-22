@@ -150,5 +150,15 @@ public class TutorService {
    public void setAddress(Address address) {
       this.address = address;
    }
+public void setPhotos(Set<Photo> photos) {
+	this.photos = photos;
+}
+public void setExtrasServices(Set<Extras> extrasServices) {
+	this.extrasServices = extrasServices;
+}
+public void setDisconutOffers(Set<DiscountOffer> disconutOffers) {
+	this.disconutOffers = disconutOffers;
+}
 
+   
 }
