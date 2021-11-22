@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 public class Boat {
 	@Column(nullable=false)
 	private String name;
-	private String type;
+	private String typeOfBoat;
 	private String length;
 	private String engineId;
 	private String enginePower;
@@ -55,7 +55,7 @@ public class Boat {
 			String rules, String fishingEquipment) {
 		super();
 		this.name = name;
-		this.type = type;
+		this.typeOfBoat = type;
 		this.length = length;
 		this.engineId = engineId;
 		this.enginePower = enginePower;
@@ -77,12 +77,12 @@ public class Boat {
 		this.name = name;
 	}
 
-	public String getType() {
-		return type;
+	public String getTypeOfBoat() {
+		return typeOfBoat;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setTypeOfBoat(String type) {
+		this.typeOfBoat = type;
 	}
 
 	public String getLength() {

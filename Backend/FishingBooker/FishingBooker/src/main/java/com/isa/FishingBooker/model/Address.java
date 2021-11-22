@@ -16,8 +16,8 @@ public class Address {
 	@Column(nullable=false)
 	private String country;
 	@Column(nullable=false)
+	private String city;
 	private double lat;
-	@Column(nullable=false)
 	private double lng;
    
    
