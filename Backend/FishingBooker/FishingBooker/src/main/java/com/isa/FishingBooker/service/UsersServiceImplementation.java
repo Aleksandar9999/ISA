@@ -1,24 +1,30 @@
 package com.isa.FishingBooker.service;
 
 import java.util.List;
-import java.util.UUID;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.isa.FishingBooker.dao.UsersDAO;
+import com.isa.FishingBooker.dto.LoginInfoDTO;
+import com.isa.FishingBooker.dto.RegistrationDTO;
+import com.isa.FishingBooker.mapper.RegistrationDTOtoUserMapper;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.User;
+import com.isa.FishingBooker.repository.UserRepository;
+
 @Service
 public class UsersServiceImplementation implements UsersService {
 	
 	@Autowired
-	private UsersDAO dao;
+	private UserRepository repository;
 
 	@Override
+	@Transactional
 	public List<User> getAll() {
-		return dao.getAll();
+		return repository.findAll();
 	}
 
 	@Override
@@ -41,31 +47,40 @@ public class UsersServiceImplementation implements UsersService {
 	@Override
 	public void addNew(User item) {
 		item.setStatus(Status.PENDING);
-		dao.addNew(item);
+		//dao.addNew(item);
 	}
 
 	@Override
-	public String Login(User user) {
-		for(User u : dao.getAll()) {
-			
-			if(u.getPassword().equals(user.getPassword())) {
-				if(u.getEmail().equals(user.getEmail())) {
-					if(u.getStatus()!=Status.CONFIRMED) {
-						return "You must confirm you status first.";
-					}
-					return "Successfuly loged in!";
-				}
-				return "Bad password.";
-			}
+	public String Login(LoginInfoDTO user) {
+
+		User logTry = repository.findByEmail(user.getEmail());
+		if(logTry==null) {
+			return "Bad email or user do not exist.";
+		}
+		if(logTry.getStatus()!=Status.CONFIRMED) {
+			return "You must confirm you status first.";
 		}
 		
-		return "Bad email or user do not exist.";
+		if(logTry.getPassword().equals(user.getPass())) {			
+				return "Succesfully loged in.";
+			}				
+		return "Bad password.";
 	}
 
 	@Override
-	public boolean Register(User user) {
+	public String Register(RegistrationDTO userDTO) {
 		// TODO Auto-generated method stub
-		return false;
+		RegistrationDTOtoUserMapper mapper = new RegistrationDTOtoUserMapper();
+
+		User user = new User();
+		user.setStatus(Status.PENDING);
+		if(repository.findByEmail(userDTO.getEmail())==null) {
+			user=mapper.RegistrationDTOtoUser(userDTO, user);
+			repository.save(user);
+			return "Successfull registration!";
+		}
+		return "User with this email already exists.";
+		
 	}
 
 }

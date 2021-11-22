@@ -4,13 +4,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
 @Entity
 public class Tutor extends User {
 	
 	private String bio;
-	@OneToMany
+	@OneToMany(fetch=FetchType.EAGER)
 	private Set<TutorService> services;
 	public Tutor() {
 		services=new HashSet<>();

@@ -4,11 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
 @Entity
 public class ResortOwner extends User {
-	@OneToMany(mappedBy="resortOwner")
+	@OneToMany(fetch=FetchType.EAGER)
 	private Set<Resort> resorts;
 	
 	public void setResorts(Set<Resort> resorts) {
