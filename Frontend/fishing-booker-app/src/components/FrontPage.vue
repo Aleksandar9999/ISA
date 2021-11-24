@@ -58,23 +58,57 @@
     </div>
     <div>
         <div class="tab">
-             <button class="tablinks" v-on:click="changeTab('resorts')">Resorts</button>
+             <button class="tablinks" v-on:click="changeTab('resort')">Resorts</button>
              <button class="tablinks" v-on:click="changeTab('boats')">Boats</button>
              <button class="tablinks" v-on:click="changeTab('tutors')">Tutors</button>
          </div>
                   
     </div>
 
-    <div class="grid-container" id="tabela">
+    <div class="grid-container" id="tabela" v-if="tabType==='resort'">
       <div>        
       <table  class="r-table" cellspacing="0" cellpadding="0" border="0">
           <thead>
+            <tr >
               <th v-for="header in headerList" :key="header">
-                  <td>{{header}}</td>                
+                  {{header}}                
               </th>
+            </tr>           
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <router-link :to="{name:profileName, params:{item} }"><tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPersons}}</td><td>{{item.navigationEquipment}}</td></tr></router-link>
+                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPersons}}</td><td>{{item.navigationEquipment}}</td><td><router-link :to="{name:profileName, params:{item} }">Page</router-link></td></tr>
+          </tbody>                   
+      </table>
+      </div>     
+      </div>
+      <div class="grid-container" id="tabela" v-if="tabType==='boats'">
+      <div>        
+      <table  class="r-table" cellspacing="0" cellpadding="0" border="0">
+          <thead>
+              <tr >
+              <th v-for="header in headerList" :key="header">
+                  {{header}}                
+              </th>
+            </tr>  
+          </thead>       
+          <tbody class="tbl-content" v-for="item in dataList" :key="item">
+                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPersons}}</td><td>{{item.navigationEquipment}}</td><td><router-link :to="{name:profileName, params:{item} }">Page</router-link></td></tr>
+          </tbody>                   
+      </table>
+      </div>     
+      </div>
+      <div class="grid-container" id="tabela" v-if="tabType==='tutors'">
+      <div>        
+      <table  class="r-table" cellspacing="0" cellpadding="0" border="0">
+          <thead>
+              <tr >
+              <th v-for="header in headerList" :key="header">
+                  {{header}}                
+              </th>
+            </tr>  
+          </thead>       
+          <tbody class="tbl-content" v-for="item in dataList" :key="item">
+                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPersons}}</td><td>{{item.navigationEquipment}}</td><td><router-link :to="{name:profileName, params:{item} }">Page</router-link></td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -89,9 +123,9 @@ export default {
     data(){
       return{
         tabType: 'resort',
-        resortHeader:['ID','Name','Location','Number of rooms'],
-        boatsHeader:['ID','Name','Capacity','Navigation'],
-        tutorsHeader:['ID','Name','Surname','Adventure','Rate'],
+        resortHeader:['ID','Name','Location','Number of rooms', 'Page'],
+        boatsHeader:['ID','Name','Capacity','Navigation', 'Page'],
+        tutorsHeader:['ID','Name','Surname','Adventure', 'Page'],
         headerList: this.resortHeader,
         dataList: [],
         tutorsAdv: false,
@@ -127,16 +161,7 @@ export default {
           this.getData()
         }
         
-      },
-      loadBoats(){
-
-      },
-      loadResorts(){
-
-      },
-      loadTutors(){
-
-      },
+      },      
       search(){
 
       },
@@ -211,7 +236,6 @@ export default {
   
 .r-table {
     width: 60%;
-    table-layout: auto;
     margin-left: 20%;
     margin-right: 20%;
     margin-top: 20px;
@@ -219,8 +243,10 @@ export default {
     margin-bottom: 150px;
     border: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
 
+  .r-table thead{
+    display: table-header-group;
+  }
   
   .tbl-content {
     min-height: auto;
@@ -234,7 +260,6 @@ export default {
     padding: 10px 5px;
     text-align: center;
     font-weight: bold;
-
     font-size: 13px;
     color: #000;
     text-transform: uppercase;
