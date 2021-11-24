@@ -23,7 +23,7 @@ public class Appoinment {
    @GeneratedValue(strategy=GenerationType.IDENTITY)
    private Integer id;
    
-   @ManyToOne(fetch=FetchType.LAZY)
+   @ManyToOne(fetch=FetchType.EAGER)
    @JoinColumn(name="address_id")
    private Address address;
 

@@ -3,26 +3,30 @@ package com.isa.FishingBooker.service;
 import java.util.List;
 import java.util.UUID;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.dao.BoatsDAO;
 import com.isa.FishingBooker.model.Boat;
+import com.isa.FishingBooker.repository.BoatRepository;
 
 @Service
 public class BoatsServiceImplementation implements BoatsService {
 	
 	@Autowired
-	private BoatsDAO dao;
+	private BoatRepository repository;
 	
 	@Override
 	public void addNew(Boat item) {		
-		 dao.addNew(item);
+		 //dao.addNew(item);
 	}
 
 	@Override
+	@Transactional
 	public List<Boat> getAll() {
-		return dao.getAll();
+		return repository.findAll();
 	}
 
 	@Override

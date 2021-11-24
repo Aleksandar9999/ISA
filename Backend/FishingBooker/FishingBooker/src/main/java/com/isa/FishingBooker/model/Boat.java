@@ -22,7 +22,7 @@ public class Boat {
 	private String enginePower;
 	private int maxSpeed;
 	private String navigationEquipment;
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="address_id")
 	private Address boatAddress;
 	private String description;
@@ -31,11 +31,11 @@ public class Boat {
 	private String fishingEquipment;
 	private double cancelPercentage;
 	
-	@OneToMany(fetch=FetchType.LAZY)
+	@OneToMany(fetch=FetchType.EAGER)
 	private Set<Photo> photos;
-	@OneToMany(fetch=FetchType.LAZY)
+	@OneToMany(fetch=FetchType.EAGER)
 	private Set<Extras> extrasServices;
-	@OneToMany(fetch=FetchType.LAZY)
+	@OneToMany(fetch=FetchType.EAGER)
 	private Set<DiscountOffer> disconutOffers;
 	
 	@ManyToOne

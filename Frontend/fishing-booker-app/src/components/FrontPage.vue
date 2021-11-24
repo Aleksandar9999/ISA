@@ -74,7 +74,7 @@
               </th>
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <router-link :to="{name:profileName, params:{item} }"><tr><td>item.id</td><td>item.name</td><td>item.maxPersons</td><td>item.navigationEquipment</td></tr></router-link>
+                <router-link :to="{name:profileName, params:{item} }"><tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPersons}}</td><td>{{item.navigationEquipment}}</td></tr></router-link>
           </tbody>                   
       </table>
       </div>     
@@ -149,14 +149,21 @@ export default {
       },
       getData(){
         if(this.tabType==='boats'){
-          axios.get('http://localhost:8080/getBoats').then(response=>
-          this.dataList=response);
+          this.dataList=[];
+          axios.get('http://localhost:8080/boats').then(response =>
+          this.dataList=response.data
+          )
         } else if(this.tabType==='tutors'){
-          axios.get('http://localhost:8080/getAdventures').then(response=>
-          this.dataList=response);
+          this.dataList=[];
+          axios.get('http://localhost:8080/api/users/tutors/services').then(response =>
+          this.dataList=response.data
+          )
+          
         } else{
-          axios.get('http://localhost:8080/getResorts').then(response=>
-          this.dataList=response);
+          this.dataList=[]
+          axios.get('http://localhost:8080/resorts').then(response =>
+          this.dataList=response.data
+          )
         }
       }
 
