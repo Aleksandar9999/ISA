@@ -1,12 +1,38 @@
 package com.isa.FishingBooker.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+@Entity
 public class DiscountOffer {
-   private Period validityPeriod;
-   private Period reservationPeriod;
-   private String place;
-   private int maxPerson;
-   private String additionalServices;
-   private double price;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	@OneToOne
+	private Period validityPeriod;
+	@OneToOne
+	private Period reservationPeriod;
+	private String place;
+	private int maxPerson;
+	private String additionalServices;
+	private double price;
+	@ManyToOne
+	@JoinColumn(name="boat_id")
+	private Boat boat;
+   
+   
+   public Integer getId() {
+	return id;
+   }
+
+   public void setId(Integer id) {
+	this.id = id;
+   }
 
    public Period getValidityPeriod() {
       return validityPeriod;

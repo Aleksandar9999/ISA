@@ -2,24 +2,43 @@ package com.isa.FishingBooker.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Period {
-   private Date start;
-   private Date end;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	private Date startDate;
+	private Date endDate;
 
-   public Date getStart() {
-      return start;
+   
+   
+   public Integer getId() {
+	return id;
    }
 
-   public void setStart(Date start) {
-      this.start = start;
+   public void setId(Integer id) {
+	this.id = id;
+	}
+
+	public Date getStartDate() {
+      return startDate;
    }
 
-   public Date getEnd() {
-      return end;
+   public void setStartDate(Date start) {
+      this.startDate = start;
    }
 
-   public void setEnd(Date end) {
-      this.end = end;
+   public Date getEndDate() {
+      return endDate;
+   }
+
+   public void setEndDate(Date end) {
+      this.endDate = end;
    }
 
 }

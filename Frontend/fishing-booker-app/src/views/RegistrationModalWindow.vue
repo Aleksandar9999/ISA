@@ -88,11 +88,10 @@ export default {
         this.regReqData.password=this.password;
         this.regReqData.name=this.name;
         this.regReqData.surname=this.surname;
-        this.regReqData.address=this.address;
+        this.regReqData.address=this.adress;
         this.regReqData.city=this.city;
         this.regReqData.country=this.state;
         this.regReqData.phoneNumber=this.phoneNum;
-        this.regReqData.status='PENDING';
       }
 
     }

@@ -16,7 +16,6 @@ public class TutorServicesServiceImpl implements TutorServicesService{
     private TutorServicesDAO tutorServicesDAO;
     @Override
     public void addNew(TutorService item) {
-        item.setId(UUID.randomUUID().toString());
         tutorServicesDAO.addNew(item);
     }
 

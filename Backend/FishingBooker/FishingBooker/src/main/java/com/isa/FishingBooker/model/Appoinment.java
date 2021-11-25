@@ -2,13 +2,29 @@ package com.isa.FishingBooker.model;
 
 import java.util.*;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Appoinment {
+	
    private Date start;
    private double duration;
    private int maxPerson;
    private String additionalServices;
    private double price;
-   private String id;
+   
+   @Id
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
+   private Integer id;
+   
+   @ManyToOne(fetch=FetchType.LAZY)
+   @JoinColumn(name="address_id")
    private Address address;
 
    public Date getStart() {
@@ -51,11 +67,11 @@ public class Appoinment {
       this.price = price;
    }
 
-   public String getId() {
+   public Integer getId() {
       return id;
    }
 
-   public void setId(String id) {
+   public void setId(Integer id) {
       this.id = id;
    }
 

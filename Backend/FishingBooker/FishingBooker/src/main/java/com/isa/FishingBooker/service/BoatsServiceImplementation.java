@@ -6,28 +6,33 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.isa.FishingBooker.dao.UsersDAO;
-import com.isa.FishingBooker.model.Status;
-import com.isa.FishingBooker.model.User;
+import com.isa.FishingBooker.dao.BoatsDAO;
+import com.isa.FishingBooker.model.Boat;
+
 @Service
-public class UsersServiceImpl implements UsersService {
+public class BoatsServiceImplementation implements BoatsService {
 	
 	@Autowired
-	private UsersDAO dao;
+	private BoatsDAO dao;
+	
+	@Override
+	public void addNew(Boat item) {		
+		 dao.addNew(item);
+	}
 
 	@Override
-	public List<User> getAll() {
+	public List<Boat> getAll() {
 		return dao.getAll();
 	}
 
 	@Override
-	public User getById(String id) {
+	public Boat getById(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void update(User item) {
+	public void update(Boat item) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -35,13 +40,7 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public void delete(String id) {
 		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void addNew(User item) {
-		item.setStatus(Status.PENDING);
-		item.setId(UUID.randomUUID().toString());
-		dao.addNew(item);
+		
 	}
 
 }

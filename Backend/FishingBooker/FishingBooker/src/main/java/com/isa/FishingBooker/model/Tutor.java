@@ -1,20 +1,31 @@
 package com.isa.FishingBooker.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Tutor extends User {
+	
 	private String bio;
-	private List<TutorService> services;
+	@OneToMany(fetch=FetchType.EAGER)
+	private Set<TutorService> services;
 	public Tutor() {
-		services=new ArrayList<>();
+		services=new HashSet<>();
+	}	
+	
+	public void setServices(Set<TutorService> services) {
+		this.services = services;
 	}
 
-	public void addSrervice(TutorService service){
+	public void addService(TutorService service){
 		services.add(service);
 	}
 
-	public List<TutorService> getServices(){
+	public Set<TutorService> getServices(){
 		return services;
 	}
 
@@ -25,5 +36,7 @@ public class Tutor extends User {
 	public void setBio(String bio) {
 		this.bio = bio;
 	}
+
+	
 
 }

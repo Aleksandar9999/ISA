@@ -1,48 +1,38 @@
 package com.isa.FishingBooker.service;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.isa.FishingBooker.dao.UsersDAO;
-import com.isa.FishingBooker.model.Status;
-import com.isa.FishingBooker.model.User;
-
-
+import com.isa.FishingBooker.dao.TutorDAO;
+import com.isa.FishingBooker.model.Tutor;
 @Service
-public class ClientRegistrationService implements RegistrationService {
+public class TutorsServiceImplementation implements TutorsService {
 	
 	@Autowired
-	UsersDAO dao;
-
-	public boolean Register(User user) {
-		return true;
-	}
+	private TutorDAO dao;
 	
 	@Override
-	public void addNew(User item) {
+	public void addNew(Tutor item) {
 		// TODO Auto-generated method stub
-		item.setStatus(Status.PENDING);
-		item.setId(UUID.randomUUID().toString());
-		dao.addNew(item);
+		
 	}
 
 	@Override
-	public List<User> getAll() {
+	public List<Tutor> getAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public User getById(String id) {
+	public Tutor getById(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void update(User item) {
+	public void update(Tutor item) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -52,5 +42,5 @@ public class ClientRegistrationService implements RegistrationService {
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 }
