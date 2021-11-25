@@ -14,7 +14,7 @@ public class TutorServicesDaoInMemory implements TutorServicesDAO{
     private static List<TutorService> tutorServices=new ArrayList<>();
     public TutorServicesDaoInMemory() {
         TutorService tutorService=new TutorService("Pecanje", "Kratak opis pecanja", 3, "Pravila ponasanje:", "Oprema koju dobijate za pecanje ukoliko ne poneste svoju.", 3, new Address()); 
-        tutorService.addPhoto(new Photo("url", "naslov"));
+        tutorService.addPhoto(new Photo("http://www.radiobijelopolje.me/images/2019-lifestyle1/25-03-druenje.jpg", "TestImage"));
         tutorServices.add(tutorService);
      }
 
@@ -30,8 +30,7 @@ public class TutorServicesDaoInMemory implements TutorServicesDAO{
 
     @Override
     public TutorService getById(String id) {
-        // TODO Auto-generated method stub
-        return null;
+        return tutorServices.get(0);
     }
 
     @Override

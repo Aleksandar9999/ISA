@@ -27,8 +27,7 @@ public class TutorServicesServiceImpl implements TutorServicesService{
 
     @Override
     public TutorService getById(String id) {
-        // TODO Auto-generated method stub
-        return null;
+        return tutorServicesDAO.getById(id);
     }
 
     @Override
