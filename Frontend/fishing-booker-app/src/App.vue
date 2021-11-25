@@ -1,18 +1,22 @@
 <template>
-  <Navbar/>
-  <router-view/>
+  <w-app>
+    <div>
+      <Navbar />
+      <router-view />
+    </div>
+  </w-app>
+
 </template>
 
 <script>
-import Navbar from './components/NavBar.vue'
-
+import Navbar from "./components/NavBar.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    Navbar
-  }
-}
+    Navbar,
+  },
+};
 </script>
 
 <style>
