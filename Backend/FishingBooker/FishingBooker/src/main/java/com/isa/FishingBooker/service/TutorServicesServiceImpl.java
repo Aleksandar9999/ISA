@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
-import com.isa.FishingBooker.dao.TutorServicesDAO;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.repository.TutorServiceRepository;
 
@@ -31,7 +30,8 @@ public class TutorServicesServiceImpl implements TutorServicesService{
 
     @Override
     public TutorService getById(String id) {
-        return tutorServicesDAO.getById(id);
+        return null;
+    	//return tutorServicesDAO.getById(id);
     }
 
     @Override

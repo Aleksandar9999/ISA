@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.isa.FishingBooker.dao.TutorDAO;
 import com.isa.FishingBooker.model.Tutor;
+import com.isa.FishingBooker.repository.TutorServiceRepository;
 @Service
 public class TutorsServiceImplementation implements TutorsService {
 	
 	@Autowired
-	private TutorDAO dao;
+	private TutorServiceRepository repository;
 	
 	@Override
 	public void addNew(Tutor item) {

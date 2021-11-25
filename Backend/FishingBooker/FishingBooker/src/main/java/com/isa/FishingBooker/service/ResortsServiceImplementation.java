@@ -7,7 +7,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.isa.FishingBooker.dao.ResortDAO;
 import com.isa.FishingBooker.model.Resort;
 import com.isa.FishingBooker.repository.ResortRepository;
 @Service
