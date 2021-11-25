@@ -3,6 +3,7 @@ package com.isa.FishingBooker.model;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,11 +25,11 @@ public class Resort {
 	private int numOfRooms;
 	private int numOfBeds;
 	private String rules;
-	@OneToMany
+	@OneToMany(fetch=FetchType.EAGER)
 	private Set<Photo> photos;
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	private Set<Extras> extrasServices;
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	private Set<DiscountOffer> disconutOffers;
 	@ManyToOne
 	@JoinColumn(name="resortOwner_id")

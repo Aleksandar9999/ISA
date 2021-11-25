@@ -2,16 +2,19 @@ package com.isa.FishingBooker.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.dao.ResortDAO;
 import com.isa.FishingBooker.model.Resort;
+import com.isa.FishingBooker.repository.ResortRepository;
 @Service
 public class ResortsServiceImplementation implements ResortsService {
 
 	@Autowired
-	private ResortDAO dao;
+	private ResortRepository repository;
 	
 	@Override
 	public void addNew(Resort item) {
@@ -20,9 +23,10 @@ public class ResortsServiceImplementation implements ResortsService {
 	}
 
 	@Override
+	@Transactional
 	public List<Resort> getAll() {
 		// TODO Auto-generated method stub
-		return null;
+		return repository.findAll();
 	}
 
 	@Override

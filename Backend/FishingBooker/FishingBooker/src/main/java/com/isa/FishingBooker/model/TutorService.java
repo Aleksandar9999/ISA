@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,11 +27,11 @@ public class TutorService {
 	@OneToOne
 	private Address address;
    
-	@OneToMany
+	@OneToMany(fetch=FetchType.EAGER)
 	private Set<Photo> photos;
-	@OneToMany
+	@OneToMany(fetch=FetchType.EAGER)
 	private Set<Extras> extrasServices;
-	@OneToMany
+	@OneToMany(fetch=FetchType.EAGER)
    	private Set<DiscountOffer> disconutOffers;
 	@ManyToOne
 	@JoinColumn(name="tutor_id")

@@ -58,23 +58,57 @@
     </div>
     <div>
         <div class="tab">
-             <button class="tablinks" v-on:click="changeTab('resorts')">Resorts</button>
+             <button class="tablinks" v-on:click="changeTab('resort')">Resorts</button>
              <button class="tablinks" v-on:click="changeTab('boats')">Boats</button>
              <button class="tablinks" v-on:click="changeTab('tutors')">Tutors</button>
          </div>
                   
     </div>
 
-    <div class="grid-container" id="tabela">
+    <div class="grid-container" id="tabela" v-if="tabType==='resort'">
       <div>        
       <table  class="r-table" cellspacing="0" cellpadding="0" border="0">
           <thead>
+            <tr >
               <th v-for="header in headerList" :key="header">
-                  <td>{{header}}</td>                
+                  {{header}}                
               </th>
+            </tr>           
           </thead>       
-          <tbody class="tbl-content">
-                <router-link :to="{name:'AdventureProfile', params:{item} }"><tr><td>a</td><td>b</td><td>c</td></tr></router-link>
+          <tbody class="tbl-content" v-for="item in dataList" :key="item">
+                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.resortAddress.street + ' ' + item.resortAddress.country }}</td><td>{{item.numOfRooms}}</td><td><router-link :to="{name:profileName, params:{item} }">Page</router-link></td></tr>
+          </tbody>                   
+      </table>
+      </div>     
+      </div>
+      <div class="grid-container" id="tabela" v-if="tabType==='boats'">
+      <div>        
+      <table  class="r-table" cellspacing="0" cellpadding="0" border="0">
+          <thead>
+              <tr >
+              <th v-for="header in headerList" :key="header">
+                  {{header}}                
+              </th>
+            </tr>  
+          </thead>       
+          <tbody class="tbl-content" v-for="item in dataList" :key="item">
+                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPerson}}</td><td>{{item.navigationEquipment}}</td><td><router-link :to="{name:profileName, params:{item} }">Page</router-link></td></tr>
+          </tbody>                   
+      </table>
+      </div>     
+      </div>
+      <div class="grid-container" id="tabela" v-if="tabType==='tutors'">
+      <div>        
+      <table  class="r-table" cellspacing="0" cellpadding="0" border="0">
+          <thead>
+              <tr >
+              <th v-for="header in headerList" :key="header">
+                  {{header}}                
+              </th>
+            </tr>  
+          </thead>       
+          <tbody class="tbl-content" v-for="item in dataList" :key="item">
+                <tr><td>{{item.id}}</td><td>{{item.tutor.name}}</td><td>{{item.tutor.surname}}</td><td>{{item.name}}</td><td><router-link :to="{name:profileName, params:{item} }">Page</router-link></td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -83,20 +117,22 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name: 'FrontPage',   
     data(){
       return{
         tabType: 'resort',
-        resortHeader:['ID','Name','Location','Number of rooms'],
-        boatsHeader:['ID','Manufacturer','Capacity','Navigation'],
-        tutorsHeader:['ID','Name','Surname','Adventure','Rate'],
+        resortHeader:['ID','Name','Location','Number of rooms', 'Page'],
+        boatsHeader:['ID','Name','Capacity','Navigation', 'Page'],
+        tutorsHeader:['ID','Name','Surname','Adventure', 'Page'],
         headerList: this.resortHeader,
         dataList: [],
         tutorsAdv: false,
         boatsAdv:false,
         resortsAdv:true,
-        item: 'probaNeka'
+        item: 'probaNeka',
+        profileName:'ResortProfile'
     }
     } ,
     methods:{
@@ -107,28 +143,25 @@ export default {
           this.boatsAdv=true;
           this.resortsAdv=false;
           this.tutorsAdv=false;
+          this.profileName='BoatProfile'
+          this.getData()
         } else if(type==='tutors'){
           this.headerList=this.tutorsHeader
           this.boatsAdv=false;
           this.resortsAdv=false;
           this.tutorsAdv=true;
+          this.profileName='AdventureProfile'
+          this.getData()
         } else {
           this.headerList=this.resortHeader
           this.boatsAdv=false;
           this.resortsAdv=true;
           this.tutorsAdv=false;
+          this.profileName='ResortProfile'
+          this.getData()
         }
         
-      },
-      loadBoats(){
-
-      },
-      loadResorts(){
-
-      },
-      loadTutors(){
-
-      },
+      },      
       search(){
 
       },
@@ -138,11 +171,31 @@ export default {
       
       advancedSearch(){
 
+      },
+      getData(){
+        if(this.tabType==='boats'){
+          this.dataList=[];
+          axios.get('http://localhost:8080/boats').then(response =>
+          this.dataList=response.data
+          )
+        } else if(this.tabType==='tutors'){
+          this.dataList=[];
+          axios.get('http://localhost:8080/api/users/tutors/services').then(response =>
+          this.dataList=response.data
+          )
+          
+        } else{
+          this.dataList=[]
+          axios.get('http://localhost:8080/resorts').then(response =>
+          this.dataList=response.data
+          )
+        }
       }
 
     },
     mounted(){
-      this.changeTab('resort')
+      this.changeTab('resort');
+      this.getData();
     }
 
 }
@@ -183,7 +236,6 @@ export default {
   
 .r-table {
     width: 60%;
-    table-layout: auto;
     margin-left: 20%;
     margin-right: 20%;
     margin-top: 20px;
@@ -191,8 +243,10 @@ export default {
     margin-bottom: 150px;
     border: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
 
+  .r-table thead{
+    display: table-header-group;
+  }
   
   .tbl-content {
     min-height: auto;
@@ -206,7 +260,6 @@ export default {
     padding: 10px 5px;
     text-align: center;
     font-weight: bold;
-
     font-size: 13px;
     color: #000;
     text-transform: uppercase;
