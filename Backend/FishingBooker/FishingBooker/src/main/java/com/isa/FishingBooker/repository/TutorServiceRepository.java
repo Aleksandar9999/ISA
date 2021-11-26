@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.isa.FishingBooker.model.TutorService;
 @Repository
 public interface TutorServiceRepository extends JpaRepository<TutorService ,Integer> {
-
+	
 }

@@ -76,7 +76,7 @@
             </tr>           
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.resortAddress.street + ' ' + item.resortAddress.country }}</td><td>{{item.numOfRooms}}</td><td><router-link :to="{name:profileName, params:{item} }">Page</router-link></td></tr>
+                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.resortAddress.street + ' ' + item.resortAddress.country }}</td><td>{{item.numOfRooms}}</td><td><router-link :to="{name:profileName, params:{id:item.id} }">Page</router-link></td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -92,7 +92,7 @@
             </tr>  
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPerson}}</td><td>{{item.navigationEquipment}}</td><td><router-link :to="{name:profileName, params:{item} }">Page</router-link></td></tr>
+                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPerson}}</td><td>{{item.navigationEquipment}}</td><td><router-link :to="{name:profileName, params: {id:item.id}}">Page </router-link></td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -108,7 +108,7 @@
             </tr>  
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.tutor.name}}</td><td>{{item.tutor.surname}}</td><td>{{item.name}}</td><td><router-link :to="{name:profileName, params:{item} }">Page</router-link></td></tr>
+                <tr><td>{{item.id}}</td><td>{{item.tutor.name}}</td><td>{{item.tutor.surname}}</td><td>{{item.name}}</td><td><router-link :to="{name:profileName, params: {id:item.id} }">Page</router-link></td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -131,7 +131,7 @@ export default {
         tutorsAdv: false,
         boatsAdv:false,
         resortsAdv:true,
-        item: 'probaNeka',
+        proba: 'probaNeka',
         profileName:'ResortProfile'
     }
     } ,

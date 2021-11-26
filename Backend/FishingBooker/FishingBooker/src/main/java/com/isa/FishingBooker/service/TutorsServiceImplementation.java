@@ -26,7 +26,7 @@ public class TutorsServiceImplementation implements TutorsService {
 	}
 
 	@Override
-	public Tutor getById(String id) {
+	public Tutor getById(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -38,7 +38,7 @@ public class TutorsServiceImplementation implements TutorsService {
 	}
 
 	@Override
-	public void delete(String id) {
+	public void delete(Integer id) {
 		// TODO Auto-generated method stub
 		
 	}
