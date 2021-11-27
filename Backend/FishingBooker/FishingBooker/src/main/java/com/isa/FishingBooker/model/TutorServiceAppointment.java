@@ -4,7 +4,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class TutorServiceAppointment {
+public class TutorServiceAppointment extends Appoinment {
 	
 	@ManyToOne
 	@JoinColumn(name="tutor_service_id")
@@ -12,6 +12,7 @@ public class TutorServiceAppointment {
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
+	
 	public TutorService getTutorService() {
 		return tutorService;
 	}
