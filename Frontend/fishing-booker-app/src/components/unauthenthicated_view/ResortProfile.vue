@@ -2,18 +2,18 @@
 <div class="profile-box">
     <div class="info">
     <div style="display:inline; float:left; justify-content:center; margin-left:40px;">
-    <div><div>Name: </div><input type="text" name="" id=""></div>
-    <div><div>Address: </div><input type="text" name="" id=""></div>
-    <div><div>Ratings:</div><input type="text" name="" id=""></div>
+    <div><div>Name: </div><input type="text" name="" id="rtName"></div>
+    <div><div>Address: </div><input type="text" name="" id="rtAddr"></div>
+    <div><div>Ratings:</div><input type="text" name="" id="rtRat"></div>
     </div>
-    <div class="promo"><div>Promo:</div><textarea name="" id="" cols="30" rows="6"></textarea></div>   
+    <div class="promo"><div>Promo:</div><textarea name="" id="rtPromo" cols="30" rows="6"></textarea></div>   
     </div>
     <div class="map" ref="map" id="map-box">
 
     </div>
     <div>
         <button class="buttons">Back</button>
-        <button class="buttons">See address on map</button>
+        <button class="buttons" @click="showMapEvent()">See address on map</button>
     </div>
 </div>
 </template>
@@ -32,12 +32,13 @@ import axios from 'axios'
 
 export default {
     props:[
-        'item'
+        'id'
     ],
     data(){
         return {
             map:{},
-            layer:{}
+            layer:{},
+            resort:{}
         }
     },
     methods:{
@@ -71,15 +72,25 @@ export default {
             ).catch(error => console.log(error))
         },
         createMap(){
-            //getCoordinates(this.item.address)
-            this.getCoordinates('Zivojina Misica Ljubovija')
+            this.getCoordinates(this.resort.resortAddress.street + ' '+this.resort.resortAddress.country + '1')
         },
         showMapEvent(){
             document.getElementById("map-box").classList.toggle("map-show")
             this.createMap();
+        },
+        populateData(response){
+            this.resort=response.data
+            document.getElementById('rtName').setAttribute('value',this.resort.name)
+            document.getElementById('rtAddr').setAttribute('value',this.resort.resortAddress.street + ' '+this.resort.resortAddress.country )
+            document.getElementById('rtRat').setAttribute('value','10')
+            document.getElementById('rtPromo').append(this.resort.description)
         }   
         },
     mounted(){
+        if(this.id){      
+            axios.get('http://localhost:8080/resorts/'+ this.id).then(response=>this.populateData(response)
+            )           
+        }
     }
 }
 </script>
@@ -119,6 +130,7 @@ export default {
     height: 110px;
 }
 .map{
+    display: none;
     width: 50%;
     height: 250px;
     margin-left: 25%;

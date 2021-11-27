@@ -2,12 +2,12 @@
 <div class="profile-box">
     <div class="info">
     <div style="display:inline; float:left; justify-content:center; margin-left:40px; margin-top:30px;">
-    <div><div>Name: </div><input type="text" name="" id=""></div>
-    <div><div>Address: </div><input type="text" name="" id=""></div>
-    <div><div>Ratings:</div><input type="text" name="" id=""></div>
-    <div><div>Engine power:</div><input type="text" name="" id=""></div>
+    <div><div>Name: </div><input type="text" name="" id="btName"></div>
+    <div><div>Address: </div><input type="text" name="" id="btAddres"></div>
+    <div><div>Ratings:</div><input type="text" name="" id="btRat"></div>
+    <div><div>Engine power:</div><input type="text" name="" id="btEng"></div>
     </div>
-    <div class="promo"><div>Promo:</div><textarea name="" id="" cols="30" rows="6"/></div>
+    <div class="promo"><div>Promo:</div><textarea name="" id="btPromo" cols="30" rows="6"/></div>
     <div>
         <div class="promo"><div>Additional services:</div><textarea name="" id="" cols="30" rows="6"/></div> 
     </div>     
@@ -41,7 +41,7 @@
     </div>
     <div>
         <button class="buttons">Back</button>
-        <button class="buttons">See address on map</button>
+        <button class="buttons" @click="showMapEvent()">See address on map</button>
     </div>
 </div>
 </template>
@@ -60,13 +60,12 @@ import axios from 'axios'
 
 
 export default {
-    props:[
-        'item'
-    ],
+    props:['id'],
     data(){
         return {
             map:{},
-            layer:{}
+            layer:{},
+            boat:{}
         }
     },
     methods:{
@@ -100,15 +99,26 @@ export default {
             ).catch(error => console.log(error))
         },
         createMap(){
-            //getCoordinates(this.item.address)
-            this.getCoordinates('Maksima Gorkog 9 Novi Sad')
+            this.getCoordinates(this.boat.boatAddress.street+ ', '+this.boat.boatAddress.city + ', '+this.boat.boatAddress.country)
         },
         showMapEvent(){
             document.getElementById("map-box").classList.toggle("map-show")
             this.createMap();
+        },
+        populateData(response){
+            this.boat=response.data
+            document.getElementById('btName').setAttribute('value',this.boat.name)
+            document.getElementById('btAddres').setAttribute('value',this.boat.boatAddress.street + ' '+this.boat.boatAddress.country )
+            document.getElementById('btRat').setAttribute('value','10')
+            document.getElementById('btEng').setAttribute('value',this.boat.enginePower)
+            document.getElementById('btPromo').append(this.boat.description)
         }
     },
     mounted(){
+        if(this.id){      
+            axios.get('http://localhost:8080/boats/'+ this.id).then(response=>this.populateData(response)
+            )           
+        }
     }
 }
 </script>
@@ -148,6 +158,7 @@ export default {
     height: 110px;
 }
 .map{
+    display: none;
     width: 50%;
     height: 250px;
     margin-left: 25%;

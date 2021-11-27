@@ -2,12 +2,12 @@
 <div class="profile-box">
     <div class="info">
     <div style="display:inline; float:left; justify-content:center; margin-left:40px; margin-top:30px;">
-    <div><div>Adventure Name: </div><input type="text" name="" id=""></div>
-    <div><div>Address: </div><input type="text" name="" id=""></div>
-    <div><div>Ratings:</div><input type="text" name="" id=""></div>
-    <div><div>Instructor name:</div><input type="text" name="" id=""></div>
+    <div><div>Adventure Name: </div><input type="text" name="" id="advName"></div>
+    <div><div>Address: </div><input type="text" name="" id="advAddr" ></div>
+    <div><div>Ratings:</div><input type="text" name="" id="advRat"></div>
+    <div><div>Instructor name:</div><input type="text" name="" id="advIns"></div>
     </div>
-    <div class="promo"><div>Promo:</div><textarea name="" id="" cols="30" rows="6"/></div>        
+    <div class="promo"><div>Promo:</div><textarea name="" id="advPromo" cols="30" rows="6"/></div>        
     </div>
     
     <div class="map" ref="map" id="map-box">
@@ -35,12 +35,14 @@ import axios from 'axios'
 
 export default {
     props:[
-        'item'
+        'id'
     ],
     data(){
         return {
             map:{},
-            layer:{}
+            layer:{},
+            adventure:{},
+            address: '',
         }
     },
     methods:{
@@ -75,14 +77,26 @@ export default {
         },
         createMap(){
             //getCoordinates(this.item.address)
-            this.getCoordinates('Maksima Gorkog 9a Novi Sad')
+            this.getCoordinates(this.adventure.address.street + ' '+this.adventure.address.country)
         },
         showMapEvent(){
             document.getElementById("map-box").classList.toggle("map-show")
             this.createMap();
+        },
+        populateData(response){
+            this.adventure=response.data
+            document.getElementById('advName').setAttribute('value',this.adventure.name)
+            document.getElementById('advAddr').setAttribute('value',this.adventure.address.street + ' '+this.adventure.address.country )
+            document.getElementById('advRat').setAttribute('value','10')
+            document.getElementById('advIns').setAttribute('value',this.adventure.tutor.name + ' ' + this.adventure.tutor.surname)
+            document.getElementById('advPromo').append(this.adventure.description)
         }
     },
-    mounted(){
+    mounted(){ 
+        if(this.id){      
+            axios.get('http://localhost:8080/api/users/tutors/services/'+ this.id).then(response=>this.populateData(response)
+            )           
+        }
         
     }
 }

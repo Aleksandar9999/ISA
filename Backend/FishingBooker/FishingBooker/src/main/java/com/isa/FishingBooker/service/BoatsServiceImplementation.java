@@ -30,9 +30,9 @@ public class BoatsServiceImplementation implements BoatsService {
 	}
 
 	@Override
-	public Boat getById(String id) {
+	public Boat getById(Integer id) {
 		// TODO Auto-generated method stub
-		return null;
+		return repository.findById(id).get();
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class BoatsServiceImplementation implements BoatsService {
 	}
 
 	@Override
-	public void delete(String id) {
+	public void delete(Integer id) {
 		// TODO Auto-generated method stub
 		
 	}

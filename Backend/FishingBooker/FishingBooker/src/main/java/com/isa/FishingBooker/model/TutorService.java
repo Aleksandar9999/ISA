@@ -12,8 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.transaction.Transactional;
 
 @Entity
+@Transactional
 public class TutorService {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -33,7 +35,7 @@ public class TutorService {
 	private Set<Extras> extrasServices;
 	@OneToMany(fetch=FetchType.EAGER)
    	private Set<DiscountOffer> disconutOffers;
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="tutor_id")
 	private Tutor tutor;
  

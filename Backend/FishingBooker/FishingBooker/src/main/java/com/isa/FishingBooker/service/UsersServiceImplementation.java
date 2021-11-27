@@ -28,7 +28,7 @@ public class UsersServiceImplementation implements UsersService {
 	}
 
 	@Override
-	public User getById(String id) {
+	public User getById(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -40,7 +40,7 @@ public class UsersServiceImplementation implements UsersService {
 	}
 
 	@Override
-	public void delete(String id) {
+	public void delete(Integer id) {
 		// TODO Auto-generated method stub
 	}
 
