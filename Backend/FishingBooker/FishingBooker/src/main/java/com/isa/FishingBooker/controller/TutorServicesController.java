@@ -46,4 +46,9 @@ public class TutorServicesController {
 		tutorServicesService.addNew(service);
 		return ResponseEntity.ok(service);
 	}
+	
+	@GetMapping("api/users/tutors/services/{id}")
+	public ResponseEntity<TutorService> getByID(@PathVariable("id") Integer id){	
+		return ResponseEntity.ok(tutorServicesService.getById(id));
+	}
 }

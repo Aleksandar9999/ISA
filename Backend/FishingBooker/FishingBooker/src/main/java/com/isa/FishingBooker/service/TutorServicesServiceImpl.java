@@ -30,8 +30,9 @@ public class TutorServicesServiceImpl implements TutorServicesService{
     }
 
     @Override
-    public TutorService getById(String id) {
-        return tutorServicesDAO.getById(id);
+    @Transactional
+    public TutorService getById(Integer id) {
+        return repository.findById(id).get();
     }
 
     @Override
@@ -41,7 +42,7 @@ public class TutorServicesServiceImpl implements TutorServicesService{
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(Integer id) {
         // TODO Auto-generated method stub
         
     }

@@ -30,9 +30,9 @@ public class ResortsServiceImplementation implements ResortsService {
 	}
 
 	@Override
-	public Resort getById(String id) {
+	public Resort getById(Integer id) {
 		// TODO Auto-generated method stub
-		return null;
+		return repository.findById(id).get();
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class ResortsServiceImplementation implements ResortsService {
 	}
 
 	@Override
-	public void delete(String id) {
+	public void delete(Integer id) {
 		// TODO Auto-generated method stub
 		
 	}
