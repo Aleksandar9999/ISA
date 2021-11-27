@@ -7,9 +7,9 @@
             <li ><button v-on:click="dropDown()">Lista</button>
             <div class="dropD">
             <div id="Ddown" class="ddown">
-            <router-link to="" class="ddown-link">List of resorts</router-link>
-            <router-link to="" class="ddown-link">List of boats</router-link>
-            <router-link to="" class="ddown-link">List of tutors and their services</router-link>
+            <router-link to="/resortList" class="ddown-link">List of resorts</router-link>
+            <router-link to="/boatList" class="ddown-link">List of boats</router-link>
+            <router-link to="/tutorList" class="ddown-link">List of tutors and their services</router-link>
             <router-link to="" class="ddown-link">Resort reservation history</router-link>
             <router-link to="" class="ddown-link">Boats reservation history</router-link>
             <router-link to="" class="ddown-link">Tutor services reservation history</router-link>

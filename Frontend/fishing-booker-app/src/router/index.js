@@ -6,6 +6,9 @@ import Profile from '../views/ClientProfile.vue'
 import ResortProfile from '../components/unauthenthicated_view/ResortProfile.vue'
 import BoatProfile from '../components/unauthenthicated_view/BoatProfile.vue'
 import AdventureProfile from '../components/unauthenthicated_view/AdventureProfile.vue'
+import ResortList from '../components/ClientMenuLists/ResortList.vue'
+import BoatList from '../components/ClientMenuLists/BoatList.vue'
+import TutorList from '../components/ClientMenuLists/TutorList.vue'
 
 const routes = [
   {
@@ -35,6 +38,24 @@ const routes = [
     path:'/adventureProfile',
     name:'AdventureProfile',
     component: AdventureProfile,
+    props:true
+  },
+  {
+    path:'/resortList',
+    name:'ResortList',
+    component: ResortList,
+    props:true
+  },
+  {
+    path:'/boatList',
+    name:'BoatList',
+    component: BoatList,
+    props:true
+  },
+  {
+    path:'/tutorList',
+    name:'TutorList',
+    component: TutorList,
     props:true
   }
 ]
