@@ -42,7 +42,6 @@ export default {
       sort(){
             let criteria = document.getElementById('sort');
             criteria=criteria.options[criteria.selectedIndex].value
-            console.log(criteria);
             if(!criteria){
                 alert('Pick sort type first!');
                 return;

@@ -23,7 +23,7 @@
             </tr>  
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.tutor.name}}</td><td>{{item.tutor.surname}}</td><td>{{item.name}}</td><td>za sad prazno</td></tr>
+                <tr><td>{{item.id}}</td><td>{{item.tutor.name}}</td><td>{{item.tutor.surname}}</td><td>{{item.name}}</td><td>{{item.rate}}</td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -42,7 +42,8 @@ export default {
     },
     methods:{
         sort(){
-            let criteria = document.getElementById('sort').getAttribute('value');
+            let criteria = document.getElementById('sort');
+            criteria=criteria.options[criteria.selectedIndex].value
             if(!criteria){
                 alert('Pick sort type first!');
                 return;

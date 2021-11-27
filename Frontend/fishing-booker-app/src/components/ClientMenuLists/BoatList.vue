@@ -8,7 +8,7 @@
     <option value="rate_asc">Sort by rate ascending</option>
     <option value="rate">Sort by rate descending</option>
   </select>
-  <button>Sort</button>
+  <button @click="sort()">Sort</button>
 </div>
  <div class="grid-container" id="tabela">
       <div>        
@@ -21,7 +21,7 @@
             </tr>  
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPerson}}</td><td>{{item.navigationEquipment}}</td><td><router-link :to="{name:profileName, params: {id:item.id}}">Page </router-link></td></tr>
+                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPerson}}</td><td>{{item.navigationEquipment}}</td><td>{{item.rate}}</td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -34,28 +34,29 @@ import axios from 'axios'
 export default {
     data(){
         return{
-            headerList:['ID','Name','Capacity','Navigation', 'Page'],
+            headerList:['ID','Name','Capacity','Navigation', 'Rate'],
             dataList:[]
         }
     },
     methods:{
          sort(){
-            let criteria = document.getElementById('sort').getAttribute('value');
+            let criteria = document.getElementById('sort');
+            criteria=criteria.options[criteria.selectedIndex].value
             if(!criteria){
                 alert('Pick sort type first!');
                 return;
             }
             if (criteria === 'name_asc'){
-                this.dataList.sort((a,b)=> (a.tutor.name>b.tutor.name) ? 1 :(b.tutor.name>a.tutor.name) ? -1 :0);
+                this.dataList.sort((a,b)=> (a.name>b.name) ? 1 :(b.name>a.name) ? -1 :0);
             } else
             if(criteria === 'name'){
-                this.dataList.sort((a,b)=> (a.tutor.name<b.tutor.name) ? 1 :(b.tutor.name<a.tutor.name) ? -1 :0);
+                this.dataList.sort((a,b)=> (a.name<b.name) ? 1 :(b.name<a.name) ? -1 :0);
             } else
             if (criteria === 'location_asc'){
-                this.dataList.sort((a,b)=> (a.address.city>b.address.city) ? 1 :(b.address.city>a.address.city) ? -1 :0);
+                this.dataList.sort((a,b)=> (a.boatAddress.city>b.boatAddress.city) ? 1 :(b.boatAddress.city>a.boatAddress.city) ? -1 :0);
             } else
             if(criteria === 'location'){
-                this.dataList.sort((a,b)=> (a.address.city<b.address.city) ? 1 :(b.address.city<a.address.city) ? -1 :0);
+                this.dataList.sort((a,b)=> (a.boatAddress.city<b.boatAddress.city) ? 1 :(b.boatAddress.city<a.boatAddress.city) ? -1 :0);
             }else
             if (criteria === 'rate_asc'){
                 this.dataList.sort((a,b)=> (a.rate>b.rate) ? 1 :(b.rate>a.rate) ? -1 :0);
