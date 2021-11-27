@@ -27,7 +27,7 @@ public class TutorServicesController {
 	}
 
 	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}")
-	public ResponseEntity<TutorService> getTutorService(@PathVariable("idtutor") Integer idtutor, @PathVariable("idservice") String idservice){
+	public ResponseEntity<TutorService> getTutorService(@PathVariable("idtutor") Integer idtutor, @PathVariable("idservice") Integer idservice){
 		return ResponseEntity.ok((TutorService) tutorServicesService.getById(idservice));
 	}
 
@@ -37,7 +37,7 @@ public class TutorServicesController {
 	}
 
 	@PutMapping("api/users/tutors/{idtutor}/services/{idservice}")
-	public ResponseEntity<TutorService> updateTutorService(@PathVariable("idtutor") Integer idtutor, @PathVariable("idservice") String idservice){
+	public ResponseEntity<TutorService> updateTutorService(@PathVariable("idtutor") Integer idtutor, @PathVariable("idservice") Integer idservice){
 		return ResponseEntity.ok((TutorService) tutorServicesService.getById(idservice));
 	}
 	

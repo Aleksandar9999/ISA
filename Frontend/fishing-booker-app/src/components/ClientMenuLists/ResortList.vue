@@ -1,4 +1,15 @@
 <template>
+<div class="searchBox">
+  <select name="sort" id="sort">
+    <option value="name_asc">Sort by name ascending</option>
+    <option value="name">Sort by name descending</option>
+    <option value="location_asc">Sort by location ascending</option>
+    <option value="location">Sort by location descending</option>
+    <option value="rate_asc">Sort by rate ascending</option>
+    <option value="rate">Sort by rate descending</option>
+  </select>
+  <button @click="sort()">Sort</button>
+</div>
     <div class="grid-container" id="tabela">
       <div>        
       <table  class="r-table" cellspacing="0" cellpadding="0" border="0">
@@ -10,7 +21,7 @@
             </tr>           
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.resortAddress.street + ', '+ item.resortAddress.city + ', ' + item.resortAddress.country }}</td><td>{{item.numOfRooms}}</td><td><router-link :to="{name:profileName, params:{item} }">Page</router-link></td></tr>
+                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.resortAddress.street + ', '+ item.resortAddress.city + ', ' + item.resortAddress.country }}</td><td>{{item.numOfRooms}}</td><td>{{item.rate}}</td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -23,12 +34,38 @@ import axios from 'axios'
 export default {
     data(){
         return{
-            headerList:['ID','Name','Location','Number of rooms', 'Page'],
+            headerList:['ID','Name','Location','Number of rooms', 'Rate'],
             dataList:[]
         }
     },
     methods:{
-
+      sort(){
+            let criteria = document.getElementById('sort');
+            criteria=criteria.options[criteria.selectedIndex].value
+            console.log(criteria);
+            if(!criteria){
+                alert('Pick sort type first!');
+                return;
+            }
+            if (criteria === 'name_asc'){
+                this.dataList.sort((a,b)=> (a.name>b.name) ? 1 :(b.name>a.name) ? -1 :0);
+            } else
+            if(criteria === 'name'){
+                this.dataList.sort((a,b)=> (a.name<b.name) ? 1 :(b.name<a.name) ? -1 :0);
+            } else
+            if (criteria === 'location_asc'){
+                this.dataList.sort((a,b)=> (a.resortAddress.city>b.resortAddress.city) ? 1 :(b.resortAddress.city>a.resortAddress.city) ? -1 :0);
+            } else
+            if(criteria === 'location'){
+                this.dataList.sort((a,b)=> (a.resortAddress.city<b.resortAddress.city) ? 1 :(b.resortAddress.city<a.resortAddress.city) ? -1 :0);
+            }else
+            if (criteria === 'rate_asc'){
+                this.dataList.sort((a,b)=> (a.rate>b.rate) ? 1 :(b.rate>a.rate) ? -1 :0);
+            } else
+            if(criteria === 'rate'){
+                this.dataList.sort((a,b)=> (a.rate<b.rate) ? 1 :(b.rate<a.rate) ? -1 :0);
+            }
+        }
     },
     mounted(){
         this.dataList=[]
@@ -89,5 +126,38 @@ export default {
   
   .r-table tbody tr {
     height: 75px;
+  }
+
+  .searchBox{
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+    padding: 1%;
+    border: solid 4px rgb(5, 100, 76);
+    border-radius: 25px;
+    background-color: green;
+  }
+
+  .searchBox input{
+    width: 190px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    border-radius: 7px;
+  }
+
+  .searchBox button {
+    font-size: 18px;
+    border: 3px black;
+    padding: 4px 5px;
+    color: whitesmoke;
+    background-color: rgb(15, 71, 10); 
+    margin-left: 10px;
+    border-radius: 15px;
+    width: 160px;
+    height:  auto;
+    transition: 0.8s;
+  }
+  .searchBox button:hover{
+    background-color: rgb(10, 226, 28);
   }
 </style>

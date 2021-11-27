@@ -34,7 +34,7 @@ public class Resort {
 	@ManyToOne
 	@JoinColumn(name="resortOwner_id")
 	private ResortOwner resortOwner;
-
+	private int rate;
 	
 	public Resort(String name, String description, Address resortAddress, int numOfRooms, int numOfBeds, String rules) {
 		super();
@@ -136,6 +136,14 @@ public class Resort {
 
 	
 	
+	public int getRate() {
+		return rate;
+	}
+
+	public void setRate(int rate) {
+		this.rate = rate;
+	}
+
 	public Resort() {}
 	
 	

@@ -28,6 +28,7 @@ public class TutorService {
 	private double cancelProcentage;
 	@OneToOne
 	private Address address;
+	private int rate;
    
 	@OneToMany(fetch=FetchType.EAGER)
 	private Set<Photo> photos;
@@ -161,6 +162,12 @@ public void setExtrasServices(Set<Extras> extrasServices) {
 }
 public void setDisconutOffers(Set<DiscountOffer> disconutOffers) {
 	this.disconutOffers = disconutOffers;
+}
+public int getRate() {
+	return rate;
+}
+public void setRate(int rate) {
+	this.rate = rate;
 }
 
    

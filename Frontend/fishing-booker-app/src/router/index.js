@@ -9,7 +9,7 @@ import AdventureProfile from '../components/unauthenthicated_view/AdventureProfi
 import ResortList from '../components/ClientMenuLists/ResortList.vue'
 import BoatList from '../components/ClientMenuLists/BoatList.vue'
 import TutorList from '../components/ClientMenuLists/TutorList.vue'
-
+import FrontPage from '../components/FrontPage.vue'
 const routes = [
   {
     path: "/about",
@@ -21,7 +21,7 @@ const routes = [
   {path: "/register", name: "Register",component: Register},
   {path: "/profile", name: "Profile", component: Profile},
   {path: "/users/tutors/:idtutor/services/:idservice", name: "TutorService", component: TutorServicePage},
-  
+  {path:"", name:"FrontPage", component: FrontPage},
 {
     path: '/resortProfile',
     name: 'ResortProfile',
