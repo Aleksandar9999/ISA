@@ -10,13 +10,13 @@
             <router-link to="/resortList" class="ddown-link">List of resorts</router-link>
             <router-link to="/boatList" class="ddown-link">List of boats</router-link>
             <router-link to="/tutorList" class="ddown-link">List of tutors and their services</router-link>
-            <router-link to="" class="ddown-link">Resort reservation history</router-link>
-            <router-link to="" class="ddown-link">Boats reservation history</router-link>
-            <router-link to="" class="ddown-link">Tutor services reservation history</router-link>
-            <router-link to="" class="ddown-link">Pending appointments</router-link>
-            <router-link to="" class="ddown-link">Penalties</router-link>
-            <router-link to="" class="ddown-link">Actions</router-link>
-            <router-link to="" class="ddown-link">Complains</router-link>
+            <router-link to="/resortsHistory" class="ddown-link">Resort reservation history</router-link>
+            <router-link to="/boatsHistory" class="ddown-link">Boats reservation history</router-link>
+            <router-link to="/tutorsHistory" class="ddown-link">Tutor services reservation history</router-link>
+            <router-link to="/pendingReservations" class="ddown-link">Pending appointments</router-link>
+            <router-link to="/penalties" class="ddown-link">Penalties</router-link>
+            <router-link to="/myDiscOffers" class="ddown-link">Actions</router-link>
+            <router-link to="/objections" class="ddown-link">Complains</router-link>
             </div> 
             </div>
             </li> 

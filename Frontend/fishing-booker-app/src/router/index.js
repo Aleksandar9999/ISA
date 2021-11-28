@@ -9,7 +9,16 @@ import AdventureProfile from '../components/unauthenthicated_view/AdventureProfi
 import ResortList from '../components/ClientMenuLists/ResortList.vue'
 import BoatList from '../components/ClientMenuLists/BoatList.vue'
 import TutorList from '../components/ClientMenuLists/TutorList.vue'
+import ObjectionPage from '../components/ClientMenuLists/ObjectionPage.vue'
+import PenaltyList from '../components/ClientMenuLists/PenaltyList.vue'
+import MyDiscountOffers from '../components/ClientMenuLists/MyDiscountOffers.vue'
+import PendingReservations from '../components/ClientMenuLists/PendingReservations.vue'
+import BoatAppointmentHistory from '../components/ClientMenuLists/BoatAppointmentHistory.vue'
+import ResortAppointmentHistory from '../components/ClientMenuLists/ResortAppointmentHistory.vue'
+import TutorAppointmentHistory from '../components/ClientMenuLists/TutorAppointmentHistory.vue'
 import FrontPage from '../components/FrontPage.vue'
+
+
 const routes = [
   {
     path: "/about",
@@ -56,6 +65,48 @@ const routes = [
     path:'/tutorList',
     name:'TutorList',
     component: TutorList,
+    props:true
+  },
+  {
+    path:'/penalties',
+    name:'PenaltyList',
+    component: PenaltyList,
+    props:true
+  },
+  {
+    path:'/myDiscOffers',
+    name:'MyDiscountOffers',
+    component: MyDiscountOffers,
+    props:true
+  },
+  {
+    path:'/boatsHistory',
+    name:'BoatAppointmentHistory',
+    component: BoatAppointmentHistory,
+    props:true
+  },
+  {
+    path:'/pendingReservations',
+    name:'PendingReservations',
+    component: PendingReservations,
+    props:true
+  },
+  {
+    path:'/resortsHistory',
+    name:'ResortAppointmentHistory',
+    component: ResortAppointmentHistory,
+    props:true
+  },
+  {
+    path:'/tutorsHistory',
+    name:'TutorAppointmentHistory',
+    component: TutorAppointmentHistory,
+    props:true
+  },
+  {
+    path:'/objections',
+    name:'ObjectionPage',
+    component: ObjectionPage,
     props:true
   }
 ]
