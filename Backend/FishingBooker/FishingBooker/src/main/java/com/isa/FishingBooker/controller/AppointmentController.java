@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.model.Appoinment;
+import com.isa.FishingBooker.model.BoatAppointment;
+import com.isa.FishingBooker.model.ResortAppointment;
+import com.isa.FishingBooker.model.TutorServiceAppointment;
 import com.isa.FishingBooker.service.AppointmentService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -24,18 +27,18 @@ public class AppointmentController {
 	}
 	
 	@GetMapping("/resortAppointments")
-	public ResponseEntity<ArrayList<Appoinment>>  getAllResort(){
-		return ResponseEntity.ok((ArrayList<Appoinment>)service.getResortApointments());
+	public ResponseEntity<ArrayList<ResortAppointment>>  getAllResort(){
+		return ResponseEntity.ok((ArrayList<ResortAppointment>)service.getResortApointments());
 	}
 	
 	@GetMapping("/boatAppointments")
-	public ResponseEntity<ArrayList<Appoinment>>  getAllBoat(){
-		return ResponseEntity.ok((ArrayList<Appoinment>)service.getBoatApointments());
+	public ResponseEntity<ArrayList<BoatAppointment>>  getAllBoat(){
+		return ResponseEntity.ok((ArrayList<BoatAppointment>)service.getBoatApointments());
 	}
 	
 	@GetMapping("/tutorServiceAppointments")
-	public ResponseEntity<ArrayList<Appoinment>>  getAllTutorService(){
-		return ResponseEntity.ok((ArrayList<Appoinment>)service.getTutorServiceApointments());
+	public ResponseEntity<ArrayList<TutorServiceAppointment>>  getAllTutorService(){
+		return ResponseEntity.ok((ArrayList<TutorServiceAppointment>)service.getTutorServiceApointments());
 	}
 	
 	
