@@ -30,7 +30,7 @@ public class Boat {
 	private String rules;
 	private String fishingEquipment;
 	private double cancelPercentage;
-	
+	private int rate;
 	@OneToMany(fetch=FetchType.EAGER)
 	private Set<Photo> photos;
 	@OneToMany(fetch=FetchType.EAGER)
@@ -230,6 +230,14 @@ public class Boat {
 	         disconutOffers = new HashSet<>();
 	      disconutOffers.add(offer);
 	   }
+
+	public int getRate() {
+		return rate;
+	}
+
+	public void setRate(int rate) {
+		this.rate = rate;
+	}
 	
 	
 }
