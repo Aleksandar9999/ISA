@@ -7,7 +7,8 @@ public class RegistrationDTOtoUserMapper {
 	
 	public RegistrationDTOtoUserMapper() {}
 	
-	public User RegistrationDTOtoUser(RegistrationDTO dto, User user) {
+	public User RegistrationDTOtoUser(RegistrationDTO dto) {
+		User user=new User();
 		user.setName(dto.getName());
 		user.setSurname(dto.getSurname());
 		user.setAddress(dto.getAddress());

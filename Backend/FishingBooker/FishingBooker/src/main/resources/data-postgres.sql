@@ -17,3 +17,4 @@ insert into resort (name, description, address_id, num_of_rooms, num_of_beds, ru
 insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id) values ('One-day fishing','One day tour accross lake with fishing on most active fishing localities.', 9, 'No smoking. No alcohol.', 'Clients equipment required', 0, 4, 4);
 insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id) values ('Three-day fishing','Three day tour accross lake with camping and fishing on most active fishing localities.', 5, 'No smoking. No alcohol.', 'Clients equipment for camping and fishing required', 0, 4, 4);
 
+insert into photo (title, url, tutorService_id) values ('Three-day fishing','Three day tour accross lake with camping and fishing on most active fishing localities.', 2);
