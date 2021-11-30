@@ -1,41 +1,37 @@
 package com.isa.FishingBooker.service;
 
 import java.util.List;
-
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.isa.FishingBooker.model.Objection;
+import com.isa.FishingBooker.repository.ObjectionRepository;
 
-import com.isa.FishingBooker.model.Resort;
-import com.isa.FishingBooker.repository.ResortRepository;
 @Service
-public class ResortsServiceImplementation implements ResortsService {
+public class ObjectionServiceImplementation implements ObjectionService {
 
 	@Autowired
-	private ResortRepository repository;
+	private ObjectionRepository repository;
 	
 	@Override
-	public void addNew(Resort item) {
+	public void addNew(Objection item) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	@Transactional
-	public List<Resort> getAll() {
+	public List<Objection> getAll() {
 		// TODO Auto-generated method stub
 		return repository.findAll();
 	}
 
 	@Override
-	public Resort getById(Integer id) {
+	public Objection getById(Integer id) {
 		// TODO Auto-generated method stub
-		return repository.findById(id).get();
+		return null;
 	}
 
 	@Override
-	public void update(Resort item) {
+	public void update(Objection item) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -45,6 +41,12 @@ public class ResortsServiceImplementation implements ResortsService {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public Objection addObjection(Objection o) {
+		return repository.save(o);
+	}
 
+	
 
 }

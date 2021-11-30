@@ -1,6 +1,6 @@
 <template>
     <div class="searchBox">
-      <input type="text" placeholder="Type your search here">
+      <input type="text" placeholder="Type your search here" v-model="searchWord">
       <button @click="search()">Search</button>
       <div>
         <button class="advanced-src" @click="advancedSrcToggle()">Advanced search</button>
@@ -76,7 +76,7 @@
             </tr>           
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.resortAddress.street + ' ' + item.resortAddress.country }}</td><td>{{item.numOfRooms}}</td><td><router-link :to="{name:profileName, params:{item} }">Page</router-link></td></tr>
+                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.resortAddress.street + ' ' + item.resortAddress.country }}</td><td>{{item.numOfRooms}}</td><td><router-link :to="{name:profileName, params:{id:item.id} }">Page</router-link></td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -92,7 +92,7 @@
             </tr>  
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPerson}}</td><td>{{item.navigationEquipment}}</td><td><router-link :to="{name:profileName, params:{item} }">Page</router-link></td></tr>
+                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPerson}}</td><td>{{item.navigationEquipment}}</td><td><router-link :to="{name:profileName, params: {id:item.id}}">Page </router-link></td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -108,7 +108,7 @@
             </tr>  
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.tutor.name}}</td><td>{{item.tutor.surname}}</td><td>{{item.name}}</td><td><router-link :to="{name:profileName, params:{item} }">Page</router-link></td></tr>
+                <tr><td>{{item.id}}</td><td>{{item.tutor.name}}</td><td>{{item.tutor.surname}}</td><td>{{item.name}}</td><td><router-link :to="{name:profileName, params: {id:item.id} }">Page</router-link></td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -118,6 +118,7 @@
 
 <script>
 import axios from 'axios'
+
 export default {
     name: 'FrontPage',   
     data(){
@@ -127,12 +128,15 @@ export default {
         boatsHeader:['ID','Name','Capacity','Navigation', 'Page'],
         tutorsHeader:['ID','Name','Surname','Adventure', 'Page'],
         headerList: this.resortHeader,
+        reserveList:[],
         dataList: [],
+        searchData:[],
         tutorsAdv: false,
         boatsAdv:false,
         resortsAdv:true,
-        item: 'probaNeka',
-        profileName:'ResortProfile'
+        proba: 'probaNeka',
+        profileName:'ResortProfile',
+        searchWord:''
     }
     } ,
     methods:{
@@ -163,7 +167,35 @@ export default {
         
       },      
       search(){
-
+        if(this.tabType!='tutors'){
+        this.searchData=this.dataList
+        let criteria = this.searchWord        
+        if(criteria){
+          for(let i = 0; i<this.searchData.length;i++){
+          if(!this.searchData[i].name.toLowerCase().includes(criteria)){
+            this.searchData.splice(i,1);
+            i--
+          }
+        }
+        this.dataList=this.searchData
+        return    
+        }       
+        this.getData()
+        } else {
+          this.searchData=this.dataList
+          let criteria = this.searchWord        
+          if(criteria){
+          for(let i = 0; i<this.searchData.length;i++){
+          if(!this.searchData[i].adventure.toLowerCase().includes(criteria)){
+            this.searchData.splice(i,1);
+            i--
+          }
+        }
+        this.dataList=this.searchData
+        return    
+        }       
+        this.getData()
+        }  
       },
       advancedSrcToggle(){
         document.getElementById("dropMenu").classList.toggle("show-drop")
@@ -172,22 +204,26 @@ export default {
       advancedSearch(){
 
       },
+      fillDataLists(response){
+        this.dataList=response.data
+        this.reserveList=response.data
+      },
       getData(){
         if(this.tabType==='boats'){
           this.dataList=[];
           axios.get('http://localhost:8080/boats').then(response =>
-          this.dataList=response.data
+            this.fillDataLists(response)
           )
         } else if(this.tabType==='tutors'){
           this.dataList=[];
           axios.get('http://localhost:8080/api/users/tutors/services').then(response =>
-          this.dataList=response.data
+          this.fillDataLists(response)
           )
           
         } else{
           this.dataList=[]
           axios.get('http://localhost:8080/resorts').then(response =>
-          this.dataList=response.data
+          this.fillDataLists(response)
           )
         }
       }

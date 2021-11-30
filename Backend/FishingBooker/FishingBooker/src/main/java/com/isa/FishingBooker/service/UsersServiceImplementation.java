@@ -30,13 +30,19 @@ public class UsersServiceImplementation implements UsersService {
 	}
 
 	@Override
+	public User getById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public void update(User item) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void delete(String id) {
+	public void delete(Integer id) {
 		// TODO Auto-generated method stub
 	}
 

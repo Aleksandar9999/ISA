@@ -29,10 +29,6 @@ public class TutorServicesServiceImpl implements TutorServicesService{
     public List<TutorService> getAll() {
         return repository.findAll();
     }
-    @Override
-    public TutorService getById(int id) {
-    	return repository.findById(id).orElse(null);
-    }
 
     @Override
     public void update(TutorService item) {
@@ -41,7 +37,7 @@ public class TutorServicesServiceImpl implements TutorServicesService{
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(Integer id) {
         // TODO Auto-generated method stub
         
     }
@@ -56,4 +52,8 @@ public class TutorServicesServiceImpl implements TutorServicesService{
 		return repository.findTutorServiceWithDiscountOffers(id);
 	}
 
+    @Override
+    public TutorService getById(Integer id) {
+        return repository.findById(id).orElse(null);
+    }
 }

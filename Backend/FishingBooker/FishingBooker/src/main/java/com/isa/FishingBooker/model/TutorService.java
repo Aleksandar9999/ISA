@@ -15,10 +15,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Transactional
 public class TutorService {
 	@Id
 	@Column(name = "tutor_service_id")

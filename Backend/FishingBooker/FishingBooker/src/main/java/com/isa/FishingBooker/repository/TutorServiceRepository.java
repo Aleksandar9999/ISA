@@ -16,4 +16,5 @@ public interface TutorServiceRepository extends JpaRepository<TutorService ,Inte
 	
 	@Query("select tutorService from TutorService tutorService join fetch tutorService.disconutOffers disconutOffers where tutorService.id=?1")
 	public TutorService findTutorServiceWithDiscountOffers(int tutorServiceId);
+
 }

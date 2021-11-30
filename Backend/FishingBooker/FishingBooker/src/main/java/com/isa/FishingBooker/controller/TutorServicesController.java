@@ -41,6 +41,7 @@ public class TutorServicesController {
 			@PathVariable("idservice") int idservice) {
 		return ResponseEntity
 				.ok(tutorServiceMapper.convertToDto((TutorService) tutorServicesService.getById(idservice)));
+
 	}
 
 	@PostMapping("api/users/tutors/{idtutor}/services")
@@ -106,5 +107,8 @@ public class TutorServicesController {
 		}
 	}
 	
-	
+	@GetMapping("api/users/tutors/services/{id}")
+	public ResponseEntity<TutorService> getByID(@PathVariable("id") Integer id){	
+		return ResponseEntity.ok(tutorServicesService.getById(id));
+	}
 }

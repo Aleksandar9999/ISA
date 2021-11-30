@@ -1,7 +1,6 @@
 package com.isa.FishingBooker.service;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -29,13 +28,18 @@ public class BoatsServiceImplementation implements BoatsService {
 	}
 
 	@Override
+	public Boat getById(Integer id) {
+		return repository.findById(id).get();
+	}
+
+	@Override
 	public void update(Boat item) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void delete(String id) {
+	public void delete(Integer id) {
 		// TODO Auto-generated method stub
 		
 	}
