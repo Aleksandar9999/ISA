@@ -23,8 +23,8 @@ public class EmailService {
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(user.getEmail());
 		mail.setFrom(env.getProperty("spring.mail.username"));
-		mail.setSubject("Primer slanja emaila pomoću asinhronog Spring taska");
-		mail.setText("Pozdrav,\n\nhvala što pratiš ISA.");
+		mail.setSubject("Fishingbooker: Confirm your account");
+		mail.setText("Your id is: " +user.getId() + "\nCheck link below and insert given id number to a forma in it to confirm your registration:\n\n http://localhost:4000/confirmation");
 		javaMailSender.send(mail);
 	}
 	
