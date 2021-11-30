@@ -29,12 +29,6 @@ public class BoatsServiceImplementation implements BoatsService {
 	}
 
 	@Override
-	public Boat getById(String id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void update(Boat item) {
 		// TODO Auto-generated method stub
 		

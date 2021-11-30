@@ -1,6 +1,7 @@
 package com.isa.FishingBooker.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
@@ -18,8 +19,9 @@ public class TutorServicesServiceImpl implements TutorServicesService{
     private TutorServiceRepository repository;
     
     @Override
+    @Transactional
     public void addNew(TutorService item) {
-        //tutorServicesDAO.addNew(item);
+        repository.save(item);
     }
 
     @Override
@@ -27,16 +29,14 @@ public class TutorServicesServiceImpl implements TutorServicesService{
     public List<TutorService> getAll() {
         return repository.findAll();
     }
-
     @Override
-    public TutorService getById(String id) {
-        return null;
-    	//return tutorServicesDAO.getById(id);
+    public TutorService getById(int id) {
+    	return repository.findById(id).orElse(null);
     }
 
     @Override
     public void update(TutorService item) {
-        // TODO Auto-generated method stub
+       repository.save(item);
         
     }
 
@@ -45,5 +45,15 @@ public class TutorServicesServiceImpl implements TutorServicesService{
         // TODO Auto-generated method stub
         
     }
-    
+
+	@Override
+	public TutorService getWithPhotos(int id) {
+		return repository.findTutorServiceWithPhotos(id);
+	}
+
+	@Override
+	public TutorService getWithDiscountOffers(int id) {
+		return repository.findTutorServiceWithDiscountOffers(id);
+	}
+
 }

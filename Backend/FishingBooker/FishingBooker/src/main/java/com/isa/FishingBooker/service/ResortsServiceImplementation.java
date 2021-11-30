@@ -29,12 +29,6 @@ public class ResortsServiceImplementation implements ResortsService {
 	}
 
 	@Override
-	public Resort getById(String id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void update(Resort item) {
 		// TODO Auto-generated method stub
 		
