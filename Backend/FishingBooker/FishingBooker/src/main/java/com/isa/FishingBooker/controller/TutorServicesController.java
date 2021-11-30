@@ -2,8 +2,14 @@ package com.isa.FishingBooker.controller;
 
 import java.util.ArrayList;
 
+import com.isa.FishingBooker.dto.TutorServiceDTO;
+import com.isa.FishingBooker.mapper.CustomModelMapper;
+import com.isa.FishingBooker.model.DiscountOffer;
+import com.isa.FishingBooker.model.Photo;
+import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.service.TutorServicesService;
+import com.isa.FishingBooker.service.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,32 +24,87 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class TutorServicesController {
-    @Autowired
+	@Autowired
 	private TutorServicesService tutorServicesService;
-	
+
+	@Autowired
+	private CustomModelMapper<TutorService, TutorServiceDTO> tutorServiceMapper;
+
 	@GetMapping("api/users/tutors/services")
-	public ResponseEntity<ArrayList<TutorService>> getAll() {
-		return ResponseEntity.ok((ArrayList<TutorService>) tutorServicesService.getAll());
+	public ResponseEntity getAll() {
+		return ResponseEntity
+				.ok(tutorServiceMapper.convertToDtos((ArrayList<TutorService>) tutorServicesService.getAll()));
 	}
 
 	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}")
-	public ResponseEntity<TutorService> getTutorService(@PathVariable("idtutor") Integer idtutor, @PathVariable("idservice") String idservice){
-		return ResponseEntity.ok((TutorService) tutorServicesService.getById(idservice));
+	public ResponseEntity getTutorService(@PathVariable("idtutor") Integer idtutor,
+			@PathVariable("idservice") int idservice) {
+		return ResponseEntity
+				.ok(tutorServiceMapper.convertToDto((TutorService) tutorServicesService.getById(idservice)));
 	}
 
 	@PostMapping("api/users/tutors/{idtutor}/services")
-	public ResponseEntity<String> addTutorService(@PathVariable("idtutor") Integer idtutor){
-		return ResponseEntity.ok("NotImplemented");
+	public ResponseEntity addTutorService(@PathVariable("idtutor") Integer idtutor, @RequestBody TutorServiceDTO dto) {
+		TutorService entity = tutorServiceMapper.convertToEntity(dto);
+		entity.setTutor(new Tutor(idtutor));
+		tutorServicesService.addNew(entity);
+		return ResponseEntity.ok(entity);
 	}
 
 	@PutMapping("api/users/tutors/{idtutor}/services/{idservice}")
-	public ResponseEntity<TutorService> updateTutorService(@PathVariable("idtutor") Integer idtutor, @PathVariable("idservice") String idservice){
-		return ResponseEntity.ok((TutorService) tutorServicesService.getById(idservice));
+	public ResponseEntity updateTutorService(@RequestBody TutorServiceDTO dto, @PathVariable("idtutor") Integer idtutor,
+			@PathVariable("idservice") int idservice) {
+		TutorService entity = tutorServiceMapper.convertToEntity(dto);
+		entity.setTutor(new Tutor(idtutor));
+		entity.setId(idservice);
+		tutorServicesService.update(entity);
+		return ResponseEntity.ok(entity);
+	}
+
+	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}/photos")
+	public ResponseEntity getTutorServicePhotos(@PathVariable("idtutor") Integer idtutor,
+			@PathVariable("idservice") int idservice) {
+		try {
+			TutorService tutorService = tutorServicesService.getWithPhotos(idservice);
+			return ResponseEntity.status(200).body(tutorService.getPhotos());
+		} catch (Exception e) {
+			return ResponseEntity.ok(new ArrayList<>());
+		}
+	}
+
+	@PostMapping("api/users/tutors/{idtutor}/services/{idservice}/photos")
+	public ResponseEntity addNewPhoto(@RequestBody Photo photo, @PathVariable("idtutor") Integer idtutor,
+			@PathVariable("idservice") int idservice) {
+		TutorService tutorService = tutorServicesService.getWithPhotos(idservice);
+		tutorService.addPhoto(photo);
+		tutorServicesService.update(tutorService);
+		return ResponseEntity.status(200).body("OK");
 	}
 	
-	@PostMapping("api/users/tutors/services")
-	public ResponseEntity<TutorService> addNew(@RequestBody TutorService service) {
-		tutorServicesService.addNew(service);
-		return ResponseEntity.ok(service);
+	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}/discount-offers")
+	public ResponseEntity getTutorServiceDiscountOffers(@PathVariable("idtutor") Integer idtutor,
+			@PathVariable("idservice") int idservice) {
+		try {
+			TutorService tutorService = tutorServicesService.getWithDiscountOffers(idservice);
+			return ResponseEntity.status(200).body(tutorService.getDisconutOffers());
+		} catch (Exception e) {
+			return ResponseEntity.ok(new ArrayList<>());
+		}
 	}
+	@PostMapping("api/users/tutors/{idtutor}/services/{idservice}/discount-offers")
+	public ResponseEntity addTutorServiceDiscountOffers(@RequestBody DiscountOffer offer,@PathVariable("idtutor") Integer idtutor,
+			@PathVariable("idservice") int idservice) {
+		TutorService tutorService = tutorServicesService.getWithDiscountOffers(idservice);
+		if(tutorService==null) tutorService=tutorServicesService.getById(idservice);
+		try {
+			tutorService.addDiscountOffer(offer);
+			tutorServicesService.update(tutorService);
+			return ResponseEntity.ok().build();
+		}catch (RuntimeException e) {
+			System.err.println(e.getStackTrace().toString());
+			return ResponseEntity.badRequest().body(e.getStackTrace());
+		}
+	}
+	
+	
 }
