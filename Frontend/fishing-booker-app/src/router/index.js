@@ -17,6 +17,7 @@ import BoatAppointmentHistory from '../components/ClientMenuLists/BoatAppointmen
 import ResortAppointmentHistory from '../components/ClientMenuLists/ResortAppointmentHistory.vue'
 import TutorAppointmentHistory from '../components/ClientMenuLists/TutorAppointmentHistory.vue'
 import FrontPage from '../components/FrontPage.vue'
+import Confirmation from '../components/Confirm.vue'
 
 
 const routes = [
@@ -107,6 +108,12 @@ const routes = [
     path:'/objections',
     name:'ObjectionPage',
     component: ObjectionPage,
+    props:true
+  },
+  {
+    path:'/confirmation',
+    name:'Confirmation',
+    component:Confirmation,
     props:true
   }
 ]
