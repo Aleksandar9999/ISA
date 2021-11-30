@@ -15,8 +15,6 @@ public class Period {
 	private Date startDate;
 	private Date endDate;
 
-   
-   
    public Integer getId() {
 	return id;
    }

@@ -1,6 +1,8 @@
 package com.isa.FishingBooker.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -8,25 +10,47 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class DiscountOffer {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Period validityPeriod;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Period reservationPeriod;
-	private String place;
-	private int maxPerson;
-	private String additionalServices;
+	//private Address address;//U servisu postoji adresa odrzavanja?
+	//private int maxPerson;
+	//private String additionalServices;
 	private double price;
 	@ManyToOne
 	@JoinColumn(name="boat_id")
 	private Boat boat;
-   
-   
-   public Integer getId() {
+	//TODO:FIX THIS
+	@JsonIgnore
+	@OneToOne
+	@JoinColumn(name = "tutorservice_id", referencedColumnName = "tutor_service_id")
+	private TutorService tutorService;
+	
+   public Boat getBoat() {
+		return boat;
+	}
+
+	public void setBoat(Boat boat) {
+		this.boat = boat;
+	}
+
+	public TutorService getTutorService() {
+		return tutorService;
+	}
+
+	public void setTutorService(TutorService tutorService) {
+		this.tutorService = tutorService;
+	}
+
+public Integer getId() {
 	return id;
    }
 
@@ -50,7 +74,7 @@ public class DiscountOffer {
       this.reservationPeriod = reservationPeriod;
    }
 
-   public String getPlace() {
+   /*public String getPlace() {
       return place;
    }
 
@@ -73,7 +97,7 @@ public class DiscountOffer {
    public void setAdditionalServices(String additionalServices) {
       this.additionalServices = additionalServices;
    }
-
+*/
    public double getPrice() {
       return price;
    }
