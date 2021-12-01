@@ -20,8 +20,8 @@
             <thead>
                 <tr><th>Service</th><th>Price</th></tr>
             </thead>
-            <tbody class="tbl-content">
-                <tr><td>sdafdsg</td><td>sdfsr</td></tr>
+            <tbody class="tbl-content" v-for="item in extras" :key="item">
+                <tr><td>{{item.service}}</td><td>{{item.price}}</td></tr>
             </tbody>
         </table>
     </div>
@@ -65,7 +65,8 @@ export default {
         return {
             map:{},
             layer:{},
-            boat:{}
+            boat:{},
+            extras:[]
         }
     },
     methods:{
@@ -112,12 +113,22 @@ export default {
             document.getElementById('btRat').setAttribute('value','10')
             document.getElementById('btEng').setAttribute('value',this.boat.enginePower)
             document.getElementById('btPromo').append(this.boat.description)
+        },
+        getExtras(response){
+            this.extras=response.data;
+            for(let i=0; i<this.extras.length; i++){
+                if(this.extras[i].boat.id!=this.id){                    
+                    this.extras.splice(i,1)
+                    i--
+                }
+            }
         }
     },
     mounted(){
         if(this.id){      
             axios.get('http://localhost:8080/boats/'+ this.id).then(response=>this.populateData(response)
-            )           
+            )
+            axios.get('http://localhost:8080/extras').then(response=>this.getExtras(response))           
         }
     }
 }

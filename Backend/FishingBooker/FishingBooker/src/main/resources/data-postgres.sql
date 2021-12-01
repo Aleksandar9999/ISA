@@ -20,5 +20,11 @@ insert into resort (name, description, address_id, num_of_rooms, num_of_beds, ru
 insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate) values ('One-day fishing','One day tour accross lake with fishing on most active fishing localities.', 9, 'No smoking. No alcohol.', 'Clients equipment required', 0, 4, 4, 5);
 insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate) values ('Three-day fishing','Three day tour accross lake with camping and fishing on most active fishing localities.', 5, 'No smoking. No alcohol.', 'Clients equipment for camping and fishing required', 0, 4, 4, 4);
 
+insert into extras (service, price, boat_id) values('Fishing', '900', 1);
+insert into extras (service, price, boat_id) values('Lake drive', '500', 1);
+insert into extras (service, price, boat_id) values('Camping', '600', 1);
+insert into extras (service, price, boat_id) values('Fishing', '700', 2);
+insert into extras (service, price, boat_id) values('Sightseeing', '550', 2);
+insert into extras (service, price, boat_id) values('Camping', '800', 2);
 
 insert into appoinment (dtype, start, duration, max_person, additional_services, price, address_id, user_id, resort_id) values ('ResortAppointment', 'Sat Nov 27 18:04:41 GMT 2021',3.0, 7, 'No additional services.', 500.00, 4, 1, 1);
