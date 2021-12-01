@@ -45,5 +45,5 @@ public class UsersController {
 		emailService.sendRegisterConfirmationMail(user);
 		return ResponseEntity.ok(usersService.Register(user));
 	}
-	
+		
 }
