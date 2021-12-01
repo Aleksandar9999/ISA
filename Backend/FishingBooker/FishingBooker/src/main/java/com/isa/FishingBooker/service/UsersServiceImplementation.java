@@ -30,7 +30,7 @@ public class UsersServiceImplementation implements UsersService {
 	@Override
 	public User getById(Integer id) {
 		// TODO Auto-generated method stub
-		return null;
+		return repository.findById(id).get();
 	}
 
 	@Override
