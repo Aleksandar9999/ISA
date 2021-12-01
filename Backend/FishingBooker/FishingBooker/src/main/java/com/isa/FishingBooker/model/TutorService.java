@@ -3,6 +3,9 @@ package com.isa.FishingBooker.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,11 +17,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.transaction.Transactional;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Transactional
 public class TutorService {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "tutor_service_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 	private String description;
@@ -26,149 +32,175 @@ public class TutorService {
 	private String rules;
 	private String fishingEquipment;
 	private double cancelProcentage;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
 	private int rate;
-   
-	@OneToMany(fetch=FetchType.EAGER)
-	private Set<Photo> photos;
-	@OneToMany(fetch=FetchType.EAGER)
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Photo> photos = new HashSet<Photo>();
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Extras> extrasServices;
-	@OneToMany(fetch=FetchType.EAGER)
-   	private Set<DiscountOffer> disconutOffers;
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="tutor_id")
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<DiscountOffer> disconutOffers = new HashSet<DiscountOffer>();
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<ServicePrice> prices = new HashSet<ServicePrice>();
+
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "tutor_id")
 	private Tutor tutor;
- 
-   
-   public TutorService() {
-      
-   }
-   public Integer getId() {
-      return id;
-   }
-   public void setId(Integer id) {
-      this.id = id;
-   }
-   public TutorService(String name, String description, int maxPerson, String rules, String fishingEquipment,
-         double cancelProcentage, Address address) {
-      this.name = name;
-      this.description = description;
-      this.maxPerson = maxPerson;
-      this.rules = rules;
-      this.fishingEquipment = fishingEquipment;
-      this.cancelProcentage = cancelProcentage;
-      this.address = address;
-   }
 
-   public Tutor getTutor() {
-      return tutor;
-   }
+	public TutorService() {
+	}
 
-   public void setTutor(Tutor tutor) {
-      this.tutor = tutor;
-   }
+	public TutorService(Integer id) {this.id=id;}
+	public TutorService(String name, String description, int maxPerson, String rules, String fishingEquipment,
+			double cancelProcentage, Address address) {
+		this.name = name;
+		this.description = description;
+		this.maxPerson = maxPerson;
+		this.rules = rules;
+		this.fishingEquipment = fishingEquipment;
+		this.cancelProcentage = cancelProcentage;
+		this.address = address;
+	}
 
-   public Set<Photo> getPhotos() {
-      return photos;
-   }
+	public Integer getId() {
+		return id;
+	}
 
-   public Set<Extras> getExtrasServices() {
-      return extrasServices;
-   }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-   public Set<DiscountOffer> getDisconutOffers() {
-      return disconutOffers;
-   }
+	public int getRate() {
+		return rate;
+	}
 
-   public void addPhoto(Photo photo) {
-      if (photos == null)
-         photos = new HashSet<>();
-      photos.add(photo);
-   }
+	public void setRate(int rate) {
+		this.rate = rate;
+	}
 
-   public void addExtraService(Extras extras) {
-      if (extrasServices == null)
-         extrasServices = new HashSet<>();
-      extrasServices.add(extras);
-   }
+	public Tutor getTutor() {
+		return tutor;
+	}
 
-   public void addDiscountOffer(DiscountOffer offer) {
-      if (disconutOffers == null)
-         disconutOffers = new HashSet<>();
-      disconutOffers.add(offer);
-   }
+	public void setTutor(Tutor tutor) {
+		this.tutor = tutor;
+	}
 
-   public String getName() {
-      return name;
-   }
+	public Set<Photo> getPhotos() {
+		return photos;
+	}
 
-   public void setName(String name) {
-      this.name = name;
-   }
+	public Set<Extras> getExtrasServices() {
+		return extrasServices;
+	}
 
-   public String getDescription() {
-      return description;
-   }
+	public Set<DiscountOffer> getDisconutOffers() {
+		return disconutOffers;
+	}
 
-   public void setDescription(String description) {
-      this.description = description;
-   }
+	public void addPhoto(Photo photo) {
+		if (photos == null)
+			photos = new HashSet<>();
+		photos.add(photo);
+	}
 
-   public int getMaxPerson() {
-      return maxPerson;
-   }
+	public void addExtraService(Extras extras) {
+		if (extrasServices == null)
+			extrasServices = new HashSet<>();
+		extrasServices.add(extras);
+	}
 
-   public void setMaxPerson(int maxPerson) {
-      this.maxPerson = maxPerson;
-   }
+	public void addDiscountOffer(DiscountOffer offer) {
+		if (disconutOffers == null)
+			disconutOffers = new HashSet<>();
+		disconutOffers.add(offer);
+	}
 
-   public String getRules() {
-      return rules;
-   }
+	public Set<ServicePrice> getPrices() {
+		return prices;
+	}
+	
+	public void addPrice(ServicePrice price) {
+		if(prices==null)
+			prices=new HashSet<ServicePrice>();
+		prices.add(price);
+	}
+	
+	public void setPrices(Set<ServicePrice> prices) {
+		this.prices = prices;
+	}
 
-   public void setRules(String rules) {
-      this.rules = rules;
-   }
+	public String getName() {
+		return name;
+	}
 
-   public String getFishingEquipment() {
-      return fishingEquipment;
-   }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-   public void setFishingEquipment(String fishingEquipment) {
-      this.fishingEquipment = fishingEquipment;
-   }
+	public String getDescription() {
+		return description;
+	}
 
-   public double getCancelProcentage() {
-      return cancelProcentage;
-   }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-   public void setCancelProcentage(double cancelProcentage) {
-      this.cancelProcentage = cancelProcentage;
-   }
+	public int getMaxPerson() {
+		return maxPerson;
+	}
 
-   public Address getAddress() {
-      return address;
-   }
+	public void setMaxPerson(int maxPerson) {
+		this.maxPerson = maxPerson;
+	}
 
-   public void setAddress(Address address) {
-      this.address = address;
-   }
-public void setPhotos(Set<Photo> photos) {
-	this.photos = photos;
-}
-public void setExtrasServices(Set<Extras> extrasServices) {
-	this.extrasServices = extrasServices;
-}
-public void setDisconutOffers(Set<DiscountOffer> disconutOffers) {
-	this.disconutOffers = disconutOffers;
-}
-public int getRate() {
-	return rate;
-}
-public void setRate(int rate) {
-	this.rate = rate;
-}
+	public String getRules() {
+		return rules;
+	}
 
-   
+	public void setRules(String rules) {
+		this.rules = rules;
+	}
+
+	public String getFishingEquipment() {
+		return fishingEquipment;
+	}
+
+	public void setFishingEquipment(String fishingEquipment) {
+		this.fishingEquipment = fishingEquipment;
+	}
+
+	public double getCancelProcentage() {
+		return cancelProcentage;
+	}
+
+	public void setCancelProcentage(double cancelProcentage) {
+		this.cancelProcentage = cancelProcentage;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public void setPhotos(Set<Photo> photos) {
+		this.photos = photos;
+	}
+
+	void setExtrasServices(Set<Extras> extrasServices) {
+		this.extrasServices = extrasServices;
+	}
+
+	public void setDisconutOffers(Set<DiscountOffer> disconutOffers) {
+		this.disconutOffers = disconutOffers;
+	}
 }

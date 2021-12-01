@@ -5,7 +5,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class BoatAppointment extends Appoinment {
+public class BoatAppointment extends Appointment {
 
 	@ManyToOne
 	@JoinColumn(name="boat_id")

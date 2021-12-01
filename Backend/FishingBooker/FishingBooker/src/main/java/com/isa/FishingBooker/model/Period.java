@@ -10,35 +10,37 @@ import javax.persistence.Id;
 @Entity
 public class Period {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private Date startDate;
 	private Date endDate;
 
-   
-   
-   public Integer getId() {
-	return id;
-   }
+	public Period() {
+		// TODO Auto-generated constructor stub
+	}
 
-   public void setId(Integer id) {
-	this.id = id;
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Date getStartDate() {
-      return startDate;
-   }
+		return startDate;
+	}
 
-   public void setStartDate(Date start) {
-      this.startDate = start;
-   }
+	public void setStartDate(Date start) {
+		this.startDate = start;
+	}
 
-   public Date getEndDate() {
-      return endDate;
-   }
+	public Date getEndDate() {
+		return endDate;
+	}
 
-   public void setEndDate(Date end) {
-      this.endDate = end;
-   }
+	public void setEndDate(Date end) {
+		this.endDate = end;
+	}
 
 }
