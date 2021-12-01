@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.dto.LoginInfoDTO;
@@ -22,6 +24,7 @@ import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.mapper.RegistrationDTOMapper;
 import com.isa.FishingBooker.model.DeleteRequest;
 import com.isa.FishingBooker.model.Period;
+import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.User;
@@ -91,12 +94,21 @@ public class UsersController {
 		try {
 			User user = registrationMapper.convertToEntity(dto);
 			usersService.addNew(user);
-			emailService.sendRegisterConfirmationMail(user);
+			emailService.sendRegisterConfirmationMail(user);//TODO: Sending email slow down response. Find out how to fix this
 			return ResponseEntity.ok(user);
 		} catch (RegistrationException ex) {
 			return ResponseEntity.status(400).body(ex.getMessage());
 		}
-
+	}
+	
+	@GetMapping("api/users/search")
+	public ResponseEntity getAllUsersByStatus(@RequestParam(value = "status",defaultValue = "") Status s) {
+		return ResponseEntity.ok(usersService.search(s));
 	}
 
+	@PutMapping("api/users/{id}")
+	public ResponseEntity update(@RequestBody User user,@PathVariable("id") int id) {
+		usersService.update(user);
+		return ResponseEntity.ok(user);
+	}
 }

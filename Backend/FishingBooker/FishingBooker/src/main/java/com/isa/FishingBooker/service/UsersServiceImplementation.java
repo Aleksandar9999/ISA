@@ -22,13 +22,6 @@ import com.isa.FishingBooker.repository.UserRepository;
 public class UsersServiceImplementation extends CustomServiceAbstract<User> implements UsersService {
 
 	@Override
-	public void addNew(User item) {
-		validateEmail(item.getEmail());
-		item.setStatus(Status.PENDING);
-		repository.save(item);
-	}
-
-	@Override
 	public String Login(LoginInfoDTO user) {
 		User logTry = ((UserRepository)repository).findByEmail(user.getEmail());
 		if (logTry == null) {
@@ -45,6 +38,14 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 	}
 
 
+	@Override
+	public void addNew(User item) {
+		validateEmail(item.getEmail());
+		item.setStatus(Status.PENDING);
+		super.addNew(item);
+	}
+
+
 	private void validateEmail(String email) {
 		if (((UserRepository)repository).findByEmail(email) != null)
 			throw new EmailExistException();
@@ -55,9 +56,10 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 		return (Tutor) ((UserRepository)repository).findTutorWithServices(id);
 	}
 
+
 	@Override
-	public List<User> findPendingUsers() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<User> search(Status status) {
+		return ((UserRepository)repository).search(status);
 	}
+
 }
