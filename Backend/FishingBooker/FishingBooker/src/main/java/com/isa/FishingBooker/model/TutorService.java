@@ -56,6 +56,7 @@ public class TutorService {
 	public TutorService() {
 	}
 
+	public TutorService(Integer id) {this.id=id;}
 	public TutorService(String name, String description, int maxPerson, String rules, String fishingEquipment,
 			double cancelProcentage, Address address) {
 		this.name = name;
