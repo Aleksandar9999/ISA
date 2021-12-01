@@ -2,9 +2,9 @@
     <header class="navbar">
         <router-link to="/about"><img class="logo" src="../assets/logo.jpg" alt="Logo"></router-link>        
         <ul>
-            <li><router-link to="">Home</router-link></li>
-            <li><router-link to="/profile">My profile</router-link></li>
-            <li ><button v-on:click="dropDown()">Lista</button>
+            <li v-if="lgdUser"><router-link to="">Home</router-link></li>
+            <li v-if="lgdUser"><router-link to="/profile">My profile</router-link></li>
+            <li v-if="lgdUser"><button v-on:click="dropDown()">Lista</button>
             <div class="dropD">
             <div id="Ddown" class="ddown">
             <router-link to="/resortList" class="ddown-link">List of resorts</router-link>
@@ -24,8 +24,9 @@
         </ul>   
                    
         <ul>
-            <li><router-link to="/login">Login</router-link></li>
-            <li><router-link to="/register">Register</router-link></li>
+            <li v-if="!lgdUser"><router-link to="/login">Login</router-link></li>
+            <li v-if="!lgdUser"><router-link to="/register">Register</router-link></li>
+            <li @click="logOut()" v-if="lgdUser">Log out</li>
         </ul>
     </header>
     
@@ -37,7 +38,18 @@ export default {
     methods:{
         dropDown(){
             document.getElementById("Ddown").classList.toggle("show-d-d");
+        },
+        logOut(){
+            localStorage.logedUser=null
         }
+    },
+    data(){
+        return{
+            lgdUser:{}
+        }
+    },
+    mounted(){
+        this.lgdUser=localStorage.logedUser
     }
 }
 </script>

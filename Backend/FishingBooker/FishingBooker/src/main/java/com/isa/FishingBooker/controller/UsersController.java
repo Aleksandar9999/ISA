@@ -23,6 +23,7 @@ import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.User;
+import com.isa.FishingBooker.service.EmailService;
 import com.isa.FishingBooker.service.UsersService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -30,6 +31,8 @@ import com.isa.FishingBooker.service.UsersService;
 public class UsersController {
 	@Autowired
 	private UsersService usersService;
+
+	@Autowired EmailService emailService;
 
 	@GetMapping("api/users")
 	public ResponseEntity<ArrayList<User>> getAll() {
@@ -82,6 +85,7 @@ public class UsersController {
 	public ResponseEntity register(@RequestBody RegistrationDTO user) {
 		try {
 			User newUser=usersService.Register(user);
+			emailService.sendRegisterConfirmationMail(user);
 			return ResponseEntity.ok(newUser);
 		} catch (RegistrationException ex) {
 			return ResponseEntity.status(400).body(ex.getMessage());
