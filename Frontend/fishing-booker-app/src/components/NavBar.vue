@@ -2,9 +2,9 @@
     <header class="navbar">
         <router-link to="/about"><img class="logo" src="../assets/logo.jpg" alt="Logo"></router-link>        
         <ul>
-            <li v-if="lgdUser"><router-link to="">Home</router-link></li>
-            <li v-if="lgdUser"><router-link to="/profile">My profile</router-link></li>
-            <li v-if="lgdUser"><button v-on:click="dropDown()">Lista</button>
+            <li v-if="loggedIn==='true'"><router-link to="/">Home</router-link></li>
+            <li v-if="loggedIn==='true'"><router-link to="/profile">My profile</router-link></li>
+            <li v-if="loggedIn==='true'"><button v-on:click="dropDown()">Lista</button>
             <div class="dropD">
             <div id="Ddown" class="ddown">
             <router-link to="/resortList" class="ddown-link">List of resorts</router-link>
@@ -24,9 +24,9 @@
         </ul>   
                    
         <ul>
-            <li v-if="!lgdUser"><router-link to="/login">Login</router-link></li>
-            <li v-if="!lgdUser"><router-link to="/register">Register</router-link></li>
-            <li @click="logOut()" v-if="lgdUser">Log out</li>
+            <li v-if="loggedIn==='false'"><router-link to="/login">Login</router-link></li>
+            <li v-if="loggedIn==='false'"><router-link to="/register">Register</router-link></li>
+            <li v-if="loggedIn==='true'"><button @click="logOut()">Log out</button> </li>
         </ul>
     </header>
     
@@ -40,16 +40,40 @@ export default {
             document.getElementById("Ddown").classList.toggle("show-d-d");
         },
         logOut(){
-            localStorage.logedUser=null
+            localStorage.logedUserEmail=''
+            localStorage.logedUserStatus=''
+            localStorage.logedUserId=-1
+            localStorage.logedIn=false
+            localStorage.initialFlag=false
+            console.log(this.$route);
+            if(this.$route.fullPath==="/"){
+                window.location.reload()
+            }
+            this.$router.push('/')
         }
     },
     data(){
-        return{
-            lgdUser:{}
+        return{  
+            get loggedIn(){
+                return localStorage.getItem('logedIn')
+            },
+            set loggedIn(val){
+                this.loggedIn=val;
+            }      
         }
     },
     mounted(){
-        this.lgdUser=localStorage.logedUser
+    },
+    watch:{
+      '$route'(to, from){
+        console.log(to);
+        console.log(from);
+        for( let i=0; i<1; i++){ 
+        if(to.fullPath==="/" & from.fullPath!="/"){
+          window.location.reload()
+        }
+      }
+      }
     }
 }
 </script>

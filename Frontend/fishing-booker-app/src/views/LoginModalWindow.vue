@@ -34,6 +34,7 @@
 <script>
 import axios from 'axios'
 
+
 export default {
     name: 'Login',
     data(){
@@ -44,21 +45,28 @@ export default {
       }
     },
     methods:{
+      storageLoginData(response){
+        if(response.data){
+        if(response.data.status==='CONFIRMED'){
+          localStorage.logedUserEmail=response.data.email
+          localStorage.logedUserStatus=response.data.status
+          localStorage.logedUserId=response.data.id
+          localStorage.logedIn=true
+          localStorage.initialFlag=true
+          this.$router.push('/')
+        } else{
+          alert('Your account is not confirmed. Check your email for confirmation message or repeat registration.')
+        }
+        }
+      },
       login(){
         this.collectData()
         axios.post('http://localhost:8080/login', this.regReqData)
-          .then(response=>console.log(response))
+          .then(response=>this.storageLoginData(response))
       },
       collectData(){
-        this.regReqData.id='';
         this.regReqData.email=this.email;
-        this.regReqData.password=this.password;
-        this.regReqData.name=''
-        this.regReqData.surname=''
-        this.regReqData.address=''
-        this.regReqData.city=''
-        this.regReqData.country=''
-        this.regReqData.phoneNumber=''
+        this.regReqData.pass=this.password;
         this.regReqData.status='CONFIRMED';
       }
 

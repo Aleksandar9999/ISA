@@ -231,8 +231,10 @@ export default {
     },
     mounted(){
       this.changeTab('resort');
-      this.getData();
-      localStorage.logedUser=null      
+      this.getData();    
+      if(!localStorage.initialFlag){
+        localStorage.logedIn=false;
+      }
     }
 
 }
