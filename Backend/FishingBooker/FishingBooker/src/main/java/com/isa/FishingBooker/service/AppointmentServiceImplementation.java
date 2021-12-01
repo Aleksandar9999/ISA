@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.isa.FishingBooker.model.Appoinment;
+import com.isa.FishingBooker.model.Appointment;
 import com.isa.FishingBooker.model.BoatAppointment;
 import com.isa.FishingBooker.model.ResortAppointment;
 import com.isa.FishingBooker.model.TutorServiceAppointment;
@@ -18,25 +18,23 @@ public class AppointmentServiceImplementation implements AppointmentService {
 	private AppointmentRepository repository;
 	
 	@Override
-	public void addNew(Appoinment item) {
-		// TODO Auto-generated method stub
-		
+	public void addNew(Appointment item) {
+		repository.save(item);
 	}
 
 	@Override
-	public List<Appoinment> getAll() {
-		// TODO Auto-generated method stub
+	public List<Appointment> getAll() {
 		return repository.findAll();
 	}
 
 	@Override
-	public Appoinment getById(Integer id) {
+	public Appointment getById(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void update(Appoinment item) {
+	public void update(Appointment item) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -56,7 +54,12 @@ public class AppointmentServiceImplementation implements AppointmentService {
 	}
 	
 	public List<TutorServiceAppointment> getTutorServiceApointments(){
-		return repository.getAllTutorServiceAppoints();
+		return repository.getAllTutorServiceAppointments();
+	}
+
+	@Override
+	public List<TutorServiceAppointment> getAllTutorServiceAppointmentsByTutor(int id) {
+		return repository.getAllAppointmentsByTutor(id);
 	}
 
 }
