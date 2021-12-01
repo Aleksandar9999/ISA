@@ -18,9 +18,10 @@ public class Tutor extends User {
 	@OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<TutorService> services = new HashSet<TutorService>();
 
-	//TODO:  Da li da sada napravim klasu koja nasljeduje period koja ima dodatno polje tutor?
-	@OneToMany(mappedBy = "")
-	private Set<Period> availabilityPeriods;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Period> availabilityPeriods = new HashSet<Period>();
+
 	public Tutor() {
 	}
 
@@ -54,4 +55,15 @@ public class Tutor extends User {
 		this.bio = bio;
 	}
 
+	public Set<Period> getAvailabilityPeriods() {
+		return availabilityPeriods;
+	}
+
+	public void setAvailabilityPeriods(Set<Period> availabilityPeriods) {
+		this.availabilityPeriods = availabilityPeriods;
+	}
+
+	public void addPeriod(Period period) {
+		this.availabilityPeriods.add(period);
+	}
 }

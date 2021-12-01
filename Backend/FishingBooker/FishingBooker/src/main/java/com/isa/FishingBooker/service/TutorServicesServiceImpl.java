@@ -13,37 +13,6 @@ import com.isa.FishingBooker.repository.TutorServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 @Service
-public class TutorServicesServiceImpl implements TutorServicesService{
+public class TutorServicesServiceImpl extends CustomServiceAbstract<TutorService> implements TutorServicesService {
 
-    @Autowired
-    private TutorServiceRepository repository;
-    
-    @Override
-    @Transactional
-    public void addNew(TutorService item) {
-        repository.save(item);
-    }
-
-    @Override
-    @Transactional
-    public List<TutorService> getAll() {
-        return repository.findAll();
-    }
-
-    @Override
-    public void update(TutorService item) {
-       repository.save(item);
-        
-    }
-
-    @Override
-    public void delete(Integer id) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public TutorService getById(Integer id) {
-        return repository.findById(id).orElse(null);
-    }
 }

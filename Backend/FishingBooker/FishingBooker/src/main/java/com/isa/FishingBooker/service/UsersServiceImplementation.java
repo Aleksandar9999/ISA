@@ -17,6 +17,7 @@ import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.UserRepository;
 
+
 @Service
 public class UsersServiceImplementation implements UsersService {
 
@@ -31,19 +32,17 @@ public class UsersServiceImplementation implements UsersService {
 
 	@Override
 	public User getById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.getById(id);
 	}
 
 	@Override
 	public void update(User item) {
-		// TODO Auto-generated method stub
-
+		repository.save(item);
 	}
 
 	@Override
 	public void delete(Integer id) {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
 	}
 
 	// TODO: Refaktorisati jer se ova metoda ne koristi

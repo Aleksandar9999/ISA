@@ -39,7 +39,8 @@ public class TutorServicesController {
 	
 	@GetMapping("api/users/tutors/services/{id}")
 	public ResponseEntity<TutorService> getByID(@PathVariable("id") Integer id){	
-		return ResponseEntity.ok(tutorServicesService.getById(id));
+		TutorService tutorService = tutorServicesService.getById(id);
+		return ResponseEntity.ok(tutorService);
 	}
 	
 	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}")

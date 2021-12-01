@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.FishingBooker.dto.LoginInfoDTO;
 import com.isa.FishingBooker.dto.RegistrationDTO;
 import com.isa.FishingBooker.exceptions.RegistrationException;
+import com.isa.FishingBooker.model.DeleteRequest;
+import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.User;
@@ -44,10 +46,18 @@ public class UsersController {
 		}
 	}
 	
-	@PostMapping("api/users/tutors/delete")
-	public ResponseEntity createDeleteProfileRequest() {
-		//TODO: Bice prijavljen, uzmem ID iz JWT i napravim zahtijev DeleteRequest
-		return null;
+	@GetMapping("api/users/tutors/{id}/available-periods")
+	public ResponseEntity getTutorAvailablePeriods(@PathVariable("id") int id) {
+		Tutor tutor=usersService.getTutorById(id);//TODO:FIX POTENTIAL BUG
+		return ResponseEntity.ok(tutor.getAvailabilityPeriods());
+	}
+	
+	@PostMapping("api/users/tutors/available-periods")
+	public ResponseEntity addPeriod(@RequestBody Period period) {
+		Tutor tutor=usersService.getTutorById(4);//TODO:FIX HARDCODE
+		tutor.addPeriod(period);
+		usersService.update(tutor);
+		return ResponseEntity.ok(period);
 	}
 	
 	@GetMapping("api/users/tutors/{idtutor}")
@@ -62,6 +72,7 @@ public class UsersController {
 		tutor.getServices().stream().forEach(s->services.add(s));
 		return services;
 	}
+	
 	@PostMapping("login")
 	public ResponseEntity<String> login(@RequestBody LoginInfoDTO user) {
 		return ResponseEntity.ok(usersService.Login(user));
