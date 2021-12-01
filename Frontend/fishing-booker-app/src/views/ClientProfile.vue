@@ -50,9 +50,9 @@
     <div class="edit-profile">
         <div id="passChangeBox" class="toggle-pass-hidden">
             <label for="">New Password: </label>
-            <input type="password"> <br/><br/>
+            <input type="password" v-model="newPass"> <br/><br/>
             <label for="">Retype Password: </label>
-            <input type="password"> <br/>
+            <input type="password" v-model="newPassRetype"> <br/>
             <div id="warnBox" class="pass-warning"><p >Passwords are not equal.</p></div>
             <button v-on:click="submitPass()">Submit</button>
         </div>
@@ -74,6 +74,7 @@ import axios from 'axios';
  export default {
      data(){
          return {
+             profileData:{},
              togglePass: false,
              newPass:'',
              newPassRetype:'',
@@ -153,6 +154,9 @@ import axios from 'axios';
                  }   
                  this.editProfile='Edit profile data'
          },
+         populateProfileData(response){
+             this.profileData=response.data;
+         },
 
          collectData(){
             this.profileReqData.id=this.id;
@@ -172,6 +176,9 @@ import axios from 'axios';
                  axios.delete('http://localhost:8080/deleteProfile',this.id).then(response=>console.log(response.data))
              }
          }
+     },
+     mounted() {
+         axios.get('').then(response=> this.populateProfileData(response))
      }
 }
 </script>
@@ -268,7 +275,7 @@ import axios from 'axios';
     margin-top: 5px;
     align-items: left;
     display: inline-block;
-    width: 200px;
+    width: 300px;
     border: 2px solid black;
     border-radius: 20px;
     padding: 3%;
