@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.FishingBooker.dto.LoginInfoDTO;
 import com.isa.FishingBooker.dto.RegistrationDTO;
 import com.isa.FishingBooker.exceptions.RegistrationException;
+import com.isa.FishingBooker.mapper.CustomModelMapper;
+import com.isa.FishingBooker.mapper.RegistrationDTOMapper;
 import com.isa.FishingBooker.model.DeleteRequest;
 import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.Tutor;
@@ -32,7 +34,10 @@ public class UsersController {
 	@Autowired
 	private UsersService usersService;
 
-	@Autowired EmailService emailService;
+	@Autowired
+	private CustomModelMapper<User, RegistrationDTO> registrationMapper;
+	@Autowired
+	EmailService emailService;
 
 	@GetMapping("api/users")
 	public ResponseEntity<ArrayList<User>> getAll() {
@@ -44,49 +49,50 @@ public class UsersController {
 		try {
 			usersService.addNew(tutor);
 			return ResponseEntity.ok(tutor);
-		}catch (RegistrationException ex) {
+		} catch (RegistrationException ex) {
 			return ResponseEntity.status(400).body(ex.getMessage());
 		}
 	}
-	
+
 	@GetMapping("api/users/tutors/{id}/available-periods")
 	public ResponseEntity getTutorAvailablePeriods(@PathVariable("id") int id) {
-		Tutor tutor=usersService.getTutorById(id);//TODO:FIX POTENTIAL BUG
+		Tutor tutor = usersService.getTutorById(id);// TODO:FIX POTENTIAL BUG
 		return ResponseEntity.ok(tutor.getAvailabilityPeriods());
 	}
-	
+
 	@PostMapping("api/users/tutors/available-periods")
 	public ResponseEntity addPeriod(@RequestBody Period period) {
-		Tutor tutor=usersService.getTutorById(4);//TODO:FIX HARDCODE
+		Tutor tutor = usersService.getTutorById(4);// TODO:FIX HARDCODE
 		tutor.addPeriod(period);
 		usersService.update(tutor);
 		return ResponseEntity.ok(period);
 	}
-	
+
 	@GetMapping("api/users/tutors/{idtutor}")
 	public ResponseEntity getTutorById(@PathVariable("idtutor") int tutor) {
 		return ResponseEntity.ok(usersService.getTutorById(tutor));
 	}
-	
+
 	@GetMapping("api/users/tutors/{idtutor}/services")
 	public List<TutorService> getServicesTutorById(@PathVariable("idtutor") int id) {
-		Tutor tutor=usersService.getTutorById(id);
-		List<TutorService> services=new ArrayList<TutorService>();
-		tutor.getServices().stream().forEach(s->services.add(s));
+		Tutor tutor = usersService.getTutorById(id);
+		List<TutorService> services = new ArrayList<TutorService>();
+		tutor.getServices().stream().forEach(s -> services.add(s));
 		return services;
 	}
-	
+
 	@PostMapping("login")
 	public ResponseEntity<String> login(@RequestBody LoginInfoDTO user) {
 		return ResponseEntity.ok(usersService.Login(user));
 	}
 
 	@PostMapping("register")
-	public ResponseEntity register(@RequestBody RegistrationDTO user) {
+	public ResponseEntity register(@RequestBody RegistrationDTO dto) {
 		try {
-			User newUser=usersService.Register(user);
+			User user = registrationMapper.convertToEntity(dto);
+			usersService.addNew(user);
 			emailService.sendRegisterConfirmationMail(user);
-			return ResponseEntity.ok(newUser);
+			return ResponseEntity.ok(user);
 		} catch (RegistrationException ex) {
 			return ResponseEntity.status(400).body(ex.getMessage());
 		}

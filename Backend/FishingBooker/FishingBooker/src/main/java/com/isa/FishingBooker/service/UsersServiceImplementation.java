@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.isa.FishingBooker.dto.LoginInfoDTO;
 import com.isa.FishingBooker.dto.RegistrationDTO;
 import com.isa.FishingBooker.exceptions.EmailExistException;
-import com.isa.FishingBooker.mapper.RegistrationDTOtoUserMapper;
+import com.isa.FishingBooker.mapper.RegistrationDTOMapper;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.User;
@@ -19,42 +19,18 @@ import com.isa.FishingBooker.repository.UserRepository;
 
 
 @Service
-public class UsersServiceImplementation implements UsersService {
+public class UsersServiceImplementation extends CustomServiceAbstract<User> implements UsersService {
 
-	@Autowired
-	private UserRepository repository;
-
-	@Override
-	@Transactional
-	public List<User> getAll() {
-		return repository.findAll();
-	}
-
-	@Override
-	public User getById(Integer id) {
-		return repository.getById(id);
-	}
-
-	@Override
-	public void update(User item) {
-		repository.save(item);
-	}
-
-	@Override
-	public void delete(Integer id) {
-		throw new UnsupportedOperationException();
-	}
-
-	// TODO: Refaktorisati jer se ova metoda ne koristi
 	@Override
 	public void addNew(User item) {
+		validateEmail(item.getEmail());
 		item.setStatus(Status.PENDING);
 		repository.save(item);
 	}
 
 	@Override
 	public String Login(LoginInfoDTO user) {
-		User logTry = repository.findByEmail(user.getEmail());
+		User logTry = ((UserRepository)repository).findByEmail(user.getEmail());
 		if (logTry == null) {
 			return "Bad email or user do not exist.";
 		}
@@ -68,22 +44,20 @@ public class UsersServiceImplementation implements UsersService {
 		return "Bad password.";
 	}
 
-	@Override
-	public User Register(RegistrationDTO userDTO) {
-		RegistrationDTOtoUserMapper mapper = new RegistrationDTOtoUserMapper();
-		validateEmail(userDTO.getEmail());
-		User user = mapper.RegistrationDTOtoUser(userDTO);
-		user.setStatus(Status.PENDING);
-		return repository.save(user);
-	}
 
 	private void validateEmail(String email) {
-		if (repository.findByEmail(email) != null)
+		if (((UserRepository)repository).findByEmail(email) != null)
 			throw new EmailExistException();
 	}
 	
 	@Override
 	public Tutor getTutorById(int id) {
-		return (Tutor) repository.findTutorWithServices(id);
+		return (Tutor) ((UserRepository)repository).findTutorWithServices(id);
+	}
+
+	@Override
+	public List<User> findPendingUsers() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
