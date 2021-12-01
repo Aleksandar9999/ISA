@@ -6,16 +6,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 @Entity
 public class DiscountOffer {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	@OneToOne
+	@ManyToOne
+	@JoinColumn(name="validity_per_id")
 	private Period validityPeriod;
-	@OneToOne
+	@ManyToOne
+	@JoinColumn(name="reservation_per_id")
 	private Period reservationPeriod;
 	private String place;
 	private int maxPerson;

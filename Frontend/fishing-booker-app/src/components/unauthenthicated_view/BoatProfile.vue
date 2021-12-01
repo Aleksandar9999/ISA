@@ -66,7 +66,8 @@ export default {
             map:{},
             layer:{},
             boat:{},
-            extras:[]
+            extras:[],
+            periods:[]
         }
     },
     methods:{
