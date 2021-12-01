@@ -42,16 +42,6 @@ public class TutorServicesServiceImpl implements TutorServicesService{
         
     }
 
-	@Override
-	public TutorService getWithPhotos(int id) {
-		return repository.findTutorServiceWithPhotos(id);
-	}
-
-	@Override
-	public TutorService getWithDiscountOffers(int id) {
-		return repository.findTutorServiceWithDiscountOffers(id);
-	}
-
     @Override
     public TutorService getById(Integer id) {
         return repository.findById(id).orElse(null);

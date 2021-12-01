@@ -6,7 +6,4 @@ import java.util.Optional;
 import com.isa.FishingBooker.model.TutorService;
 
 public interface TutorServicesService extends Service<TutorService>{
-    public TutorService getWithPhotos(int id);
-    public TutorService getWithDiscountOffers(int id);
-   // public List<TutorService> findByTutorIdAll(int tutorId);
 }

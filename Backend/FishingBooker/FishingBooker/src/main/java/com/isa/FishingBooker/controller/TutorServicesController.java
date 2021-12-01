@@ -6,6 +6,7 @@ import com.isa.FishingBooker.dto.TutorServiceDTO;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.model.DiscountOffer;
 import com.isa.FishingBooker.model.Photo;
+import com.isa.FishingBooker.model.ServicePrice;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.service.TutorServicesService;
@@ -35,7 +36,12 @@ public class TutorServicesController {
 		return ResponseEntity
 				.ok(tutorServiceMapper.convertToDtos((ArrayList<TutorService>) tutorServicesService.getAll()));
 	}
-
+	
+	@GetMapping("api/users/tutors/services/{id}")
+	public ResponseEntity<TutorService> getByID(@PathVariable("id") Integer id){	
+		return ResponseEntity.ok(tutorServicesService.getById(id));
+	}
+	
 	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}")
 	public ResponseEntity getTutorService(@PathVariable("idtutor") Integer idtutor,
 			@PathVariable("idservice") int idservice) {
@@ -66,7 +72,7 @@ public class TutorServicesController {
 	public ResponseEntity getTutorServicePhotos(@PathVariable("idtutor") Integer idtutor,
 			@PathVariable("idservice") int idservice) {
 		try {
-			TutorService tutorService = tutorServicesService.getWithPhotos(idservice);
+			TutorService tutorService = tutorServicesService.getById(idservice);
 			return ResponseEntity.status(200).body(tutorService.getPhotos());
 		} catch (Exception e) {
 			return ResponseEntity.ok(new ArrayList<>());
@@ -76,7 +82,7 @@ public class TutorServicesController {
 	@PostMapping("api/users/tutors/{idtutor}/services/{idservice}/photos")
 	public ResponseEntity addNewPhoto(@RequestBody Photo photo, @PathVariable("idtutor") Integer idtutor,
 			@PathVariable("idservice") int idservice) {
-		TutorService tutorService = tutorServicesService.getWithPhotos(idservice);
+		TutorService tutorService = tutorServicesService.getById(idservice);
 		tutorService.addPhoto(photo);
 		tutorServicesService.update(tutorService);
 		return ResponseEntity.status(200).body("OK");
@@ -86,7 +92,7 @@ public class TutorServicesController {
 	public ResponseEntity getTutorServiceDiscountOffers(@PathVariable("idtutor") Integer idtutor,
 			@PathVariable("idservice") int idservice) {
 		try {
-			TutorService tutorService = tutorServicesService.getWithDiscountOffers(idservice);
+			TutorService tutorService = tutorServicesService.getById(idservice);
 			return ResponseEntity.status(200).body(tutorService.getDisconutOffers());
 		} catch (Exception e) {
 			return ResponseEntity.ok(new ArrayList<>());
@@ -95,9 +101,8 @@ public class TutorServicesController {
 	@PostMapping("api/users/tutors/{idtutor}/services/{idservice}/discount-offers")
 	public ResponseEntity addTutorServiceDiscountOffers(@RequestBody DiscountOffer offer,@PathVariable("idtutor") Integer idtutor,
 			@PathVariable("idservice") int idservice) {
-		TutorService tutorService = tutorServicesService.getWithDiscountOffers(idservice);
-		if(tutorService==null) tutorService=tutorServicesService.getById(idservice);
 		try {
+			TutorService tutorService = tutorServicesService.getById(idservice);
 			tutorService.addDiscountOffer(offer);
 			tutorServicesService.update(tutorService);
 			return ResponseEntity.ok().build();
@@ -107,8 +112,27 @@ public class TutorServicesController {
 		}
 	}
 	
-	@GetMapping("api/users/tutors/services/{id}")
-	public ResponseEntity<TutorService> getByID(@PathVariable("id") Integer id){	
-		return ResponseEntity.ok(tutorServicesService.getById(id));
+	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}/prices")
+	public ResponseEntity getTutorServicePrice(@PathVariable("idtutor") Integer idtutor,
+			@PathVariable("idservice") int idservice) {
+		try {
+			TutorService tutorService = tutorServicesService.getById(idservice);
+			return ResponseEntity.status(200).body(tutorService.getPrices());
+		} catch (Exception e) {
+			return ResponseEntity.ok(new ArrayList<>());
+		}
+	}
+	@PostMapping("api/users/tutors/{idtutor}/services/{idservice}/prices")
+	public ResponseEntity addTutorServicePrice(@RequestBody ServicePrice price,@PathVariable("idtutor") Integer idtutor,
+			@PathVariable("idservice") int idservice) {
+		try {
+			TutorService tutorService = tutorServicesService.getById(idservice);
+			tutorService.addPrice(price);
+			tutorServicesService.update(tutorService);
+			return ResponseEntity.ok().build();
+		}catch (RuntimeException e) {
+			System.err.println(e.getStackTrace().toString());
+			return ResponseEntity.badRequest().body(e.getStackTrace());
+		}
 	}
 }
