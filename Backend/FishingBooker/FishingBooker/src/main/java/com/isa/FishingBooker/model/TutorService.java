@@ -34,29 +34,26 @@ public class TutorService {
 	private double cancelProcentage;
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
+	private int rate;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tutorService")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Photo> photos = new HashSet<Photo>();
-	@OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Extras> extrasServices;
 
-	@OneToMany(mappedBy = "tutorService", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<DiscountOffer> disconutOffers = new HashSet<DiscountOffer>();
-	
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<ServicePrice> prices = new HashSet<ServicePrice>();
+
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "tutor_id")
 	private Tutor tutor;
 
 	public TutorService() {
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public TutorService(String name, String description, int maxPerson, String rules, String fishingEquipment,
@@ -68,6 +65,22 @@ public class TutorService {
 		this.fishingEquipment = fishingEquipment;
 		this.cancelProcentage = cancelProcentage;
 		this.address = address;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public int getRate() {
+		return rate;
+	}
+
+	public void setRate(int rate) {
+		this.rate = rate;
 	}
 
 	public Tutor getTutor() {
@@ -91,7 +104,6 @@ public class TutorService {
 	}
 
 	public void addPhoto(Photo photo) {
-		photo.setTutorService(this);
 		if (photos == null)
 			photos = new HashSet<>();
 		photos.add(photo);
@@ -104,13 +116,23 @@ public class TutorService {
 	}
 
 	public void addDiscountOffer(DiscountOffer offer) {
-		offer.setTutorService(this);
-		try {
-			disconutOffers.add(offer);
-		} catch (Exception e) {
+		if (disconutOffers == null)
 			disconutOffers = new HashSet<>();
-			disconutOffers.add(offer);
-		}
+		disconutOffers.add(offer);
+	}
+
+	public Set<ServicePrice> getPrices() {
+		return prices;
+	}
+	
+	public void addPrice(ServicePrice price) {
+		if(prices==null)
+			prices=new HashSet<ServicePrice>();
+		prices.add(price);
+	}
+	
+	public void setPrices(Set<ServicePrice> prices) {
+		this.prices = prices;
 	}
 
 	public String getName() {

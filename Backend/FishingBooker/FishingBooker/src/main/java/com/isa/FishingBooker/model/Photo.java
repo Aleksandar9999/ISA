@@ -21,7 +21,7 @@ public class Photo {
     private String url;
     private String title;
 
-    @JsonIgnore
+    /*@JsonIgnore
     @OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "tutorservice_id",referencedColumnName = "tutor_service_id")
 	private TutorService tutorService;
@@ -33,7 +33,7 @@ public class Photo {
 	public void setTutorService(TutorService tutorService) {
 		this.tutorService = tutorService;
 	}
-
+*/
 	public Integer getId() {
 		return id;
 	}

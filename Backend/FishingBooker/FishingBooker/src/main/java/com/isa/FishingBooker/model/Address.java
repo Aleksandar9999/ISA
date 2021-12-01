@@ -24,10 +24,6 @@ public class Address {
 		return city;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
-	}
-
 	public Integer getId() {
 		return id;
 	}
@@ -68,14 +64,8 @@ public class Address {
 		this.lng = lng;
 	}
 
-public String getCity() {
-	return city;
-}
-
-public void setCity(String city) {
-	this.city = city;
-}
-   
-   
+	public void setCity(String city) {
+		this.city = city;
+	}
 
 }

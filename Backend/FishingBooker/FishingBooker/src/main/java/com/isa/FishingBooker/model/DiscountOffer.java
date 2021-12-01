@@ -15,26 +15,21 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class DiscountOffer {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@OneToOne(cascade = CascadeType.ALL)
 	private Period validityPeriod;
 	@OneToOne(cascade = CascadeType.ALL)
 	private Period reservationPeriod;
-	//private Address address;//U servisu postoji adresa odrzavanja?
-	//private int maxPerson;
-	//private String additionalServices;
+	// private Address address;//U servisu postoji adresa odrzavanja?
+	// private int maxPerson;
+	// private String additionalServices;
 	private double price;
 	@ManyToOne
-	@JoinColumn(name="boat_id")
+	@JoinColumn(name = "boat_id")
 	private Boat boat;
-	//TODO:FIX THIS
-	@JsonIgnore
-	@OneToOne
-	@JoinColumn(name = "tutorservice_id", referencedColumnName = "tutor_service_id")
-	private TutorService tutorService;
-	
-   public Boat getBoat() {
+
+	public Boat getBoat() {
 		return boat;
 	}
 
@@ -42,68 +37,50 @@ public class DiscountOffer {
 		this.boat = boat;
 	}
 
-	public TutorService getTutorService() {
-		return tutorService;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setTutorService(TutorService tutorService) {
-		this.tutorService = tutorService;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-public Integer getId() {
-	return id;
-   }
+	public Period getValidityPeriod() {
+		return validityPeriod;
+	}
 
-   public void setId(Integer id) {
-	this.id = id;
-   }
+	public void setValidityPeriod(Period validityPeriod) {
+		this.validityPeriod = validityPeriod;
+	}
 
-   public Period getValidityPeriod() {
-      return validityPeriod;
-   }
+	public Period getReservationPeriod() {
+		return reservationPeriod;
+	}
 
-   public void setValidityPeriod(Period validityPeriod) {
-      this.validityPeriod = validityPeriod;
-   }
+	public void setReservationPeriod(Period reservationPeriod) {
+		this.reservationPeriod = reservationPeriod;
+	}
 
-   public Period getReservationPeriod() {
-      return reservationPeriod;
-   }
+	/*
+	 * public String getPlace() { return place; }
+	 * 
+	 * public void setPlace(String place) { this.place = place; }
+	 * 
+	 * public int getMaxPerson() { return maxPerson; }
+	 * 
+	 * public void setMaxPerson(int maxPerson) { this.maxPerson = maxPerson; }
+	 * 
+	 * public String getAdditionalServices() { return additionalServices; }
+	 * 
+	 * public void setAdditionalServices(String additionalServices) {
+	 * this.additionalServices = additionalServices; }
+	 */
+	public double getPrice() {
+		return price;
+	}
 
-   public void setReservationPeriod(Period reservationPeriod) {
-      this.reservationPeriod = reservationPeriod;
-   }
-
-   /*public String getPlace() {
-      return place;
-   }
-
-   public void setPlace(String place) {
-      this.place = place;
-   }
-
-   public int getMaxPerson() {
-      return maxPerson;
-   }
-
-   public void setMaxPerson(int maxPerson) {
-      this.maxPerson = maxPerson;
-   }
-
-   public String getAdditionalServices() {
-      return additionalServices;
-   }
-
-   public void setAdditionalServices(String additionalServices) {
-      this.additionalServices = additionalServices;
-   }
-*/
-   public double getPrice() {
-      return price;
-   }
-
-   public void setPrice(double price) {
-      this.price = price;
-   }
+	public void setPrice(double price) {
+		this.price = price;
+	}
 
 }

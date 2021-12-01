@@ -16,11 +16,6 @@ public class Extras {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String price;
-	
-	@JsonIgnore
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "service_id")
-	private TutorService service;
 
 	public Integer getId() {
 		return id;
