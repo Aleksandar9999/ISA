@@ -1,8 +1,5 @@
 package com.isa.FishingBooker.dto;
 
-
-import com.isa.FishingBooker.model.Status;
-
 public class RegistrationDTO {
 	private String email;
 	private String password;

@@ -5,13 +5,16 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.dto.LoginInfoDTO;
+import com.isa.FishingBooker.dto.LoginReturnDTO;
 import com.isa.FishingBooker.dto.RegistrationDTO;
 import com.isa.FishingBooker.exceptions.EmailExistException;
 import com.isa.FishingBooker.mapper.RegistrationDTOMapper;
+import com.isa.FishingBooker.mapper.RegistrationDTOtoUserMapper;
+import com.isa.FishingBooker.mapper.UserToLoginReturnDTOMapper;
+
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.User;
@@ -28,19 +31,23 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 	}
 
 	@Override
-	public String Login(LoginInfoDTO user) {
-		User logTry = ((UserRepository)repository).findByEmail(user.getEmail());
-		if (logTry == null) {
-			return "Bad email or user do not exist.";
-		}
-		if (logTry.getStatus() != Status.CONFIRMED) {
-			return "You must confirm you status first.";
-		}
+	public LoginReturnDTO Login(LoginInfoDTO user) {
 
-		if (logTry.getPassword().equals(user.getPass())) {
-			return "Succesfully loged in.";
+		User logTry = repository.findByEmail(user.getEmail());
+		LoginReturnDTO returnDTO = new LoginReturnDTO();
+		UserToLoginReturnDTOMapper mapper = new UserToLoginReturnDTOMapper();
+		
+		if(logTry==null) {
+			return null;
 		}
-		return "Bad password.";
+		if(logTry.getStatus()!=Status.CONFIRMED) {
+			return null;
+		}
+		
+		if(logTry.getPassword().equals(user.getPass())) {
+			return mapper.mapUserToLoginReturnDTO(logTry, returnDTO);
+		}	
+		return null;
 	}
 
 

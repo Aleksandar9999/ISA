@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.dto.LoginInfoDTO;
+import com.isa.FishingBooker.dto.LoginReturnDTO;
 import com.isa.FishingBooker.dto.RegistrationDTO;
 import com.isa.FishingBooker.exceptions.RegistrationException;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
@@ -82,7 +83,7 @@ public class UsersController {
 	}
 
 	@PostMapping("login")
-	public ResponseEntity<String> login(@RequestBody LoginInfoDTO user) {
+	public ResponseEntity<LoginReturnDTO> login(@RequestBody LoginInfoDTO user) {
 		return ResponseEntity.ok(usersService.Login(user));
 	}
 
