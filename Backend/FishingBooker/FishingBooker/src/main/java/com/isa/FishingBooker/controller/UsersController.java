@@ -105,4 +105,9 @@ public class UsersController {
 		return ResponseEntity.ok(usersService.getById(id));
 	}
 	
+	@PostMapping("confirm/{id}")
+	public ResponseEntity<String> confirmAccount(@PathVariable Integer id){
+		return ResponseEntity.ok(usersService.confirmAccount(id));
+	}
+	
 }

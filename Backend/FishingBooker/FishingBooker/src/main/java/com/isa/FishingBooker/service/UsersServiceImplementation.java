@@ -65,4 +65,16 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String confirmAccount(Integer id) {
+		// TODO Auto-generated method stub
+		if(repository.getById(id)!=null) {
+			User u = repository.getById(id);
+			u.setStatus(Status.CONFIRMED);
+			repository.save(u);
+			return "Success";
+		}
+		return "Bad id";
+	}
 }
