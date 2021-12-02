@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.dto.LoginInfoDTO;
+import com.isa.FishingBooker.dto.LoginReturnDTO;
 import com.isa.FishingBooker.dto.RegistrationDTO;
 import com.isa.FishingBooker.exceptions.RegistrationException;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
@@ -85,7 +86,7 @@ public class UsersController {
 	}
 
 	@PostMapping("login")
-	public ResponseEntity<String> login(@RequestBody LoginInfoDTO user) {
+	public ResponseEntity<LoginReturnDTO> login(@RequestBody LoginInfoDTO user) {
 		return ResponseEntity.ok(usersService.Login(user));
 	}
 
@@ -110,5 +111,10 @@ public class UsersController {
 	public ResponseEntity update(@RequestBody User user,@PathVariable("id") int id) {
 		usersService.update(user);
 		return ResponseEntity.ok(user);
+	}
+
+	@GetMapping("users/{id}")
+	public ResponseEntity<User> getUserById(@PathVariable Integer id){
+		return ResponseEntity.ok(usersService.getById(id));
 	}
 }
