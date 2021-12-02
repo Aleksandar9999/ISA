@@ -123,13 +123,23 @@ export default {
                     i--
                 }
             }
+        },
+        getPeriods(response){
+            this.periods=response.data
+            for(let i=0; i<this.periods.length; i++){
+                if(this.periods[i].boat_id!=this.id){                    
+                    this.periods.splice(i,1)
+                    i--
+                }
+            }
         }
     },
     mounted(){
         if(this.id){      
             axios.get('http://localhost:8080/boats/'+ this.id).then(response=>this.populateData(response)
             )
-            axios.get('http://localhost:8080/extras').then(response=>this.getExtras(response))           
+            axios.get('http://localhost:8080/extras').then(response=>this.getExtras(response))  
+            axios.get('http://localhost:8080/periods').then(response=>this.getPeriods(response))             
         }
     }
 }
