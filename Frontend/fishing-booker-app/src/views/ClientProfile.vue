@@ -4,36 +4,31 @@
         <br/><br/><br/><br/>
             <div style="margin:30px">
                 <span class="profile-title">Name:</span>
-                <span class="profile-value"><input name="input" v-bind="name" type="text"></span>
+                <span class="profile-value"><input name="input" v-model="name" type="text"></span>
             </div>
             <div style="margin:30px">
                 <span class="profile-title">Surname:</span>
-                <span class="profile-value"><input name="input" v-bind="surname" type="text"></span>
+                <span class="profile-value"><input name="input" v-model="surname" type="text"></span>
             </div>
             <div style="margin:30px">
                 <span class="profile-title">E-mail address:</span>
-                <span class="profile-value"><input type="text" v-bind="mail" disabled></span>
-            </div>
-
-            <div style="margin:30px">
-                <span class="profile-title">Birth date:</span>
-                <span class="profile-value"><input name="input" v-bind="bdate" type="text"></span>
+                <span class="profile-value"><input type="text" v-model="mail" disabled></span>
             </div>
             <div style="margin:30px">
                 <span class="profile-title">Address:</span>
-                <span class="profile-value"><input name="input" v-bind="address" type="text"></span>
+                <span class="profile-value"><input name="input" v-model="address" type="text"></span>
             </div>
             <div style="margin:30px">
                 <span class="profile-title">City:</span>
-                <span class="profile-value"><input name="input" v-bind="city" type="text"></span>
+                <span class="profile-value"><input name="input" v-model="city" type="text"></span>
             </div>
             <div style="margin:30px">
                 <span class="profile-title">State:</span>
-                <span class="profile-value" ><input name="input" v-bind="state" type="text"></span>
+                <span class="profile-value" ><input name="input" v-model="state" type="text"></span>
             </div>
             <div style="margin:30px">
                 <span class="profile-title">Phone number:</span>
-                <span class="profile-value"><input name="input" v-bind="phoneNum" type="text"></span>
+                <span class="profile-value"><input name="input" v-model="phoneNum" type="text"></span>
             </div>
             <div >
                 <button id="btnSave" class="toggle-btn-hidden" v-on:click="saveEdited()">Save changes</button>               
@@ -156,6 +151,14 @@ import axios from 'axios';
          },
          populateProfileData(response){
              this.profileData=response.data;
+             this.id=this.profileData.id
+             this.mail=this.profileData.email
+             this.name=this.profileData.name
+             this.surname=this.profileData.surname
+             this.address=this.profileData.address
+             this.city=this.profileData.city
+             this.state=this.profileData.country;
+             this.phoneNum=this.profileData.phoneNumber;
          },
 
          collectData(){
@@ -178,7 +181,7 @@ import axios from 'axios';
          }
      },
      mounted() {
-         axios.get('').then(response=> this.populateProfileData(response))
+         axios.get('http://localhost:8080/users/1').then(response=> this.populateProfileData(response))
      }
 }
 </script>

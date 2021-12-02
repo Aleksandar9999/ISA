@@ -17,7 +17,6 @@ import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.UserRepository;
 
-
 @Service
 public class UsersServiceImplementation extends CustomServiceAbstract<User> implements UsersService {
 

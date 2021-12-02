@@ -99,4 +99,9 @@ public class UsersController {
 
 	}
 
+	@GetMapping("users/{id}")
+	public ResponseEntity<User> getUserById(@PathVariable Integer id){
+		return ResponseEntity.ok(usersService.getById(id));
+	}
+	
 }
