@@ -52,4 +52,9 @@ public class UsersController {
 		return ResponseEntity.ok(usersService.getById(id));
 	}
 	
+	@PostMapping("editUserProfile")
+	public ResponseEntity<User> editUserProfile(@RequestBody User user){
+		return ResponseEntity.ok(usersService.EditUser(user));
+	}
+	
 }

@@ -83,4 +83,10 @@ public class UsersServiceImplementation implements UsersService {
 		
 	}
 
+	@Override
+	public User EditUser(User user) {
+		// TODO Auto-generated method stub
+		return repository.save(user);
+	}
+
 }

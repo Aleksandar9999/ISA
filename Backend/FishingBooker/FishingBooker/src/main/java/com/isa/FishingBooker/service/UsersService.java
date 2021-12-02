@@ -8,4 +8,5 @@ public interface UsersService extends Service<User> {
 	
 	public String Login(LoginInfoDTO user);
 	public String Register(RegistrationDTO user);
+	public User EditUser(User user);
 }
