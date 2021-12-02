@@ -24,3 +24,4 @@ insert into photo (title, url) values ('Three-day fishing','Three day tour accro
 
 insert into appointment (dtype, start, duration, max_person, additional_services, price, address_id, user_id, resort_id) values ('ResortAppointment', 'Sat Nov 27 18:04:41 GMT 2021',3.0, 7, 'No additional services.', 500.00, 4, 1, 1);
 
+insert into system_data (id, procentage, revenue) values (1,5,0);
