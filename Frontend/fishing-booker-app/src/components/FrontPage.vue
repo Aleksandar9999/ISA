@@ -9,50 +9,49 @@
     <div class="advanced-drop">
     <div id="dropMenu" class="advanced-drop-data">
           <div class="adv-div" v-if="boatsAdv">
-              <label for="">Minimal number of boat horsepowers:</label><input type="text">
-              <label for="">Name of engine trademark:</label><input style="width:100px" type="text"><br/>
+              <label for="">Maximal boat speed:</label><input type="text" v-model="maxSpeed">
+              <label for="">Navigation type:</label><input style="width:100px" type="text" v-model="navigationType"><br/>
               <br/>
               <label for="">Select rate of boat:</label>
-              <select name="" id="rateSelect">
+              <select name="" id="rateSelect" v-model="rate">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="5">5</option>
               </select> <br/>
-              <button class="advanced-btn" v-on:click="advancedSearch()">Search</button>
+              <button class="advanced-btn" v-on:click="advancedSearchBoats()">Search</button>
           </div>
           <div class="adv-div" v-if="tutorsAdv">            
-            <label for="">Name of adventure:</label><input style="width:150px" type="text"><br/>
-            <label for="">Maximal number of persons on adventure:</label><input type="text">
-            <label for="">Maximal price of adventure:</label><input type="text">
+            <label for="">Name of adventure:</label><input style="width:150px" type="text" v-model="advName"><br/>
+            <label for="">Maximal number of persons on adventure:</label><input type="text" v-model="maxPersons">
             <br/>
               <label for="">Select tutors rate:</label>
-              <select name="" id="rateSelect">
+              <select name="" id="rateSelect" v-model="rate">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="5">5</option>
               </select> <br/>
-              <button class="advanced-btn" v-on:click="advancedSearch()">Search</button>
+              <button class="advanced-btn" v-on:click="advancedSearchAdventures()">Search</button>
           </div>
           <div class="adv-div" v-if="resortsAdv">
-            <label for="">Minimal number of rooms:</label><input type="text">
-            <label for="">Maximal number of rooms:</label><input type="text"><br/>
+            <label for="">Minimal number of rooms:</label><input type="text" v-model="minRooms">
+            <label for="">Maximal number of rooms:</label><input type="text" v-model="maxRooms"><br/>
 
-            <label for="">Minimal number of beds:</label><input type="text">
-            <label for="">Maximal number of beds:</label><input type="text">
+            <label for="">Minimal number of beds:</label><input type="text" v-model="minBeds">
+            <label for="">Maximal number of beds:</label><input type="text" v-model="maxBeds">
             <br/>
               <label for="">Select rate of resort:</label>
-              <select name="" id="rateSelect">
+              <select name="" id="rateSelect" v-model="rate">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="5">5</option>
               </select> <br/>
-              <button class="advanced-btn" v-on:click="advancedSearch()">Search</button>
+              <button class="advanced-btn" v-on:click="advancedSearchResorts()">Search</button>
           </div>     
     </div>
     </div>
@@ -76,7 +75,7 @@
             </tr>           
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.resortAddress.street + ' ' + item.resortAddress.country }}</td><td>{{item.numOfRooms}}</td><td><router-link :to="{name:profileName, params:{id:item.id} }">Page</router-link></td></tr>
+                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.resortAddress.street + ' ' + item.resortAddress.country }}</td><td>{{item.numOfRooms}}</td><td>{{item.numOfBeds}}</td><td><router-link :to="{name:profileName, params:{id:item.id} }">Page</router-link></td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -108,7 +107,7 @@
             </tr>  
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.tutor.name}}</td><td>{{item.tutor.surname}}</td><td>{{item.name}}</td><td><router-link :to="{name:profileName, params: {id:item.id} }">Page</router-link></td></tr>
+                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPerson}}</td><td>{{item.rules}}</td><td><router-link :to="{name:profileName, params: {id:item.id} }">Page</router-link></td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -124,9 +123,9 @@ export default {
     data(){
       return{
         tabType: 'resort',
-        resortHeader:['ID','Name','Location','Number of rooms', 'Page'],
+        resortHeader:['ID','Name','Location','Number of rooms','Number of beds', 'Page'],
         boatsHeader:['ID','Name','Capacity','Navigation', 'Page'],
-        tutorsHeader:['ID','Name','Surname','Adventure', 'Page'],
+        tutorsHeader:['ID','Adventure','Max number of persons','Rules', 'Page'],
         headerList: this.resortHeader,
         reserveList:[],
         dataList: [],
@@ -136,7 +135,17 @@ export default {
         resortsAdv:true,
         proba: 'probaNeka',
         profileName:'ResortProfile',
-        searchWord:''
+        searchWord:'',
+        maxSpeed:-1,
+        rate:0,
+        advName:'',
+        maxPersons:0,
+        navigationType:'',
+        minRooms:0,
+        maxRooms:0,
+        minBeds:0,
+        maxBeds:0
+
     }
     } ,
     methods:{
@@ -171,14 +180,14 @@ export default {
         this.searchData=this.dataList
         let criteria = this.searchWord        
         if(criteria){
-          for(let i = 0; i<this.searchData.length;i++){
-          if(!this.searchData[i].name.toLowerCase().includes(criteria)){
-            this.searchData.splice(i,1);
-            i--
+            for(let i = 0; i<this.searchData.length;i++){
+              if(!this.searchData[i].name.toLowerCase().includes(criteria)){
+                this.searchData.splice(i,1);
+                i--
+            }
           }
-        }
-        this.dataList=this.searchData
-        return    
+          this.dataList=this.searchData
+          return    
         }       
         this.getData()
         } else {
@@ -201,8 +210,111 @@ export default {
         document.getElementById("dropMenu").classList.toggle("show-drop")
       },
       
-      advancedSearch(){
-
+      advancedSearchResorts(){
+         this.searchData=this.dataList  
+         if(this.minRooms>0 || this.maxRooms>0 || this.minBeds>0 || this.maxBeds>0 || this.rate>0){   
+           
+          for(let i = 0; i<this.searchData.length;i++){
+          if(this.minRooms>0 & this.maxRooms>0 & this.maxRooms>this.minRooms){
+            if(this.searchData[i].numOfRooms<this.minRooms || this.searchData[i].numOfRooms>this.maxRooms){
+                this.searchData.splice(i,1);
+                i--
+            }            
+          }
+          if(this.minBeds>0 & this.maxBeds>0 & this.maxBeds>this.minBeds){
+            if(this.searchData[i].numOfBeds<this.minBeds || this.searchData[i].numOfBeds>this.maxBeds){
+                this.searchData.splice(i,1);
+                i--
+            }            
+          }
+          if(this.rate>0){
+            if(this.searchData[i].rate!=this.rate){
+              this.searchData.splice(i,1);
+              i--
+            }
+            this.rate=-1            
+          }
+        }         
+        this.dataList=this.searchData
+        return    
+        }       
+        this.getData()
+      },
+      advancedSearchBoats(){
+         this.searchData=this.dataList   
+          if(this.maxSpeed>0|| this.navigationType || this.rate>0){
+          for(let i = 0; i<this.searchData.length;i++){
+          if(this.maxSpeed>0){
+          if(this.searchData[i].maxSpeed>this.maxSpeed){
+            this.searchData.splice(i,1);
+            i--
+          }
+          }
+          if(this.navigationType){
+            if(!this.searchData[i].navigationEquipment.toLowerCase().includes(this.navigationType)){
+              this.searchData.splice(i,1);
+              i--
+            }            
+          }
+          if(this.rate>0){
+            if(this.searchData[i].rate!=this.rate){
+              this.searchData.splice(i,1);
+              i--
+            }
+                      
+          }
+        }         
+        this.dataList=this.searchData
+        this.rate=-1  
+        return    
+        }
+        this.getData()
+      },
+      advancedSearchAdventures(){
+        this.searchData=this.dataList
+          let criteria = this.advName      
+          if(criteria){
+          for(let i = 0; i<this.searchData.length;i++){
+          if(!this.searchData[i].name.toLowerCase().includes(criteria)){
+            this.searchData.splice(i,1);
+            i--
+          }
+          if(this.maxPersons>0){
+            if(this.searchData[i].maxPerson>this.maxPersons){
+              this.searchData.splice(i,1);
+              i--
+            }            
+          }
+          if(this.rate>0){
+            if(this.searchData[i].rate!=this.rate){
+              this.searchData.splice(i,1);
+              i--
+            }                   
+          }
+        }         
+        this.dataList=this.searchData
+        this.rate=-1     
+        return    
+        } else if( this.maxPersons>0 || this.rate>0){
+          for(let i = 0; i<this.searchData.length;i++){
+          if(this.maxPersons>0){
+            if(this.searchData[i].maxPerson>this.maxPersons){
+              this.searchData.splice(i,1);
+              i--
+            }            
+          }
+          if(this.rate>0){
+            if(this.searchData[i].rate!=this.rate){
+              this.searchData.splice(i,1);
+              i--
+            }          
+          }
+          }
+          this.dataList=this.searchData
+          this.rate=-1  
+          return           
+        }       
+        this.getData()
       },
       fillDataLists(response){
         this.dataList=response.data
@@ -231,8 +343,10 @@ export default {
     },
     mounted(){
       this.changeTab('resort');
-      this.getData();
-      localStorage.logedUser=null      
+      this.getData();    
+      if(!localStorage.initialFlag){
+        localStorage.logedIn=false;
+      }
     }
 
 }

@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.dto.RegistrationDTO;
-import com.isa.FishingBooker.mapper.RegistrationDTOtoUserMapper;
+import com.isa.FishingBooker.mapper.RegistrationDTOMapper;
 import com.isa.FishingBooker.model.User;
 
 @Service
@@ -21,10 +21,7 @@ public class EmailService {
 	private Environment env;
 	
 	@Async
-	public void sendRegisterConfirmationMail(RegistrationDTO userDTO) {
-		RegistrationDTOtoUserMapper mapper = new RegistrationDTOtoUserMapper();
-		User user = new User();
-		user = mapper.RegistrationDTOtoUser(userDTO, user);
+	public void sendRegisterConfirmationMail(User user) {
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(user.getEmail());
 		mail.setFrom(env.getProperty("spring.mail.username"));

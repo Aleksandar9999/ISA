@@ -29,7 +29,6 @@ public class BoatsServiceImplementation implements BoatsService {
 
 	@Override
 	public Boat getById(Integer id) {
-		// TODO Auto-generated method stub
 		return repository.findById(id).get();
 	}
 

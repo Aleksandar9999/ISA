@@ -4,7 +4,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class ResortAppointment extends Appoinment{
+public class ResortAppointment extends Appointment{
 	
 	@ManyToOne
 	@JoinColumn(name="resort_id")

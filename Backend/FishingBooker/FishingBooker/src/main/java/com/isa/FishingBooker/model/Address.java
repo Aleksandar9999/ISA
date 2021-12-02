@@ -7,69 +7,65 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Address {	
+public class Address {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String street;
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String country;
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String city;
 	private double lat;
 	private double lng;
-   
-   
-   
-   public Integer getId() {
-	return id;
-   }
 
-   public void setId(Integer id) {
-	this.id = id;
-   }
+	public String getCity() {
+		return city;
+	}
 
-   public String getStreet() {
-      return street;
-   }
+	public Integer getId() {
+		return id;
+	}
 
-   public void setStreet(String street) {
-      this.street = street;
-   }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-   public String getCountry() {
-      return country;
-   }
+	public String getStreet() {
+		return street;
+	}
 
-   public void setCountry(String country) {
-      this.country = country;
-   }
+	public void setStreet(String street) {
+		this.street = street;
+	}
 
-   public double getLat() {
-      return lat;
-   }
+	public String getCountry() {
+		return country;
+	}
 
-   public void setLat(double lat) {
-      this.lat = lat;
-   }
+	public void setCountry(String country) {
+		this.country = country;
+	}
 
-   public double getLng() {
-      return lng;
-   }
+	public double getLat() {
+		return lat;
+	}
 
-   public void setLng(double lng) {
-      this.lng = lng;
-   }
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
 
-public String getCity() {
-	return city;
-}
+	public double getLng() {
+		return lng;
+	}
 
-public void setCity(String city) {
-	this.city = city;
-}
-   
-   
+	public void setLng(double lng) {
+		this.lng = lng;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
 
 }
