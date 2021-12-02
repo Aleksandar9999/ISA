@@ -18,7 +18,7 @@ import ResortAppointmentHistory from '../components/ClientMenuLists/ResortAppoin
 import TutorAppointmentHistory from '../components/ClientMenuLists/TutorAppointmentHistory.vue'
 import FrontPage from '../components/FrontPage.vue'
 import Confirmation from '../components/Confirm.vue'
-
+import PendingUsersList from '../components/AdminPanel/PendingUsersList.vue'
 
 const routes = [
   {
@@ -30,7 +30,12 @@ const routes = [
   {path: "/login", name: "Login", component: Login},
   {path: "/register", name: "Register",component: Register},
   {path: "/profile", name: "Profile", component: Profile},
+
   {path: "/users/tutors/:idtutor/services/:idservice", name: "TutorService", component: TutorServicePage},
+  {path:"/users/pending",name:"PendingUsersList",component: PendingUsersList},
+  
+  
+  
   {path:"", name:"FrontPage", component: FrontPage},
 {
     path: '/resortProfile',

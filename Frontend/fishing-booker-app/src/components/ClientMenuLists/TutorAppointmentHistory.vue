@@ -1,4 +1,5 @@
 <template>
+<div>
     <div class="searchBox">
   <select name="sort" id="sort">
     <option value="date_asc">Sort by date ascending</option>
@@ -25,6 +26,7 @@
           </tbody>                   
       </table>
       </div>     
+      </div>
       </div>
 </template>
 

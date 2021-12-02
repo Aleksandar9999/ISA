@@ -1,4 +1,4 @@
-<template>
+<template><div>
     <div class="searchBox">
       <input type="text" placeholder="Type your search here" v-model="searchWord">
       <button @click="search()">Search</button>
@@ -112,7 +112,7 @@
       </table>
       </div>     
       </div>
-     
+     </div>
 </template>
 
 <script>

@@ -1,4 +1,5 @@
 <template>
+<div>
 <div class="searchBox">
   <select name="sort" id="sort">
     <option value="name_asc">Sort by name ascending</option>
@@ -23,11 +24,16 @@
             </tr>  
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.tutor.name}}</td><td>{{item.tutor.surname}}</td><td>{{item.name}}</td><td>{{item.rate}}</td></tr>
+                <tr><td>{{item.id}}</td>
+                    <td>{{item.tutor.name}}</td>
+                    <td>{{item.tutor.surname}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.rate}}</td>
+                </tr>
           </tbody>                   
       </table>
       </div>     
-      </div>
+      </div></div>
 </template>
 
 <script>
