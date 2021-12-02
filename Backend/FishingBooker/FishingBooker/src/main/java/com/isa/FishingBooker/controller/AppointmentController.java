@@ -1,11 +1,13 @@
 package com.isa.FishingBooker.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.model.Appoinment;
@@ -41,5 +43,8 @@ public class AppointmentController {
 		return ResponseEntity.ok((ArrayList<TutorServiceAppointment>)service.getTutorServiceApointments());
 	}
 	
-	
+	@GetMapping("/getPendingAppointments")
+	public ResponseEntity<List<Appoinment>>  getPendingAppointments(@RequestBody String email){
+		return ResponseEntity.ok((List<Appoinment>)service.getPendingApointments(email));
+	}
 }

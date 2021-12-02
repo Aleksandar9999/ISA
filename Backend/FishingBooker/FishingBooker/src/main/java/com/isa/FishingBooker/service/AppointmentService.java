@@ -11,4 +11,5 @@ public interface AppointmentService extends Service<Appoinment> {
 	public List<ResortAppointment> getResortApointments();
 	public List<BoatAppointment> getBoatApointments();
 	public List<TutorServiceAppointment> getTutorServiceApointments();
+	public List<Appoinment>getPendingApointments(String email);
 }

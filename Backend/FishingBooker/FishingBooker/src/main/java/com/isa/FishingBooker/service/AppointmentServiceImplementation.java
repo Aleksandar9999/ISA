@@ -1,6 +1,8 @@
 package com.isa.FishingBooker.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,6 +59,34 @@ public class AppointmentServiceImplementation implements AppointmentService {
 	
 	public List<TutorServiceAppointment> getTutorServiceApointments(){
 		return repository.getAllTutorServiceAppoints();
+	}
+
+	@Override
+	public List<Appoinment> getPendingApointments(String email) {
+		List<Appoinment> appointments = new ArrayList<Appoinment>();
+		Date thisMoment = new Date(System.currentTimeMillis());
+		for(BoatAppointment a : repository.getAllBoatAppoints()) {
+			if(a.getUser().getEmail().equals(email)) {
+				if(a.getStart().compareTo(thisMoment)>0) {					
+					appointments.add(a);
+				}
+			}
+		}
+		for(ResortAppointment a : repository.getAllResortAppoints()) {
+			if(a.getUser().getEmail().equals(email)) {
+				if(a.getStart().compareTo(thisMoment)>0) {					
+					appointments.add(a);
+				}
+			}
+		}
+		for(TutorServiceAppointment a : repository.getAllTutorServiceAppoints()) {
+			if(a.getUser().getEmail().equals(email)) {
+				if(a.getStart().compareTo(thisMoment)>0) {					
+					appointments.add(a);
+				}
+			}
+		}
+		return appointments;
 	}
 
 }
