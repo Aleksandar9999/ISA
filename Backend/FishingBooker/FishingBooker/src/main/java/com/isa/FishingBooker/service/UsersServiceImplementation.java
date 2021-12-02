@@ -12,7 +12,6 @@ import com.isa.FishingBooker.dto.LoginReturnDTO;
 import com.isa.FishingBooker.dto.RegistrationDTO;
 import com.isa.FishingBooker.exceptions.EmailExistException;
 import com.isa.FishingBooker.mapper.RegistrationDTOMapper;
-import com.isa.FishingBooker.mapper.RegistrationDTOtoUserMapper;
 import com.isa.FishingBooker.mapper.UserToLoginReturnDTOMapper;
 
 import com.isa.FishingBooker.model.Status;
@@ -33,7 +32,7 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 	@Override
 	public LoginReturnDTO Login(LoginInfoDTO user) {
 
-		User logTry = repository.findByEmail(user.getEmail());
+		User logTry = ((UserRepository)repository).findByEmail(user.getEmail());
 		LoginReturnDTO returnDTO = new LoginReturnDTO();
 		UserToLoginReturnDTOMapper mapper = new UserToLoginReturnDTOMapper();
 		

@@ -107,7 +107,7 @@
             </tr>  
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.tutor.name}}</td><td>{{item.tutor.surname}}</td><td>{{item.name}}</td><td><router-link :to="{name:profileName, params: {id:item.id} }">Page</router-link></td></tr>
+                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPerson}}</td><td>{{item.rules}}</td><td><router-link :to="{name:profileName, params: {id:item.id} }">Page</router-link></td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -125,7 +125,7 @@ export default {
         tabType: 'resort',
         resortHeader:['ID','Name','Location','Number of rooms','Number of beds', 'Page'],
         boatsHeader:['ID','Name','Capacity','Navigation', 'Page'],
-        tutorsHeader:['ID','Name','Surname','Adventure', 'Page'],
+        tutorsHeader:['ID','Adventure','Max number of persons','Rules', 'Page'],
         headerList: this.resortHeader,
         reserveList:[],
         dataList: [],
