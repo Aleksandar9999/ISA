@@ -18,6 +18,7 @@ import ResortAppointmentHistory from '../components/ClientMenuLists/ResortAppoin
 import TutorAppointmentHistory from '../components/ClientMenuLists/TutorAppointmentHistory.vue'
 import FrontPage from '../components/FrontPage.vue'
 import Confirmation from '../components/Confirm.vue'
+import BoatProfilePage from '../components/BoatProfile/BoatProfilePage.vue'
 
 
 const routes = [
@@ -32,6 +33,7 @@ const routes = [
   {path: "/profile", name: "Profile", component: Profile},
   {path: "/users/tutors/:idtutor/services/:idservice", name: "TutorService", component: TutorServicePage},
   {path:"", name:"FrontPage", component: FrontPage},
+  {path: "/users/boatowners/:idboatowner/boats/:idboat", name: "BoatProfilePage", component: BoatProfilePage},
 {
     path: '/resortProfile',
     name: 'ResortProfile',
