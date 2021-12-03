@@ -19,7 +19,7 @@ import TutorAppointmentHistory from '../components/ClientMenuLists/TutorAppointm
 import FrontPage from '../components/FrontPage.vue'
 import Confirmation from '../components/Confirm.vue'
 import PendingUsersList from '../components/AdminPanel/PendingUsersList.vue'
-
+import SystemSettings from '../components/AdminPanel/SystemSettings.vue'
 const routes = [
   {
     path: "/about",
@@ -33,7 +33,7 @@ const routes = [
 
   {path: "/users/tutors/:idtutor/services/:idservice", name: "TutorService", component: TutorServicePage},
   {path:"/users/pending",name:"PendingUsersList",component: PendingUsersList},
-  
+  {path:"/system/settings",name: "SystemSettings", component:SystemSettings},
   
   
   {path:"", name:"FrontPage", component: FrontPage},

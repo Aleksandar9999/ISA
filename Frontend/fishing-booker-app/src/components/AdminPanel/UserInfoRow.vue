@@ -37,7 +37,6 @@ export default {
       axios.put(config.apiStart+"/api/users/"+this.item_local.id,this.item_local).then(resp=>
       {
         this.item_local=resp.data;
-        console.log("updated")
       }
       );
     },

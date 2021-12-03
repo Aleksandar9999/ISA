@@ -30,7 +30,6 @@ export default {
   components: {},
   
   mounted() {
-    console.log(this.itemRow);
     this.$options.components.itemComp = this.itemRow;
     this.$forceUpdate(); //Koristi se da bi renderovao proslijedjenu komponentu
   },
