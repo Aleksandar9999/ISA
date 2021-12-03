@@ -1,4 +1,4 @@
-<template>
+<template><div>
     <div class="searchBox">
       <input type="text" placeholder="Type your search here" v-model="searchWord">
       <button @click="search()">Search</button>
@@ -113,7 +113,7 @@
       </table>
       </div>     
       </div>
-     
+     </div>
 </template>
 
 <script>
@@ -334,7 +334,7 @@ export default {
           )
         } else if(this.tabType==='tutors'){
           this.dataList=[];
-          axios.get('http://localhost:8080/api/users/tutors/services').then(response =>
+          axios.get('http://localhost:8080/api/users/tutors/services/valid').then(response =>
           this.fillDataLists(response)
           )
           

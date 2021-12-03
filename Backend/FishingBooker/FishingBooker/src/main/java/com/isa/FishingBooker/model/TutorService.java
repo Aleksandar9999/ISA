@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,6 +37,8 @@ public class TutorService {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
 	private int rate;
+	@Enumerated(EnumType.STRING)
+	private Status status;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Photo> photos = new HashSet<Photo>();
@@ -56,7 +60,10 @@ public class TutorService {
 	public TutorService() {
 	}
 
-	public TutorService(Integer id) {this.id=id;}
+	public TutorService(Integer id) {
+		this.id = id;
+	}
+
 	public TutorService(String name, String description, int maxPerson, String rules, String fishingEquipment,
 			double cancelProcentage, Address address) {
 		this.name = name;
@@ -74,6 +81,14 @@ public class TutorService {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public int getRate() {
@@ -125,13 +140,13 @@ public class TutorService {
 	public Set<ServicePrice> getPrices() {
 		return prices;
 	}
-	
+
 	public void addPrice(ServicePrice price) {
-		if(prices==null)
-			prices=new HashSet<ServicePrice>();
+		if (prices == null)
+			prices = new HashSet<ServicePrice>();
 		prices.add(price);
 	}
-	
+
 	public void setPrices(Set<ServicePrice> prices) {
 		this.prices = prices;
 	}

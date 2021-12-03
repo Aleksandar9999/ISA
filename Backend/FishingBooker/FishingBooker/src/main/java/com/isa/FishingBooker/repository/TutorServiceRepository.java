@@ -11,6 +11,9 @@ import com.isa.FishingBooker.model.TutorService;
 @Repository
 public interface TutorServiceRepository extends JpaRepository<TutorService ,Integer> {
 
+	@Query("select tutorService from TutorService tutorService where tutorService.status='CONFIRMED'")
+	public List<TutorService> findAllValid();
+	
 	@Query("select tutorService from TutorService tutorService join fetch tutorService.photos photos where tutorService.id=?1")
 	public TutorService findTutorServiceWithPhotos(int tutorServiceId);
 	

@@ -15,6 +15,7 @@ import com.isa.FishingBooker.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,13 +37,19 @@ public class TutorServicesController {
 		return ResponseEntity
 				.ok(tutorServiceMapper.convertToDtos((ArrayList<TutorService>) tutorServicesService.getAll()));
 	}
-	
+
+	@GetMapping("api/users/tutors/services/valid")
+	public ResponseEntity getAllValid() {
+		return ResponseEntity
+				.ok(tutorServiceMapper.convertToDtos((ArrayList<TutorService>) tutorServicesService.getAllValid()));
+	}
+
 	@GetMapping("api/users/tutors/services/{id}")
-	public ResponseEntity<TutorService> getByID(@PathVariable("id") Integer id){	
+	public ResponseEntity<TutorService> getByID(@PathVariable("id") Integer id) {
 		TutorService tutorService = tutorServicesService.getById(id);
 		return ResponseEntity.ok(tutorService);
 	}
-	
+
 	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}")
 	public ResponseEntity getTutorService(@PathVariable("idtutor") Integer idtutor,
 			@PathVariable("idservice") int idservice) {
@@ -88,7 +95,7 @@ public class TutorServicesController {
 		tutorServicesService.update(tutorService);
 		return ResponseEntity.status(200).body("OK");
 	}
-	
+
 	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}/discount-offers")
 	public ResponseEntity getTutorServiceDiscountOffers(@PathVariable("idtutor") Integer idtutor,
 			@PathVariable("idservice") int idservice) {
@@ -99,20 +106,21 @@ public class TutorServicesController {
 			return ResponseEntity.ok(new ArrayList<>());
 		}
 	}
+
 	@PostMapping("api/users/tutors/{idtutor}/services/{idservice}/discount-offers")
-	public ResponseEntity addTutorServiceDiscountOffers(@RequestBody DiscountOffer offer,@PathVariable("idtutor") Integer idtutor,
-			@PathVariable("idservice") int idservice) {
+	public ResponseEntity addTutorServiceDiscountOffers(@RequestBody DiscountOffer offer,
+			@PathVariable("idtutor") Integer idtutor, @PathVariable("idservice") int idservice) {
 		try {
 			TutorService tutorService = tutorServicesService.getById(idservice);
 			tutorService.addDiscountOffer(offer);
 			tutorServicesService.update(tutorService);
 			return ResponseEntity.ok().build();
-		}catch (RuntimeException e) {
+		} catch (RuntimeException e) {
 			System.err.println(e.getStackTrace().toString());
 			return ResponseEntity.badRequest().body(e.getStackTrace());
 		}
 	}
-	
+
 	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}/prices")
 	public ResponseEntity getTutorServicePrice(@PathVariable("idtutor") Integer idtutor,
 			@PathVariable("idservice") int idservice) {
@@ -123,17 +131,24 @@ public class TutorServicesController {
 			return ResponseEntity.ok(new ArrayList<>());
 		}
 	}
+
 	@PostMapping("api/users/tutors/{idtutor}/services/{idservice}/prices")
-	public ResponseEntity addTutorServicePrice(@RequestBody ServicePrice price,@PathVariable("idtutor") Integer idtutor,
-			@PathVariable("idservice") int idservice) {
+	public ResponseEntity addTutorServicePrice(@RequestBody ServicePrice price,
+			@PathVariable("idtutor") Integer idtutor, @PathVariable("idservice") int idservice) {
 		try {
 			TutorService tutorService = tutorServicesService.getById(idservice);
 			tutorService.addPrice(price);
 			tutorServicesService.update(tutorService);
 			return ResponseEntity.ok().build();
-		}catch (RuntimeException e) {
+		} catch (RuntimeException e) {
 			System.err.println(e.getStackTrace().toString());
 			return ResponseEntity.badRequest().body(e.getStackTrace());
 		}
+	}
+
+	@DeleteMapping("api/services/{id}")
+	public ResponseEntity deleteTutorService(@PathVariable("id") int id) {
+		tutorServicesService.delete(id);
+		return ResponseEntity.ok().build();
 	}
 }

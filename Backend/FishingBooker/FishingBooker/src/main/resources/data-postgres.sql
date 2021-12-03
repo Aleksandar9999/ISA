@@ -2,6 +2,7 @@ insert into clients (dtype, email, password, name, surname, bio, address, city, 
 insert into clients (dtype, email, password, name, surname, bio, address, city, country, phone_number, status) values ('BoatOwner','badzaa@gmail.com', 'bojan', 'Bosko', 'Adzic', '', 'Maksima Gorkog 33', 'Novi Sad', 'Srbija','021554263','CONFIRMED');
 insert into clients (dtype, email, password, name, surname, bio, address, city, country, phone_number, status) values ('ResortOwner','radomBoj@gmail.com', 'bojan', 'Radomir', '', 'Bojanic', 'Zivojina Misica', 'Ljubovija', 'Srbija','015553363','CONFIRMED');
 insert into clients (dtype, email, password, name, surname, bio, address, city, country, phone_number, status) values ('Tutor','dragoOrasanin@gmail.com', 'bojan', 'Drago', 'Orasanin', 'Tutor with 20 years of expirience. Great knower of Drina coast and wildlife.', 'Zivojina Misica', 'Ljubovija', 'Srbija','015252161','CONFIRMED');
+insert into clients (dtype, email, password, name, surname, address, city, country, phone_number, status) values ('Admin','admin@gmail.com', 'admin', 'admin', 'admin', 'Zivojina Misica', 'Ljubovija', 'Srbija','015252161','CONFIRMED');
 
 insert into address (street, country, city, lat, lng) values ('Maksima Gorkog 15', 'Srbija', 'Novi Sad', 0, 0);
 insert into address (street, country, city, lat, lng) values ('Nemanjina 35', 'Srbija', 'Beograd', 0, 0);
@@ -17,8 +18,8 @@ insert into resort (name, description, address_id, num_of_rooms, num_of_beds, ru
 insert into resort (name, description, address_id, num_of_rooms, num_of_beds, rules, resort_owner_id, rate) values ('Vila Podrinja','Resort on coast of middle stream of river Drina with dock and beach. Confortable apartments and good service.', 5, 3, 7, 'Forbiden entrance to non checked and authorised persons to resort objects.', 3, 5);
 insert into resort (name, description, address_id, num_of_rooms, num_of_beds, rules, resort_owner_id, rate) values ('Osacanka','Retro complex on coast of middle stream of river Drina with dock and beach. Confortable apartments, traditional food and good service.', 5, 2, 5, 'Forbiden entrance to non checked and authorised persons to resort objects.', 3, 4);
 
-insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate) values ('One-day fishing','One day tour accross lake with fishing on most active fishing localities.', 9, 'No smoking. No alcohol.', 'Clients equipment required', 0, 4, 4, 5);
-insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate) values ('Three-day fishing','Three day tour accross lake with camping and fishing on most active fishing localities.', 5, 'No smoking. No alcohol.', 'Clients equipment for camping and fishing required', 0, 4, 4, 4);
+insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status) values ('One-day fishing','One day tour accross lake with fishing on most active fishing localities.', 9, 'No smoking. No alcohol.', 'Clients equipment required', 0, 4, 4, 5,'CONFIRMED');
+insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status) values ('Three-day fishing','Three day tour accross lake with camping and fishing on most active fishing localities.', 5, 'No smoking. No alcohol.', 'Clients equipment for camping and fishing required', 0, 4, 4, 4,'CONFIRMED');
 
 insert into extras (service, price, boat_id) values('Fishing', '900', 1);
 insert into extras (service, price, boat_id) values('Lake drive', '500', 1);
@@ -36,7 +37,7 @@ insert into period (start_date, end_date) values('Mon Dec 13 10:00:00 GMT 2021',
 insert into period (start_date, end_date) values('Mon Dec 20 10:00:00 GMT 2021','Sat Dec 25 15:00:00 GMT 2021');
 insert into period (start_date, end_date) values('Mon Dec 27 10:00:00 GMT 2021','Sat Jan 01 15:00:00 GMT 2021');
 
-insert into appoinment (dtype, start, duration, max_person, additional_services, price, address_id, user_id, resort_id) values ('ResortAppointment', 'Sat Nov 27 18:04:41 GMT 2021',3.0, 7, 'No additional services.', 500.00, 4, 1, 1);
+insert into appointment (dtype, start, duration, max_person, additional_services, price, address_id, user_id, resort_id) values ('ResortAppointment', 'Sat Nov 27 18:04:41 GMT 2021',3.0, 7, 'No additional services.', 500.00, 4, 1, 1);
 
 insert into discount_offer (additional_services, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None',7, 'Amajic, Zapadna Srbija', 1400.0, 2, 1, 5);
 insert into discount_offer (additional_services, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None',7, 'Vrhpolje, Zapadna Srbija', 1200.0, 1, 2, 6);
@@ -44,3 +45,4 @@ insert into discount_offer (additional_services, max_person, place, price, boat_
 insert into discount_offer (additional_services, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None',7, 'Perucac, Zapadna Srbija', 1900.0, 1, 4, 8);
 
 
+insert into system_data (id, procentage, revenue) values (1,5,0);

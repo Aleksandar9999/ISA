@@ -1,8 +1,10 @@
 <template>
+<div>
 <h1>Put your id here:</h1>
 <input type="text" v-model="this.id">
 
 <button @click="confirm()">Confirm registration</button>
+</div>
 </template>
 
 <script>

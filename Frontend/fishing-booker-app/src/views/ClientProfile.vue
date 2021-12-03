@@ -1,4 +1,5 @@
 <template>
+<div>
 <div class="profile">
     <div class=items>
         <br/><br/><br/><br/>
@@ -61,10 +62,12 @@
     <div>
         <button class="delete" v-on:click="deleteProfile">Delete profile</button>
     </div>
+    </div>
 </template>
 
 <script>
 import axios from 'axios';
+import config from '../configuration/config';
  
  export default {
      data(){
@@ -175,13 +178,14 @@ import axios from 'axios';
          },
 
          deleteProfile(){
+             //TODO: Potrebno je da se napravi zahtjev za brisanje profila
              if(confirm('Do you really want to delete your profile?')){
-                 axios.delete('http://localhost:8080/deleteProfile',this.id).then(response=>console.log(response.data))
+                 axios.delete(config.apiStart+'api/delete-request',this.id).then(response=>console.log(response.data))
              }
          }
      },
      mounted() {
-         axios.get('http://localhost:8080/users/1').then(response=> this.populateProfileData(response))
+         axios.get(config.apiStart+'/api/users/1').then(response=> this.populateProfileData(response))
      }
 }
 </script>
