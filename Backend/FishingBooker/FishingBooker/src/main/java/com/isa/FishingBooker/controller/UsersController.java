@@ -113,8 +113,15 @@ public class UsersController {
 		return ResponseEntity.ok(user);
 	}
 
-	@GetMapping("users/{id}")
-	public ResponseEntity<User> getUserById(@PathVariable Integer id){
-		return ResponseEntity.ok(usersService.getById(id));
+	@GetMapping("api/users/{id}")
+	public ResponseEntity<User> getUserById(@PathVariable String id){
+		return ResponseEntity.ok(usersService.getById(getUserId(id)));
+	}
+
+	private Integer getUserId(String id) {
+		Integer userId;
+		if(id.equals("me")) userId=1;//TODO: Postaviti userId na id trenutno prijavljenog korisnika
+		else userId=Integer.parseInt(id);
+		return userId;
 	}
 }

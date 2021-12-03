@@ -2,6 +2,7 @@ insert into clients (dtype, email, password, name, surname, bio, address, city, 
 insert into clients (dtype, email, password, name, surname, bio, address, city, country, phone_number, status) values ('BoatOwner','badzaa@gmail.com', 'bojan', 'Bosko', 'Adzic', '', 'Maksima Gorkog 33', 'Novi Sad', 'Srbija','021554263','CONFIRMED');
 insert into clients (dtype, email, password, name, surname, bio, address, city, country, phone_number, status) values ('ResortOwner','radomBoj@gmail.com', 'bojan', 'Radomir', '', 'Bojanic', 'Zivojina Misica', 'Ljubovija', 'Srbija','015553363','CONFIRMED');
 insert into clients (dtype, email, password, name, surname, bio, address, city, country, phone_number, status) values ('Tutor','dragoOrasanin@gmail.com', 'bojan', 'Drago', 'Orasanin', 'Tutor with 20 years of expirience. Great knower of Drina coast and wildlife.', 'Zivojina Misica', 'Ljubovija', 'Srbija','015252161','CONFIRMED');
+insert into clients (dtype, email, password, name, surname, address, city, country, phone_number, status) values ('Admin','admin@gmail.com', 'admin', 'admin', 'admin', 'Zivojina Misica', 'Ljubovija', 'Srbija','015252161','CONFIRMED');
 
 insert into address (street, country, city, lat, lng) values ('Maksima Gorkog 15', 'Srbija', 'Novi Sad', 0, 0);
 insert into address (street, country, city, lat, lng) values ('Nemanjina 35', 'Srbija', 'Beograd', 0, 0);
