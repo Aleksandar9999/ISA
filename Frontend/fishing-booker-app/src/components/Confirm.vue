@@ -18,13 +18,13 @@ export default {
     },
     methods:{
         confirm(){
-            axios.post('http://localhost:8080/confirm', this.id).then(response=>
+            axios.post('http://localhost:8080/confirm/'+this.id).then(response=>
             this.checkResponse(response)
             )
         },
         checkResponse(response){
             if(response.data==='Success'){
-                this.$router.push('')
+                this.$router.push('/')
             } else {
                 alert('Wrong ID number entered.')
             }

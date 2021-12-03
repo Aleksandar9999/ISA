@@ -2,16 +2,11 @@ package com.isa.FishingBooker.service;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.dto.LoginInfoDTO;
 import com.isa.FishingBooker.dto.LoginReturnDTO;
-import com.isa.FishingBooker.dto.RegistrationDTO;
 import com.isa.FishingBooker.exceptions.EmailExistException;
-import com.isa.FishingBooker.mapper.RegistrationDTOMapper;
 import com.isa.FishingBooker.mapper.UserToLoginReturnDTOMapper;
 
 import com.isa.FishingBooker.model.Status;
@@ -68,8 +63,14 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 
 
 	@Override
-	public List<User> findPendingUsers() {
-		throw new UnsupportedOperationException();
+	public String confirmAccount(Integer id) {
+		// TODO Auto-generated method stub
+		if(repository.getById(id)!=null) {
+			User u = repository.getById(id);
+			u.setStatus(Status.CONFIRMED);
+			repository.save(u);
+			return "Success";
+		}
+		return "Bad id";
 	}
-
 }

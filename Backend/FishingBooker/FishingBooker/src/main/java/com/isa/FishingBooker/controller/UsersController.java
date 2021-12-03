@@ -2,12 +2,10 @@ package com.isa.FishingBooker.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,8 +20,6 @@ import com.isa.FishingBooker.dto.LoginReturnDTO;
 import com.isa.FishingBooker.dto.RegistrationDTO;
 import com.isa.FishingBooker.exceptions.RegistrationException;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
-import com.isa.FishingBooker.mapper.RegistrationDTOMapper;
-import com.isa.FishingBooker.model.DeleteRequest;
 import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.Tutor;
@@ -124,4 +120,10 @@ public class UsersController {
 		else userId=Integer.parseInt(id);
 		return userId;
 	}
+	
+	@PostMapping("confirm/{id}")
+	public ResponseEntity<String> confirmAccount(@PathVariable Integer id){
+		return ResponseEntity.ok(usersService.confirmAccount(id));
+	}
+	
 }

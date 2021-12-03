@@ -40,7 +40,7 @@
 
     </div>
     <div>
-        <button class="buttons">Back</button>
+        <button class="buttons" @click="back()">Back</button>
         <button class="buttons" @click="showMapEvent()">See address on map</button>
     </div>
 </div>
@@ -132,7 +132,10 @@ export default {
                     i--
                 }
             }
-        }
+        },
+        back(){
+            this.$router.push('/')
+        }  
     },
     mounted(){
         if(this.id){      

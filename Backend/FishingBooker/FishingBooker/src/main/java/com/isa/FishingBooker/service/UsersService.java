@@ -15,6 +15,6 @@ public interface UsersService extends Service<User> {
 	public Tutor getTutorById(int id);
 	public List<User> search(Status status);
 
-	public List<User> findPendingUsers();
 	public LoginReturnDTO Login(LoginInfoDTO user);
+	public String confirmAccount(Integer id);
 }
