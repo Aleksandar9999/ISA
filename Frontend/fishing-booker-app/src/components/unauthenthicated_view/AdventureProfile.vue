@@ -14,7 +14,7 @@
 
     </div>
     <div>
-        <button class="buttons">Back</button>
+        <button class="buttons" @click="back()">Back</button>
         <button class="buttons" @click="showMapEvent()">See address on map</button>
     </div>
 </div>
@@ -90,7 +90,10 @@ export default {
             document.getElementById('advRat').setAttribute('value','10')
             document.getElementById('advIns').setAttribute('value',this.adventure.tutor.name + ' ' + this.adventure.tutor.surname)
             document.getElementById('advPromo').append(this.adventure.description)
-        }
+        },
+        back(){
+            this.$router.push('/')
+        }  
     },
     mounted(){ 
         if(this.id){      
