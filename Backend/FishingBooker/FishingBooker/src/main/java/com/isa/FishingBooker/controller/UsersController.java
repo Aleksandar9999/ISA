@@ -60,9 +60,9 @@ public class UsersController {
 		return ResponseEntity.ok(tutor.getAvailabilityPeriods());
 	}
 
-	@PostMapping("api/users/tutors/available-periods")
-	public ResponseEntity addPeriod(@RequestBody Period period) {
-		Tutor tutor = usersService.getTutorById(4);// TODO:FIX HARDCODE
+	@PostMapping("api/users/tutors/{id}/available-periods")
+	public ResponseEntity addPeriod(@RequestBody Period period,@PathVariable("id") int id) {
+		Tutor tutor = usersService.getTutorById(id);// TODO:FIX HARDCODE
 		tutor.addPeriod(period);
 		usersService.update(tutor);
 		return ResponseEntity.ok(period);
