@@ -24,7 +24,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment ,Intege
 	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment")
 	public List<TutorServiceAppointment> getAllTutorServiceAppointments();
 	
-	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.user.id=?1")
+	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.tutorService.tutor.id=?1")
 	public List<TutorServiceAppointment> getAllAppointmentsByTutor(int tutorId);
 	
 	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.user.id=?1 and a.tutorService.id=?2")

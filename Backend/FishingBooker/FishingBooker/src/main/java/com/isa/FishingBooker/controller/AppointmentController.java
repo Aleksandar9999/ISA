@@ -55,7 +55,7 @@ public class AppointmentController {
 	@PostMapping("api/appointments/tutor-service/{idservice}")
 	public ResponseEntity addTutorServiceAppointment(@RequestBody TutorServiceAppointmentDTO dto,
 			@PathVariable("idservice") Integer idService) {
-		TutorServiceAppointment appointment= tutorServiceModelMapper.convertToEntity(dto);
+		TutorServiceAppointment appointment = tutorServiceModelMapper.convertToEntity(dto);
 		appointment.setTutorService(new TutorService(idService));
 		appointment.setUser(new User(1)); // TODO: Get id of loggedin user
 		service.addNew(appointment);
@@ -63,9 +63,9 @@ public class AppointmentController {
 	}
 
 	@GetMapping("api/users/tutors/{idtutor}/tutor-service/appointments")
-	public ResponseEntity getAllAppointmentsByTutor(@RequestBody TutorServiceAppointment appointment,
-			@PathVariable("idtutor") Integer idtutor) {
-		return ResponseEntity.ok(tutorServiceModelMapper.convertToDtos(service.getAllTutorServiceAppointmentsByTutor(idtutor)));
+	public ResponseEntity getAllAppointmentsByTutor(@PathVariable("idtutor") Integer idtutor) {
+		return ResponseEntity
+				.ok(tutorServiceModelMapper.convertToDtos(service.getAllTutorServiceAppointmentsByTutor(idtutor)));
 	}
 
 }
