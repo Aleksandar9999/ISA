@@ -13,7 +13,7 @@ import Gallery from "./Gallery.vue";
 import ExtrasServices from "./ExtrasServices.vue";
 import FastAppointments from "./FastAppointmets.vue";
 import axios from "axios";
-import config from "../../configuration/config";
+import config from "../../../../configuration/config";
 export default {
   components: {
     TutorServiceHeader,

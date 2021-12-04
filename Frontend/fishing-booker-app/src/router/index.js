@@ -1,4 +1,4 @@
-import TutorServicePage from "../components/TutorServices/TutorServicePage.vue";
+import TutorServicePage from "../components/TutorPanel/TutorServices/TutorService/TutorServicePage.vue";
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../views/LoginModalWindow.vue'
 import Register from '../views/RegistrationModalWindow.vue'
@@ -20,7 +20,7 @@ import FrontPage from '../components/FrontPage.vue'
 import Confirmation from '../components/Confirm.vue'
 import PendingUsersList from '../components/AdminPanel/PendingUsersList.vue'
 import SystemSettings from '../components/AdminPanel/SystemSettings.vue'
-import TutorServicesList from '../components/TutorPanel/TutorServicesList.vue'
+import TutorServicesList from '../components/TutorPanel/TutorServices/TutorServicesList.vue'
 const routes = [
   {
     path: "/about",
