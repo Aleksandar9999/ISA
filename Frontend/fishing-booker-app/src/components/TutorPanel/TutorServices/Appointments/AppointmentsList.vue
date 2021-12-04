@@ -3,7 +3,12 @@
     <w-flex justify-end class="pa3" style="padding: 0% 20%">
       <w-button @click="addNewPeriod">Add new</w-button>
     </w-flex>
-    <CustomTable :dataList="data" :headerList="headers" :itemRow="itemRow" />
+    <CustomTable
+      :dataList="data"
+      :headerList="headers"
+      :itemRow="itemRow"
+      @showUserProfile="showUserDialog"
+    />
   </div>
 </template>
 <script>
@@ -18,7 +23,7 @@ export default {
   data() {
     return {
       data: [],
-      headers: ["START DATE", "DURATION", "NUMBER OF PERSONS", "PRICE",""],
+      headers: ["START DATE", "DURATION", "NUMBER OF PERSONS", "PRICE", ""],
       itemRow: AppointmentInfoRow,
     };
   },
@@ -28,14 +33,19 @@ export default {
   methods: {
     fetchData() {
       axios
-        .get("http://localhost:8080/api/users/tutors/4/tutor-service/appointments")
+        .get(
+          "http://localhost:8080/api/users/tutors/4/tutor-service/appointments"
+        )
         .then((resp) => {
           this.data = resp.data;
           console.log(this.data);
         });
     },
-    addNewPeriod() {
+    showUserDialog(event) {
+      console.log("IVENT");
+      console.log(event);
     },
+    addNewPeriod() {},
   },
 };
 </script>
