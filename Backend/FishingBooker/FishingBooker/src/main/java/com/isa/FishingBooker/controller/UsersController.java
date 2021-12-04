@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.FishingBooker.dto.LoginInfoDTO;
 import com.isa.FishingBooker.dto.LoginReturnDTO;
 import com.isa.FishingBooker.dto.RegistrationDTO;
+import com.isa.FishingBooker.dto.UserInfoDTO;
 import com.isa.FishingBooker.exceptions.RegistrationException;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.model.Period;
@@ -36,6 +37,11 @@ public class UsersController {
 
 	@Autowired
 	private CustomModelMapper<User, RegistrationDTO> registrationMapper;
+	
+	@Autowired
+	private CustomModelMapper<User, UserInfoDTO> userInfoMapper;
+	
+	
 	@Autowired
 	EmailService emailService;
 
@@ -110,8 +116,8 @@ public class UsersController {
 	}
 
 	@GetMapping("api/users/{id}")
-	public ResponseEntity<User> getUserById(@PathVariable String id){
-		return ResponseEntity.ok(usersService.getById(getUserId(id)));
+	public ResponseEntity getUserById(@PathVariable String id){
+		return ResponseEntity.ok(userInfoMapper.convertToDto(usersService.getById(getUserId(id))));
 	}
 
 	private Integer getUserId(String id) {

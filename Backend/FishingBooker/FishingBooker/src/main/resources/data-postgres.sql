@@ -1,14 +1,15 @@
-insert into clients (dtype, email, password, name, surname, bio, address, city, country, phone_number, status) values ('User','badzaic@gmail.com', 'bojan', 'Blagoje', 'Adzic', '', 'Maksima Gorkog 5', 'Novi Sad', 'Srbija','021334563','CONFIRMED');
-insert into clients (dtype, email, password, name, surname, bio, address, city, country, phone_number, status) values ('BoatOwner','badzaa@gmail.com', 'bojan', 'Bosko', 'Adzic', '', 'Maksima Gorkog 33', 'Novi Sad', 'Srbija','021554263','CONFIRMED');
-insert into clients (dtype, email, password, name, surname, bio, address, city, country, phone_number, status) values ('ResortOwner','radomBoj@gmail.com', 'bojan', 'Radomir', '', 'Bojanic', 'Zivojina Misica', 'Ljubovija', 'Srbija','015553363','CONFIRMED');
-insert into clients (dtype, email, password, name, surname, bio, address, city, country, phone_number, status) values ('Tutor','dragoOrasanin@gmail.com', 'bojan', 'Drago', 'Orasanin', 'Tutor with 20 years of expirience. Great knower of Drina coast and wildlife.', 'Zivojina Misica', 'Ljubovija', 'Srbija','015252161','CONFIRMED');
-insert into clients (dtype, email, password, name, surname, address, city, country, phone_number, status) values ('Admin','admin@gmail.com', 'admin', 'admin', 'admin', 'Zivojina Misica', 'Ljubovija', 'Srbija','015252161','CONFIRMED');
 
 insert into address (street, country, city, lat, lng) values ('Maksima Gorkog 15', 'Srbija', 'Novi Sad', 0, 0);
 insert into address (street, country, city, lat, lng) values ('Nemanjina 35', 'Srbija', 'Beograd', 0, 0);
 insert into address (street, country, city, lat, lng) values ('Balzakova 20', 'Srbija', 'Novi Sad', 0, 0);
 insert into address (street, country, city, lat, lng) values ('Amajic', 'Srbija', 'Mali Zvornik', 0, 0);
 insert into address (street, country, city, lat, lng) values ('Vrhpolje', 'Srbija', 'Ljubovija', 0, 0);
+
+insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('User','badzaic@gmail.com', 'bojan', 'Blagoje', 'Adzic', '','021334563','CONFIRMED',1);
+insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('BoatOwner','badzaa@gmail.com', 'bojan', 'Bosko', 'Adzic', '','021554263','CONFIRMED',1);
+insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('ResortOwner','radomBoj@gmail.com', 'bojan', 'Radomir', 'Bojanic', '','015553363','CONFIRMED',2);
+insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('Tutor','dragoOrasanin@gmail.com', 'bojan', 'Drago', 'Orasanin', 'Tutor with 20 years of expirience. Great knower of Drina coast and wildlife.','015252161','CONFIRMED',2);
+insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('Admin','admin@gmail.com', 'admin', 'admin', 'admin','','015252161','CONFIRMED',3);
 
 
 insert into boat (name, type_of_boat, length, engine_id, engine_power, max_speed, navigation_equipment, address_id, description, max_person, rules, fishing_equipment, cancel_percentage, boat_owner_id, rate) values ('Vesna','Fishing boat','5 meter','1','15 HP', 80, 'GPS', 3,'Middle size fishing boat.', 7,'No alcohol. No smoking.', '7 fishing rods and decoys.',0 , 2, 5);
