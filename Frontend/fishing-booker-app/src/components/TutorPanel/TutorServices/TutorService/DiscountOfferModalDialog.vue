@@ -8,23 +8,48 @@
       :persistent-no-animation="dialog.persistentNoAnimation"
       title-class="backgorund-color: green;"
     >
-      <template #title> Appointment </template>
-
+      <template #title> Discount Offer </template>
+      <w-flex wrap class="text-center">
+        <div class="xs6 pa1">
+          <p>Validity period</p>
+        </div>
+      </w-flex>
       <w-flex wrap class="text-center">
         <div class="xs6 pa1">
           <p>Start date:</p>
         </div>
         <div class="xs6 pa1">
-          <w-input type="date" v-model="appointmentLocal.startDate"> </w-input>
+          <w-input type="date" v-model="discountOfferLocal.validityPeriod.startDate"> </w-input>
+        </div>
+      </w-flex>
+      <w-flex wrap class="text-center">
+        <div class="xs6 pa1">
+          <p>End date:</p>
+        </div>
+        <div class="xs6 pa1">
+          <w-input type="date" v-model="discountOfferLocal.validityPeriod.endDate"> </w-input>
         </div>
       </w-flex>
 
       <w-flex wrap class="text-center">
         <div class="xs6 pa1">
-          <p>Duraition</p>
+          <p>Reservation period</p>
+        </div>
+      </w-flex>
+      <w-flex wrap class="text-center">
+        <div class="xs6 pa1">
+          <p>Start date:</p>
         </div>
         <div class="xs6 pa1">
-          <input type="number" v-model="appointmentLocal.duration" />
+          <w-input type="date" v-model="discountOfferLocal.reservationPeriod.startDate"> </w-input>
+        </div>
+      </w-flex>
+      <w-flex wrap class="text-center">
+        <div class="xs6 pa1">
+          <p>End date:</p>
+        </div>
+        <div class="xs6 pa1">
+          <w-input type="date" v-model="discountOfferLocal.reservationPeriod.endDate"> </w-input>
         </div>
       </w-flex>
 
@@ -33,7 +58,7 @@
           <p>Max num of persons:</p>
         </div>
         <div class="xs6 pa1">
-          <input type="number" v-model="appointmentLocal.maxPerson" />
+          <input type="number" v-model="discountOfferLocal.maxPerson" />
         </div>
       </w-flex>
 
@@ -42,43 +67,16 @@
           <p>Additional services</p>
         </div>
         <div class="xs6 pa1">
-          <input type="text" v-model="appointmentLocal.additionalServices" />
+          <input type="text" v-model="discountOfferLocal.additionalServices" />
         </div>
       </w-flex>
 
       <w-flex wrap class="text-center">
         <div class="xs6 pa1">
-          <p>Service:</p>
+          <p>Price:</p>
         </div>
         <div class="xs6 pa1">
-          <select name="services" id="services" v-model="appointmentLocal.serviceId">
-              <option value=""></option>
-            <option
-              v-for="service in services"
-              :key="service.id"
-              :value="service.id"
-            >
-              {{ service.name }}
-            </option>
-          </select>
-        </div>
-      </w-flex>
-
-      <w-flex wrap class="text-center">
-        <div class="xs6 pa1">
-          <p>Clients:</p>
-        </div>
-        <div class="xs6 pa1">
-          <select name="clients" id="clients" v-model="appointmentLocal.userId">
-              <option value=""></option>
-            <option
-              v-for="client in clients"
-              :key="client.id"
-              :value="client.id"
-            >
-              {{ client.name }} {{client.surname}}
-            </option>
-          </select>
+          <input type="number" v-model="discountOfferLocal.price" />
         </div>
       </w-flex>
 
@@ -96,7 +94,7 @@
 import axios from "axios";
 import config from "../../../../configuration/config";
 export default {
-  props: ["show", "idTutor"],
+  props: ["show", "idservice"],
   data() {
     return {
       dialog: {
@@ -109,24 +107,22 @@ export default {
       success: false,
       clients: [],
       services: [],
-      appointmentLocal: {
-        startDate: "",
-        duration: "",
-        maxPerson: "",
-        additionalServices: "",
-        price: "",
-        serviceId: "",
-        userId: "",
-      },
+      discountOfferLocal:{
+        validityPeriod:{
+          startDate:'',
+          endDate:''
+        },
+        reservationPeriod:{
+          startDate:'',
+          endDate:''
+        },
+        maxPerson:'',
+        additionalServices:'',
+        price:''
+      }
     };
   },
   mounted() {
-    axios
-      .get(config.apiStart + "/api/users/tutors/4/services")
-      .then((resp) => (this.services = resp.data));
-    axios
-      .get(config.apiStart + "/api/users/clients")
-      .then((resp) => (this.clients = resp.data));
   },
   methods: {
     hideDialog() {
@@ -138,24 +134,14 @@ export default {
     },
     save() {
       //TODO: Fix hardcoded route
-      axios
-        .post(
-          config.apiStart + "/api/appointments/tutor-service",
-          this.appointmentLocal
-        )
-        .then((resp) => {
-          this.success = true;
-          this.hideDialog();
-          console.log(resp);
-        });
-        console.log(this.appointmentLocal)
+      axios.post(config.apiStart+"/api/users/tutors/4/services/"+this.idservice+"/discount-offers",this.discountOfferLocal).then(console.log("CREATED"))
+      console.log(this.discountOfferLocal)
     },
   },
   watch: {
     show: {
       immediate: true,
       handler(fromProp) {
-        console.log(fromProp);
         if (fromProp) this.dialog.show = fromProp;
       },
     },
@@ -163,7 +149,7 @@ export default {
 };
 </script>
 <style>
-p{
+p {
   color: black;
 }
 </style>

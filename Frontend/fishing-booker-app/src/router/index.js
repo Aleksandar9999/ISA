@@ -39,7 +39,7 @@ const routes = [
   {path: "/tutors/:idtutor/available-periods", name: "TutorAvailablePeriods", component: TutorAvailablePeriods},
   {path: "/tutors/:idtutor/appointments", name: "TutorServicesAppointments", component: AppointmentsList},
   
-  {path: "/users/tutors/:idtutor/services/:idservice", name: "TutorService", component: TutorServicePage},
+  {path: "/tutors/:idtutor/services/:idservice", name: "TutorService", component: TutorServicePage},
   {path: "/users/pending",name:"PendingUsersList",component: PendingUsersList},
   {path: "/system/settings",name: "SystemSettings", component:SystemSettings},
   

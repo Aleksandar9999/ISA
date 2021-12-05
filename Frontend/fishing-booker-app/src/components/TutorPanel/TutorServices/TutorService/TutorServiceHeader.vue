@@ -178,6 +178,7 @@ export default {
 <style>
 p {
   text-align: start;
+  color: white;
 }
 .flex-container {
   display: flex;

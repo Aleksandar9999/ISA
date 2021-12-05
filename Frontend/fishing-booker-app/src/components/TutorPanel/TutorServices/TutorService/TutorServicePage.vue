@@ -1,9 +1,12 @@
 <template>
   <div>
     <TutorServiceHeader :service_info="service_info" />
-    <Gallery :photos=gallery />
-    <ExtrasServices />
-    <FastAppointments />
+    <Gallery :photos="gallery" />
+    <ExtrasServices  />
+    <FastAppointments @showDiscountOfferDialog="discountOfferDialog.show=true" :idservice=idservice />
+    <discount-offer-modal-dialog 
+    :show=discountOfferDialog.show :idservice=idservice 
+    @hideDialog=hideDiscountOfferDialog />
   </div>
 </template>
 
@@ -14,30 +17,41 @@ import ExtrasServices from "./ExtrasServices.vue";
 import FastAppointments from "./FastAppointmets.vue";
 import axios from "axios";
 import config from "../../../../configuration/config";
+import DiscountOfferModalDialog from "./DiscountOfferModalDialog.vue";
 export default {
   components: {
     TutorServiceHeader,
     Gallery,
     ExtrasServices,
     FastAppointments,
+    DiscountOfferModalDialog,
   },
 
   data() {
     return {
-      gallery: [],
-      service_info:{
-        address:{
-          country:'',
-          street:''
-        }
+      discountOfferDialog: {
+        show: false,
       },
+      gallery: [],
+      service_info: {
+        address: {
+          country: "",
+          street: "",
+        },
+      },
+      idservice:this.$route.params.idservice,
       extra_services: [],
       fast_appointments: [],
     };
   },
+
   methods: {
-    async fetchData() {
-      await axios
+    hideDiscountOfferDialog(value){
+      this.discountOfferDialog.show=value.dialog;
+
+    },
+    fetchData() {
+      axios
         .get(
           config.apiStart +
             "/api/users/tutors/" +
