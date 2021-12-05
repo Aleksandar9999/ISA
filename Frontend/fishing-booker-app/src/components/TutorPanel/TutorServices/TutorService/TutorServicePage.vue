@@ -70,6 +70,7 @@ export default {
             fishingEquipment: resp.data.fishingEquipment,
             name: resp.data.name,
             maxPerson: resp.data.maxPerson,
+            id:resp.data.id
           };
           console.log(this.service_info.address);
         });
