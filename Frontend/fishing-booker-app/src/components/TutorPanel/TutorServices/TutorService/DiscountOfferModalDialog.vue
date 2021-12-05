@@ -8,23 +8,48 @@
       :persistent-no-animation="dialog.persistentNoAnimation"
       title-class="backgorund-color: green;"
     >
-      <template #title> Tutor service </template>
-
+      <template #title> Discount Offer </template>
       <w-flex wrap class="text-center">
         <div class="xs6 pa1">
-          <p>Name</p>
+          <p>Validity period</p>
+        </div>
+      </w-flex>
+      <w-flex wrap class="text-center">
+        <div class="xs6 pa1">
+          <p>Start date:</p>
         </div>
         <div class="xs6 pa1">
-          <input type="text" v-model="tutorServiceLocal.name" />
+          <w-input type="date" v-model="discountOfferLocal.validityPeriod.startDate"> </w-input>
+        </div>
+      </w-flex>
+      <w-flex wrap class="text-center">
+        <div class="xs6 pa1">
+          <p>End date:</p>
+        </div>
+        <div class="xs6 pa1">
+          <w-input type="date" v-model="discountOfferLocal.validityPeriod.endDate"> </w-input>
         </div>
       </w-flex>
 
       <w-flex wrap class="text-center">
         <div class="xs6 pa1">
-          <p>Description</p>
+          <p>Reservation period</p>
+        </div>
+      </w-flex>
+      <w-flex wrap class="text-center">
+        <div class="xs6 pa1">
+          <p>Start date:</p>
         </div>
         <div class="xs6 pa1">
-          <input type="text" v-model="tutorServiceLocal.description" />
+          <w-input type="date" v-model="discountOfferLocal.reservationPeriod.startDate"> </w-input>
+        </div>
+      </w-flex>
+      <w-flex wrap class="text-center">
+        <div class="xs6 pa1">
+          <p>End date:</p>
+        </div>
+        <div class="xs6 pa1">
+          <w-input type="date" v-model="discountOfferLocal.reservationPeriod.endDate"> </w-input>
         </div>
       </w-flex>
 
@@ -33,64 +58,28 @@
           <p>Max num of persons:</p>
         </div>
         <div class="xs6 pa1">
-          <input type="number" v-model="tutorServiceLocal.maxPerson" />
+          <input type="number" v-model="discountOfferLocal.maxPerson" />
         </div>
       </w-flex>
 
       <w-flex wrap class="text-center">
         <div class="xs6 pa1">
-          <p>Rules</p>
+          <p>Additional services</p>
         </div>
         <div class="xs6 pa1">
-          <input type="text" v-model="tutorServiceLocal.rules" />
+          <input type="text" v-model="discountOfferLocal.additionalServices" />
         </div>
       </w-flex>
 
       <w-flex wrap class="text-center">
         <div class="xs6 pa1">
-          <p>Fishing equipment</p>
+          <p>Price:</p>
         </div>
         <div class="xs6 pa1">
-          <input type="text" v-model="tutorServiceLocal.fishingEquipment" />
+          <input type="number" v-model="discountOfferLocal.price" />
         </div>
       </w-flex>
 
-      <w-flex wrap class="text-center">
-        <div class="xs6 pa1">
-          <p>Cancel procentage</p>
-        </div>
-        <div class="xs6 pa1">
-          <input type="number" v-model="tutorServiceLocal.cancelProcentage" />
-        </div>
-      </w-flex>
-
-      <!--Polja za adresu-->
-      <w-flex wrap class="text-center">
-        <div class="xs6 pa1">
-          <p>Street</p>
-        </div>
-        <div class="xs6 pa1">
-          <input type="text" v-model="tutorServiceLocal.address.street" />
-        </div>
-      </w-flex>
-
-      <w-flex wrap class="text-center">
-        <div class="xs6 pa1">
-          <p>Country</p>
-        </div>
-        <div class="xs6 pa1">
-          <input type="text" v-model="tutorServiceLocal.address.country" />
-        </div>
-      </w-flex>
-
-      <w-flex wrap class="text-center">
-        <div class="xs6 pa1">
-          <p>City</p>
-        </div>
-        <div class="xs6 pa1">
-          <input type="text" v-model="tutorServiceLocal.address.city" />
-        </div>
-      </w-flex>
       <template #actions>
         <div class="spacer" />
         <w-button class="mr2" @click="hideDialog" bg-color="error">
@@ -103,9 +92,9 @@
 </template>
 <script>
 import axios from "axios";
-import config from "../../configuration/config";
+import config from "../../../../configuration/config";
 export default {
-  props: ["show", "idTutor"],
+  props: ["show", "idservice"],
   data() {
     return {
       dialog: {
@@ -115,39 +104,38 @@ export default {
         persistentNoAnimation: false,
         width: 400,
       },
-      success:false,
-      tutorServiceLocal: {
-        name: "",
-        description: "",
-        maxPerson: "",
-        rules: "",
-        fishingEquipment: "",
-        cancelProcentage: "",
-        address: {
-          street: "",
-          country: "",
-          city: "",
+      success: false,
+      clients: [],
+      services: [],
+      discountOfferLocal:{
+        validityPeriod:{
+          startDate:'',
+          endDate:''
         },
-      },
+        reservationPeriod:{
+          startDate:'',
+          endDate:''
+        },
+        maxPerson:'',
+        additionalServices:'',
+        price:''
+      }
     };
+  },
+  mounted() {
   },
   methods: {
     hideDialog() {
       this.dialog.show = false;
-      this.$emit("hideDialog", {dialog:this.dialog.show,success: this.success});
+      this.$emit("hideDialog", {
+        dialog: this.dialog.show,
+        success: this.success,
+      });
     },
     save() {
-      axios
-        .post(
-          config.apiStart + "/api/users/tutors/4/services",
-          this.tutorServiceLocal
-        )
-        .then(resp=>
-        {
-            this.hideDialog()
-            this.success=true;
-            console.log(resp)
-        });
+      //TODO: Fix hardcoded route
+      axios.post(config.apiStart+"/api/users/tutors/4/services/"+this.idservice+"/discount-offers",this.discountOfferLocal).then(console.log("CREATED"))
+      console.log(this.discountOfferLocal)
     },
   },
   watch: {
@@ -160,4 +148,8 @@ export default {
   },
 };
 </script>
-<style></style>
+<style>
+p {
+  color: black;
+}
+</style>

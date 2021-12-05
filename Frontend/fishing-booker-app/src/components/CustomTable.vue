@@ -10,7 +10,7 @@
               </th>
             </tr>
           </thead>
-          <tbody class="tbl-content" v-for="item in dataList" :key="item">
+          <tbody class="tbl-content" v-for="item in data_local" :key="item">
             <itemComp :item=item />
           </tbody>
         </table>
@@ -28,11 +28,28 @@ export default {
     itemRow: { type: Object },
   },
   components: {},
-  
+  data() {
+    return {
+      data_local:[]
+    }
+  },
   mounted() {
     this.$options.components.itemComp = this.itemRow;
     this.$forceUpdate(); //Koristi se da bi renderovao proslijedjenu komponentu
   },
+  watch:{
+    dataList:{
+      immediate:true,
+      handler(itemFromProps) {
+        if (itemFromProps) {
+          this.data_local = {
+            ...this.data_local,
+            ...itemFromProps,
+          };
+       }
+      }
+    }
+  }
 
 };
 </script>

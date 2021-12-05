@@ -1,7 +1,11 @@
 package com.isa.FishingBooker.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,6 +24,7 @@ import javax.persistence.OneToOne;
 import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.isa.FishingBooker.service.Service;
 
 @Entity
 @Transactional
@@ -217,5 +222,25 @@ public class TutorService {
 
 	public void setDisconutOffers(Set<DiscountOffer> disconutOffers) {
 		this.disconutOffers = disconutOffers;
+	}
+
+	public double calculatePrice(int duration) {
+		double appointmentPrice=0;
+		while (duration != 0) {
+			ServicePrice price = getBestOfferByDuration(duration);
+			appointmentPrice+=price.getPrice();
+			duration-=price.getNumberOfDays();
+		}
+		return appointmentPrice;
+	}
+
+	private ServicePrice getBestOfferByDuration(int duration) {
+		ServicePrice ret = null;
+		for (Object object : prices.stream().sorted().collect(Collectors.toList())) {
+			ServicePrice price=(ServicePrice)object;		
+			if(price.getNumberOfDays()<=duration)
+				ret=price;
+		}
+		return ret;
 	}
 }

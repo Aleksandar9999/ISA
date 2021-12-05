@@ -110,15 +110,11 @@ public class TutorServicesController {
 	@PostMapping("api/users/tutors/{idtutor}/services/{idservice}/discount-offers")
 	public ResponseEntity addTutorServiceDiscountOffers(@RequestBody DiscountOffer offer,
 			@PathVariable("idtutor") Integer idtutor, @PathVariable("idservice") int idservice) {
-		try {
 			TutorService tutorService = tutorServicesService.getById(idservice);
 			tutorService.addDiscountOffer(offer);
 			tutorServicesService.update(tutorService);
 			return ResponseEntity.ok().build();
-		} catch (RuntimeException e) {
-			System.err.println(e.getStackTrace().toString());
-			return ResponseEntity.badRequest().body(e.getStackTrace());
-		}
+		
 	}
 
 	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}/prices")

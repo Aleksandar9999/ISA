@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class ServicePrice {
+public class ServicePrice implements Comparable<ServicePrice> {
 	@Id
 	@Column(name = "service_price_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +40,13 @@ public class ServicePrice {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	@Override
+	public int compareTo(ServicePrice o) {
+		if(this.numberOfDays>o.getNumberOfDays()) {
+			return 1;
+		}else return -1;
 	}
 	
 	

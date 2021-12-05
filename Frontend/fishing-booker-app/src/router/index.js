@@ -1,4 +1,4 @@
-import TutorServicePage from "../components/TutorServices/TutorServicePage.vue";
+import TutorServicePage from "../components/TutorPanel/TutorServices/TutorService/TutorServicePage.vue";
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../views/LoginModalWindow.vue'
 import Register from '../views/RegistrationModalWindow.vue'
@@ -18,9 +18,12 @@ import ResortAppointmentHistory from '../components/ClientMenuLists/ResortAppoin
 import TutorAppointmentHistory from '../components/ClientMenuLists/TutorAppointmentHistory.vue'
 import FrontPage from '../components/FrontPage.vue'
 import Confirmation from '../components/Confirm.vue'
+
 import PendingUsersList from '../components/AdminPanel/PendingUsersList.vue'
 import SystemSettings from '../components/AdminPanel/SystemSettings.vue'
-import TutorServicesList from '../components/TutorPanel/TutorServicesList.vue'
+import TutorServicesList from '../components/TutorPanel/TutorServices/TutorServicesList.vue'
+import TutorAvailablePeriods from '../components/TutorPanel/TutorProfile/TutorAvailablePeriods.vue'
+import AppointmentsList from '../components/TutorPanel/TutorServices/Appointments/AppointmentsList.vue'
 const routes = [
   {
     path: "/about",
@@ -33,7 +36,10 @@ const routes = [
   {path: "/profile", name: "Profile", component: Profile},
 
   {path: "/tutors/:idtutor/services", name: "TutorServices", component: TutorServicesList},
-  {path: "/users/tutors/:idtutor/services/:idservice", name: "TutorService", component: TutorServicePage},
+  {path: "/tutors/:idtutor/available-periods", name: "TutorAvailablePeriods", component: TutorAvailablePeriods},
+  {path: "/tutors/:idtutor/appointments", name: "TutorServicesAppointments", component: AppointmentsList},
+  
+  {path: "/tutors/:idtutor/services/:idservice", name: "TutorService", component: TutorServicePage},
   {path: "/users/pending",name:"PendingUsersList",component: PendingUsersList},
   {path: "/system/settings",name: "SystemSettings", component:SystemSettings},
   

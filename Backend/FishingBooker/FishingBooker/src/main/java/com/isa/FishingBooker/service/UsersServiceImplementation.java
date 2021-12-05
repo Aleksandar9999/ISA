@@ -73,4 +73,10 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 		}
 		return "Bad id";
 	}
+
+
+	@Override
+	public List<User> getAllClients() {
+		return ((UserRepository)repository).findAllClients();
+	}
 }

@@ -1,41 +1,27 @@
-package com.isa.FishingBooker.model;
+package com.isa.FishingBooker.dto;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Table(name="clients")
-public class User {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+import com.isa.FishingBooker.model.Address;
+import com.isa.FishingBooker.model.Status;
+
+public class UserInfoDTO {
 	private Integer id;
-	@Column(nullable=false)
 	private String email;
-	@Column(nullable=false)
-	private String password;
 	private String name;
 	private String surname;
-	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
 	private String phoneNumber;
-	@Enumerated(EnumType.STRING)
 	private Status status;
-	
-	public User() {}
 
-	public User(int id) {this.id=id;}
+	public UserInfoDTO() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -50,14 +36,6 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getName() {
@@ -76,6 +54,14 @@ public class User {
 		this.surname = surname;
 	}
 
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -91,13 +77,4 @@ public class User {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-	
 }

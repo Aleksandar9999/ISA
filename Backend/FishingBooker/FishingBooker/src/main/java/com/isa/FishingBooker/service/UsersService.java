@@ -11,7 +11,7 @@ import com.isa.FishingBooker.model.User;
 
 public interface UsersService extends Service<User> {
 	
-
+	public List<User> getAllClients();
 	public Tutor getTutorById(int id);
 	public List<User> search(Status status);
 

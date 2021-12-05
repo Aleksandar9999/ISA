@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.FishingBooker.dto.LoginInfoDTO;
 import com.isa.FishingBooker.dto.LoginReturnDTO;
 import com.isa.FishingBooker.dto.RegistrationDTO;
+import com.isa.FishingBooker.dto.UserInfoDTO;
 import com.isa.FishingBooker.exceptions.RegistrationException;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.model.Period;
@@ -36,6 +37,11 @@ public class UsersController {
 
 	@Autowired
 	private CustomModelMapper<User, RegistrationDTO> registrationMapper;
+	
+	@Autowired
+	private CustomModelMapper<User, UserInfoDTO> userInfoMapper;
+	
+	
 	@Autowired
 	EmailService emailService;
 
@@ -60,9 +66,9 @@ public class UsersController {
 		return ResponseEntity.ok(tutor.getAvailabilityPeriods());
 	}
 
-	@PostMapping("api/users/tutors/available-periods")
-	public ResponseEntity addPeriod(@RequestBody Period period) {
-		Tutor tutor = usersService.getTutorById(4);// TODO:FIX HARDCODE
+	@PostMapping("api/users/tutors/{id}/available-periods")
+	public ResponseEntity addPeriod(@RequestBody Period period,@PathVariable("id") int id) {
+		Tutor tutor = usersService.getTutorById(id);// TODO:FIX HARDCODE
 		tutor.addPeriod(period);
 		usersService.update(tutor);
 		return ResponseEntity.ok(period);
@@ -110,8 +116,8 @@ public class UsersController {
 	}
 
 	@GetMapping("api/users/{id}")
-	public ResponseEntity<User> getUserById(@PathVariable String id){
-		return ResponseEntity.ok(usersService.getById(getUserId(id)));
+	public ResponseEntity getUserById(@PathVariable String id){
+		return ResponseEntity.ok(userInfoMapper.convertToDto(usersService.getById(getUserId(id))));
 	}
 
 	private Integer getUserId(String id) {
@@ -126,4 +132,8 @@ public class UsersController {
 		return ResponseEntity.ok(usersService.confirmAccount(id));
 	}
 	
+	@GetMapping("api/users/clients")
+	public ResponseEntity getAllClients() {
+		return ResponseEntity.ok(userInfoMapper.convertToDtos(usersService.getAllClients()));
+	}
 }

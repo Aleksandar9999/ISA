@@ -9,9 +9,9 @@
 </template>
 <script>
 import axios from "axios";
-import CustomTable from "../CustomTable.vue";
+import CustomTable from "../../CustomTable.vue";
 import TutorSericeInfoRow from "./TutorServiceInfoRow.vue";
-import config from "../../configuration/config";
+import config from "../../../configuration/config";
 import TutorServiceDialog from "./TutorServiceDialog.vue";
 export default {
   components: {
