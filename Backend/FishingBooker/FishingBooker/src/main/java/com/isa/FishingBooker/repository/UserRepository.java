@@ -24,4 +24,8 @@ public interface UserRepository extends JpaRepository<User ,Integer> {
 	
 	@Query("select u from User u where u.status=?1")
 	public List<User> search(Status status);
+	
+	@Query("select u from User u where TYPE(u)=User")
+	public List<User> findAllClients();
+	
 }

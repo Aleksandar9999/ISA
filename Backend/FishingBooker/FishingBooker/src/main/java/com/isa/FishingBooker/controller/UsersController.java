@@ -132,4 +132,8 @@ public class UsersController {
 		return ResponseEntity.ok(usersService.confirmAccount(id));
 	}
 	
+	@GetMapping("api/users/clients")
+	public ResponseEntity getAllClients() {
+		return ResponseEntity.ok(userInfoMapper.convertToDtos(usersService.getAllClients()));
+	}
 }

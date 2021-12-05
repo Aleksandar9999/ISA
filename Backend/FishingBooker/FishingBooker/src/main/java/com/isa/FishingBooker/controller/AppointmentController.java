@@ -52,13 +52,11 @@ public class AppointmentController {
 		return ResponseEntity.ok((ArrayList<TutorServiceAppointment>) service.getTutorServiceApointments());
 	}
 
-	@PostMapping("api/appointments/tutor-service/{idservice}")
-	public ResponseEntity addTutorServiceAppointment(@RequestBody TutorServiceAppointmentDTO dto,
-			@PathVariable("idservice") Integer idService) {
+	@PostMapping("api/appointments/tutor-service")
+	public ResponseEntity addTutorServiceAppointment(@RequestBody TutorServiceAppointmentDTO dto) {
 		TutorServiceAppointment appointment = tutorServiceModelMapper.convertToEntity(dto);
-		appointment.setTutorService(new TutorService(idService));
-		appointment.setUser(new User(1)); // TODO: Get id of loggedin user
-		service.addNew(appointment);
+		//appointment.setUser(new User(1)); // TODO: Get id of loggedin user
+		service.addNewTutorServiceAppointment(appointment);
 		return ResponseEntity.ok(tutorServiceModelMapper.convertToDto(appointment));
 	}
 
