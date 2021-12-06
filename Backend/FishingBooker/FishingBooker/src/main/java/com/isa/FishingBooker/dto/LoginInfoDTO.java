@@ -4,15 +4,23 @@ import com.isa.FishingBooker.model.Status;
 
 public class LoginInfoDTO {
 	private String email;
-	private String pass;
+	private String password;
 	private Status status;
 	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public LoginInfoDTO() {}
 	
 	public LoginInfoDTO(String email, String pass, Status status) {
 		super();
 		this.email = email;
-		this.pass = pass;
+		this.password = pass;
 		this.status = status;
 	}
 	public String getEmail() {
@@ -21,12 +29,7 @@ public class LoginInfoDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getPass() {
-		return pass;
-	}
-	public void setPass(String pass) {
-		this.pass = pass;
-	}
+	
 	public Status getStatus() {
 		return status;
 	}

@@ -6,6 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +32,7 @@ import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.service.EmailService;
 import com.isa.FishingBooker.service.UsersService;
 
+
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class UsersController {
@@ -40,7 +44,6 @@ public class UsersController {
 	
 	@Autowired
 	private CustomModelMapper<User, UserInfoDTO> userInfoMapper;
-	
 	
 	@Autowired
 	EmailService emailService;
@@ -87,12 +90,9 @@ public class UsersController {
 		return services;
 	}
 
-	@PostMapping("login")
-	public ResponseEntity<LoginReturnDTO> login(@RequestBody LoginInfoDTO user) {
-		return ResponseEntity.ok(usersService.Login(user));
-	}
+	
 
-	@PostMapping("register")
+	@PostMapping("api/register")
 	public ResponseEntity register(@RequestBody RegistrationDTO dto) {
 		try {
 			User user = registrationMapper.convertToEntity(dto);

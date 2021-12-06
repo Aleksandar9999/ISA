@@ -1,4 +1,4 @@
-package com.isa.FishingBooker;
+package com.isa.FishingBooker.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
