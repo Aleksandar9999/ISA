@@ -38,9 +38,6 @@ import com.isa.FishingBooker.service.UsersService;
 public class UsersController {
 	@Autowired
 	private UsersService usersService;
-
-	@Autowired
-	private CustomModelMapper<User, RegistrationDTO> registrationMapper;
 	
 	@Autowired
 	private CustomModelMapper<User, UserInfoDTO> userInfoMapper;
@@ -90,20 +87,6 @@ public class UsersController {
 		return services;
 	}
 
-	
-
-	@PostMapping("api/register")
-	public ResponseEntity register(@RequestBody RegistrationDTO dto) {
-		try {
-			User user = registrationMapper.convertToEntity(dto);
-			usersService.addNew(user);
-			emailService.sendRegisterConfirmationMail(user);//TODO: Sending email slow down response. Find out how to fix this
-			return ResponseEntity.ok(user);
-		} catch (RegistrationException ex) {
-			return ResponseEntity.status(400).body(ex.getMessage());
-		}
-	}
-	
 	@GetMapping("api/users/search")
 	public ResponseEntity getAllUsersByStatus(@RequestParam(value = "status",defaultValue = "") Status s) {
 		return ResponseEntity.ok(usersService.search(s));

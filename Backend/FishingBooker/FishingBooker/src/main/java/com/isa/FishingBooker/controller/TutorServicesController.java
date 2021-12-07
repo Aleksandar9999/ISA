@@ -3,18 +3,22 @@ package com.isa.FishingBooker.controller;
 import java.util.ArrayList;
 
 import com.isa.FishingBooker.dto.TutorServiceDTO;
+import com.isa.FishingBooker.exceptions.AuthorizationException;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.model.DiscountOffer;
 import com.isa.FishingBooker.model.Photo;
 import com.isa.FishingBooker.model.ServicePrice;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.TutorService;
+import com.isa.FishingBooker.model.User;
+import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
 import com.isa.FishingBooker.service.TutorServicesService;
 import com.isa.FishingBooker.service.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,25 +38,25 @@ public class TutorServicesController {
 	private CustomModelMapper<TutorService, TutorServiceDTO> tutorServiceMapper;
 
 	@GetMapping("api/users/tutors/services")
-	public ResponseEntity getAll() {
+	public ResponseEntity<?> getAll() {
 		return ResponseEntity
 				.ok(tutorServiceMapper.convertToDtos((ArrayList<TutorService>) tutorServicesService.getAll()));
 	}
 
 	@GetMapping("api/users/tutors/services/valid")
-	public ResponseEntity getAllValid() {
+	public ResponseEntity<?> getAllValid() {
 		return ResponseEntity
 				.ok(tutorServiceMapper.convertToDtos((ArrayList<TutorService>) tutorServicesService.getAllValid()));
 	}
 
 	@GetMapping("api/users/tutors/services/{id}")
-	public ResponseEntity<TutorService> getByID(@PathVariable("id") Integer id) {
+	public ResponseEntity<?> getByID(@PathVariable("id") Integer id) {
 		TutorService tutorService = tutorServicesService.getById(id);
 		return ResponseEntity.ok(tutorService);
 	}
 
 	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}")
-	public ResponseEntity getTutorService(@PathVariable("idtutor") Integer idtutor,
+	public ResponseEntity<?> getTutorService(@PathVariable("idtutor") Integer idtutor,
 			@PathVariable("idservice") int idservice) {
 		return ResponseEntity
 				.ok(tutorServiceMapper.convertToDto((TutorService) tutorServicesService.getById(idservice)));
@@ -61,36 +65,41 @@ public class TutorServicesController {
 
 	@PostMapping("api/users/tutors/{idtutor}/services")
 	@PreAuthorize("hasRole('TUTOR')")
-	public ResponseEntity addTutorService(@PathVariable("idtutor") Integer idtutor, @RequestBody TutorServiceDTO dto) {
+	public ResponseEntity<?> addTutorService(@PathVariable("idtutor") Integer idtutor,
+			@RequestBody TutorServiceDTO dto) {
+		TokenBasedAuthentication auth = (TokenBasedAuthentication) SecurityContextHolder.getContext()
+				.getAuthentication();
+		User tutor = (User) auth.getPrincipal();
+		dto.setTutorId(tutor.getId());
 		TutorService entity = tutorServiceMapper.convertToEntity(dto);
-		entity.setTutor(new Tutor(idtutor));
 		tutorServicesService.addNew(entity);
 		return ResponseEntity.ok(entity);
 	}
 
 	@PutMapping("api/users/tutors/{idtutor}/services/{idservice}")
-	public ResponseEntity updateTutorService(@RequestBody TutorServiceDTO dto, @PathVariable("idtutor") Integer idtutor,
-			@PathVariable("idservice") int idservice) {
+	@PreAuthorize("hasRole('TUTOR')")
+	public ResponseEntity<?> updateTutorService(@RequestBody TutorServiceDTO dto,
+			@PathVariable("idtutor") Integer idtutor, @PathVariable("idservice") int idservice) {
 		TutorService entity = tutorServiceMapper.convertToEntity(dto);
-		entity.setTutor(new Tutor(idtutor));
-		entity.setId(idservice);
-		tutorServicesService.update(entity);
-		return ResponseEntity.ok(entity);
-	}
-
-	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}/photos")
-	public ResponseEntity getTutorServicePhotos(@PathVariable("idtutor") Integer idtutor,
-			@PathVariable("idservice") int idservice) {
 		try {
-			TutorService tutorService = tutorServicesService.getById(idservice);
-			return ResponseEntity.status(200).body(tutorService.getPhotos());
-		} catch (Exception e) {
-			return ResponseEntity.ok(new ArrayList<>());
+			validateTutor(entity);
+			tutorServicesService.update(entity);
+			return ResponseEntity.ok(entity);
+		} catch (AuthorizationException ex) {
+			return ResponseEntity.status(ex.getHttpStatus()).body(ex.getMessage());
 		}
 	}
 
+	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}/photos")
+	public ResponseEntity<?> getTutorServicePhotos(@PathVariable("idtutor") Integer idtutor,
+			@PathVariable("idservice") int idservice) {
+		TutorService tutorService = tutorServicesService.getById(idservice);
+		return ResponseEntity.status(200).body(tutorService.getPhotos());
+	}
+
 	@PostMapping("api/users/tutors/{idtutor}/services/{idservice}/photos")
-	public ResponseEntity addNewPhoto(@RequestBody Photo photo, @PathVariable("idtutor") Integer idtutor,
+	@PreAuthorize("hasRole('TUTOR')")
+	public ResponseEntity<?> addNewPhoto(@RequestBody Photo photo, @PathVariable("idtutor") Integer idtutor,
 			@PathVariable("idservice") int idservice) {
 		TutorService tutorService = tutorServicesService.getById(idservice);
 		tutorService.addPhoto(photo);
@@ -99,54 +108,62 @@ public class TutorServicesController {
 	}
 
 	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}/discount-offers")
-	public ResponseEntity getTutorServiceDiscountOffers(@PathVariable("idtutor") Integer idtutor,
+	public ResponseEntity<?> getTutorServiceDiscountOffers(@PathVariable("idtutor") Integer idtutor,
 			@PathVariable("idservice") int idservice) {
-		try {
-			TutorService tutorService = tutorServicesService.getById(idservice);
-			return ResponseEntity.status(200).body(tutorService.getDisconutOffers());
-		} catch (Exception e) {
-			return ResponseEntity.ok(new ArrayList<>());
-		}
+		TutorService tutorService = tutorServicesService.getById(idservice);
+		return ResponseEntity.status(200).body(tutorService.getDisconutOffers());
 	}
 
 	@PostMapping("api/users/tutors/{idtutor}/services/{idservice}/discount-offers")
-	public ResponseEntity addTutorServiceDiscountOffers(@RequestBody DiscountOffer offer,
+	@PreAuthorize("hasRole('TUTOR')")
+	public ResponseEntity<?> addTutorServiceDiscountOffers(@RequestBody DiscountOffer offer,
 			@PathVariable("idtutor") Integer idtutor, @PathVariable("idservice") int idservice) {
-			TutorService tutorService = tutorServicesService.getById(idservice);
+		TutorService tutorService = tutorServicesService.getById(idservice);
+		try {
+			validateTutor(tutorService);
 			tutorService.addDiscountOffer(offer);
 			tutorServicesService.update(tutorService);
-			return ResponseEntity.ok().build();
-		
+			return ResponseEntity.ok(offer);
+		} catch (AuthorizationException ex) {
+			return ResponseEntity.status(ex.getHttpStatus()).body(ex.getMessage());
+		}
+
 	}
 
 	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}/prices")
-	public ResponseEntity getTutorServicePrice(@PathVariable("idtutor") Integer idtutor,
+	public ResponseEntity<?> getTutorServicePrice(@PathVariable("idtutor") Integer idtutor,
 			@PathVariable("idservice") int idservice) {
-		try {
-			TutorService tutorService = tutorServicesService.getById(idservice);
-			return ResponseEntity.status(200).body(tutorService.getPrices());
-		} catch (Exception e) {
-			return ResponseEntity.ok(new ArrayList<>());
-		}
+		TutorService tutorService = tutorServicesService.getById(idservice);
+		return ResponseEntity.status(200).body(tutorService.getPrices());
 	}
 
 	@PostMapping("api/users/tutors/{idtutor}/services/{idservice}/prices")
-	public ResponseEntity addTutorServicePrice(@RequestBody ServicePrice price,
+	@PreAuthorize("hasRole('TUTOR')")
+	public ResponseEntity<?> addTutorServicePrice(@RequestBody ServicePrice price,
 			@PathVariable("idtutor") Integer idtutor, @PathVariable("idservice") int idservice) {
-		try {
 			TutorService tutorService = tutorServicesService.getById(idservice);
 			tutorService.addPrice(price);
 			tutorServicesService.update(tutorService);
-			return ResponseEntity.ok().build();
-		} catch (RuntimeException e) {
-			System.err.println(e.getStackTrace().toString());
-			return ResponseEntity.badRequest().body(e.getStackTrace());
-		}
+			return ResponseEntity.ok(price);
 	}
 
 	@DeleteMapping("api/services/{id}")
-	public ResponseEntity deleteTutorService(@PathVariable("id") int id) {
-		tutorServicesService.delete(id);
-		return ResponseEntity.ok().build();
+	@PreAuthorize("hasRole('TUTOR')")
+	public ResponseEntity<?> deleteTutorService(@PathVariable("id") int id) {
+		try {
+			validateTutor(tutorServicesService.getById(id));
+			tutorServicesService.delete(id);
+			return ResponseEntity.ok().build();
+		}catch(AuthorizationException ex) {
+			return ResponseEntity.status(ex.getHttpStatus()).body(ex.getMessage());	
+		}
+	}
+
+	private void validateTutor(TutorService entity) {
+		TokenBasedAuthentication auth = (TokenBasedAuthentication) SecurityContextHolder.getContext()
+				.getAuthentication();
+		User tutor = (User) auth.getPrincipal();
+		if (!entity.getTutor().getId().equals(tutor.getId()))
+			throw new AuthorizationException();
 	}
 }
