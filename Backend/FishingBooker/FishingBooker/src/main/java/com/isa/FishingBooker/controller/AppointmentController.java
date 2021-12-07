@@ -70,8 +70,8 @@ public class AppointmentController {
 
 	
 	@GetMapping("/getPendingAppointments")
-	public ResponseEntity<List<Appoinment>>  getPendingAppointments(@RequestBody String email){
-		return ResponseEntity.ok((List<Appoinment>)service.getPendingApointments(email));
+	public ResponseEntity<List<Appointment>>  getPendingAppointments(@RequestBody String email){
+		return ResponseEntity.ok((List<Appointment>)service.getPendingApointments(email));
 	}
 
 }

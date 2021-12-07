@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.dto.LoginInfoDTO;
 import com.isa.FishingBooker.dto.LoginReturnDTO;
+import com.isa.FishingBooker.dto.RegistrationDTO;
 import com.isa.FishingBooker.exceptions.EmailExistException;
 import com.isa.FishingBooker.mapper.UserToLoginReturnDTOMapper;
 
@@ -91,5 +92,6 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 		// TODO Auto-generated method stub
 		return repository.save(user);
 	}
+
 
 }

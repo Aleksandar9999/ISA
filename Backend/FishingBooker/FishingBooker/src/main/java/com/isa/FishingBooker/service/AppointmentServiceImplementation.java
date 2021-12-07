@@ -46,24 +46,24 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 	}
 
 	@Override
-	public List<Appoinment> getPendingApointments(String email) {
-		List<Appoinment> appointments = new ArrayList<Appoinment>();
+	public List<Appointment> getPendingApointments(String email) {
+		List<Appointment> appointments = new ArrayList<Appointment>();
 		Date thisMoment = new Date(System.currentTimeMillis());
-		for(BoatAppointment a : repository.getAllBoatAppoints()) {
+		for(BoatAppointment a : ((AppointmentRepository)repository).getAllBoatAppoints()) {
 			if(a.getUser().getEmail().equals(email)) {
 				if(a.getStart().compareTo(thisMoment)>0) {					
 					appointments.add(a);
 				}
 			}
 		}
-		for(ResortAppointment a : repository.getAllResortAppoints()) {
+		for(ResortAppointment a : ((AppointmentRepository)repository).getAllResortAppoints()) {
 			if(a.getUser().getEmail().equals(email)) {
 				if(a.getStart().compareTo(thisMoment)>0) {					
 					appointments.add(a);
 				}
 			}
 		}
-		for(TutorServiceAppointment a : repository.getAllTutorServiceAppoints()) {
+		for(TutorServiceAppointment a : ((AppointmentRepository)repository).getAllTutorServiceAppointments()) {
 			if(a.getUser().getEmail().equals(email)) {
 				if(a.getStart().compareTo(thisMoment)>0) {					
 					appointments.add(a);
