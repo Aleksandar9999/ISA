@@ -16,6 +16,7 @@ import com.isa.FishingBooker.model.User;
 public interface UserRepository extends JpaRepository<User ,Integer> {
 	
 	public User findByEmail(String email);
+	
 	@Query("select tutor from Tutor tutor join fetch tutor.services services where tutor.id=?1")
 	public Tutor findTutorWithServices(int tutorId);
 	

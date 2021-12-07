@@ -2,6 +2,8 @@ package com.isa.FishingBooker.service;
 
 import java.util.List;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.dto.LoginInfoDTO;
@@ -19,23 +21,22 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 
 	@Override
 	public LoginReturnDTO Login(LoginInfoDTO user) {
-		User logTry = ((UserRepository)repository).findByEmail(user.getEmail());
+		User logTry = ((UserRepository) repository).findByEmail(user.getEmail());
 		LoginReturnDTO returnDTO = new LoginReturnDTO();
 		UserToLoginReturnDTOMapper mapper = new UserToLoginReturnDTOMapper();
-		
-		if(logTry==null) {
+
+		if (logTry == null) {
 			return null;
 		}
-		if(logTry.getStatus()!=Status.CONFIRMED) {
+		if (logTry.getStatus() != Status.CONFIRMED) {
 			return null;
 		}
-		
-		if(logTry.getPassword().equals(user.getPass())) {
+
+		if (logTry.getPassword().equals(user.getPassword())) {
 			return mapper.mapUserToLoginReturnDTO(logTry, returnDTO);
-		}	
+		}
 		return null;
 	}
-
 
 	@Override
 	public void addNew(User item) {
@@ -44,28 +45,24 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 		super.addNew(item);
 	}
 
-
 	private void validateEmail(String email) {
-		if (((UserRepository)repository).findByEmail(email) != null)
+		if (((UserRepository) repository).findByEmail(email) != null)
 			throw new EmailExistException();
 	}
-	
+
 	@Override
 	public Tutor getTutorById(int id) {
-		return (Tutor) ((UserRepository)repository).findTutorWithServices(id);
+		return (Tutor) ((UserRepository) repository).findTutorWithServices(id);
 	}
-
 
 	@Override
 	public List<User> search(Status status) {
-		return ((UserRepository)repository).search(status);
+		return ((UserRepository) repository).search(status);
 	}
-
 
 	@Override
 	public String confirmAccount(Integer id) {
-		// TODO Auto-generated method stub
-		if(repository.getById(id)!=null) {
+		if (repository.getById(id) != null) {
 			User u = repository.getById(id);
 			u.setStatus(Status.CONFIRMED);
 			repository.save(u);
@@ -74,9 +71,18 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 		return "Bad id";
 	}
 
-
 	@Override
 	public List<User> getAllClients() {
-		return ((UserRepository)repository).findAllClients();
+		return ((UserRepository) repository).findAllClients();
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		User user = ((UserRepository) repository).findByEmail(email);
+		if (user == null) {
+			throw new UsernameNotFoundException(String.format("No user found with username '%s'.", email));
+		} else {
+			return user;
+		}
 	}
 }
