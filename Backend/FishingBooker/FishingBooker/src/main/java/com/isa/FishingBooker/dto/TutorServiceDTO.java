@@ -25,6 +25,7 @@ public class TutorServiceDTO {
 	private double cancelProcentage;
 	private Address address;
 	private String tutorBio;
+	private int tutorId;
 	public Integer getId() {
 		return id;
 	}
@@ -78,6 +79,12 @@ public class TutorServiceDTO {
 	}
 	public void setTutorBio(String tutorbio) {
 		this.tutorBio = tutorbio;
+	}
+	public int getTutorId() {
+		return tutorId;
+	}
+	public void setTutorId(int tutorId) {
+		this.tutorId = tutorId;
 	}
 
 }

@@ -25,5 +25,4 @@ public class TutorServiceAppointmentMapper extends CustomModelMapperAbstract<Tut
 		entity.setTutorService(new TutorService(dto.getServiceId()));
 		return entity;
 	}
-
 }

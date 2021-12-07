@@ -2,6 +2,7 @@ package com.isa.FishingBooker.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import com.isa.FishingBooker.dto.LoginReturnDTO;
 import com.isa.FishingBooker.dto.RegistrationDTO;
 import com.isa.FishingBooker.exceptions.EmailExistException;
 import com.isa.FishingBooker.mapper.UserToLoginReturnDTOMapper;
-
+import com.isa.FishingBooker.model.Role;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.User;
@@ -20,6 +21,9 @@ import com.isa.FishingBooker.repository.UserRepository;
 @Service
 public class UsersServiceImplementation extends CustomServiceAbstract<User> implements UsersService {
 
+	@Autowired
+	private RoleService roleService;
+	
 	@Override
 	public LoginReturnDTO Login(LoginInfoDTO user) {
 		User logTry = ((UserRepository) repository).findByEmail(user.getEmail());
@@ -42,8 +46,13 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 	@Override
 	public void addNew(User item) {
 		validateEmail(item.getEmail());
+		setUserRoles(item);
 		item.setStatus(Status.PENDING);
 		super.addNew(item);
+	}
+
+	private void setUserRoles(User item) {
+		item.getRoles().forEach(role-> role.setId(roleService.findRoleIdByName(role.getName())));
 	}
 
 	private void validateEmail(String email) {

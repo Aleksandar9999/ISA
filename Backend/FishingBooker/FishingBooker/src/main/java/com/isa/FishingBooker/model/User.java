@@ -1,5 +1,6 @@
 package com.isa.FishingBooker.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -49,7 +50,16 @@ public class User implements UserDetails {
 
 	public User() {
 	}
-
+	public List<Role> getRoles() {
+		return roles;
+	}
+	public void setRolesNames() {
+		this.setRoleName(Role.USER_ROLE);
+	}
+	protected void setRoleName(String name) {
+		if(this.roles==null) this.roles=new ArrayList<Role>();
+		this.roles.add(new Role(name));
+	}
 	public User(int id) {
 		this.id = id;
 	}
