@@ -2,8 +2,8 @@
 <div>
 <div class="searchBox">
   <select name="sort" id="sort">
-    <option value="name_asc">Sort by name ascending</option>
-    <option value="name">Sort by name descending</option>
+    <!--<option value="name_asc">Sort by name ascending</option>
+    <option value="name">Sort by name descending</option>-->
     <option value="advname_asc">Sort by adventure name ascending</option>
     <option value="advname">Sort by adventure name descending</option>
     <option value="location_asc">Sort by location ascending</option>
@@ -43,7 +43,8 @@ export default {
     data(){
         return{
             headerList:['ID','Adventure Name','Max Persons','City','Rate'],
-            dataList:[]
+            dataList:[],
+            jwtToken:''
         }
     },
     methods:{
@@ -54,12 +55,12 @@ export default {
                 alert('Pick sort type first!');
                 return;
             }
-            if (criteria === 'name_asc'){
+            /*if (criteria === 'name_asc'){
                 this.dataList.sort((a,b)=> (a.tutor.name>b.tutor.name) ? 1 :(b.tutor.name>a.tutor.name) ? -1 :0);
             } else
             if(criteria === 'name'){
                 this.dataList.sort((a,b)=> (a.tutor.name<b.tutor.name) ? 1 :(b.tutor.name<a.tutor.name) ? -1 :0);
-            } else
+            } else*/
             if (criteria === 'advname_asc'){
                 this.dataList.sort((a,b)=> (a.name>b.name) ? 1 :(b.name>a.name) ? -1 :0);
             } else
@@ -82,7 +83,8 @@ export default {
     },
     mounted(){
         this.dataList=[]
-        axios.get('http://localhost:8080/api/users/tutors/services').then(response =>
+        this.jwtToken=localStorage.jwtToken
+        axios.get('http://localhost:8080/api/users/tutors/servicesforList',{headers:{'Authorization':'Bearer '+ this.jwtToken}}).then(response =>
         this.dataList=response.data)
     }
 }

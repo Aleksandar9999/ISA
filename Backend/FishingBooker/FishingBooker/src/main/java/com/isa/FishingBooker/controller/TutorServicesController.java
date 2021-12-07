@@ -1,6 +1,7 @@
 package com.isa.FishingBooker.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.isa.FishingBooker.dto.TutorServiceDTO;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
@@ -148,5 +149,11 @@ public class TutorServicesController {
 	public ResponseEntity deleteTutorService(@PathVariable("id") int id) {
 		tutorServicesService.delete(id);
 		return ResponseEntity.ok().build();
+	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@GetMapping("api/users/tutors/servicesforList")
+	public ResponseEntity<List<TutorService>> getAllForList() {
+		return ResponseEntity.ok(tutorServicesService.getAll());
 	}
 }
