@@ -85,4 +85,11 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 			return user;
 		}
 	}
+
+	@Override
+	public User EditUser(User user) {
+		// TODO Auto-generated method stub
+		return repository.save(user);
+	}
+
 }

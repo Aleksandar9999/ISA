@@ -97,21 +97,23 @@ import config from '../configuration/config';
          },
 
          submitPass(){
-             this.validatePass()
+             if(this.validatePass())
+                return
              this.collectPassData()
-             axios.post('http://localhost:8080/editPassword', this.profileReqData).then(response=>console.log(response.data))
+             axios.post('http://localhost:8080/editUserProfile', this.profileReqData).then(response=>console.log(response.data))
          },
 
          validatePass(){
              if(this.newPass===this.newPassRetype){
-                 return
+                 return false
              } else {
                  document.getElementById("warnBox").classList.toggle("pass-warning-act")
+                 return true
              }
          },
          collectPassData(){
             this.profileReqData.id=this.id;
-            this.profileReqData.email=this.email;
+            this.profileReqData.email=this.mail;
             this.profileReqData.password=this.newPass
             this.profileReqData.name=this.name;
             this.profileReqData.surname=this.surname;
@@ -139,12 +141,11 @@ import config from '../configuration/config';
 
 
              document.getElementById("btnSave").classList.toggle("toggle-btn-show")
-             document.getElementById("input").removeAttribute('disabled');
          },
 
          saveEdited(){
              this.collectData()
-             axios.post('http://localhost:8080/editProfile', this.profileReqData).then(response=>console.log(response.data))
+             axios.post('http://localhost:8080/editUserProfile', this.profileReqData).then(response=>console.log(response.data))
 
              let ipts= document.getElementsByName('input');
                  for(let i =0; i < ipts.length; i++){
@@ -166,7 +167,7 @@ import config from '../configuration/config';
 
          collectData(){
             this.profileReqData.id=this.id;
-            this.profileReqData.email=this.email;
+            this.profileReqData.email=this.mail;
             this.profileReqData.password=this.password;
             this.profileReqData.name=this.name;
             this.profileReqData.surname=this.surname;
