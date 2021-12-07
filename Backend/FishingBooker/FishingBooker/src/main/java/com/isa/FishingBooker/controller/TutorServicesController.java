@@ -14,6 +14,7 @@ import com.isa.FishingBooker.service.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,6 +60,7 @@ public class TutorServicesController {
 	}
 
 	@PostMapping("api/users/tutors/{idtutor}/services")
+	@PreAuthorize("hasRole('TUTOR')")
 	public ResponseEntity addTutorService(@PathVariable("idtutor") Integer idtutor, @RequestBody TutorServiceDTO dto) {
 		TutorService entity = tutorServiceMapper.convertToEntity(dto);
 		entity.setTutor(new Tutor(idtutor));
