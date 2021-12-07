@@ -19,4 +19,5 @@ public interface UsersService extends Service<User>, UserDetailsService {
 	public LoginReturnDTO Login(LoginInfoDTO user);
 	public String confirmAccount(Integer id);
 	public User EditUser(User user);
+	public User getUserProfileData();
 }

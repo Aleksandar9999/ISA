@@ -2,6 +2,7 @@ package com.isa.FishingBooker.service;
 
 import java.util.List;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.UserRepository;
+import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
 
 @Service
 public class UsersServiceImplementation extends CustomServiceAbstract<User> implements UsersService {
@@ -93,5 +95,13 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 		return repository.save(user);
 	}
 
+	@Override
+	public User getUserProfileData() {
+		// TODO Auto-generated method stub
+		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext().getAuthentication();
+		User usr = (User) aut.getPrincipal();
+		
+		return this.getById(usr.getId());
+	}
 
 }

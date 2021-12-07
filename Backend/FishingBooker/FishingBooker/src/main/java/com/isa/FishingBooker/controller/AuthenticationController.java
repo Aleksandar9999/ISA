@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.dto.LoginInfoDTO;
-import com.isa.FishingBooker.dto.LoginReturnDTO;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.security.util.TokenUtils;
 

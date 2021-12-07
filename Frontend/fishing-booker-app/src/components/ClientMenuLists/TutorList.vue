@@ -25,9 +25,9 @@
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
                 <tr><td>{{item.id}}</td>
-                    <td>{{item.tutor.name}}</td>
-                    <td>{{item.tutor.surname}}</td>
                     <td>{{item.name}}</td>
+                    <td>{{item.maxPerson}}</td>
+                    <td>{{item.address.city}}</td>
                     <td>{{item.rate}}</td>
                 </tr>
           </tbody>                   
@@ -42,7 +42,7 @@ import axios from 'axios'
 export default {
     data(){
         return{
-            headerList:['ID','Name','Surname','Adventure','Rate'],
+            headerList:['ID','Adventure Name','Max Persons','City','Rate'],
             dataList:[]
         }
     },

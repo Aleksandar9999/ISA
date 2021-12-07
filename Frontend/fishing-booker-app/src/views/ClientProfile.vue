@@ -87,7 +87,8 @@ import config from '../configuration/config';
              phoneNum:'',
              id:'',
              password:'',
-             profileReqData:{}
+             profileReqData:{},
+             jwtToken:''
          }
      },
      methods: {
@@ -159,9 +160,9 @@ import config from '../configuration/config';
              this.mail=this.profileData.email
              this.name=this.profileData.name
              this.surname=this.profileData.surname
-             this.address=this.profileData.address
-             this.city=this.profileData.city
-             this.state=this.profileData.country;
+             this.address=this.profileData.address.street
+             this.city=this.profileData.address.city
+             this.state=this.profileData.address.country;
              this.phoneNum=this.profileData.phoneNumber;
          },
 
@@ -186,7 +187,8 @@ import config from '../configuration/config';
          }
      },
      mounted() {
-         axios.get(config.apiStart+'/api/users/1').then(response=> this.populateProfileData(response))
+         this.jwtToken=localStorage.jwtToken;
+         axios.get(config.apiStart+'/api/userProfile',{headers:{'Authorization':'Bearer ' + this.jwtToken}}).then(response=> this.populateProfileData(response))
      }
 }
 </script>
