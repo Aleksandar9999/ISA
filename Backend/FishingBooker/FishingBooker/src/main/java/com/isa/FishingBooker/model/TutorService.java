@@ -1,15 +1,11 @@
 package com.isa.FishingBooker.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -24,7 +20,6 @@ import javax.persistence.OneToOne;
 import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.isa.FishingBooker.service.Service;
 
 @Entity
 @Transactional
@@ -61,10 +56,7 @@ public class TutorService {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "tutor_id")
 	private Tutor tutor;
-
-	public TutorService() {
-	}
-
+	
 	public TutorService(Integer id) {
 		this.id = id;
 	}
