@@ -22,5 +22,4 @@ public class DeleteRequestMapper extends CustomModelMapperAbstract<DeleteRequest
 		req.setUser(new User(dto.getUserId()));
 		return req;
 	}
-
 }
