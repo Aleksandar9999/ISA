@@ -46,27 +46,20 @@ export default {
     },
     methods:{
       storageLoginData(response){
-        if(response.data){
-        if(response.data.status==='CONFIRMED'){
-          localStorage.logedUserEmail=response.data.email
-          localStorage.logedUserStatus=response.data.status
-          localStorage.logedUserId=response.data.id
-          localStorage.logedIn=true
-          localStorage.initialFlag=true
-          this.$router.push('/')
-        } else{
-          alert('Your account is not confirmed. Check your email for confirmation message or repeat registration.')
-        }
+        if(response.data){    
+          localStorage.logedIn=true    
+          localStorage.jwtToken=response.data 
+          this.$router.push('/')       
         }
       },
       login(){
         this.collectData()
-        axios.post('http://localhost:8080/login', this.regReqData)
+        axios.post('http://localhost:8080/api/login', this.regReqData)
           .then(response=>this.storageLoginData(response))
       },
       collectData(){
         this.regReqData.email=this.email;
-        this.regReqData.pass=this.password;
+        this.regReqData.password=this.password;
         this.regReqData.status='CONFIRMED';
       }
 

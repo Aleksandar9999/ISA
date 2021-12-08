@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -38,17 +39,17 @@ public class AppointmentController {
 	public ResponseEntity<ArrayList<Appointment>> getAll() {
 		return ResponseEntity.ok((ArrayList<Appointment>) service.getAll());
 	}
-
+	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/resortAppointments")
 	public ResponseEntity<ArrayList<ResortAppointment>> getAllResort() {
 		return ResponseEntity.ok((ArrayList<ResortAppointment>) service.getResortApointments());
 	}
-
+	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/boatAppointments")
 	public ResponseEntity<ArrayList<BoatAppointment>> getAllBoat() {
 		return ResponseEntity.ok((ArrayList<BoatAppointment>) service.getBoatApointments());
 	}
-
+	@PreAuthorize("hasRole('USER')")
 	@GetMapping("api/tutor-service/appointments")
 	public ResponseEntity<ArrayList<TutorServiceAppointment>> getAllTutorServiceAppointments() {
 		return ResponseEntity.ok((ArrayList<TutorServiceAppointment>) service.getTutorServiceApointments());
