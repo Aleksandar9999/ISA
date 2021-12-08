@@ -1,4 +1,5 @@
 <template>
+<div>
 <div class="searchBox">
   <select name="sort" id="sort">
     <option value="name_asc">Sort by name ascending</option>
@@ -26,6 +27,7 @@
       </table>
       </div>     
       </div>
+</div>
 </template>
 
 <script>

@@ -16,7 +16,6 @@ public class Period {
 	private Date endDate;
 
 	public Period() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Integer getId() {

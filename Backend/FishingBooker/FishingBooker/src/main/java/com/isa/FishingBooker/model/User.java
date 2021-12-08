@@ -1,40 +1,69 @@
 package com.isa.FishingBooker.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Table(name="clients")
-public class User {
-	
+@Table(name = "clients")
+public class User implements UserDetails {
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String email;
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String password;
 	private String name;
 	private String surname;
-	private String address;
-	private String city;
-	private String country;
+	@OneToOne(cascade = CascadeType.ALL)
+	private Address address;
 	private String phoneNumber;
 	@Enumerated(EnumType.STRING)
 	private Status status;
-	
-	public User() {}
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+	private List<Role> roles;
 
-	public User(int id) {this.id=id;}
+	public User() {
+	}
+	public List<Role> getRoles() {
+		return roles;
+	}
+	public void setRolesNames() {
+		this.setRoleName(Role.USER_ROLE);
+	}
+	protected void setRoleName(String name) {
+		if(this.roles==null) this.roles=new ArrayList<Role>();
+		this.roles.add(new Role(name));
+	}
+	public User(int id) {
+		this.id = id;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -75,30 +104,6 @@ public class User {
 		this.surname = surname;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -114,5 +119,47 @@ public class User {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-	
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.roles;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.getEmail();
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return this.status.equals(Status.CONFIRMED);
+	}
+
+	public Date getLastPasswordResetDate() {
+		return null;
+	}
+
 }

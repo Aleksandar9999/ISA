@@ -5,7 +5,7 @@
     <div><div>Adventure Name: </div><input type="text" name="" id="advName"></div>
     <div><div>Address: </div><input type="text" name="" id="advAddr" ></div>
     <div><div>Ratings:</div><input type="text" name="" id="advRat"></div>
-    <div><div>Instructor name:</div><input type="text" name="" id="advIns"></div>
+    <div><div>Fishing equipment:</div><input type="text" name="" id="equip"></div>
     </div>
     <div class="promo"><div>Promo:</div><textarea name="" id="advPromo" cols="30" rows="6"/></div>        
     </div>
@@ -14,7 +14,7 @@
 
     </div>
     <div>
-        <button class="buttons">Back</button>
+        <button class="buttons" @click="back()">Back</button>
         <button class="buttons" @click="showMapEvent()">See address on map</button>
     </div>
 </div>
@@ -88,9 +88,12 @@ export default {
             document.getElementById('advName').setAttribute('value',this.adventure.name)
             document.getElementById('advAddr').setAttribute('value',this.adventure.address.street + ' '+this.adventure.address.country )
             document.getElementById('advRat').setAttribute('value','10')
-            document.getElementById('advIns').setAttribute('value',this.adventure.tutor.name + ' ' + this.adventure.tutor.surname)
+            document.getElementById('equip').setAttribute('value',this.adventure.fishingEquipment)
             document.getElementById('advPromo').append(this.adventure.description)
-        }
+        },
+        back(){
+            this.$router.push('/')
+        }  
     },
     mounted(){ 
         if(this.id){      

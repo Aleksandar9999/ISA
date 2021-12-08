@@ -1,4 +1,4 @@
-<template>
+<template><div>
     <div class="searchBox">
       <input type="text" placeholder="Type your search here" v-model="searchWord">
       <button @click="search()">Search</button>
@@ -11,6 +11,7 @@
           <div class="adv-div" v-if="boatsAdv">
               <label for="">Maximal boat speed:</label><input type="text" v-model="maxSpeed">
               <label for="">Navigation type:</label><input style="width:100px" type="text" v-model="navigationType"><br/>
+              <label for="">Maximal number of persons:</label><input type="text" v-model="maxPersons">
               <br/>
               <label for="">Select rate of boat:</label>
               <select name="" id="rateSelect" v-model="rate">
@@ -112,7 +113,7 @@
       </table>
       </div>     
       </div>
-     
+     </div>
 </template>
 
 <script>
@@ -176,8 +177,8 @@ export default {
         
       },      
       search(){
+        this.resetLists()
         if(this.tabType!='tutors'){
-        this.searchData=this.dataList
         let criteria = this.searchWord        
         if(criteria){
             for(let i = 0; i<this.searchData.length;i++){
@@ -191,7 +192,6 @@ export default {
         }       
         this.getData()
         } else {
-          this.searchData=this.dataList
           let criteria = this.searchWord        
           if(criteria){
           for(let i = 0; i<this.searchData.length;i++){
@@ -211,7 +211,7 @@ export default {
       },
       
       advancedSearchResorts(){
-         this.searchData=this.dataList  
+         this.resetLists() 
          if(this.minRooms>0 || this.maxRooms>0 || this.minBeds>0 || this.maxBeds>0 || this.rate>0){   
            
           for(let i = 0; i<this.searchData.length;i++){
@@ -241,14 +241,20 @@ export default {
         this.getData()
       },
       advancedSearchBoats(){
-         this.searchData=this.dataList   
-          if(this.maxSpeed>0|| this.navigationType || this.rate>0){
+         this.resetLists()  
+          if(this.maxSpeed>0 || this.navigationType || this.maxPersons>0 || this.rate>0){
           for(let i = 0; i<this.searchData.length;i++){
           if(this.maxSpeed>0){
           if(this.searchData[i].maxSpeed>this.maxSpeed){
             this.searchData.splice(i,1);
             i--
+          }          
           }
+          if(this.maxPersons>0){
+            if(this.searchData[i].maxPerson>this.maxPersons){
+              this.searchData.splice(i,1);
+              i--
+            }            
           }
           if(this.navigationType){
             if(!this.searchData[i].navigationEquipment.toLowerCase().includes(this.navigationType)){
@@ -271,7 +277,7 @@ export default {
         this.getData()
       },
       advancedSearchAdventures(){
-        this.searchData=this.dataList
+        this.resetLists()
           let criteria = this.advName      
           if(criteria){
           for(let i = 0; i<this.searchData.length;i++){
@@ -336,6 +342,22 @@ export default {
           this.dataList=[]
           axios.get('http://localhost:8080/resorts').then(response =>
           this.fillDataLists(response)
+          )
+        }
+      },
+      resetLists(){
+        if(this.tabType==='boats'){
+          axios.get('http://localhost:8080/boats').then(response =>
+            this.searchData=response.data
+          )
+        } else if(this.tabType==='tutors'){
+          axios.get('http://localhost:8080/api/users/tutors/services').then(response =>
+          this.searchData=response.data
+          )
+          
+        } else{
+          axios.get('http://localhost:8080/resorts').then(response =>
+          this.searchData=response.data
           )
         }
       }

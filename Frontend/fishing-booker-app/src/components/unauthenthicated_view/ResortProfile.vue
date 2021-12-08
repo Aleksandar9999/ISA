@@ -12,7 +12,7 @@
 
     </div>
     <div>
-        <button class="buttons">Back</button>
+        <button class="buttons" @click="back()">Back</button>
         <button class="buttons" @click="showMapEvent()">See address on map</button>
     </div>
 </div>
@@ -84,6 +84,9 @@ export default {
             document.getElementById('rtAddr').setAttribute('value',this.resort.resortAddress.street + ' '+this.resort.resortAddress.country )
             document.getElementById('rtRat').setAttribute('value','10')
             document.getElementById('rtPromo').append(this.resort.description)
+        },
+        back(){
+            this.$router.push('/')
         }   
         },
     mounted(){

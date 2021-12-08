@@ -1,4 +1,5 @@
 <template>
+<div>
 <div class="profile">
     <div class=items>
         <br/><br/><br/><br/>
@@ -61,10 +62,12 @@
     <div>
         <button class="delete" v-on:click="deleteProfile">Delete profile</button>
     </div>
+    </div>
 </template>
 
 <script>
 import axios from 'axios';
+import config from '../configuration/config';
  
  export default {
      data(){
@@ -84,7 +87,8 @@ import axios from 'axios';
              phoneNum:'',
              id:'',
              password:'',
-             profileReqData:{}
+             profileReqData:{},
+             jwtToken:''
          }
      },
      methods: {
@@ -94,21 +98,23 @@ import axios from 'axios';
          },
 
          submitPass(){
-             this.validatePass()
+             if(this.validatePass())
+                return
              this.collectPassData()
-             axios.post('http://localhost:8080/editPassword', this.profileReqData).then(response=>console.log(response.data))
+             axios.post('http://localhost:8080/editUserProfile', this.profileReqData).then(response=>console.log(response.data))
          },
 
          validatePass(){
              if(this.newPass===this.newPassRetype){
-                 return
+                 return false
              } else {
                  document.getElementById("warnBox").classList.toggle("pass-warning-act")
+                 return true
              }
          },
          collectPassData(){
             this.profileReqData.id=this.id;
-            this.profileReqData.email=this.email;
+            this.profileReqData.email=this.mail;
             this.profileReqData.password=this.newPass
             this.profileReqData.name=this.name;
             this.profileReqData.surname=this.surname;
@@ -136,12 +142,11 @@ import axios from 'axios';
 
 
              document.getElementById("btnSave").classList.toggle("toggle-btn-show")
-             document.getElementById("input").removeAttribute('disabled');
          },
 
          saveEdited(){
              this.collectData()
-             axios.post('http://localhost:8080/editProfile', this.profileReqData).then(response=>console.log(response.data))
+             axios.post('http://localhost:8080/editUserProfile', this.profileReqData).then(response=>console.log(response.data))
 
              let ipts= document.getElementsByName('input');
                  for(let i =0; i < ipts.length; i++){
@@ -155,15 +160,15 @@ import axios from 'axios';
              this.mail=this.profileData.email
              this.name=this.profileData.name
              this.surname=this.profileData.surname
-             this.address=this.profileData.address
-             this.city=this.profileData.city
-             this.state=this.profileData.country;
+             this.address=this.profileData.address.street
+             this.city=this.profileData.address.city
+             this.state=this.profileData.address.country;
              this.phoneNum=this.profileData.phoneNumber;
          },
 
          collectData(){
             this.profileReqData.id=this.id;
-            this.profileReqData.email=this.email;
+            this.profileReqData.email=this.mail;
             this.profileReqData.password=this.password;
             this.profileReqData.name=this.name;
             this.profileReqData.surname=this.surname;
@@ -175,13 +180,15 @@ import axios from 'axios';
          },
 
          deleteProfile(){
+             //TODO: Potrebno je da se napravi zahtjev za brisanje profila
              if(confirm('Do you really want to delete your profile?')){
-                 axios.delete('http://localhost:8080/deleteProfile',this.id).then(response=>console.log(response.data))
+                 axios.delete(config.apiStart+'api/delete-request',this.id).then(response=>console.log(response.data))
              }
          }
      },
      mounted() {
-         axios.get('http://localhost:8080/users/1').then(response=> this.populateProfileData(response))
+         this.jwtToken=localStorage.jwtToken;
+         axios.get(config.apiStart+'/api/userProfile',{headers:{'Authorization':'Bearer ' + this.jwtToken}}).then(response=> this.populateProfileData(response))
      }
 }
 </script>

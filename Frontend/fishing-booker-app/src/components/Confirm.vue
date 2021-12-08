@@ -1,8 +1,10 @@
 <template>
+<div>
 <h1>Put your id here:</h1>
 <input type="text" v-model="this.id">
 
 <button @click="confirm()">Confirm registration</button>
+</div>
 </template>
 
 <script>
@@ -16,13 +18,13 @@ export default {
     },
     methods:{
         confirm(){
-            axios.post('http://localhost:8080/confirm', this.id).then(response=>
+            axios.post('http://localhost:8080/confirm/'+this.id).then(response=>
             this.checkResponse(response)
             )
         },
         checkResponse(response){
             if(response.data==='Success'){
-                this.$router.push('')
+                this.$router.push('/')
             } else {
                 alert('Wrong ID number entered.')
             }

@@ -4,16 +4,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Tutor extends User {
 
+	private static final long serialVersionUID = -4342071307816418991L;
 	private String bio;
 	@OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<TutorService> services = new HashSet<TutorService>();
@@ -23,15 +22,23 @@ public class Tutor extends User {
 	private Set<Period> availabilityPeriods = new HashSet<Period>();
 
 	public Tutor() {
+		super();
+	}
+
+	@Override
+	public void setRolesNames() {
+		super.setRolesNames();
+		this.setRoleName(Role.TUTOR_ROLE);
 	}
 
 	public Tutor(String bio, Set<TutorService> services) {
-		super();
+		this();
 		this.bio = bio;
 		this.services = services;
 	}
 
 	public Tutor(Integer idtutor) {
+		this();
 		this.setId(idtutor);
 	}
 

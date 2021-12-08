@@ -1,4 +1,5 @@
 <template>
+<div>
     <div class="searchBox">
   <select name="sort" id="sort">
     <option value="date_asc">Sort by date ascending</option>
@@ -21,11 +22,11 @@
             </tr>  
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.date}}</td><td>{{item.pricen}}</td><td>{{item.duration}}</td></tr>
+                <tr><td>{{item.id}}</td><td>{{item.date}}</td><td>{{item.price}}</td><td>{{item.duration}}</td></tr>
           </tbody>                   
       </table>
       </div>     
-      </div>
+      </div></div>
 </template>
 
 <script>

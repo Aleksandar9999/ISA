@@ -144,6 +144,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+import config from '../../../../configuration/config';
 export default {
   props: ["service_info"],
   data() {
@@ -154,6 +156,9 @@ export default {
   methods: {
     save() {
       console.log(this.service_form);
+      axios.put(config.apiStart+"/api/users/tutors/4/services/"+this.service_form.id,this.service_form).then(resp=>
+      console.log(resp)
+      )
     },
     nameChanged($event) {
       this.service_form.name = $event.data;
@@ -178,6 +183,7 @@ export default {
 <style>
 p {
   text-align: start;
+  color: white;
 }
 .flex-container {
   display: flex;

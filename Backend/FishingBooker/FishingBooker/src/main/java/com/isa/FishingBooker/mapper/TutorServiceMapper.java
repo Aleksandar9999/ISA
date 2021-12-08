@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.isa.FishingBooker.dto.TutorServiceDTO;
+import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.TutorService;
 
 @Component("tutorServiceMapper")
@@ -14,13 +15,14 @@ public class TutorServiceMapper extends CustomModelMapperAbstract<TutorService, 
 	public TutorServiceDTO convertToDto(TutorService entity) {
 		TutorServiceDTO dto = modelMapper.map(entity, TutorServiceDTO.class);
 		dto.setTutorBio(entity.getTutor().getBio());
+		dto.setTutorId(entity.getTutor().getId());
 		return dto;
 	}
 
 	@Override
 	public TutorService convertToEntity(TutorServiceDTO dto) {
 		TutorService tutorService=modelMapper.map(dto, TutorService.class);
+		tutorService.setTutor(new Tutor(dto.getTutorId()));
 		return tutorService;
 	}
-
 }
