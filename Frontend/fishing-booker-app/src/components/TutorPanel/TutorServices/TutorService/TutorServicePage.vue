@@ -2,11 +2,16 @@
   <div>
     <TutorServiceHeader :service_info="service_info" />
     <Gallery :photos="gallery" />
-    <ExtrasServices  />
-    <FastAppointments @showDiscountOfferDialog="discountOfferDialog.show=true" :idservice=idservice />
-    <discount-offer-modal-dialog 
-    :show=discountOfferDialog.show :idservice=idservice 
-    @hideDialog=hideDiscountOfferDialog />
+    <ExtrasServices />
+    <FastAppointments
+      @showDiscountOfferDialog="discountOfferDialog.show = true"
+      :idservice="idservice"
+    />
+    <discount-offer-modal-dialog
+      :show="discountOfferDialog.show"
+      :idservice="idservice"
+      @hideDialog="hideDiscountOfferDialog"
+    />
   </div>
 </template>
 
@@ -29,6 +34,7 @@ export default {
 
   data() {
     return {
+      token: "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzcHJpbmctc2VjdXJpdHktZXhhbXBsZSIsInN1YiI6ImRyYWdvT3Jhc2FuaW5AZ21haWwuY29tIiwiYXVkIjoid2ViIiwiaWF0IjoxNjM4OTIxODc2LCJleHAiOjE2Mzg5Mzk4NzZ9.s-hJV_7yyNe5ftQn2ftTu-W7fuQb5O3CXjvIPMoVjNJXt4niUoYmu6NuqdsW5-XqonofcLtMVrksU6HupQc9bA",
       discountOfferDialog: {
         show: false,
       },
@@ -39,25 +45,27 @@ export default {
           street: "",
         },
       },
-      idservice:this.$route.params.idservice,
+      idservice: this.$route.params.idservice,
       extra_services: [],
       fast_appointments: [],
     };
   },
 
   methods: {
-    hideDiscountOfferDialog(value){
-      this.discountOfferDialog.show=value.dialog;
-
+    hideDiscountOfferDialog(value) {
+      this.discountOfferDialog.show = value.dialog;
     },
     fetchData() {
       axios
         .get(
           config.apiStart +
-            "/api/users/tutors/" +
-            this.$route.params.idtutor +
-            "/services/" +
-            this.$route.params.idservice
+            "/api/tutor-services/" +
+            this.$route.params.idservice,
+          {
+            headers: {
+              Authorization: "Bearer " + this.token,
+            },
+          }
         )
         .then((resp) => {
           this.gallery = resp.data.photos;
@@ -70,7 +78,7 @@ export default {
             fishingEquipment: resp.data.fishingEquipment,
             name: resp.data.name,
             maxPerson: resp.data.maxPerson,
-            id:resp.data.id
+            id: resp.data.id,
           };
           console.log(this.service_info.address);
         });

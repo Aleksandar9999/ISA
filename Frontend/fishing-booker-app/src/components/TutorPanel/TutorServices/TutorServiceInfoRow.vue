@@ -6,8 +6,7 @@
     <td>{{ item.rules }}</td>
     <td>{{ item.status }}</td>
     <td>
-      <router-link :to="{ name: profileName, params: { id: item.id } }"
-        >Show</router-link>
+      <a :href=showService >Show</a>
     </td>
     <td style="padding: 0px 15px;">
     <w-button class="mr2" @click="deleteService" bg-color="error">
@@ -24,6 +23,7 @@ export default {
   data() {
     return {
       item_local: {},
+      showService:''
     };
   },
   methods: {
@@ -42,7 +42,9 @@ export default {
             ...this.item_local,
             ...itemFromProps,
           };
+          console.log(itemFromProps)
           this.status = itemFromProps.status;
+          this.showService='/tutors/'+this.item_local.tutorId+'/services/'+this.item_local.id;
         }
       },
     },

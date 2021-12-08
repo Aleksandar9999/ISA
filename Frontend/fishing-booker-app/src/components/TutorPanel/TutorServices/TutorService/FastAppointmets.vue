@@ -22,6 +22,7 @@ export default {
   data() {
     return {
       fast_appoinements_local: [],
+      token:"eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzcHJpbmctc2VjdXJpdHktZXhhbXBsZSIsInN1YiI6ImRyYWdvT3Jhc2FuaW5AZ21haWwuY29tIiwiYXVkIjoid2ViIiwiaWF0IjoxNjM4OTIxODc2LCJleHAiOjE2Mzg5Mzk4NzZ9.s-hJV_7yyNe5ftQn2ftTu-W7fuQb5O3CXjvIPMoVjNJXt4niUoYmu6NuqdsW5-XqonofcLtMVrksU6HupQc9bA"
     };
   },
   components: {
@@ -33,7 +34,11 @@ export default {
     }
   },
   mounted() {
-    axios.get(config.apiStart+"/api/users/tutors/4/services/"+this.idservice+"/discount-offers").then(resp=>{
+    axios.get(config.apiStart+"/api/users/tutors/4/services/"+this.idservice+"/discount-offers", {
+            headers: {
+              Authorization: "Bearer " + this.token,
+            },
+          }).then(resp=>{
       console.log(resp.data)
       this.fast_appoinements_local=resp.data
     })
