@@ -69,10 +69,9 @@ public class TutorServicesController {
 		return ResponseEntity.ok(entity);
 	}
 
-	@PutMapping("api/users/tutors/{idtutor}/services/{idservice}")
+	@PutMapping("api/tutor-services/{idservice}")
 	@PreAuthorize("hasRole('TUTOR')")
-	public ResponseEntity<?> updateTutorService(@RequestBody TutorServiceDTO dto,
-			@PathVariable("idtutor") Integer idtutor, @PathVariable("idservice") int idservice) {
+	public ResponseEntity<?> updateTutorService(@RequestBody TutorServiceDTO dto, @PathVariable("idservice") int idservice) {
 		TutorService entity = tutorServiceMapper.convertToEntity(dto);
 		try {
 			validateTutor(entity);
@@ -83,34 +82,30 @@ public class TutorServicesController {
 		}
 	}
 
-	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}/photos")
-	public ResponseEntity<?> getTutorServicePhotos(@PathVariable("idtutor") Integer idtutor,
-			@PathVariable("idservice") int idservice) {
+	@GetMapping("api/tutor-services/{idservice}/photos")
+	public ResponseEntity<?> getTutorServicePhotos(@PathVariable("idservice") int idservice) {
 		TutorService tutorService = tutorServicesService.getById(idservice);
 		return ResponseEntity.status(200).body(tutorService.getPhotos());
 	}
 
-	@PostMapping("api/users/tutors/{idtutor}/services/{idservice}/photos")
+	@PostMapping("api/tutor-services/{idservice}/photos")
 	@PreAuthorize("hasRole('TUTOR')")
-	public ResponseEntity<?> addNewPhoto(@RequestBody Photo photo, @PathVariable("idtutor") Integer idtutor,
-			@PathVariable("idservice") int idservice) {
+	public ResponseEntity<?> addNewPhoto(@RequestBody Photo photo, @PathVariable("idservice") int idservice) {
 		TutorService tutorService = tutorServicesService.getById(idservice);
 		tutorService.addPhoto(photo);
 		tutorServicesService.update(tutorService);
 		return ResponseEntity.status(200).body("OK");
 	}
 
-	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}/discount-offers")
-	public ResponseEntity<?> getTutorServiceDiscountOffers(@PathVariable("idtutor") Integer idtutor,
-			@PathVariable("idservice") int idservice) {
+	@GetMapping("api/tutor-services/{idservice}/discount-offers")
+	public ResponseEntity<?> getTutorServiceDiscountOffers(@PathVariable("idservice") int idservice) {
 		TutorService tutorService = tutorServicesService.getById(idservice);
 		return ResponseEntity.status(200).body(tutorService.getDisconutOffers());
 	}
 
-	@PostMapping("api/users/tutors/{idtutor}/services/{idservice}/discount-offers")
+	@PostMapping("api/tutor-services/{idservice}/discount-offers")
 	@PreAuthorize("hasRole('TUTOR')")
-	public ResponseEntity<?> addTutorServiceDiscountOffers(@RequestBody DiscountOffer offer,
-			@PathVariable("idtutor") Integer idtutor, @PathVariable("idservice") int idservice) {
+	public ResponseEntity<?> addTutorServiceDiscountOffers(@RequestBody DiscountOffer offer, @PathVariable("idservice") int idservice) {
 		TutorService tutorService = tutorServicesService.getById(idservice);
 		try {
 			validateTutor(tutorService);
@@ -123,24 +118,22 @@ public class TutorServicesController {
 
 	}
 
-	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}/prices")
-	public ResponseEntity<?> getTutorServicePrice(@PathVariable("idtutor") Integer idtutor,
-			@PathVariable("idservice") int idservice) {
+	@GetMapping("api/tutor-services/{idservice}/prices")
+	public ResponseEntity<?> getTutorServicePrice(@PathVariable("idservice") int idservice) {
 		TutorService tutorService = tutorServicesService.getById(idservice);
 		return ResponseEntity.status(200).body(tutorService.getPrices());
 	}
 
-	@PostMapping("api/users/tutors/{idtutor}/services/{idservice}/prices")
+	@PostMapping("api/tutor-services/{idservice}/prices")
 	@PreAuthorize("hasRole('TUTOR')")
-	public ResponseEntity<?> addTutorServicePrice(@RequestBody ServicePrice price,
-			@PathVariable("idtutor") Integer idtutor, @PathVariable("idservice") int idservice) {
+	public ResponseEntity<?> addTutorServicePrice(@RequestBody ServicePrice price, @PathVariable("idservice") int idservice) {
 			TutorService tutorService = tutorServicesService.getById(idservice);
 			tutorService.addPrice(price);
 			tutorServicesService.update(tutorService);
 			return ResponseEntity.ok(price);
 	}
 
-	@DeleteMapping("api/services/{id}")
+	@DeleteMapping("api/tutor-services/{id}")
 	@PreAuthorize("hasRole('TUTOR')")
 	public ResponseEntity<?> deleteTutorService(@PathVariable("id") int id) {
 		try {
