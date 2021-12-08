@@ -25,7 +25,6 @@ export default {
       itemRow: TutorSericeInfoRow,
       data: [],
       headers: ["ID", "Service", "Max number of persons", "Rules", "Status","More info",""],
-      token:"eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzcHJpbmctc2VjdXJpdHktZXhhbXBsZSIsInN1YiI6ImRyYWdvT3Jhc2FuaW5AZ21haWwuY29tIiwiYXVkIjoid2ViIiwiaWF0IjoxNjM4OTE5NDI5LCJleHAiOjE2Mzg5MjEyMjl9._sgOGos3QS0LAzrvQxUD4Zth3A2dFI1N2kToZO_IbSwfQiIlMBU8ZqPv4bvZduasf5jR7hY3P5JrQSgzSr29WA"
     };
   },
   mounted() {
@@ -34,9 +33,7 @@ export default {
   methods: {
     fetchData() {
       axios
-        .get(config.apiStart + "/api/users/tutors/"+this.$route.params.idtutor+"/services/",{headers:{
-          Authorization: "Bearer " + this.token
-        }})
+        .get(config.apiStart + "/api/users/tutors/"+this.$route.params.idtutor+"/services",config.requestHeader)
         .then((resp) => {
           this.data = resp.data;
         });

@@ -48,7 +48,9 @@ export default {
       storageLoginData(response){
         if(response.data){    
           localStorage.logedIn=true    
-          localStorage.jwtToken=response.data 
+          localStorage.jwtToken=response.data.jwt
+          localStorage.roles=response.data.roles 
+          
           this.$router.push('/')       
         }
       },

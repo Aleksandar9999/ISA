@@ -29,7 +29,7 @@ export default {
   methods: {
       deleteService(){
           if(confirm('Do you really want to delete your service?')){
-                 axios.delete(config.apiStart+'/api/services/'+this.item_local.id).then(response=>{alert(response)})
+                 axios.delete(config.apiStart+'/api/services/'+this.item_local.id,config.requestHeader).then(response=>{alert(response)})
              }
       }
   },

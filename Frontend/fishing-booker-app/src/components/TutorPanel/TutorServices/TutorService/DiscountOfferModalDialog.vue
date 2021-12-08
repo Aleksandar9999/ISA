@@ -133,8 +133,8 @@ export default {
       });
     },
     save() {
-      //TODO: Fix hardcoded route
-      axios.post(config.apiStart+"/api/users/tutors/4/services/"+this.idservice+"/discount-offers",this.discountOfferLocal).then(console.log("CREATED"))
+  
+      axios.post(config.apiStart+"/api/tutor-services/"+this.idservice+"/discount-offers",this.discountOfferLocal,config.requestHeader).then(console.log("CREATED"))
       console.log(this.discountOfferLocal)
     },
   },

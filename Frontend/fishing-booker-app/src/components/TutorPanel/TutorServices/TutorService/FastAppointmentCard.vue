@@ -9,7 +9,7 @@
           </b>
           <br />
           <span class="action-label"
-            >Akcija vazi: {{ discountOfferLocal.validityPeriod.startDate }} -
+            >Discount valid: {{ discountOfferLocal.validityPeriod.startDate }} -
             {{ discountOfferLocal.validityPeriod.endDate }}</span
           >
         </div>
@@ -22,7 +22,7 @@
               <p style="color:red;"><b>{{discountOfferLocal.price}} RSD</b></p>
             </div>
             <div class="xs6 pa1">
-          <w-button class="ma1" bg-color="success">Rezervisi</w-button>
+          <w-button v-if="showReserveButton" class="ma1" bg-color="success">RESERVE</w-button>
          </div>
           </w-flex>
 
@@ -33,10 +33,9 @@
 </template>
 
 <script>
-//TODO: Povezati sa proslijedjenom rezervacijom
 import moment from "moment";
 export default {
-  props: ["fast_appoinement"],
+  props: ["fast_appoinement", "showReserveButton"],
   data() {
     return {
       discountOfferLocal: {
