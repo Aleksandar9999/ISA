@@ -37,30 +37,22 @@ public class TutorServicesController {
 	@Autowired
 	private CustomModelMapper<TutorService, TutorServiceDTO> tutorServiceMapper;
 
-	@GetMapping("api/users/tutors/services")
+	@GetMapping("api/tutor-services")
 	public ResponseEntity<?> getAll() {
 		return ResponseEntity
 				.ok(tutorServiceMapper.convertToDtos((ArrayList<TutorService>) tutorServicesService.getAll()));
 	}
 
-	@GetMapping("api/users/tutors/services/valid")
+	@GetMapping("api/tutor-services/valid")
 	public ResponseEntity<?> getAllValid() {
 		return ResponseEntity
 				.ok(tutorServiceMapper.convertToDtos((ArrayList<TutorService>) tutorServicesService.getAllValid()));
 	}
 
-	@GetMapping("api/users/tutors/services/{id}")
-	public ResponseEntity<?> getByID(@PathVariable("id") Integer id) {
-		TutorService tutorService = tutorServicesService.getById(id);
-		return ResponseEntity.ok(tutorService);
-	}
-
-	@GetMapping("api/users/tutors/{idtutor}/services/{idservice}")
-	public ResponseEntity<?> getTutorService(@PathVariable("idtutor") Integer idtutor,
-			@PathVariable("idservice") int idservice) {
+	@GetMapping("api/tutor-services/{idservice}")
+	public ResponseEntity<?> getTutorService(@PathVariable("idservice") int idservice) {
 		return ResponseEntity
 				.ok(tutorServiceMapper.convertToDto((TutorService) tutorServicesService.getById(idservice)));
-
 	}
 
 	@PostMapping("api/users/tutors/{idtutor}/services")

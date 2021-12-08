@@ -57,6 +57,9 @@ public class TutorService {
 	@JoinColumn(name = "tutor_id")
 	private Tutor tutor;
 	
+	public TutorService() {
+		// TODO Auto-generated constructor stub
+	}
 	public TutorService(Integer id) {
 		this.id = id;
 	}

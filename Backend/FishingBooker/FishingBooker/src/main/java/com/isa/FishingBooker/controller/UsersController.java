@@ -2,6 +2,7 @@ package com.isa.FishingBooker.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.FishingBooker.dto.LoginInfoDTO;
 import com.isa.FishingBooker.dto.LoginReturnDTO;
 import com.isa.FishingBooker.dto.RegistrationDTO;
+import com.isa.FishingBooker.dto.TutorServiceDTO;
 import com.isa.FishingBooker.dto.UserInfoDTO;
 import com.isa.FishingBooker.exceptions.RegistrationException;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
@@ -43,8 +45,8 @@ public class UsersController {
 	private CustomModelMapper<User, UserInfoDTO> userInfoMapper;
 	
 	@Autowired
-	EmailService emailService;
-
+	private CustomModelMapper<TutorService, TutorServiceDTO> tutorServiceMapper;
+	
 	@GetMapping("api/users")
 	public ResponseEntity<ArrayList<User>> getAll() {
 		return ResponseEntity.ok((ArrayList<User>) usersService.getAll());
@@ -80,11 +82,9 @@ public class UsersController {
 	}
 
 	@GetMapping("api/users/tutors/{idtutor}/services")
-	public List<TutorService> getServicesTutorById(@PathVariable("idtutor") int id) {
+	public ResponseEntity<?> getServicesTutorById(@PathVariable("idtutor") int id) {
 		Tutor tutor = usersService.getTutorById(id);
-		List<TutorService> services = new ArrayList<TutorService>();
-		tutor.getServices().stream().forEach(s -> services.add(s));
-		return services;
+		return ResponseEntity.ok(tutorServiceMapper.convertToDtos(tutor.getServices().stream().collect(Collectors.toList())));
 	}
 
 	@GetMapping("api/users/search")
