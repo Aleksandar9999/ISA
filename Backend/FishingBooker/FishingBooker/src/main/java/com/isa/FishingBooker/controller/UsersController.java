@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -102,7 +103,12 @@ public class UsersController {
 	public ResponseEntity getUserById(@PathVariable String id){
 		return ResponseEntity.ok(userInfoMapper.convertToDto(usersService.getById(getUserId(id))));
 	}
-
+	@PreAuthorize("hasRole('USER')")
+	@GetMapping("api/userProfile")
+	public ResponseEntity<User> getUserProfileData() {
+		return ResponseEntity.ok(usersService.getUserProfileData());
+	}
+	
 	private Integer getUserId(String id) {
 		Integer userId;
 		if(id.equals("me")) userId=1;//TODO: Postaviti userId na id trenutno prijavljenog korisnika
@@ -114,12 +120,12 @@ public class UsersController {
 	public ResponseEntity<String> confirmAccount(@PathVariable Integer id){
 		return ResponseEntity.ok(usersService.confirmAccount(id));
 	}
-	
+
 	@GetMapping("api/users/clients")
 	public ResponseEntity getAllClients() {
 		return ResponseEntity.ok(userInfoMapper.convertToDtos(usersService.getAllClients()));
 	}
-
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("editUserProfile")
 	public ResponseEntity<User> editUserProfile(@RequestBody User user){
 		return ResponseEntity.ok(usersService.EditUser(user));

@@ -1,6 +1,7 @@
 package com.isa.FishingBooker.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.isa.FishingBooker.dto.TutorServiceDTO;
 import com.isa.FishingBooker.exceptions.AuthorizationException;
@@ -165,5 +166,11 @@ public class TutorServicesController {
 		User tutor = (User) auth.getPrincipal();
 		if (!entity.getTutor().getId().equals(tutor.getId()))
 			throw new AuthorizationException();
+	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@GetMapping("api/users/tutors/servicesforList")
+	public ResponseEntity<List<TutorService>> getAllForList() {
+		return ResponseEntity.ok(tutorServicesService.getAll());
 	}
 }
