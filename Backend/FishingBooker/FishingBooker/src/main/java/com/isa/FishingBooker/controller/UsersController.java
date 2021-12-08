@@ -142,7 +142,7 @@ public class UsersController {
 	public ResponseEntity getAllClients() {
 		return ResponseEntity.ok(userInfoMapper.convertToDtos(usersService.getAllClients()));
 	}
-
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("editUserProfile")
 	public ResponseEntity<User> editUserProfile(@RequestBody User user){
 		return ResponseEntity.ok(usersService.EditUser(user));
