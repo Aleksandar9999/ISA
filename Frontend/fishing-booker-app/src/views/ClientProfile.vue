@@ -101,7 +101,7 @@ import config from '../configuration/config';
              if(this.validatePass())
                 return
              this.collectPassData()
-             axios.post('http://localhost:8080/editUserProfile', this.profileReqData).then(response=>console.log(response.data))
+             axios.put(config.apiStart+`/api/users/${this.profileReqData.id}`, this.profileReqData,config.requestHeader).then(response=>console.log(response.data))
          },
 
          validatePass(){
@@ -118,9 +118,11 @@ import config from '../configuration/config';
             this.profileReqData.password=this.newPass
             this.profileReqData.name=this.name;
             this.profileReqData.surname=this.surname;
-            this.profileReqData.address=this.address;
-            this.profileReqData.city=this.city;
-            this.profileReqData.country=this.state;
+            this.profileReqData.address={
+                street:this.address,
+                city: this.city,
+                country: this.state
+            }
             this.profileReqData.phoneNumber=this.phoneNum;
             this.profileReqData.status='CONFIRMED';
          },
@@ -158,6 +160,7 @@ import config from '../configuration/config';
              this.profileData=response.data;
              this.id=this.profileData.id
              this.mail=this.profileData.email
+             this.newPass=this.profileData.password
              this.name=this.profileData.name
              this.surname=this.profileData.surname
              this.address=this.profileData.address.street
@@ -169,7 +172,7 @@ import config from '../configuration/config';
          collectData(){
             this.profileReqData.id=this.id;
             this.profileReqData.email=this.mail;
-            this.profileReqData.password=this.password;
+            this.profileReqData.password=this.newPass;
             this.profileReqData.name=this.name;
             this.profileReqData.surname=this.surname;
             this.profileReqData.address={

@@ -57,7 +57,7 @@ export default {
         axios.post('http://localhost:8080/api/login', this.regReqData)
           .then(response=>{
             this.storageLoginData(response);
-            this.$router.push("/profile")
+            this.$router.push("/")
           })
       },
       collectData(){
