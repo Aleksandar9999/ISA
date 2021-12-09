@@ -25,7 +25,7 @@ export default {
         }
     },
     mounted() {
-        axios.get(config.apiStart+"/api/system-data").then(resp=>
+        axios.get(config.apiStart+"/api/system-data",config.requestHeader).then(resp=>
         {
             this.systemData=resp.data[0]
             console.log(resp.data)
@@ -33,7 +33,7 @@ export default {
     },
     methods: {
         save(){
-            axios.put(config.apiStart+"/api/system-data",this.systemData).then(console.log("UPDATED"))
+            axios.put(config.apiStart+"/api/system-data",this.systemData,config.requestHeader).then(console.log("UPDATED"))
         }
     },
 };
