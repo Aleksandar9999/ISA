@@ -45,6 +45,15 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 		return null;
 	}
 
+	
+	@Override
+	public void update(User item) {
+		User user=this.getById(item.getId());
+		user.updateUserInfo(item);
+		super.update(user);
+	}
+
+
 	@Override
 	public void addNew(User item) {
 		validateEmail(item.getEmail());
@@ -106,10 +115,8 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 
 	@Override
 	public User getUserProfileData() {
-		// TODO Auto-generated method stub
 		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext().getAuthentication();
 		User usr = (User) aut.getPrincipal();
-		
 		return this.getById(usr.getId());
 	}
 

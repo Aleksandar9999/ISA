@@ -41,8 +41,9 @@ public class UsersController {
 	private CustomModelMapper<TutorService, TutorServiceDTO> tutorServiceMapper;
 	
 	@GetMapping("api/users")
-	public ResponseEntity<ArrayList<User>> getAll() {
-		return ResponseEntity.ok((ArrayList<User>) usersService.getAll());
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> getAll() {
+		return ResponseEntity.ok(usersService.getAll());
 	}
 
 	@GetMapping("api/users/tutors/{id}/available-periods")
@@ -71,7 +72,7 @@ public class UsersController {
 	}
 
 	@PutMapping("api/users/{id}")
-	public ResponseEntity update(@RequestBody User user,@PathVariable("id") int id) {
+	public ResponseEntity<?> update(@RequestBody User user,@PathVariable("id") int id) {
 		usersService.update(user);
 		return ResponseEntity.ok(user);
 	}
