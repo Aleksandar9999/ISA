@@ -31,7 +31,7 @@
                 <tr><th>Free time period:</th></tr>
             </thead>
             <tbody>
-                <tr><td>asasa</td></tr>
+                <tr><td>Not implemented yet</td></tr>
             </tbody>
         </table>
     </div>
@@ -110,7 +110,7 @@ export default {
         populateData(response){
             this.boat=response.data
             document.getElementById('btName').setAttribute('value',this.boat.name)
-            document.getElementById('btAddres').setAttribute('value',this.boat.boatAddress.street + ' '+this.boat.boatAddress.country )
+            document.getElementById('btAddres').setAttribute('value',this.boat.boatAddress.street + ', '+ this.boat.boatAddress.city + ', '+this.boat.boatAddress.country )
             document.getElementById('btRat').setAttribute('value','10')
             document.getElementById('btEng').setAttribute('value',this.boat.enginePower)
             document.getElementById('btPromo').append(this.boat.description)

@@ -45,6 +45,17 @@ public class TutorServicesController {
 				.ok(tutorServiceMapper.convertToDtos((ArrayList<TutorService>) tutorServicesService.getAll()));
 	}
 
+	@GetMapping("api/users/tutors/services")
+	public ResponseEntity<List<TutorService>> getAllServices() {
+		return ResponseEntity.ok( tutorServicesService.getAll());
+	}
+	
+	
+	@GetMapping("api/users/tutors/services/{id}")
+	public ResponseEntity<TutorService> getService(@PathVariable("id") Integer id) {
+		return ResponseEntity.ok( tutorServicesService.getById(id));
+	}
+	
 	@GetMapping("api/tutor-services/valid")
 	public ResponseEntity<?> getAllValid() {
 		return ResponseEntity
