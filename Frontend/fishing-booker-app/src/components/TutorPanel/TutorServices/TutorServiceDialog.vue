@@ -142,13 +142,13 @@ export default {
     save() {
       axios
         .post(
-          config.apiStart + "/api/users/tutors/4/services",
+          config.apiStart + `/api/users/tutors/${this.idTutor}/services`,
           this.tutorServiceLocal,
           config.requestHeader
         )
         .then((resp) => {
-          this.hideDialog();
           this.success = true;
+          this.hideDialog();
           console.log(resp);
         });
     },

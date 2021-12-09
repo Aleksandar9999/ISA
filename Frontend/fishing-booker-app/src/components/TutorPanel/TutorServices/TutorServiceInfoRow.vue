@@ -6,32 +6,40 @@
     <td>{{ item.rules }}</td>
     <td>{{ item.status }}</td>
     <td>
-      <a :href=showService >Show</a>
+      <a :href="showService">Show</a>
     </td>
-    <td style="padding: 0px 15px;">
-    <w-button class="mr2" @click="deleteService" bg-color="error">
-          Delete
-        </w-button>
+    <td style="padding: 0px 15px">
+      <w-button class="mr2" @click="deleteService" bg-color="error">
+        Delete
+      </w-button>
     </td>
   </tr>
 </template>
 <script>
-import axios from 'axios';
-import config from '../../../configuration/config';
+import axios from "axios";
+import config from "../../../configuration/config";
 export default {
   props: ["item"],
   data() {
     return {
       item_local: {},
-      showService:''
+      showService: "",
     };
   },
   methods: {
-      deleteService(){
-          if(confirm('Do you really want to delete your service?')){
-                 axios.delete(config.apiStart+'/api/services/'+this.item_local.id,config.requestHeader).then(response=>{alert(response)})
-             }
+    deleteService() {
+      if (confirm("Do you really want to delete your service?")) {
+        axios
+          .delete(
+            config.apiStart + "/api/tutor-services/" + this.item_local.id,
+            config.requestHeader
+          )
+          .then(() => {
+            alert(this.item_local.name + " deleted");
+            this.$emit("tutorServiceDeleted", true);
+          });
       }
+    },
   },
   watch: {
     item: {
@@ -42,9 +50,13 @@ export default {
             ...this.item_local,
             ...itemFromProps,
           };
-          console.log(itemFromProps)
+          console.log(itemFromProps);
           this.status = itemFromProps.status;
-          this.showService='/tutors/'+this.item_local.tutorId+'/services/'+this.item_local.id;
+          this.showService =
+            "/tutors/" +
+            this.item_local.tutorId +
+            "/services/" +
+            this.item_local.id;
         }
       },
     },
@@ -52,8 +64,7 @@ export default {
 };
 </script>
 <style>
-td{
-
-    padding:10px
+td {
+  padding: 10px;
 }
 </style>
