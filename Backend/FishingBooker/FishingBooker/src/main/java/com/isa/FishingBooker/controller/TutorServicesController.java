@@ -154,8 +154,8 @@ public class TutorServicesController {
 	private void validateTutor(TutorService entity) {
 		TokenBasedAuthentication auth = (TokenBasedAuthentication) SecurityContextHolder.getContext()
 				.getAuthentication();
-		User tutor = (User) auth.getPrincipal();
-		if (!entity.getTutor().getId().equals(tutor.getId()))
+		User user = (User) auth.getPrincipal();
+		if (!entity.getTutor().getId().equals(user.getId()))
 			throw new AuthorizationException();
 	}
 	

@@ -14,7 +14,7 @@ insert into clients (dtype, email, password, name, surname, bio, phone_number, s
 insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('BoatOwner','badzaa@gmail.com', 'bojan', 'Bosko', 'Adzic', '','021554263','CONFIRMED',1);
 insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('ResortOwner','radomBoj@gmail.com', 'bojan', 'Radomir', 'Bojanic', '','015553363','CONFIRMED',2);
 insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('Tutor','dragoOrasanin@gmail.com', 'bojan', 'Drago', 'Orasanin', 'Tutor with 20 years of expirience. Great knower of Drina coast and wildlife.','015252161','CONFIRMED',2);
-insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('Admin','admin@gmail.com', 'admin', 'admin', 'admin','','015252161','CONFIRMED',3);
+insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id, password_changed) values ('Admin','admin@gmail.com', 'admin', 'admin', 'admin','','015252161','CONFIRMED',3,'true');
 insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('Tutor','mikiRad@gmail.com', 'bojan', 'Mihailo', 'Radic', 'Tutor with 20 years of expirience. Great knower of Danube Backa coast and fish.','015235561','PENDING',1);
 
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (1, 1);

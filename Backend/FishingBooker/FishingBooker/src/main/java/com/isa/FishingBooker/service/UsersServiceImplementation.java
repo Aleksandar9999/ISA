@@ -13,6 +13,7 @@ import com.isa.FishingBooker.dto.LoginReturnDTO;
 import com.isa.FishingBooker.dto.RegistrationDTO;
 import com.isa.FishingBooker.exceptions.EmailExistException;
 import com.isa.FishingBooker.mapper.UserToLoginReturnDTOMapper;
+import com.isa.FishingBooker.model.Admin;
 import com.isa.FishingBooker.model.Role;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.Tutor;
@@ -118,6 +119,13 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext().getAuthentication();
 		User usr = (User) aut.getPrincipal();
 		return this.getById(usr.getId());
+	}
+
+	@Override
+	public void resetAdminPassword(User user) {
+		Admin admin=(Admin) this.getById(user.getId());
+		admin.resetPassword(user.getPassword());
+		repository.save(admin);
 	}
 
 }

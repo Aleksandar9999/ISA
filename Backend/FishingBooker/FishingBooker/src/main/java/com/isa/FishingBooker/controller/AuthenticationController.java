@@ -88,7 +88,7 @@ public class AuthenticationController {
 			return ResponseEntity.status(400).body(ex.getMessage());
 		}
 	}
-	
+	//TODO: Provjeriti ispravnost email adrese prije registracije
 	@PostMapping("api/registration/admin")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> registerAdmin(@RequestBody RegistrationDTO dto) {

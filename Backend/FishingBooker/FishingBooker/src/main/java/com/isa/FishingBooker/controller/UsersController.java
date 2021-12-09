@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,26 +21,27 @@ import com.isa.FishingBooker.dto.TutorServiceDTO;
 import com.isa.FishingBooker.dto.UserInfoDTO;
 import com.isa.FishingBooker.exceptions.RegistrationException;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
+import com.isa.FishingBooker.model.Admin;
 import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.User;
+import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
 import com.isa.FishingBooker.service.UsersService;
-
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class UsersController {
 	@Autowired
 	private UsersService usersService;
-	
+
 	@Autowired
 	private CustomModelMapper<User, UserInfoDTO> userInfoMapper;
-	
+
 	@Autowired
 	private CustomModelMapper<TutorService, TutorServiceDTO> tutorServiceMapper;
-	
+
 	@GetMapping("api/users")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> getAll() {
@@ -61,41 +63,45 @@ public class UsersController {
 		return ResponseEntity.ok(period);
 	}
 
-	@GetMapping("api/users/tutors/{idtutor}")
-	public ResponseEntity getTutorById(@PathVariable("idtutor") int tutor) {
-		return ResponseEntity.ok(usersService.getTutorById(tutor));
-	}
-
 	@GetMapping("api/users/search")
-	public ResponseEntity getAllUsersByStatus(@RequestParam(value = "status",defaultValue = "") Status s) {
+	public ResponseEntity<?> getAllUsersByStatus(@RequestParam(value = "status", defaultValue = "") Status s) {
 		return ResponseEntity.ok(usersService.search(s));
 	}
 
 	@PutMapping("api/users/{id}")
-	public ResponseEntity<?> update(@RequestBody User user,@PathVariable("id") int id) {
+	public ResponseEntity<?> update(@RequestBody User user, @PathVariable("id") int id) {
 		usersService.update(user);
 		return ResponseEntity.ok(user);
 	}
 
-	@GetMapping("api/users/{id}")
-	public ResponseEntity getUserById(@PathVariable String id){
-		return ResponseEntity.ok(userInfoMapper.convertToDto(usersService.getById(getUserId(id))));
+	@PreAuthorize("hasRole('ADMIN')")
+	@GetMapping("api/admins/reset-password")
+	public ResponseEntity<?> isAdminPasswordReset() {
+		Admin admin=(Admin) usersService.getById(this.getLoggedInUserId());
+		return ResponseEntity.ok(admin.isPasswordChanged());
 	}
+	
+	@PreAuthorize("hasRole('ADMIN')")
+	@PostMapping("api/admins/{id}/reset-password")
+	public ResponseEntity<?> resetPassword(@RequestBody User user, @PathVariable("id") int id) {
+		usersService.resetAdminPassword(user);
+		return ResponseEntity.ok(user);
+	}
+	
+	@GetMapping("api/users/{id}")
+	public ResponseEntity getUserById(@PathVariable String id) {
+		return ResponseEntity.ok(userInfoMapper.convertToDto(usersService.getById(getUserIdFromParam(id))));
+	}
+
 	@PreAuthorize("hasRole('USER')")
 	@GetMapping("api/userProfile")
 	public ResponseEntity<User> getUserProfileData() {
 		return ResponseEntity.ok(usersService.getUserProfileData());
 	}
-	
-	private Integer getUserId(String id) {
-		Integer userId;
-		if(id.equals("me")) userId=1;//TODO: Postaviti userId na id trenutno prijavljenog korisnika
-		else userId=Integer.parseInt(id);
-		return userId;
-	}
-	
+
+
 	@PostMapping("confirm/{id}")
-	public ResponseEntity<String> confirmAccount(@PathVariable Integer id){
+	public ResponseEntity<String> confirmAccount(@PathVariable Integer id) {
 		return ResponseEntity.ok(usersService.confirmAccount(id));
 	}
 
@@ -103,10 +109,22 @@ public class UsersController {
 	public ResponseEntity getAllClients() {
 		return ResponseEntity.ok(userInfoMapper.convertToDtos(usersService.getAllClients()));
 	}
+
 	@PreAuthorize("hasRole('USER')")
 	@PostMapping("editUserProfile")
-	public ResponseEntity<User> editUserProfile(@RequestBody User user){
+	public ResponseEntity<User> editUserProfile(@RequestBody User user) {
 		return ResponseEntity.ok(usersService.EditUser(user));
 	}
-	
+
+	private Integer getUserIdFromParam(String param) {
+		if (param.equals("me"))
+			return getLoggedInUserId();
+		else
+			return Integer.parseInt(param);
+	}
+
+	private Integer getLoggedInUserId() {
+		return ((User) ((TokenBasedAuthentication) SecurityContextHolder.getContext().getAuthentication())
+				.getPrincipal()).getId();
+	}
 }
