@@ -2,6 +2,7 @@ package com.isa.FishingBooker.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.isa.FishingBooker.dto.TutorServiceDTO;
 import com.isa.FishingBooker.exceptions.AuthorizationException;
@@ -49,7 +50,12 @@ public class TutorServicesController {
 		return ResponseEntity
 				.ok(tutorServiceMapper.convertToDtos((ArrayList<TutorService>) tutorServicesService.getAllValid()));
 	}
-
+	
+	@GetMapping("api/users/tutors/{idtutor}/services")
+	public ResponseEntity<?> getServicesTutorById(@PathVariable("idtutor") int id) {
+		return ResponseEntity.ok(tutorServiceMapper.convertToDtos(tutorServicesService.getAllValidByTutor(id).stream().collect(Collectors.toList())));
+	}
+	
 	@GetMapping("api/tutor-services/{idservice}")
 	public ResponseEntity<?> getTutorService(@PathVariable("idservice") int idservice) {
 		return ResponseEntity

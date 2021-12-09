@@ -27,4 +27,9 @@ public class TutorServicesServiceImpl extends CustomServiceAbstract<TutorService
 	public List<TutorService> getAllValid() {
 		return ((TutorServiceRepository)repository).findAllValid();
 	}
+
+	@Override
+	public List<TutorService> getAllValidByTutor(int tutorId) {
+		return ((TutorServiceRepository)repository).findAllValidByTutor(tutorId);
+	}
 }
