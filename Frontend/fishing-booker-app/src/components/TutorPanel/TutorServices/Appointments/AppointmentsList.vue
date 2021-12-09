@@ -17,6 +17,7 @@ import axios from "axios";
 import CustomTable from "../../../CustomTable.vue";
 import AppointmentInfoRow from "./AppointmentInfoRow.vue";
 import NewAppointmentModalDialog from "./NewAppointmentModalDialog.vue"
+import config from '../../../../configuration/config';
 export default {
   components: {
     CustomTable,
@@ -41,7 +42,8 @@ export default {
     fetchData() {
       axios
         .get(
-          "http://localhost:8080/api/users/tutors/4/tutor-service/appointments"
+          "http://localhost:8080/api/users/tutors/4/tutor-service/appointments",
+          config.requestHeader
         )
         .then((resp) => {
           this.data = resp.data;

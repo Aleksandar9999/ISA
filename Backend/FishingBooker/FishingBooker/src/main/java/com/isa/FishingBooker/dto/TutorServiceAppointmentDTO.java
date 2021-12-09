@@ -23,7 +23,6 @@ public class TutorServiceAppointmentDTO {
 	private int serviceId;
 	
 	public TutorServiceAppointmentDTO() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Date getStart() {

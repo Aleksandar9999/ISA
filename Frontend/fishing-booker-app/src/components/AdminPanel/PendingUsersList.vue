@@ -22,7 +22,7 @@ export default {
     };
   },
   mounted() {
-    axios.get(config.apiStart+"/api/users").then(resp=> {this.dataList=resp.data;
+    axios.get(config.apiStart+"/api/users",config.requestHeader).then(resp=> {this.dataList=resp.data;
     console.log(this.data)
     })
   },

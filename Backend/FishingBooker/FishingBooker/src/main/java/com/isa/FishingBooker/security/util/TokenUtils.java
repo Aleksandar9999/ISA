@@ -1,6 +1,7 @@
 package com.isa.FishingBooker.security.util;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.isa.FishingBooker.model.Role;
 import com.isa.FishingBooker.model.User;
 
 import io.jsonwebtoken.Claims;
@@ -28,7 +30,7 @@ public class TokenUtils {
 	public String SECRET;
 
 	// Period vazenja tokena - 30 minuta
-	@Value("1800000")
+	@Value("18000000")//TODO: Obrisati jednu nulu
 	private int EXPIRES_IN;
 	
 	// Naziv headera kroz koji ce se prosledjivati JWT u komunikaciji server-klijent
@@ -53,13 +55,14 @@ public class TokenUtils {
 	/**
 	 * Funkcija za generisanje JWT tokena.
 	 * 
-	 * @param username Korisničko ime korisnika kojem se token izdaje
+	 * @param user Korisnika kojem se token izdaje
 	 * @return JWT token
 	 */
-	public String generateToken(String username) {
+	public String generateToken(User user) {
 		return Jwts.builder()
 				.setIssuer(APP_NAME)
-				.setSubject(username)
+				.setSubject(user.getUsername())
+				.claim("USER_ROLE", user.getRoles())
 				.setAudience(generateAudience())
 				.setIssuedAt(new Date())
 				.setExpiration(generateExpirationDate())
@@ -199,6 +202,9 @@ public class TokenUtils {
 		return expiration;
 	}
 	
+	public List<Role> getUserRolesFromToken(String token) {
+		return (List<Role>) getAllClaimsFromToken(token).get("USER_ROLE");
+	}
 	/**
 	 * Funkcija za čitanje svih podataka iz JWT tokena
 	 * 

@@ -1,42 +1,56 @@
 <template>
   <div>
-    
-    <w-card class="main-card" title="Brze rezervacije" no-border>
-    <w-flex justify-end class="pa3" >
-      <w-button @click="showDialog">Add new</w-button>
-    </w-flex>  
+    <w-card class="main-card" title="Fast appointments with discount offer" no-border>
+      <w-flex v-if="showAdminButtons" justify-end class="pa3">
+        <w-button @click="showDialog">Add new</w-button>
+      </w-flex>
       <FastAppointmentCard
         v-for="(fast_appoinement, index) in fast_appoinements_local"
-        :key="index"
+        :key="index" :showReserveButton="false"
         :fast_appoinement="fast_appoinement"
       />
     </w-card>
   </div>
 </template>
 <script>
-import axios from "axios"
-import config from "../../../../configuration/config"
+import axios from "axios";
+import config from "../../../../configuration/config";
 import FastAppointmentCard from "./FastAppointmentCard.vue";
 export default {
   props: ["idservice"],
   data() {
     return {
       fast_appoinements_local: [],
+      showAdminButtons: false,
     };
   },
   components: {
     FastAppointmentCard,
   },
   methods: {
-    showDialog(){
+    showDialog() {
       this.$emit("showDiscountOfferDialog", true);
-    }
+    },
+    showAdminButtonsFunc() {
+      if (localStorage.roles)
+        if (localStorage.roles.includes("ROLE_TUTOR")) {
+          this.showAdminButtons = true;
+        }
+    },
   },
   mounted() {
-    axios.get(config.apiStart+"/api/users/tutors/4/services/"+this.idservice+"/discount-offers").then(resp=>{
-      console.log(resp.data)
-      this.fast_appoinements_local=resp.data
-    })
+    this.showAdminButtonsFunc();
+    axios
+      .get(
+        config.apiStart +
+          "/api/tutor-services/" +
+          this.idservice +
+          "/discount-offers",
+        config.requestHeader
+      )
+      .then((resp) => {
+        this.fast_appoinements_local = resp.data;
+      });
   },
 };
 </script>

@@ -35,7 +35,7 @@ export default {
   methods: {
     fetchData() {
       axios
-        .get(config.apiStart + "/api/users/tutors/4/available-periods")
+        .get(config.apiStart + "/api/users/tutors/4/available-periods",config.requestHeader)
         .then((resp) => {
           this.data = resp.data;
           console.log(this.data);
@@ -46,7 +46,7 @@ export default {
       axios
         .post(
           config.apiStart + "/api/users/tutors/4/available-periods",
-          this.newPeriod
+          this.newPeriod,config.requestHeader
         )
         .then((resp) => {
           console.log(resp);

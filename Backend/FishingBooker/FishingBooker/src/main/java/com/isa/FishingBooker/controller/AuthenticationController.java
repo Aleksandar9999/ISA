@@ -1,7 +1,10 @@
 package com.isa.FishingBooker.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,8 +19,11 @@ import com.isa.FishingBooker.dto.LoginReturnDTO;
 import com.isa.FishingBooker.dto.RegistrationDTO;
 import com.isa.FishingBooker.exceptions.RegistrationException;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
+import com.isa.FishingBooker.model.Admin;
+import com.isa.FishingBooker.model.Role;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.User;
+import com.isa.FishingBooker.model.UserTokenState;
 import com.isa.FishingBooker.security.util.TokenUtils;
 import com.isa.FishingBooker.service.EmailService;
 import com.isa.FishingBooker.service.UsersService;
@@ -33,6 +39,9 @@ public class AuthenticationController {
 	private CustomModelMapper<User, RegistrationDTO> userRegistrationMapper;
 	@Autowired
 	private CustomModelMapper<Tutor, RegistrationDTO> totorRegistrationMapper;
+	@Autowired
+	private CustomModelMapper<Admin, RegistrationDTO> adminRegistrationMapper;
+	
 	@Autowired
 	private UsersService usersService;
 	@Autowired
@@ -52,11 +61,8 @@ public class AuthenticationController {
 
 		// Kreiraj token za tog korisnika
 		User user = (User) authentication.getPrincipal();
-		String jwt = tokenUtils.generateToken(user.getUsername());
-		int expiresIn = tokenUtils.getExpiredIn();
-
-		// Vrati token kao odgovor na uspesnu autentifikaciju
-		return ResponseEntity.ok(jwt);
+		String jwt = tokenUtils.generateToken(user);
+		return ResponseEntity.ok(new UserTokenState(jwt, user.getRoles()));
 	}
 
 	@PostMapping("api/registration/user")
@@ -75,6 +81,19 @@ public class AuthenticationController {
 	public ResponseEntity<?> registerTutor(@RequestBody RegistrationDTO dto) {
 		try {
 			Tutor user = totorRegistrationMapper.convertToEntity(dto, Tutor.class);
+			usersService.addNew(user);
+			emailService.sendRegisterConfirmationMail(user);// TODO: Sending email slow down response. Find out how to fix this
+			return ResponseEntity.ok(user);
+		} catch (RegistrationException ex) {
+			return ResponseEntity.status(400).body(ex.getMessage());
+		}
+	}
+	//TODO: Provjeriti ispravnost email adrese prije registracije
+	@PostMapping("api/registration/admin")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> registerAdmin(@RequestBody RegistrationDTO dto) {
+		try {
+			Admin user = adminRegistrationMapper.convertToEntity(dto, Admin.class);
 			usersService.addNew(user);
 			emailService.sendRegisterConfirmationMail(user);// TODO: Sending email slow down response. Find out how to fix this
 			return ResponseEntity.ok(user);

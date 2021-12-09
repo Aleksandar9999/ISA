@@ -146,7 +146,7 @@ import config from '../configuration/config';
 
          saveEdited(){
              this.collectData()
-             axios.post('http://localhost:8080/editUserProfile', this.profileReqData).then(response=>console.log(response.data))
+             axios.put(config.apiStart+`/api/users/${this.profileReqData.id}`, this.profileReqData,config.requestHeader).then(response=>console.log(response.data))
 
              let ipts= document.getElementsByName('input');
                  for(let i =0; i < ipts.length; i++){
@@ -172,9 +172,11 @@ import config from '../configuration/config';
             this.profileReqData.password=this.password;
             this.profileReqData.name=this.name;
             this.profileReqData.surname=this.surname;
-            this.profileReqData.address=this.address;
-            this.profileReqData.city=this.city;
-            this.profileReqData.country=this.state;
+            this.profileReqData.address={
+                street:this.address,
+                city: this.city,
+                country: this.state
+            }
             this.profileReqData.phoneNumber=this.phoneNum;
             this.profileReqData.status='CONFIRMED';
          },
@@ -189,6 +191,14 @@ import config from '../configuration/config';
      mounted() {
          this.jwtToken=localStorage.jwtToken;
          axios.get(config.apiStart+'/api/userProfile',{headers:{'Authorization':'Bearer ' + this.jwtToken}}).then(response=> this.populateProfileData(response))
+         if(localStorage.roles.includes("ROLE_ADMIN")){
+              axios.get(`${config.apiStart}/api/admins/reset-password`,config.requestHeader).then(response=>{
+                  console.log("ODGOVOR")
+                  console.log(response)
+                if(!response.data)
+                  this.$router.push("/admin/reset-password")
+              })}
+            
      }
 }
 </script>

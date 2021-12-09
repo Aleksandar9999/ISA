@@ -85,8 +85,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 								.antMatchers("/api/register").permitAll()
 								.antMatchers("/boats").permitAll()
 								.antMatchers("/resorts").permitAll()
+								.antMatchers("/api/users/tutors/{idtutor}/services").permitAll()
 								.antMatchers("/api/users/tutors/services").permitAll()
-								.antMatchers("/api/users/tutors/services/{id}").permitAll()	
+								.antMatchers("/api/users/tutors/{id}/available-periods").permitAll()
+								
+								.antMatchers("/api/tutor-services/{idservice}").permitAll()	//IZMIJENIO SAM OVU ADRESU
+								.antMatchers("/api/tutor-services/{idservice}/photos").permitAll()	//IZMIJENIO SAM OVU ADRESU
+								.antMatchers("/api/tutor-services/{idservice}/discount-offers").permitAll()	//IZMIJENIO SAM OVU ADRESU
+								.antMatchers("/api/tutor-services/{idservice}/prices").permitAll()	//IZMIJENIO SAM OVU ADRESU
+								
+								
 								.antMatchers("/boats/{id}").permitAll()
 								.antMatchers("/extras").permitAll()
 								.antMatchers("/periods").permitAll()

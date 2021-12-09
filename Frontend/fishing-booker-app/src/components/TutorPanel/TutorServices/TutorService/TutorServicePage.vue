@@ -2,11 +2,18 @@
   <div>
     <TutorServiceHeader :service_info="service_info" />
     <Gallery :photos="gallery" />
-    <ExtrasServices  />
-    <FastAppointments @showDiscountOfferDialog="discountOfferDialog.show=true" :idservice=idservice />
-    <discount-offer-modal-dialog 
-    :show=discountOfferDialog.show :idservice=idservice 
-    @hideDialog=hideDiscountOfferDialog />
+    <ExtrasServices />
+    <FastAppointments
+      @showDiscountOfferDialog="discountOfferDialog.show = true"
+      :idservice="idservice"
+    />
+    <discount-offer-modal-dialog
+      :show="discountOfferDialog.show"
+      :idservice="idservice"
+      @hideDialog="hideDiscountOfferDialog"
+    />
+    <prices-list :idservice=idservice @showDialog="this.priceDialog.show=true;" :fetch=this.priceDialog.success />
+    <price-modal-dialog :idservice=idservice :show=this.priceDialog.show @hideDialog=checkForUpdatePrices />
   </div>
 </template>
 
@@ -18,6 +25,8 @@ import FastAppointments from "./FastAppointmets.vue";
 import axios from "axios";
 import config from "../../../../configuration/config";
 import DiscountOfferModalDialog from "./DiscountOfferModalDialog.vue";
+import PricesList from "./PricesList.vue"
+import PriceModalDialog from "./PriceModalDialog.vue"
 export default {
   components: {
     TutorServiceHeader,
@@ -25,12 +34,18 @@ export default {
     ExtrasServices,
     FastAppointments,
     DiscountOfferModalDialog,
+    PricesList, 
+    PriceModalDialog
   },
 
   data() {
     return {
       discountOfferDialog: {
         show: false,
+      },
+      priceDialog:{
+        show:false,
+        success:false
       },
       gallery: [],
       service_info: {
@@ -39,40 +54,28 @@ export default {
           street: "",
         },
       },
-      idservice:this.$route.params.idservice,
+      idservice: this.$route.params.idservice,
       extra_services: [],
       fast_appointments: [],
     };
   },
 
   methods: {
-    hideDiscountOfferDialog(value){
-      this.discountOfferDialog.show=value.dialog;
-
+    checkForUpdatePrices(value){
+      this.priceDialog.show=value.dialog;
+      if(value.success)
+        this.priceDialog.success=!this.priceDialog.success
     },
     fetchData() {
       axios
         .get(
           config.apiStart +
-            "/api/users/tutors/" +
-            this.$route.params.idtutor +
-            "/services/" +
-            this.$route.params.idservice
+            "/api/tutor-services/" +
+            this.$route.params.idservice,
+          config.requestHeader
         )
         .then((resp) => {
-          this.gallery = resp.data.photos;
-          this.extra_services = resp.data.extrasServices;
-          this.service_info = {
-            address: resp.data.address,
-            cancelProcentage: resp.data.cancelProcentage,
-            description: resp.data.description,
-            rules: resp.data.rules,
-            fishingEquipment: resp.data.fishingEquipment,
-            name: resp.data.name,
-            maxPerson: resp.data.maxPerson,
-            id:resp.data.id
-          };
-          console.log(this.service_info.address);
+          this.service_info = resp.data;
         });
     },
   },

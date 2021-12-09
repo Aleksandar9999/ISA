@@ -26,6 +26,7 @@ public class TutorServiceDTO {
 	private Address address;
 	private String tutorBio;
 	private int tutorId;
+	private String extrasServices;
 	public Integer getId() {
 		return id;
 	}
@@ -85,6 +86,12 @@ public class TutorServiceDTO {
 	}
 	public void setTutorId(int tutorId) {
 		this.tutorId = tutorId;
+	}
+	public String getExtrasServices() {
+		return extrasServices;
+	}
+	public void setExtrasServices(String extrasServices) {
+		this.extrasServices = extrasServices;
 	}
 
 }

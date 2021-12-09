@@ -4,7 +4,7 @@
       <w-form no-keyup-validation no-blur-validation>
         <w-flex wrap class="text-center">
           <div class="xs6 pa1">
-            <p>Naziv usluge</p>
+            <p>Service name:</p>
           </div>
           <div class="xs6 pa1">
             <w-input
@@ -13,7 +13,7 @@
               v-model="service_form.name"
               bg-color="white"
               border
-              placeholder="Placeholder"
+              placeholder="Enter service name"
               outline
             >
             </w-input>
@@ -22,7 +22,7 @@
 
         <w-flex wrap class="text-center">
           <div class="xs6 pa1">
-            <p>Maksimalno osoba</p>
+            <p>Max number of persons</p>
           </div>
           <div class="xs6 pa1">
             <w-input
@@ -32,7 +32,7 @@
               v-model="service_form.maxPerson"
               bg-color="white"
               border
-              placeholder="Placeholder"
+              placeholder="Enter maximum number of persons"
               outline
             >
             </w-input>
@@ -41,7 +41,7 @@
 
         <w-flex wrap class="text-center">
           <div class="xs6 pa1">
-            <p>Procenat pri otkazivanju</p>
+            <p>Cancel procentage</p>
           </div>
           <div class="xs6 pa1">
               <w-input
@@ -51,14 +51,14 @@
               v-model="service_form.cancelProcentage"
               bg-color="white"
               border
-              placeholder="Placeholder"
+              placeholder="Percentage in case of appointment cancellation"
               outline
             />
           </div>
         </w-flex>
         <w-flex wrap class="text-center">
           <div class="xs6 pa1">
-            <p>Adresa</p>
+            <p>Address</p>
           </div>
           <div class="xs6 pa1">
               <w-input
@@ -68,9 +68,20 @@
               v-model="service_form.address.country"
               bg-color="white"
               border
-              placeholder="Drzava"
+              placeholder="Country"
               outline
             />
+<w-input
+              
+              class="mb3"
+              style="color: black"
+              v-model="service_form.address.city"
+              bg-color="white"
+              border
+              placeholder="City"
+              outline
+            />
+
               <w-input
              
               class="mb3"
@@ -78,14 +89,14 @@
               v-model="service_form.address.street"
               bg-color="white"
               border
-              placeholder="Ulica"
+              placeholder="Street"
               outline
             />
           </div>
         </w-flex>
         <w-flex wrap class="text-center">
           <div class="xs6 pa1">
-            <p style="margin-top: 3%">Kratak opis</p>
+            <p style="margin-top: 3%">Short description</p>
           </div>
           <div class="xs6 pa1">
               <w-textarea
@@ -94,14 +105,14 @@
               v-model="service_form.description"
               bg-color="white"
               border
-              placeholder="Placeholder"
+              placeholder="Service description"
               outline
             />
           </div>
         </w-flex>
         <w-flex wrap class="text-center">
           <div class="xs6 pa1">
-            <p style="margin-top: 3%">Oprema</p>
+            <p style="margin-top: 3%">Equipment</p>
           </div>
           <div class="xs6 pa1">
             
@@ -112,14 +123,15 @@
               v-model="service_form.fishingEquipment"
               bg-color="white"
               border
-              placeholder="Oprema za pecanje"
+              placeholder="Equipment"
               outline
             ></w-textarea>
             </div>
           </w-flex>
+
         <w-flex wrap class="text-center">
           <div class="xs6 pa1">
-            <p style="margin-top: 3%">Pravila</p>
+            <p style="margin-top: 3%">Rules</p>
           </div>
           <div class="xs6 pa1">
             <w-textarea
@@ -129,14 +141,32 @@
               v-model="service_form.rules"
               bg-color="white"
               border
-              placeholder="Oprema za pecanje"
+              placeholder="Rules"
               outline
             ></w-textarea>
           </div>
         </w-flex>
 
-        <div class="text-right mt6">
-          <w-button type="submit" bg-color="green" color="white" @click="save">Sacuvaj</w-button>
+<w-flex wrap class="text-center">
+          <div class="xs6 pa1">
+            <p style="margin-top: 3%">Extras services</p>
+          </div>
+          <div class="xs6 pa1">
+            <w-textarea
+              class="mb3"
+              style="text-alignment:center"
+              color: black
+              v-model="service_form.extrasServices"
+              bg-color="white"
+              border
+              placeholder="Extras Services"
+              outline
+            ></w-textarea>
+          </div>
+        </w-flex>
+
+        <div v-if="showAdminButtons" class="text-right mt6">
+          <w-button type="submit" bg-color="green" color="white" @click="save">Save</w-button>
         </div>
       </w-form>
     </w-card>
@@ -147,17 +177,29 @@
 import axios from 'axios';
 import config from '../../../../configuration/config';
 export default {
-  props: ["service_info"],
+  props: ["service_info","tutorId"],
   data() {
     return {
       service_form: {},
+      showAdminButtons:false,
     };
   },
+  mounted() {
+    this.showAdminButtonsFunc()
+  },
   methods: {
+    showAdminButtonsFunc(){
+      if (localStorage.roles)
+        if (localStorage.roles.includes("ROLE_TUTOR")) {
+          this.showAdminButtons = true;
+        }
+    },
     save() {
       console.log(this.service_form);
-      axios.put(config.apiStart+"/api/users/tutors/4/services/"+this.service_form.id,this.service_form).then(resp=>
-      console.log(resp)
+      axios.put(config.apiStart+"/api/tutor-services/"+this.service_form.id,this.service_form,config.requestHeader).then(resp=>
+      {this.service_form=resp.data;
+      alert("Updated");
+      }
       )
     },
     nameChanged($event) {

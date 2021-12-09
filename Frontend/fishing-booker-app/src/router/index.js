@@ -21,6 +21,9 @@ import Confirmation from '../components/Confirm.vue'
 
 import PendingUsersList from '../components/AdminPanel/PendingUsersList.vue'
 import SystemSettings from '../components/AdminPanel/SystemSettings.vue'
+import ResetPasswordModalDialog from '../components/AdminPanel/ResetPasswordModalDialog.vue'
+
+
 import TutorServicesList from '../components/TutorPanel/TutorServices/TutorServicesList.vue'
 import TutorAvailablePeriods from '../components/TutorPanel/TutorProfile/TutorAvailablePeriods.vue'
 import AppointmentsList from '../components/TutorPanel/TutorServices/Appointments/AppointmentsList.vue'
@@ -38,11 +41,11 @@ const routes = [
   {path: "/tutors/:idtutor/services", name: "TutorServices", component: TutorServicesList},
   {path: "/tutors/:idtutor/available-periods", name: "TutorAvailablePeriods", component: TutorAvailablePeriods},
   {path: "/tutors/:idtutor/appointments", name: "TutorServicesAppointments", component: AppointmentsList},
-  
   {path: "/tutors/:idtutor/services/:idservice", name: "TutorService", component: TutorServicePage},
+  
   {path: "/users/pending",name:"PendingUsersList",component: PendingUsersList},
   {path: "/system/settings",name: "SystemSettings", component:SystemSettings},
-  
+  {path: "/admin/reset-password",name: "ResetPassword", component:ResetPasswordModalDialog},
   
   {path:"", name:"FrontPage", component: FrontPage},
 {

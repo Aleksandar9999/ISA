@@ -115,7 +115,7 @@ export default {
         persistentNoAnimation: false,
         width: 400,
       },
-      success:false,
+      success: false,
       tutorServiceLocal: {
         name: "",
         description: "",
@@ -134,19 +134,22 @@ export default {
   methods: {
     hideDialog() {
       this.dialog.show = false;
-      this.$emit("hideDialog", {dialog:this.dialog.show,success: this.success});
+      this.$emit("hideDialog", {
+        dialog: this.dialog.show,
+        success: this.success,
+      });
     },
     save() {
       axios
         .post(
-          config.apiStart + "/api/users/tutors/4/services",
-          this.tutorServiceLocal
+          config.apiStart + `/api/users/tutors/${this.idTutor}/services`,
+          this.tutorServiceLocal,
+          config.requestHeader
         )
-        .then(resp=>
-        {
-            this.hideDialog()
-            this.success=true;
-            console.log(resp)
+        .then((resp) => {
+          this.success = true;
+          this.hideDialog();
+          console.log(resp);
         });
     },
   },
