@@ -18,7 +18,7 @@
 
               <div class="modal-footer">
                 <slot name="footer">
-                <button class="butn" @click="login()">Login</button>
+                <button class="butn" @click=login >Login</button>
                 <router-link to="/">
                 <button class="butn" >
                     Close
@@ -33,8 +33,6 @@
 
 <script>
 import axios from 'axios'
-
-
 export default {
     name: 'Login',
     data(){
@@ -57,7 +55,10 @@ export default {
       login(){
         this.collectData()
         axios.post('http://localhost:8080/api/login', this.regReqData)
-          .then(response=>this.storageLoginData(response))
+          .then(response=>{
+            this.storageLoginData(response);
+            this.$router.push("/profile")
+          })
       },
       collectData(){
         this.regReqData.email=this.email;

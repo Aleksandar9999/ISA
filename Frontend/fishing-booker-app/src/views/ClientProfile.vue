@@ -191,6 +191,14 @@ import config from '../configuration/config';
      mounted() {
          this.jwtToken=localStorage.jwtToken;
          axios.get(config.apiStart+'/api/userProfile',{headers:{'Authorization':'Bearer ' + this.jwtToken}}).then(response=> this.populateProfileData(response))
+         if(localStorage.roles.includes("ROLE_ADMIN")){
+              axios.get(`${config.apiStart}/api/admins/reset-password`,config.requestHeader).then(response=>{
+                  console.log("ODGOVOR")
+                  console.log(response)
+                if(!response.data)
+                  this.$router.push("/admin/reset-password")
+              })}
+            
      }
 }
 </script>
