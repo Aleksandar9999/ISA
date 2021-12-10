@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.dto.TutorServiceDTO;
+import com.isa.FishingBooker.dto.UserConfirmationDTO;
 import com.isa.FishingBooker.dto.UserInfoDTO;
 import com.isa.FishingBooker.exceptions.RegistrationException;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
@@ -39,9 +40,7 @@ public class UsersController {
 	@Autowired
 	private CustomModelMapper<User, UserInfoDTO> userInfoMapper;
 
-	@Autowired
-	private CustomModelMapper<TutorService, TutorServiceDTO> tutorServiceMapper;
-
+	
 	@GetMapping("api/users")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> getAll() {
