@@ -33,15 +33,15 @@
               </tr>
               <tr>
                 <td><label for="">Adress:</label></td>
-                <td><input type="text" v-model="regReqData.street" /></td>
+                <td><input type="text" v-model="regReqData.address.street" /></td>
               </tr>
               <tr>
                 <td><label for="">City:</label></td>
-                <td><input type="text" v-model="regReqData.city" /></td>
+                <td><input type="text" v-model="regReqData.address.city" /></td>
               </tr>
               <tr>
                 <td><label for="">State</label></td>
-                <td><input type="text" v-model="regReqData.country" /></td>
+                <td><input type="text" v-model="regReqData.address.country" /></td>
               </tr>
               <tr>
                 <td><label for="">Phone number</label></td>
@@ -95,9 +95,11 @@ export default {
         rpassword: "",
         name: "",
         surname: "",
-        street: "",
-        city: "",
-        country: "",
+        address: {
+          street: "",
+          city: "",
+          country: "",
+        },
         phoneNumber: "",
         userRole: "",
       },
@@ -122,13 +124,15 @@ export default {
       }
       //this.collectData();
       console.log(this.regReqData);
-      axios.post(
-        config.apiStart + `/api/registration/${this.regReqData.userRole}`,
-        this.regReqData,
-        config.requestHeader
-      ).then(()=>{
-        alert("SUCCESS")
-      });
+      axios
+        .post(
+          config.apiStart + `/api/registration/${this.regReqData.userRole}`,
+          this.regReqData,
+          config.requestHeader
+        )
+        .then(() => {
+          alert("SUCCESS");
+        });
       /*axios
         .post("http://localhost:8080/register", this.regReqData)
         .then((response) => console.log(response));*/
