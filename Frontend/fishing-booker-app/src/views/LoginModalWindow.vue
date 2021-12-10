@@ -47,9 +47,7 @@ export default {
         if(response.data){    
           localStorage.logedIn=true    
           localStorage.jwtToken=response.data.jwt
-          localStorage.roles=response.data.roles 
-          
-          this.$router.push('/')       
+          localStorage.roles=response.data.roles    
         }
       },
       login(){
@@ -57,7 +55,10 @@ export default {
         axios.post('http://localhost:8080/api/login', this.regReqData)
           .then(response=>{
             this.storageLoginData(response);
-            this.$router.push("/")
+            if(response.data.roles.includes("ROLE_ADMIN"))
+              this.$router.push("/profile")
+            else
+              this.$router.push("/")
           })
       },
       collectData(){
