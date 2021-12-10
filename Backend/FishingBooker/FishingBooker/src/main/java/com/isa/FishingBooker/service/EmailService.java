@@ -20,7 +20,7 @@ public class EmailService {
 	@Autowired
 	private Environment env;
 	
-	@Async
+	
 	public void sendRegisterConfirmationMail(User user) {
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(user.getEmail());
@@ -30,4 +30,24 @@ public class EmailService {
 		javaMailSender.send(mail);
 	}
 	
+	public void sendRejectedConfirmationMail(User user, String comment) {
+		String subject="Registration rejected";
+		String text=String.format("Dear %s,\n%s\nBest regards,\n FishingBooker App Team", user.getName(),comment);
+		javaMailSender.send(this.createMail(user.getEmail(), subject, text));
+	}
+	
+	public void sendConfirmConfirmationMail(User user) {
+		String subject="Registration confirmation";
+		String text=String.format("Dear %s,\nOur admin team confirmed your registration.\nBest regards,\n FishingBooker App Team", user.getName());
+		javaMailSender.send(this.createMail(user.getEmail(), subject, text));
+	}
+	
+	private SimpleMailMessage createMail(String email,String subject, String text) {
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(email);
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject(subject);
+		mail.setText(text);
+		return mail;
+	}
 }

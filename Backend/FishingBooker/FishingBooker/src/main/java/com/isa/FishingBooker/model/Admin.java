@@ -18,6 +18,7 @@ public class Admin extends User {
 	public boolean isPasswordChanged() {
 		return passwordChanged;
 	}
+	public void setPasswordChanged(boolean changed) {this.passwordChanged=changed;}
 	
 	public void resetPassword(String newPassword) {
 		this.setPassword(newPassword);

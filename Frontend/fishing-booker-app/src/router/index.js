@@ -19,7 +19,7 @@ import TutorAppointmentHistory from '../components/ClientMenuLists/TutorAppointm
 import FrontPage from '../components/FrontPage.vue'
 import Confirmation from '../components/Confirm.vue'
 
-import PendingUsersList from '../components/AdminPanel/PendingUsersList.vue'
+import UsersList from '../components/AdminPanel/UsersList.vue'
 import SystemSettings from '../components/AdminPanel/SystemSettings.vue'
 import ResetPasswordModalDialog from '../components/AdminPanel/ResetPasswordModalDialog.vue'
 
@@ -43,7 +43,7 @@ const routes = [
   {path: "/tutors/:idtutor/appointments", name: "TutorServicesAppointments", component: AppointmentsList},
   {path: "/tutors/:idtutor/services/:idservice", name: "TutorService", component: TutorServicePage},
   
-  {path: "/users/pending",name:"PendingUsersList",component: PendingUsersList},
+  {path: "/users",name:"UsersList",component: UsersList},
   {path: "/system/settings",name: "SystemSettings", component:SystemSettings},
   {path: "/admin/reset-password",name: "ResetPassword", component:ResetPasswordModalDialog},
   

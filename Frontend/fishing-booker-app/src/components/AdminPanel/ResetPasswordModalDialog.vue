@@ -35,8 +35,8 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
-import config from '../../configuration/config';
+import axios from "axios";
+import config from "../../configuration/config";
 export default {
   props: ["show", "idTutor"],
   data() {
@@ -48,18 +48,23 @@ export default {
         persistentNoAnimation: false,
         width: 400,
       },
-      admin:{},
-      newPasswordRepeat:''
+      admin: {},
+      newPasswordRepeat: "",
     };
   },
   mounted() {
-      axios.get(`${config.apiStart}/api/admins/reset-password`,config.requestHeader).then(response=>{
-                if(response.data)
-                  this.$router.push("/profile")});
     axios
-      .get(config.apiStart + "/api/users/me",config.requestHeader)
+      .get(`${config.apiStart}/api/admins/reset-password`, config.requestHeader)
+      .then((response) => {
+        if (response.data) {
+          this.$router.push("/profile");
+          console.log("MODALNI DIALOG PASSWORD");
+          console.log(response);
+        }
+      });
+    axios
+      .get(config.apiStart + "/api/users/me", config.requestHeader)
       .then((resp) => (this.admin = resp.data));
-    
   },
   methods: {
     save() {
@@ -70,7 +75,7 @@ export default {
           config.requestHeader
         )
         .then((resp) => {
-            alert("Done")
+          alert("Done");
           console.log(resp);
         });
     },
@@ -78,7 +83,7 @@ export default {
 };
 </script>
 <style>
-p{
+p {
   color: black;
 }
 </style>

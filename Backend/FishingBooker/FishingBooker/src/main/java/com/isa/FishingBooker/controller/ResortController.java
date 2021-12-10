@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,4 +30,9 @@ public class ResortController {
 		return ResponseEntity.ok(resortsService.getById(id));
 	}
 	
+	@DeleteMapping("api/resorts/{id}")
+	public ResponseEntity<?> delete(@PathVariable int id){
+		resortsService.delete(id);
+		return ResponseEntity.ok().build();
+	}
 }

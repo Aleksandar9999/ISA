@@ -18,18 +18,25 @@ public class TutorServicesServiceImpl extends CustomServiceAbstract<TutorService
 
 	@Override
 	public void delete(int id) {
-		TutorService service=this.getById(id);
+		TutorService service = this.getById(id);
 		service.setStatus(Status.DELETED);
 		this.update(service);
 	}
 
 	@Override
+	public void update(TutorService item) {
+		TutorService service =this.getById(item.getId());
+		service.updateInfo(item);
+		super.update(service);
+	}
+
+	@Override
 	public List<TutorService> getAllValid() {
-		return ((TutorServiceRepository)repository).findAllValid();
+		return ((TutorServiceRepository) repository).findAllValid();
 	}
 
 	@Override
 	public List<TutorService> getAllValidByTutor(int tutorId) {
-		return ((TutorServiceRepository)repository).findAllValidByTutor(tutorId);
+		return ((TutorServiceRepository) repository).findAllValidByTutor(tutorId);
 	}
 }

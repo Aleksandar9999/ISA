@@ -1,11 +1,5 @@
 package com.isa.FishingBooker.dto;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.OneToOne;
-
 import com.isa.FishingBooker.model.Address;
 import com.isa.FishingBooker.model.Status;
 

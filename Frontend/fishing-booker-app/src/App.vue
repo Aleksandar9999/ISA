@@ -19,8 +19,7 @@ export default {
   mounted() {
     console.log(this.api)
   },
-  
-};
+ };
 </script>
 
 <style>

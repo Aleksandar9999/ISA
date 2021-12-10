@@ -178,7 +178,7 @@ public class User implements UserDetails {
 	@JsonIgnore
 	@Override
 	public boolean isEnabled() {
-		return this.status.equals(Status.CONFIRMED);
+		return this.status.equals(Status.ADMIN_CONFIRMED);
 	}
 
 	@JsonIgnore

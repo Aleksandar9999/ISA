@@ -76,6 +76,19 @@ public class TutorService {
 		this.address = address;
 	}
 
+	public void updateInfo(TutorService service) {
+		this.name = service.getName();
+		this.description = service.getDescription();
+		this.maxPerson = service.getMaxPerson();
+		this.address = service.getAddress();
+		this.cancelProcentage = service.getCancelProcentage();
+		this.rules=service.getRules();
+		this.fishingEquipment=service.getFishingEquipment();
+		this.rate=service.getRate();
+		this.status=service.getStatus();
+	}
+
+	
 	public Integer getId() {
 		return id;
 	}

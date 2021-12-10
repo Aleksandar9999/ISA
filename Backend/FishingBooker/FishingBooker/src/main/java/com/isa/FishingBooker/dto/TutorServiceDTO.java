@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.isa.FishingBooker.model.Address;
 import com.isa.FishingBooker.model.Extras;
 import com.isa.FishingBooker.model.Photo;
+import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.Tutor;
 
 public class TutorServiceDTO {
@@ -27,6 +28,7 @@ public class TutorServiceDTO {
 	private String tutorBio;
 	private int tutorId;
 	private String extrasServices;
+	private Status status;
 	public Integer getId() {
 		return id;
 	}
@@ -92,6 +94,12 @@ public class TutorServiceDTO {
 	}
 	public void setExtrasServices(String extrasServices) {
 		this.extrasServices = extrasServices;
+	}
+	public Status getStatus() {
+		return status;
+	}
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 }
