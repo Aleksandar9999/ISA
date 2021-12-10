@@ -109,6 +109,13 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 	}
 
 	@Override
+	public void delete(Integer id) {
+		User user =this.getById(id);
+		user.setStatus(Status.DELETED);
+		super.update(user);;
+	}
+	
+	@Override
 	public User EditUser(User user) {
 		// TODO Auto-generated method stub
 		return repository.save(user);

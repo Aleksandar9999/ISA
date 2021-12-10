@@ -22,6 +22,9 @@
     <td>
       <w-button @click="showDialog">More info</w-button>
     </td>
+    <td>
+      <w-button @click="deleteUser">Delete</w-button>
+    </td>
   </tr>
 </template>
 <script>
@@ -40,6 +43,11 @@ export default {
   methods: {
     changeStatus() {
       this.statusChanged = true;
+    },
+    deleteUser(){
+      axios.delete(`${config.apiStart}/api/users/${this.item_local.id}`,config.requestHeader).then(()=>{
+        alert("DONE")
+      })
     },
     showDialog() {
       alert(

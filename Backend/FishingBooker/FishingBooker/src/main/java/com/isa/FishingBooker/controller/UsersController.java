@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -98,7 +99,6 @@ public class UsersController {
 		return ResponseEntity.ok(usersService.getUserProfileData());
 	}
 
-
 	@PostMapping("confirm/{id}")
 	public ResponseEntity<String> confirmAccount(@PathVariable Integer id) {
 		return ResponseEntity.ok(usersService.confirmAccount(id));
@@ -114,7 +114,12 @@ public class UsersController {
 	public ResponseEntity<User> editUserProfile(@RequestBody User user) {
 		return ResponseEntity.ok(usersService.EditUser(user));
 	}
-
+	@PreAuthorize("hasRole('ADMIN')")
+	@DeleteMapping("api/users/{id}")
+	public ResponseEntity<?> deletUser(@PathVariable int id) {
+		usersService.delete(id);
+		return ResponseEntity.ok().build();
+	}
 	private Integer getUserIdFromParam(String param) {
 		if (param.equals("me"))
 			return getLoggedInUserId();
