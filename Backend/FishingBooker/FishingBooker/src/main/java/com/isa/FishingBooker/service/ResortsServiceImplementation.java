@@ -15,6 +15,9 @@ public class ResortsServiceImplementation implements ResortsService {
 	@Autowired
 	private ResortRepository repository;
 	
+	@Autowired
+	private AppointmentService appointmentService;
+	
 	@Override
 	public void addNew(Resort item) {
 		// TODO Auto-generated method stub
@@ -42,9 +45,7 @@ public class ResortsServiceImplementation implements ResortsService {
 
 	@Override
 	public void delete(Integer id) {
-		// TODO Auto-generated method stub
-		
+		appointmentService.deleteResortAppointments(id);
+		repository.deleteById(id);
 	}
-
-
 }

@@ -3,6 +3,7 @@ package com.isa.FishingBooker.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,11 +32,11 @@ public class Boat {
 	private String fishingEquipment;
 	private double cancelPercentage;
 	private int rate;
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Photo> photos;
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Extras> extrasServices;
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<DiscountOffer> disconutOffers;
 	
 	@ManyToOne

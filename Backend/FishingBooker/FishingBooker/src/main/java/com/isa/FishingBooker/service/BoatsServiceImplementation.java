@@ -34,14 +34,13 @@ public class BoatsServiceImplementation implements BoatsService {
 
 	@Override
 	public void update(Boat item) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void delete(Integer id) {
-		// TODO Auto-generated method stub
-		
+		repository.deleteAllDiscountOffers(id);
+		repository.deleteAllExtras(id);
+		repository.deleteById(id);
 	}
 
 }
