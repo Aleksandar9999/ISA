@@ -33,6 +33,7 @@
 
 <script>
 import axios from 'axios'
+import config from '../configuration/config'
 export default {
     name: 'Login',
     data(){
@@ -57,6 +58,11 @@ export default {
             this.storageLoginData(response);
             if(response.data.roles.includes("ROLE_ADMIN"))
               this.$router.push("/profile")
+            else if(response.data.roles.includes("ROLE_TUTOR")){
+              axios.get(`${config.apiStart}/api/users/me`,config.requestHeader).then((resp)=>{
+                this.$router.push(`/tutors/${resp.data.id}/services`)
+              })
+            }
             else
               this.$router.push("/")
           })
