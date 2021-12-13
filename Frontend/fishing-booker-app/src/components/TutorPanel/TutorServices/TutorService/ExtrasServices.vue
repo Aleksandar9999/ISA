@@ -1,16 +1,19 @@
 <template>
-  <w-card class="main-card" title="Dodatne usluge" no-border>
+  <w-card class="main-card" title="Extras services" no-border>
     <ExtraServiceCard v-for="(service,index) in extras_services_local" :key="index" :service="service"/>
   </w-card>
 </template>
 <script>
 import ExtraServiceCard from './ExtraServiceCard.vue'
 export default {
-    props:['extraServices'],
+    props:['idservice'],
     data() {
       return {
         extras_services_local:[]
       }
+    },
+    mounted() {
+      //axios.get(config.apiStart+"/api/")
     },
     components:{
         ExtraServiceCard
@@ -31,8 +34,11 @@ export default {
 };
 </script>
 <style>
+.w-card__title{
+  color: black;
+  text-transform: uppercase;
+}
 .main-card {
-  margin: 0% 10%;
   padding: 3%;
 }
 </style>

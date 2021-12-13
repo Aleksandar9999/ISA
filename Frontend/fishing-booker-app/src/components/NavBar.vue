@@ -40,7 +40,7 @@ export default {
             document.getElementById("Ddown").classList.toggle("show-d-d");
         },
         logOut(){
-            localStorage.logedIn=false
+            localStorage.clear()
             console.log(this.$route);
             if(this.$route.fullPath==="/"){
                 window.location.reload()

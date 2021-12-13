@@ -15,7 +15,7 @@
           <p>Start date:</p>
         </div>
         <div class="xs6 pa1">
-          <w-input type="date" v-model="appointmentLocal.startDate"> </w-input>
+          <w-input type="date" v-model="appointmentLocal.start"> </w-input>
         </div>
       </w-flex>
 
@@ -110,7 +110,7 @@ export default {
       clients: [],
       services: [],
       appointmentLocal: {
-        startDate: "",
+        start: "",
         duration: "",
         maxPerson: "",
         additionalServices: "",
@@ -122,10 +122,10 @@ export default {
   },
   mounted() {
     axios
-      .get(config.apiStart + "/api/users/tutors/4/services")
+      .get(config.apiStart + "/api/users/tutors/4/services",config.requestHeader)
       .then((resp) => (this.services = resp.data));
     axios
-      .get(config.apiStart + "/api/users/clients")
+      .get(config.apiStart + "/api/users/clients",config.requestHeader)
       .then((resp) => (this.clients = resp.data));
   },
   methods: {
@@ -137,11 +137,11 @@ export default {
       });
     },
     save() {
-      //TODO: Fix hardcoded route
       axios
         .post(
           config.apiStart + "/api/appointments/tutor-service",
-          this.appointmentLocal
+          this.appointmentLocal,
+          config.requestHeader
         )
         .then((resp) => {
           this.success = true;

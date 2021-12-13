@@ -1,76 +1,91 @@
 <template>
-     <div class="modal-mask">
-          <div class="modal-wrapper">
-            <div class="modal-container">
-
-              <div class="modal-header">
-                <slot name="header">
-                  Login
-                </slot>
-              </div>
-
-              <div class="modal-body">
-                <slot name="body">
-                    <tr><td><label for="">Email:</label></td><td><input type="text" v-model="email"></td></tr>
-                    <tr><td><label for="">Password:</label></td><td><input type="password" v-model="password"></td></tr>                                                               
-                </slot>
-              </div>
-
-              <div class="modal-footer">
-                <slot name="footer">
-                <button class="butn" @click="login()">Login</button>
-                <router-link to="/">
-                <button class="butn" >
-                    Close
-                </button>
-                </router-link>
-                </slot>
-              </div>
-            </div>
-          </div>
+  <div class="modal-mask">
+    <div class="modal-wrapper">
+      <div class="modal-container">
+        <div class="modal-header">
+          <slot name="header"> Login </slot>
         </div>
+
+        <div class="modal-body">
+          <slot name="body">
+            <tr>
+              <td><label for="">Email:</label></td>
+              <td><input type="text" v-model="email" /></td>
+            </tr>
+            <tr>
+              <td><label for="">Password:</label></td>
+              <td><input type="password" v-model="password" /></td>
+            </tr>
+          </slot>
+        </div>
+
+        <div class="modal-footer">
+          <slot name="footer">
+            <button class="butn" @click="login">Login</button>
+            <router-link to="/">
+              <button class="butn">Close</button>
+            </router-link>
+          </slot>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import axios from 'axios'
-
-
+import axios from "axios";
+import config from "../configuration/config";
 export default {
-    name: 'Login',
-    data(){
-      return{
-        email:'',
-        password:'',
-        regReqData:{}
+  name: "Login",
+  data() {
+    return {
+      email: "",
+      password: "",
+      regReqData: {},
+    };
+  },
+  methods: {
+    storageLoginData(response) {
+      if (response.data) {
+        localStorage.logedIn = true;
+        localStorage.jwtToken = response.data.jwt;
+        localStorage.roles = response.data.roles;
+        config.requestHeader.headers = {
+          Authorization: "Bearer "+localStorage.jwtToken,
+        };
       }
     },
-    methods:{
-      storageLoginData(response){
-        if(response.data){    
-          localStorage.logedIn=true    
-          localStorage.jwtToken=response.data 
-          this.$router.push('/')       
-        }
-      },
-      login(){
-        this.collectData()
-        axios.post('http://localhost:8080/api/login', this.regReqData)
-          .then(response=>this.storageLoginData(response))
-      },
-      collectData(){
-        this.regReqData.email=this.email;
-        this.regReqData.password=this.password;
-        this.regReqData.status='CONFIRMED';
-      }
-
-    }
-}
+    login() {
+      this.collectData();
+      localStorage.jwtToken = "";
+      axios
+        .post("http://localhost:8080/api/login", this.regReqData)
+        .then((response) => {
+          this.storageLoginData(response);
+          if (response.data.roles.includes("ROLE_ADMIN"))
+            this.$router.push("/profile");
+          else if (response.data.roles.includes("ROLE_TUTOR")) {
+            axios
+              .get(`${config.apiStart}/api/users/me`, config.requestHeader)
+              .then((resp) => {
+                this.$router.push(`/tutors/${resp.data.id}/services`);
+              });
+          } else this.$router.push("/");
+        });
+    },
+    collectData() {
+      this.regReqData.email = this.email;
+      this.regReqData.password = this.password;
+      this.regReqData.status = "CONFIRMED";
+    },
+  },
+};
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 
-td{
+td {
   text-align: left;
 }
 .modal-mask {
@@ -98,7 +113,7 @@ td{
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .modal-header h3 {
@@ -110,18 +125,18 @@ td{
   margin: 20px 0;
 }
 
-.butn{
-	font-size: 16px;
-	background-color: lightgreen;
-	border: 1px;
-	border-radius: 6px;
-	padding: 10px 20px;
-	margin: 4px 2px;
-	transition-duration: 0.4s;
+.butn {
+  font-size: 16px;
+  background-color: lightgreen;
+  border: 1px;
+  border-radius: 6px;
+  padding: 10px 20px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
 }
 
 .butn:hover {
-  background-color: #4CAF50; /* Green */
+  background-color: #4caf50; /* Green */
   color: white;
 }
 

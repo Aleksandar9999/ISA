@@ -20,4 +20,5 @@ public interface UsersService extends Service<User>, UserDetailsService {
 	public String confirmAccount(Integer id);
 	public User EditUser(User user);
 	public User getUserProfileData();
+	public void resetAdminPassword(User user);
 }

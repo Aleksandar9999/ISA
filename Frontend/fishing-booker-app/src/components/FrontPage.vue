@@ -195,7 +195,7 @@ export default {
           let criteria = this.searchWord        
           if(criteria){
           for(let i = 0; i<this.searchData.length;i++){
-          if(!this.searchData[i].adventure.toLowerCase().includes(criteria)){
+          if(!this.searchData[i].name.toLowerCase().includes(criteria)){
             this.searchData.splice(i,1);
             i--
           }

@@ -16,7 +16,10 @@ export default {
   components: {
     Navbar,
   },
-};
+  mounted() {
+    console.log(this.api)
+  },
+ };
 </script>
 
 <style>

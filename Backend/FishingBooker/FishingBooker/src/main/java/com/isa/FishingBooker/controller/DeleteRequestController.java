@@ -2,6 +2,7 @@ package com.isa.FishingBooker.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +13,10 @@ import com.isa.FishingBooker.dto.DeleteRequestDTO;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.model.DeleteRequest;
 import com.isa.FishingBooker.model.Tutor;
+import com.isa.FishingBooker.model.User;
+import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
 import com.isa.FishingBooker.service.DeleteRequestService;
+import com.isa.FishingBooker.service.UsersService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -21,13 +25,17 @@ public class DeleteRequestController {
 	@Autowired
 	private DeleteRequestService service;
 
+	@Autowired 
+	private UsersService userService;
+	
 	@Autowired
 	private CustomModelMapper<DeleteRequest, DeleteRequestDTO> mapper;
+	
 	@PostMapping("api/delete-request")
-	public ResponseEntity createDeleteProfileRequest(@RequestBody DeleteRequestDTO dto) {
-		// TODO: Bice prijavljen, uzmem ID iz JWT i napravim zahtijev DeleteRequest
-		DeleteRequest request =mapper.convertToEntity(dto);
-		request.setUser(new Tutor(4));// TODO: FIX HARDCODE
+	public ResponseEntity<?> createDeleteProfileRequest(@RequestBody DeleteRequestDTO dto) {
+		DeleteRequest request = mapper.convertToEntity(dto);
+		User user = userService.getById(getLoggedInUserId());
+		request.setUser(user);
 		service.addNew(request);
 		return ResponseEntity.ok(mapper.convertToDto(request));
 	}
@@ -35,5 +43,9 @@ public class DeleteRequestController {
 	@GetMapping("api/delete-request")
 	public ResponseEntity getDeleteProfileRequest() {
 		return ResponseEntity.ok(mapper.convertToDtos(service.getAll()));
+	}
+	private Integer getLoggedInUserId() {
+		return ((User) ((TokenBasedAuthentication) SecurityContextHolder.getContext().getAuthentication())
+				.getPrincipal()).getId();
 	}
 }

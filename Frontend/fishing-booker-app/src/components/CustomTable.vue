@@ -11,7 +11,7 @@
             </tr>
           </thead>
           <tbody class="tbl-content" v-for="item in data_local" :key="item">
-            <itemComp :item=item />
+            <itemComp :item=item @tutorServiceDeleted=tutorServiceDeleted />
           </tbody>
         </table>
       </div>
@@ -35,7 +35,12 @@ export default {
   },
   mounted() {
     this.$options.components.itemComp = this.itemRow;
-    this.$forceUpdate(); //Koristi se da bi renderovao proslijedjenu komponentu
+    this.$forceUpdate(); 
+  },
+  methods: {
+    tutorServiceDeleted(){
+      this.$emit("tutorServiceDeleted", true);
+    }
   },
   watch:{
     dataList:{
@@ -43,7 +48,6 @@ export default {
       handler(itemFromProps) {
         if (itemFromProps) {
           this.data_local = {
-            ...this.data_local,
             ...itemFromProps,
           };
        }

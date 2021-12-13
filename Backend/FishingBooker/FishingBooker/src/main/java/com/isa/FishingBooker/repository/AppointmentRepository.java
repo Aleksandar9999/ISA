@@ -2,7 +2,10 @@ package com.isa.FishingBooker.repository;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -29,5 +32,10 @@ public interface AppointmentRepository extends JpaRepository<Appointment ,Intege
 	
 	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.user.id=?1 and a.tutorService.id=?2")
 	public List<TutorServiceAppointment> getAllAppointmentsByTutorAndTutorService(int tutorId,int serviceId);
+	
+	@Transactional
+	@Modifying
+	@Query(value="DELETE FROM Appointment a WHERE a.resort_id=?1",nativeQuery = true)
+	public void deleteResortAppointments(int resortId);
 	
 }

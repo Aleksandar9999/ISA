@@ -25,6 +25,8 @@ import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "clients")
@@ -50,9 +52,23 @@ public class User implements UserDetails {
 
 	public User() {
 	}
+	
+	public void updateUserInfo(User user) {
+		this.id = user.getId();
+		this.email = user.getEmail();
+		this.password = user.getPassword()==null?this.password:user.getPassword();
+		this.name = user.getName();
+		this.surname = user.getSurname();
+		this.address = user.getAddress();
+		this.phoneNumber = user.getPhoneNumber();
+		this.status = user.getStatus();
+	}
+
+	@JsonIgnore
 	public List<Role> getRoles() {
 		return roles;
 	}
+	//TODO: This methode must be overrided by every subclass of this
 	public void setRolesNames() {
 		this.setRoleName(Role.USER_ROLE);
 	}
@@ -128,36 +144,44 @@ public class User implements UserDetails {
 		this.address = address;
 	}
 
+	@JsonIgnore
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.roles;
 	}
 
+
+	@JsonIgnore
 	@Override
 	public String getUsername() {
 		return this.getEmail();
 	}
 
+	@JsonIgnore
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
+	@JsonIgnore
 	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
+	@JsonIgnore
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
+	@JsonIgnore
 	@Override
 	public boolean isEnabled() {
-		return this.status.equals(Status.CONFIRMED);
+		return this.status.equals(Status.ADMIN_CONFIRMED);
 	}
 
+	@JsonIgnore
 	public Date getLastPasswordResetDate() {
 		return null;
 	}

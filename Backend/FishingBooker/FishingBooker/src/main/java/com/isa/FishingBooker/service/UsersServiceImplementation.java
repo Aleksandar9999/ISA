@@ -13,6 +13,7 @@ import com.isa.FishingBooker.dto.LoginReturnDTO;
 import com.isa.FishingBooker.dto.RegistrationDTO;
 import com.isa.FishingBooker.exceptions.EmailExistException;
 import com.isa.FishingBooker.mapper.UserToLoginReturnDTOMapper;
+import com.isa.FishingBooker.model.Admin;
 import com.isa.FishingBooker.model.Role;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.Tutor;
@@ -44,6 +45,15 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 		}
 		return null;
 	}
+
+	
+	@Override
+	public void update(User item) {
+		User user=this.getById(item.getId());
+		user.updateUserInfo(item);
+		super.update(user);
+	}
+
 
 	@Override
 	public void addNew(User item) {
@@ -99,6 +109,13 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 	}
 
 	@Override
+	public void delete(Integer id) {
+		User user =this.getById(id);
+		user.setStatus(Status.DELETED);
+		super.update(user);;
+	}
+	
+	@Override
 	public User EditUser(User user) {
 		// TODO Auto-generated method stub
 		return repository.save(user);
@@ -106,11 +123,16 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 
 	@Override
 	public User getUserProfileData() {
-		// TODO Auto-generated method stub
 		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext().getAuthentication();
 		User usr = (User) aut.getPrincipal();
-		
 		return this.getById(usr.getId());
+	}
+
+	@Override
+	public void resetAdminPassword(User user) {
+		Admin admin=(Admin) this.getById(user.getId());
+		admin.resetPassword(user.getPassword());
+		repository.save(admin);
 	}
 
 }

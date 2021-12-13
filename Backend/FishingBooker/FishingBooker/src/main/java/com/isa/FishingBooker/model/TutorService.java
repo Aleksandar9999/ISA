@@ -43,9 +43,10 @@ public class TutorService {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Photo> photos = new HashSet<Photo>();
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private String extrasServices;
+	/*@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Extras> extrasServices;
-
+*/
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<DiscountOffer> disconutOffers = new HashSet<DiscountOffer>();
 
@@ -57,6 +58,9 @@ public class TutorService {
 	@JoinColumn(name = "tutor_id")
 	private Tutor tutor;
 	
+	public TutorService() {
+		// TODO Auto-generated constructor stub
+	}
 	public TutorService(Integer id) {
 		this.id = id;
 	}
@@ -72,6 +76,19 @@ public class TutorService {
 		this.address = address;
 	}
 
+	public void updateInfo(TutorService service) {
+		this.name = service.getName();
+		this.description = service.getDescription();
+		this.maxPerson = service.getMaxPerson();
+		this.address = service.getAddress();
+		this.cancelProcentage = service.getCancelProcentage();
+		this.rules=service.getRules();
+		this.fishingEquipment=service.getFishingEquipment();
+		this.rate=service.getRate();
+		this.status=service.getStatus();
+	}
+
+	
 	public Integer getId() {
 		return id;
 	}
@@ -108,9 +125,9 @@ public class TutorService {
 		return photos;
 	}
 
-	public Set<Extras> getExtrasServices() {
+	/*public Set<Extras> getExtrasServices() {
 		return extrasServices;
-	}
+	}*/
 
 	public Set<DiscountOffer> getDisconutOffers() {
 		return disconutOffers;
@@ -122,11 +139,11 @@ public class TutorService {
 		photos.add(photo);
 	}
 
-	public void addExtraService(Extras extras) {
+	/*public void addExtraService(Extras extras) {
 		if (extrasServices == null)
 			extrasServices = new HashSet<>();
 		extrasServices.add(extras);
-	}
+	}*/
 
 	public void addDiscountOffer(DiscountOffer offer) {
 		if (disconutOffers == null)
@@ -208,14 +225,20 @@ public class TutorService {
 		this.photos = photos;
 	}
 
-	void setExtrasServices(Set<Extras> extrasServices) {
+/*	void setExtrasServices(Set<Extras> extrasServices) {
 		this.extrasServices = extrasServices;
 	}
-
+*/	
 	public void setDisconutOffers(Set<DiscountOffer> disconutOffers) {
 		this.disconutOffers = disconutOffers;
 	}
 
+	public String getExtrasServices() {
+		return extrasServices;
+	}
+	public void setExtrasServices(String extrasServices) {
+		this.extrasServices = extrasServices;
+	}
 	public double calculatePrice(int duration) {
 		double appointmentPrice=0;
 		while (duration != 0) {

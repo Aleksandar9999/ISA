@@ -34,7 +34,7 @@ public abstract class CustomServiceAbstract<T> implements Service<T> {
 
 	@Override
 	public void delete(Integer id) {
-		throw new UnsupportedOperationException();
+		repository.deleteById(id);
 	}
 
 }

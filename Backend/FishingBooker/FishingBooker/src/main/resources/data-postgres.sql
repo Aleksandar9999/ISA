@@ -10,12 +10,12 @@ INSERT INTO ROLE (name) VALUES ('ROLE_USER');
 INSERT INTO ROLE (name) VALUES ('ROLE_ADMIN');
 INSERT INTO ROLE (name) VALUES ('ROLE_TUTOR');
 
-insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('User','badzaic@gmail.com', 'bojan', 'Blagoje', 'Adzic', '','021334563','CONFIRMED',1);
-insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('BoatOwner','badzaa@gmail.com', 'bojan', 'Bosko', 'Adzic', '','021554263','CONFIRMED',1);
-insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('ResortOwner','radomBoj@gmail.com', 'bojan', 'Radomir', 'Bojanic', '','015553363','CONFIRMED',2);
-insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('Tutor','dragoOrasanin@gmail.com', 'bojan', 'Drago', 'Orasanin', 'Tutor with 20 years of expirience. Great knower of Drina coast and wildlife.','015252161','CONFIRMED',2);
-insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('Admin','admin@gmail.com', 'admin', 'admin', 'admin','','015252161','CONFIRMED',3);
-insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('Tutor','mikiRad@gmail.com', 'bojan', 'Mihailo', 'Radic', 'Tutor with 20 years of expirience. Great knower of Danube Backa coast and fish.','015235561','CONFIRMED',1);
+insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('User','badzaic@gmail.com', 'bojan', 'Blagoje', 'Adzic', '','021334563','ADMIN_CONFIRMED',1);
+insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('BoatOwner','badzaa@gmail.com', 'bojan', 'Bosko', 'Adzic', '','021554263','ADMIN_CONFIRMED',1);
+insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('ResortOwner','radomBoj@gmail.com', 'bojan', 'Radomir', 'Bojanic', '','015553363','ADMIN_CONFIRMED',2);
+insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('Tutor','dragoOrasanin@gmail.com', 'bojan', 'Drago', 'Orasanin', 'Tutor with 20 years of expirience. Great knower of Drina coast and wildlife.','015252161','ADMIN_CONFIRMED',2);
+insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id, password_changed) values ('Admin','admin@gmail.com', 'admin', 'admin', 'admin','','015252161','ADMIN_CONFIRMED',3,'true');
+insert into clients (dtype, email, password, name, surname, bio, phone_number, status, address_id) values ('Tutor','abrkljac9@gmail.com', 'bojan', 'Mihailo', 'Radic', 'Tutor with 20 years of expirience. Great knower of Danube Backa coast and fish.','015235561','ADMIN_CONFIRMED',1);
 
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (1, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (2, 1); 
@@ -24,7 +24,8 @@ INSERT INTO USER_ROLE (user_id, role_id) VALUES (4, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (4, 3);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (5, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (5, 2);
-
+INSERT INTO USER_ROLE (user_id, role_id) VALUES (6, 1);
+INSERT INTO USER_ROLE (user_id, role_id) VALUES (6, 3);
 
 insert into boat (name, type_of_boat, length, engine_id, engine_power, max_speed, navigation_equipment, address_id, description, max_person, rules, fishing_equipment, cancel_percentage, boat_owner_id, rate) values ('Vesna','Fishing boat','5 meter','1','15 HP', 80, 'GPS', 3,'Middle size fishing boat.', 7,'No alcohol. No smoking.', '7 fishing rods and decoys.',0 , 2, 5);
 insert into boat (name, type_of_boat, length, engine_id, engine_power, max_speed, navigation_equipment, address_id, description, max_person, rules, fishing_equipment, cancel_percentage, boat_owner_id, rate) values ('Orkan','Fishing boat','4.5 meter','1','13 HP', 70, 'GPS', 3,'Middle size fishing boat.', 5,'No alcohol. No smoking.', '4 fishing rods and decoys.',0 , 2, 4);
@@ -37,10 +38,10 @@ insert into service_price (number_of_days, price) values (1,1500);
 insert into service_price (number_of_days, price) values (5,5000);
 insert into service_price (number_of_days, price) values (10,15000);
 
-insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status) values ('One-day fishing','One day tour accross lake with fishing on most active fishing localities.', 9, 'No smoking. No alcohol.', 'Clients equipment required', 0, 4, 4, 5,'CONFIRMED');
-insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status) values ('Three-day fishing','Three day tour accross lake with camping and fishing on most active fishing localities.', 5, 'No smoking. No alcohol.', 'Clients equipment for camping and fishing required', 0, 4, 4, 4,'CONFIRMED');
-insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status) values ('Danube fishing','One day tour accross Danube with fishing on most active fishing spots.', 7, 'No smoking. No alcohol.', 'Clients equipment required', 0, 6, 6, 5,'CONFIRMED');
-insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status) values ('Danube camping','Three day tour accross Novi Sad Danube coast with camping and fishing on most active fishing spots.', 3, 'No smoking. No alcohol.', 'Clients equipment for camping and fishing required', 0, 6, 6, 4,'CONFIRMED');
+insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status, extras_services) values ('One-day fishing','One day tour accross lake with fishing on most active fishing localities.', 9, 'No smoking. No alcohol.', 'Clients equipment required', 0, 4, 4, 5,'CONFIRMED','Dodatne usluge neke test');
+insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status, extras_services) values ('Three-day fishing','Three day tour accross lake with camping and fishing on most active fishing localities.', 5, 'No smoking. No alcohol.', 'Clients equipment for camping and fishing required', 0, 4, 4, 4,'CONFIRMED', 'Dodatne usluge neke test');
+insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status, extras_services) values ('Danube fishing','One day tour accross Danube with fishing on most active fishing spots.', 7, 'No smoking. No alcohol.', 'Clients equipment required', 0, 6, 6, 5,'CONFIRMED','Dodatne usluge neke test');
+insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status, extras_services) values ('Danube camping','Three day tour accross Novi Sad Danube coast with camping and fishing on most active fishing spots.', 3, 'No smoking. No alcohol.', 'Clients equipment for camping and fishing required', 0, 6, 6, 4,'CONFIRMED', 'Dodatne usluge neke test');
 
 insert into tutor_service_prices (tutor_service_tutor_service_id, prices_service_price_id) values (1,1);
 insert into tutor_service_prices (tutor_service_tutor_service_id, prices_service_price_id) values (1,2);

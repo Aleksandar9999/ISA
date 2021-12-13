@@ -30,7 +30,7 @@ export default {
       else {
         if (this.item_local.userId)
           axios
-            .get(config.apiStart + "/api/users/" + this.item_local.userId)
+            .get(config.apiStart + "/api/users/" + this.item_local.userId, config.requestHeader)
             .then((resp) => {
               this.user = resp.data;
               this.showDialog();
@@ -65,7 +65,8 @@ export default {
             ...this.item_local,
             ...itemFromProps,
           };
-          this.item_local.startDate = moment(itemFromProps.startDate).format(
+          console.log(itemFromProps)
+          this.item_local.startDate = moment(itemFromProps.start).format(
             "DD-MM-YYYY"
           );
         }

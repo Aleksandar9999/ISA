@@ -73,4 +73,10 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		return appointments;
 	}
 
+	@Override
+	public void deleteResortAppointments(int resortId) {
+		((AppointmentRepository)repository).deleteResortAppointments(resortId);
+		
+	}
+
 }
