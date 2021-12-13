@@ -28,6 +28,11 @@ import ResetPasswordModalDialog from '../components/AdminPanel/ResetPasswordModa
 import TutorServicesList from '../components/TutorPanel/TutorServices/TutorServicesList.vue'
 import TutorAvailablePeriods from '../components/TutorPanel/TutorProfile/TutorAvailablePeriods.vue'
 import AppointmentsList from '../components/TutorPanel/TutorServices/Appointments/AppointmentsList.vue'
+
+import AppointmentsBoat from '../components/BoatProfile/AppointmentsBoat.vue'
+import BoatsList from '../components/BoatProfile/BoatsList.vue'
+import BoatOwnerAvailablePeriods from '../components/BoatProfile/BoatOwnerAvailablePeriods.vue'
+
 const routes = [
   {
     path: "/about",
@@ -49,7 +54,11 @@ const routes = [
   {path: "/admin/reset-password",name: "ResetPassword", component:ResetPasswordModalDialog},
   
   {path:"", name:"FrontPage", component: FrontPage},
+
   {path: "/boatowners/:idboatowner/boats/:idboat", name: "BoatProfilePage", component: BoatProfilePage},
+  {path: "/boatowners/:idboatowner/boats", name: "Boats", component: BoatsList},
+  {path: "/boatowners/:idboatowner/available-periods", name: "BoatOwnerAvailablePeriods", component: BoatOwnerAvailablePeriods},
+  {path: "/boatowners/:idboatowner/appointments", name: "BoatsAppointments", component: AppointmentsBoat},
 {
     path: '/resortProfile',
     name: 'ResortProfile',
