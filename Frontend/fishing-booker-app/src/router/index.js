@@ -49,7 +49,7 @@ const routes = [
   {path: "/admin/reset-password",name: "ResetPassword", component:ResetPasswordModalDialog},
   
   {path:"", name:"FrontPage", component: FrontPage},
-  {path: "/users/boatowners/:idboatowner/boats/:idboat", name: "BoatProfilePage", component: BoatProfilePage},
+  {path: "/boatowners/:idboatowner/boats/:idboat", name: "BoatProfilePage", component: BoatProfilePage},
 {
     path: '/resortProfile',
     name: 'ResortProfile',

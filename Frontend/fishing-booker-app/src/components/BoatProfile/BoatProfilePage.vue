@@ -1,16 +1,29 @@
 <template>
   <div>
     <BoatProfileHeader :boat_info="boat_info" />
-    <Gallery :photos=gallery />
+    <Gallery :photos="gallery" />
     <ExtrasServices />
-    <FastAppointments />
+      <FastAppointmentsBoats
+      @showDiscountOfferDialog="discountOfferDialog.show = true"
+      :idboat="idboat"
+    />
+    <discount-offer-dialog
+      :show="discountOfferDialog.show"
+      :idboat="idboat"
+      @hideDialog="hideDiscountOfferDialog"
+    />
+    <prices :idboat=idboat @showDialog="this.priceDialog.show=true;" :fetch=this.priceDialog.success />
+    <price-dialog :idboat=idboat :show=this.priceDialog.show @hideDialog=checkForUpdatePrices />
   </div>
 </template>
 
 <script>
-import Gallery from "../TutorServices/Gallery.vue";
-import ExtrasServices from "../TutorServices/ExtrasServices.vue";
-import FastAppointments from "../TutorServices/FastAppointmets.vue";
+import Gallery from "../TutorPanel/TutorServices/TutorService/Gallery.vue";
+import DiscountOfferDialog from "./DiscountOfferDialog.vue";
+import FastAppointmentsBoats from "./FastAppointmentsBoats.vue";
+import ExtrasServices from "../TutorPanel/TutorServices/TutorService/ExtrasServices.vue";
+import Prices from "./Prices.vue";
+import PriceDialog from "./PriceDialog.vue";
 import axios from "axios";
 import config from "../../configuration/config";
 import BoatProfileHeader from "./BoatProfileHeader.vue";
@@ -20,49 +33,48 @@ export default {
     BoatProfileHeader,
     Gallery,
     ExtrasServices,
-    FastAppointments,
+    FastAppointmentsBoats,
+    DiscountOfferDialog,
+    Prices,
+    PriceDialog
   },
    data() {
     return {
-      gallery: [],
-      boat_info:{
-        boatAddress:{
-          country:'',
-          street:''
-        }
+      discountOfferDialog: {
+        show: false,
       },
+      priceDialog:{
+        show:false,
+        success:false
+      },
+      gallery: [],
+      boat_info: {
+        boatAddress: {
+          country: "",
+          street: "",
+        },
+      },
+      idboat: this.$route.params.idboat,
       extra_services: [],
       fast_appointments: [],
     };
   },
   methods: {
-    async fetchData() {
-      await axios
+    checkForUpdatePrices(value){
+      this.priceDialog.show=value.dialog;
+      if(value.success)
+        this.priceDialog.success=!this.priceDialog.success
+    },
+    fetchData() {
+      axios
         .get(
           config.apiStart +
-            "/api/users/boatowners/" +
-            this.$route.params.idboatowner +
-            "/boats/" +
-            this.$route.params.idboat
+            "/api/boatowner-boats/" +
+            this.$route.params.idboat,
+          config.requestHeader
         )
         .then((resp) => {
-          this.gallery = resp.data.photos;
-          this.extra_services = resp.data.extrasServices;
-          this.boat_info = {
-            boatAddress: resp.data.boatAddress,
-            cancelPercentage: resp.data.cancelPercentage,
-            description: resp.data.description,
-            rules: resp.data.rules,
-            fishingEquipment: resp.data.fishingEquipment,
-            name: resp.data.name,
-            typeOfBoat: resp.data.typeOfBoat,
-            length: resp.data.length,
-            engineId: resp.data.engineId,
-            maxSpeed: resp.data.maxSpeed,
-            navigationEquipment: resp.data.navigationEquipment,
-            maxPerson: resp.data.maxPerson,
-          };
-          console.log(this.service_info.address);
+          this.service_info = resp.data;
         });
     },
   },

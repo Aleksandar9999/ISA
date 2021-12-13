@@ -161,6 +161,16 @@
               placeholder="State"
               outline
             />
+            <w-input
+              
+              class="mb3"
+              style="color: black"
+              v-model="boat_form.boatAddress.city"
+              bg-color="white"
+              border
+              placeholder="City"
+              outline
+            />
               <w-input
              
               class="mb3"
@@ -225,7 +235,25 @@
           </div>
         </w-flex>
 
-        <div class="text-right mt6">
+        <w-flex wrap class="text-center">
+          <div class="xs6 pa1">
+            <p style="margin-top: 3%">Extras services</p>
+          </div>
+          <div class="xs6 pa1">
+            <w-textarea
+              class="mb3"
+              style="text-alignment:center"
+              color: black
+              v-model="boat_form.extrasServices"
+              bg-color="white"
+              border
+              placeholder="Extras Services"
+              outline
+            ></w-textarea>
+          </div>
+        </w-flex>
+
+         <div v-if="showAdminButtons" class="text-right mt6">
           <w-button type="submit" bg-color="green" color="white" @click="save">Save</w-button>
         </div>
       </w-form>
@@ -234,16 +262,33 @@
 </template>
 
 <script>
+import axios from 'axios';
+import config from "../../configuration/config";
 export default {
-  props: ["boat_info"],
+  props: ["boat_info","boatOwnerId"],
   data() {
     return {
       boat_form: {},
+      showAdminButtons:false,
     };
   },
+   mounted() {
+    this.showAdminButtonsFunc()
+  },
   methods: {
+    showAdminButtonsFunc(){
+      if (localStorage.roles)
+        if (localStorage.roles.includes("ROLE_BOATOWNER")) {
+          this.showAdminButtons = true;
+        }
+    },
     save() {
       console.log(this.boat_form);
+      axios.put(config.apiStart+"/api/boatowner-boats/"+this.boat_form.id,this.boat_form,config.requestHeader).then(resp=>
+      {this.boat_form=resp.data;
+      alert("Updated");
+      }
+      )
     },
     nameChanged($event) {
       this.boat_form.name = $event.data;
