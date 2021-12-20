@@ -1,6 +1,5 @@
 <template>
   <div class="images-container">
-    <w-card class="main-card" title="Gallery" no-border> </w-card>
     <div class="grow mx1">
       <w-flex
         column
@@ -15,7 +14,7 @@
           type="submit"
           bg-color="red"
           color="white"
-          @click="deleteImage(photo)"
+          @click="deleteImage(photo.url)"
           >Obrisi</w-button
         >
       </w-flex>
@@ -25,7 +24,7 @@
 
 <script>
 export default {
-  props: ["photos","deleteFunction"],
+  props: ["photos"],
   data() {
     return {
       index: 0,
@@ -33,8 +32,8 @@ export default {
     };
   },
   methods: {
-    deleteImage(photo) {
-      this.deleteFunction(photo)
+    deleteImage(url) {
+      console.log(url);
     },
   },
   watch: {
@@ -55,7 +54,7 @@ export default {
 </script>
 <style>
 .images-container {
-  margin-top: -2%;
+  margin-top: 5%;
 }
 img {
   width: 200px;
