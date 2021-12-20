@@ -14,10 +14,12 @@ import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
+import com.isa.FishingBooker.service.FirebaseStorage;
 import com.isa.FishingBooker.service.TutorServicesService;
 import com.isa.FishingBooker.service.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,7 +30,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -39,6 +43,9 @@ public class TutorServicesController {
 	@Autowired
 	private CustomModelMapper<TutorService, TutorServiceDTO> tutorServiceMapper;
 
+	@Autowired 
+	private FirebaseStorage firebaseStorage;
+	
 	@GetMapping("api/tutor-services")
 	public ResponseEntity<?> getAll() {
 		return ResponseEntity
@@ -105,14 +112,22 @@ public class TutorServicesController {
 		return ResponseEntity.status(200).body(tutorService.getPhotos());
 	}
 
-	@PostMapping("api/tutor-services/{idservice}/photos")
+	@DeleteMapping("api/tutor-services/{idservice}/photos/{idphoto}")
 	@PreAuthorize("hasRole('TUTOR')")
-	public ResponseEntity<?> addNewPhoto(@RequestBody Photo photo, @PathVariable("idservice") int idservice) {
-		TutorService tutorService = tutorServicesService.getById(idservice);
-		tutorService.addPhoto(photo);
-		tutorServicesService.update(tutorService);
-		return ResponseEntity.status(200).body("OK");
+	public ResponseEntity<?> deleteTutorPhoto(@PathVariable("idservice") int idservice,@PathVariable("idphoto")int idphoto) {
+		this.tutorServicesService.deletePhoto(idservice,idphoto);
+		return ResponseEntity.status(200).build();
 	}
+
+	@PostMapping(value="api/tutor-services/{idservice}/photos",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+	@PreAuthorize("hasRole('TUTOR')")
+	public ResponseEntity<?> addNewPhoto(@PathVariable("idservice") int idservice, @RequestPart("title")String title, @RequestPart("file")MultipartFile file) {
+		//TODO: Validiraj tutora
+		String savedImageName = firebaseStorage.save(file);
+		tutorServicesService.addPhoto(idservice,new Photo(savedImageName, title));
+		return ResponseEntity.status(200).build();
+	}
+	
 
 	@GetMapping("api/tutor-services/{idservice}/discount-offers")
 	public ResponseEntity<?> getTutorServiceDiscountOffers(@PathVariable("idservice") int idservice) {
@@ -161,7 +176,7 @@ public class TutorServicesController {
 			return ResponseEntity.status(ex.getHttpStatus()).body(ex.getMessage());	
 		}
 	}
-
+	
 	private void validateTutor(TutorService entity) {
 		TokenBasedAuthentication auth = (TokenBasedAuthentication) SecurityContextHolder.getContext()
 				.getAuthentication();
