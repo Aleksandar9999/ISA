@@ -1,6 +1,5 @@
 package com.isa.FishingBooker.service;
 
-import com.isa.FishingBooker.model.Photo;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.repository.TutorServiceRepository;
@@ -26,7 +25,9 @@ public class TutorServicesServiceImpl extends CustomServiceAbstract<TutorService
 
 	@Override
 	public void update(TutorService item) {
-		super.update(this.getById(item.getId()).updateInfo(item));
+		TutorService service =this.getById(item.getId());
+		service.updateInfo(item);
+		super.update(service);
 	}
 
 	@Override
@@ -37,19 +38,5 @@ public class TutorServicesServiceImpl extends CustomServiceAbstract<TutorService
 	@Override
 	public List<TutorService> getAllValidByTutor(int tutorId) {
 		return ((TutorServiceRepository) repository).findAllValidByTutor(tutorId);
-	}
-
-	@Override
-	public void addPhoto(int idservice, Photo photo) {
-		TutorService tutorService = this.getById(idservice);
-		tutorService.addPhoto(photo);
-		this.update(tutorService);
-	}
-
-	@Override
-	public void deletePhoto(int idservice, int idphoto) {
-		TutorService tutorService = this.getById(idservice);
-		tutorService.deletePhoto(idphoto);
-		this.update(tutorService);
 	}
 }
