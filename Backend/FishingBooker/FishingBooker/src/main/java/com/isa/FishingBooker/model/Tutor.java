@@ -17,10 +17,6 @@ public class Tutor extends User {
 	@OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<TutorService> services = new HashSet<TutorService>();
 
-	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Period> availabilityPeriods = new HashSet<Period>();
-
 	public Tutor() {
 		super();
 	}
@@ -60,17 +56,5 @@ public class Tutor extends User {
 
 	public void setBio(String bio) {
 		this.bio = bio;
-	}
-
-	public Set<Period> getAvailabilityPeriods() {
-		return availabilityPeriods;
-	}
-
-	public void setAvailabilityPeriods(Set<Period> availabilityPeriods) {
-		this.availabilityPeriods = availabilityPeriods;
-	}
-
-	public void addPeriod(Period period) {
-		this.availabilityPeriods.add(period);
 	}
 }

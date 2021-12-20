@@ -8,6 +8,7 @@ import com.isa.FishingBooker.dto.TutorServiceDTO;
 import com.isa.FishingBooker.exceptions.AuthorizationException;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.model.DiscountOffer;
+import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.Photo;
 import com.isa.FishingBooker.model.ServicePrice;
 import com.isa.FishingBooker.model.Tutor;
@@ -128,7 +129,20 @@ public class TutorServicesController {
 		return ResponseEntity.status(200).build();
 	}
 	
-
+	/**PERIODS**/
+	@PostMapping("api/tutor-services/{idservice}/standard-periods")
+	@PreAuthorize("hasRole('TUTOR')")
+	public ResponseEntity<?> addTutorServiceStandardPeriod(@RequestBody Period period, @PathVariable("idservice") int idservice) {
+		tutorServicesService.addNewStandardPeriod(idservice,period);
+		return ResponseEntity.ok(period);
+	}
+	
+	@GetMapping("api/tutor-services/{idservice}/standard-periods")
+	public ResponseEntity<?> getTutorServiceStandardPeriod(@PathVariable("idservice") int idservice) {
+		TutorService tutorService = tutorServicesService.getById(idservice);
+		return ResponseEntity.status(200).body(tutorService.getStandardPeriods());
+	}
+	
 	@GetMapping("api/tutor-services/{idservice}/discount-offers")
 	public ResponseEntity<?> getTutorServiceDiscountOffers(@PathVariable("idservice") int idservice) {
 		TutorService tutorService = tutorServicesService.getById(idservice);
@@ -147,9 +161,10 @@ public class TutorServicesController {
 		} catch (AuthorizationException ex) {
 			return ResponseEntity.status(ex.getHttpStatus()).body(ex.getMessage());
 		}
-
 	}
 
+	
+	
 	@GetMapping("api/tutor-services/{idservice}/prices")
 	public ResponseEntity<?> getTutorServicePrice(@PathVariable("idservice") int idservice) {
 		TutorService tutorService = tutorServicesService.getById(idservice);

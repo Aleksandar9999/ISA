@@ -1,5 +1,6 @@
 package com.isa.FishingBooker.service;
 
+import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.Photo;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.TutorService;
@@ -51,5 +52,12 @@ public class TutorServicesServiceImpl extends CustomServiceAbstract<TutorService
 		TutorService tutorService = this.getById(idservice);
 		tutorService.deletePhoto(idphoto);
 		this.update(tutorService);
+	}
+
+	@Override
+	public void addNewStandardPeriod(int idservice, Period period) {
+		TutorService tutorService = this.getById(idservice);
+		tutorService.addStandardPeriod(period);
+		this.update(tutorService);	
 	}
 }
