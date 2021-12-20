@@ -8,7 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.isa.FishingBooker.exceptions.InvalidPeriodDefinitionException;
 
@@ -17,8 +20,14 @@ public class Period {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "start_date")
 	private final Date startDate;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "end_date")
 	private final Date endDate;
 
@@ -41,6 +50,7 @@ public class Period {
 	}
 	
 	private void validateDates() {
+		System.out.println("Validacija perioda");
 		if (startDate == null || endDate == null)
 			return;
 		if (startDate.after(endDate))
