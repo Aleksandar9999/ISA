@@ -1,6 +1,6 @@
 <template>
   <div>
-    <w-card class="main-card" title="Fast appointments with discount offer" no-border>
+    <w-card class="main-card" title="Fast appointments with discount offer" no-border text-align="left">
       <w-flex v-if="showAdminButtons" justify-end class="pa3">
         <w-button @click="showDialog">Add new</w-button>
       </w-flex>

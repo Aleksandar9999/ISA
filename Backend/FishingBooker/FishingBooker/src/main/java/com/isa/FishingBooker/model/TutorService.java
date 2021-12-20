@@ -28,15 +28,23 @@ public class TutorService {
 	@Column(name = "tutor_service_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@Column(name = "name")
 	private String name;
+	@Column(name = "description")
 	private String description;
+	@Column(name = "max_person")
 	private int maxPerson;
+	@Column(name = "rules")
 	private String rules;
+	@Column(name = "fishing_equipment")
 	private String fishingEquipment;
+	@Column(name = "cancel_procentage")
 	private double cancelProcentage;
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
+	@Column(name = "rate")
 	private int rate;
+	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	private Status status;
 
@@ -76,7 +84,7 @@ public class TutorService {
 		this.address = address;
 	}
 
-	public void updateInfo(TutorService service) {
+	public TutorService updateInfo(TutorService service) {
 		this.name = service.getName();
 		this.description = service.getDescription();
 		this.maxPerson = service.getMaxPerson();
@@ -86,6 +94,7 @@ public class TutorService {
 		this.fishingEquipment=service.getFishingEquipment();
 		this.rate=service.getRate();
 		this.status=service.getStatus();
+		return this;
 	}
 
 	
@@ -139,6 +148,9 @@ public class TutorService {
 		photos.add(photo);
 	}
 
+	public void deletePhoto(int id) {
+		this.photos.removeIf(photo->photo.getId()==id);
+	}
 	/*public void addExtraService(Extras extras) {
 		if (extrasServices == null)
 			extrasServices = new HashSet<>();
@@ -217,18 +229,6 @@ public class TutorService {
 		return address;
 	}
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-	public void setPhotos(Set<Photo> photos) {
-		this.photos = photos;
-	}
-
-/*	void setExtrasServices(Set<Extras> extrasServices) {
-		this.extrasServices = extrasServices;
-	}
-*/	
 	public void setDisconutOffers(Set<DiscountOffer> disconutOffers) {
 		this.disconutOffers = disconutOffers;
 	}
@@ -236,9 +236,8 @@ public class TutorService {
 	public String getExtrasServices() {
 		return extrasServices;
 	}
-	public void setExtrasServices(String extrasServices) {
-		this.extrasServices = extrasServices;
-	}
+	
+	
 	public double calculatePrice(int duration) {
 		double appointmentPrice=0;
 		while (duration != 0) {
