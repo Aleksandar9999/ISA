@@ -1,8 +1,6 @@
 # Compiled class file
 *.class
 
-firebaseToken.json
-
 node_modules
 bin
 
