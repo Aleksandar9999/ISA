@@ -1,6 +1,10 @@
 <template>
   <div class="images-container">
-    <w-card class="main-card" title="Gallery" no-border> </w-card>
+    <w-card class="main-card" title="Gallery" no-border>
+      <w-flex justify-end class="pa3">
+        <w-button @click="showDialog">Add new</w-button>
+      </w-flex>
+       </w-card>
     <div class="grow mx1">
       <w-flex
         column
@@ -36,15 +40,16 @@ export default {
     deleteImage(photo) {
       this.deleteFunction(photo)
     },
+    showDialog() {
+      this.$emit("showDialog", true);
+    },
   },
   watch: {
     photos: {
       immediate: true,
       handler(photosFromProps) {
-        console.log(photosFromProps);
         if (photosFromProps) {
           this.photos_local = {
-            ...this.photos_local,
             ...photosFromProps,
           };
         }
