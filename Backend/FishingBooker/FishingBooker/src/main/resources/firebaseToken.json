@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "fishingbooker-c95ea",
+  "private_key_id": "637644aa3940e9785bdb1f534e9f01b8ae3641af",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCU3LPKkEHnHf2U\nennEaDwV+Z3qahEtavWKB4xZrU/6Sky/TZx8+gP7NdKnss60nri7RxQ8wHjqty1o\njKVNQya5LdO7jMPdhDYnFd+wBXk2biSlcTsqGGksG3vB9kcCwvhTgCjnsdqOL64V\nwSBolOCi61HazzpMlDDbyziNvMX8dXT24FWX3cu33hYkzcLoIGakZIX97cUr9iQC\nvgs+kUA12hQLx57OEEPQkypfX4SOHxYbjBgJ44gh4F9O2QAfIt3rOgZeW1i6yEWP\npi1LiL3LbIyThOixjZZHYbjUUX9hAHPo+MKp22KHRWM40wI7uT8FQzKulbUBTc6O\n6mXiupAvAgMBAAECggEAE8ePjCbG2vK9MvFjJJnFAhZ8yRz201YW8hQ2reO9cMBW\nmkSxulluFf780pOLq6w7V4cGRVw9tNJKEk492JpHlutj6tO1YsWifGcHpdfUV0sj\nS2hUOC+uKdItC4SxwsgtPssUpFSZebMUKofSypKdlog2BCDs2igGpe3Gwe6HUBgH\nVkTO5eQzDg91VLiXM9PvxJ1YPu25sCutoHJSwAUAWv93DV6tCQAy2h70pd8h2fY8\nuVG/kBTGKlW6FzaKgC2LRjYqikhIjvyZDEfx5UGeqndVnbZmtv/bLn53UI8NEKFJ\nILRBmdq4idwRQnxs8zXdYc8+/Ppw//4Jw5vrGuibIQKBgQDM6yisTSDinS6M5VuW\nyeTAf5Qa1qubvv4esItRHpnOUBxm/6b+p4Czzc3o5lrMGPaeSXf3ZTYMY1Jkh+dz\ncwmRFVWwF5PQlbXShz/t9Z+s8ci6NcOab3bRc5w/ikx8YxViep4zoVd7XncYB6I6\nipWkfBGSuVDH4GAIWbKZ86v5ZQKBgQC5+E9wiGIZ1sK4wAlIF8prNqfS3MOdFNn7\nUm9PomJxi29Mep00F5cXwzeXpOMY2gzfUMVujby0VTHGL3cVtK6KslYlHAKY+2j/\nLYeUcAfCh9qeH8h3X+HJsnGxwzA8+X+JUUSARad2mxajqiTrc3AFjh1B/qJ44Au1\ndhRwXQPUAwKBgQCpFGOj/6Pht+Xf9aNjwMRRnTLcDkLcqHPPaMYbMc+grvMwfUMS\nHa2RLn/26pMCkppyspYc+FLnV9B1CLoNxV6gamUgfePGGLFEu7ohIykULw/7rT7v\nH4d/fQ/wUbGYdL0BW8FLQpYHQkOr/Sh7ezvL019AnE2uDlHOsgwvASLmDQKBgEkc\nkvaV16N66ADEFqIOIFk4GpBulETcHrqMdRBksbkb7Tyu88C4CYGhEOkAPPvXNbpR\nwdytwmNPHwtgO7v/1aLXa8CZG3hTVrsDhkrYJGTZDhyeOCyeOGEYU1RkfUFrgTVW\nCs03FRgu7p6XVH5wWrkEXwJD/lHxGwlTC8QE/W1LAoGAQr8kZ2BKH7C8E0YgVZkh\nd9DQ9MdCaWsBkIvt4zye80CqJHqnnZsJvm0VWtj4oAP/16UvqKNmNvWlFjt563Jh\nUNKUfKIDeUKYEtZkncFucawUn2mNc3p0va+p88owWC9lxQ4mWdJz1HLBhB7owgLz\nDq2xco4ovPgCef5+S6PqgFk=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-2zkv4@fishingbooker-c95ea.iam.gserviceaccount.com",
+  "client_id": "105685522248366038402",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-2zkv4%40fishingbooker-c95ea.iam.gserviceaccount.com"
+}
