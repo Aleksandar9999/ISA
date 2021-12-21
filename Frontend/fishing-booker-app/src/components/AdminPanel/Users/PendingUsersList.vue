@@ -8,9 +8,9 @@
   </div>
 </template>
 <script>
-import UserInfoRow from "./UserInfoRow.vue";
-import CustomTable from "../CustomTable.vue";
-import config from '../../configuration/config';
+import UserInfoRow from "../Users/UserInfoRow.vue";
+import CustomTable from "../../../CustomTable.vue";
+import config from '../../../../configuration/config';
 import axios from "axios";
 export default {
   components: { UserInfoRow, CustomTable },

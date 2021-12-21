@@ -12,7 +12,7 @@ public abstract class CustomModelMapperAbstract<E, T> implements CustomModelMapp
 	protected ModelMapper modelMapper;
 	
 	@Override
-	public E convertToEntity(T dto, Class<E> retClass) {
+	public E convertToEntity(T dto, Class<? extends E> retClass) {
 		return this.modelMapper.map(retClass, retClass);
 	}
 	

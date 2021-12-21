@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.dto.RegistrationDTO;
-import com.isa.FishingBooker.mapper.RegistrationDTOMapper;
+import com.isa.FishingBooker.mapper.RegistrationMapper;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.User;
 
