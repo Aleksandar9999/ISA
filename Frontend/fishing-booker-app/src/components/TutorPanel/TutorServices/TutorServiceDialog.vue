@@ -142,7 +142,7 @@ export default {
     save() {
       axios
         .post(
-          config.apiStart + `/api/users/tutors/${this.idTutor}/services`,
+          config.apiStart + `/api/tutor-services`,
           this.tutorServiceLocal,
           config.requestHeader
         )
