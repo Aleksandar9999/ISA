@@ -35,7 +35,7 @@ import com.isa.FishingBooker.service.UsersService;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class AuthenticationController {
-	//TODO: REFACTORING
+	//TODO: Refactor
 	@Autowired
 	EmailService emailService;
 	@Autowired
@@ -43,13 +43,7 @@ public class AuthenticationController {
 	@Autowired
 	private CustomModelMapper<User, RegistrationDTO> userRegistrationMapper;
 	@Autowired
-	private CustomModelMapper<Tutor, RegistrationDTO> totorRegistrationMapper;
-	@Autowired
-	private CustomModelMapper<Admin, RegistrationDTO> adminRegistrationMapper;
-
-	@Autowired
 	private CustomModelMapper<User, UserConfirmationDTO> userConfirmationMapper;
-	
 	@Autowired
 	private UsersService usersService;
 	@Autowired
@@ -57,17 +51,10 @@ public class AuthenticationController {
 
 	@PostMapping("api/login")
 	public ResponseEntity<?> login(@RequestBody LoginInfoDTO userdto) {
-
-		// Ukoliko kredencijali nisu ispravni, logovanje nece biti uspesno, desice se
-		// AuthenticationException
 		Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(userdto.getEmail(), userdto.getPassword()));
-
-		// Ukoliko je autentifikacija uspesna, ubaci korisnika u trenutni security
-		// kontekst
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		// Kreiraj token za tog korisnika
 		User user = (User) authentication.getPrincipal();
 		String jwt = tokenUtils.generateToken(user);
 		return ResponseEntity.ok(new UserTokenState(jwt, user.getRoles()));
@@ -88,7 +75,7 @@ public class AuthenticationController {
 	@PostMapping("api/registration/tutor")
 	public ResponseEntity<?> registerTutor(@RequestBody RegistrationDTO dto) {
 		try {
-			Tutor user = totorRegistrationMapper.convertToEntity(dto, Tutor.class);
+			Tutor user = (Tutor) userRegistrationMapper.convertToEntity(dto, Tutor.class);
 			usersService.addNew(user);
 			emailService.sendRegisterConfirmationMail(user);
 			return ResponseEntity.ok(user);
@@ -101,9 +88,9 @@ public class AuthenticationController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> registerAdmin(@RequestBody RegistrationDTO dto) {
 		try {
-			Admin user = adminRegistrationMapper.convertToEntity(dto, Admin.class);
+			Admin user = (Admin) userRegistrationMapper.convertToEntity(dto, Admin.class);
 			usersService.addNew(user);
-			emailService.sendRegisterConfirmationMail(user);// TODO: Sending email slow down response. Find out how to fix this
+			emailService.sendRegisterConfirmationMail(user);
 			return ResponseEntity.ok(user);
 		} catch (RegistrationException ex) {
 			return ResponseEntity.status(400).body(ex.getMessage());
