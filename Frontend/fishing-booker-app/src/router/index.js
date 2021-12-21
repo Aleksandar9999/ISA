@@ -19,7 +19,7 @@ import TutorAppointmentHistory from '../components/ClientMenuLists/TutorAppointm
 import FrontPage from '../components/FrontPage.vue'
 import Confirmation from '../components/Confirm.vue'
 
-import UsersList from '../components/AdminPanel/UsersList.vue'
+import UsersList from '../components/AdminPanel/Users/UsersList.vue'
 import SystemSettings from '../components/AdminPanel/SystemSettings.vue'
 import ResetPasswordModalDialog from '../components/AdminPanel/ResetPasswordModalDialog.vue'
 

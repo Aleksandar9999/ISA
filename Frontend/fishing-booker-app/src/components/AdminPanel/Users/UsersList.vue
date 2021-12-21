@@ -9,9 +9,8 @@
 </template>
 <script>
 import UserInfoRow from "./UserInfoRow.vue";
-import CustomTable from "../CustomTable.vue";
-import config from '../../configuration/config';
-import axios from "axios";
+import CustomTable from "../../CustomTable.vue";
+import config from '../../../configuration/config';
 export default {
   components: { UserInfoRow, CustomTable },
   data() {
@@ -22,7 +21,7 @@ export default {
     };
   },
   mounted() {
-    axios.get(config.apiStart+"/api/users",config.requestHeader).then(resp=> {this.dataList=resp.data;
+    this.$axios.get(config.apiStart+"/api/users",config.requestHeader).then(resp=> {this.dataList=resp.data;
     console.log(this.data)
     })
   },

@@ -28,8 +28,7 @@
   </tr>
 </template>
 <script>
-import config from "../../configuration/config";
-import axios from "axios";
+import config from "../../../configuration/config";
 export default {
   props: ["item"],
   data() {
@@ -45,7 +44,7 @@ export default {
       this.statusChanged = true;
     },
     deleteUser(){
-      axios.delete(`${config.apiStart}/api/users/${this.item_local.id}`,config.requestHeader).then(()=>{
+      this.$axios.delete(`${config.apiStart}/api/users/${this.item_local.id}`).then(()=>{
         alert("DONE")
       })
     },
@@ -69,7 +68,7 @@ export default {
     save() {
       this.item_local.status = this.status;
       console.log(this.item_local);
-      axios
+      this.$axios
         .put(
           `${config.apiStart}/api/users/${this.item_local.id}/confirmation`,
           { user: this.item_local, comment: this.comment },
