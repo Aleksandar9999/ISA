@@ -1,5 +1,6 @@
 package com.isa.FishingBooker.service;
 
+import com.isa.FishingBooker.model.DiscountOffer;
 import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.Photo;
 import com.isa.FishingBooker.model.Status;
@@ -14,6 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +24,9 @@ public class TutorServicesServiceImpl extends CustomServiceAbstract<TutorService
 	@Autowired
 	private UsersService usersService;
 
+	@Autowired 
+	private EmailService emailService;
+	
 	@Override
 	public void addNew(TutorService item) {
 		item.setStatus(Status.CONFIRMED);
@@ -74,8 +79,24 @@ public class TutorServicesServiceImpl extends CustomServiceAbstract<TutorService
 	@Override
 	public List<Period> getAllAvailablePeriodsByTutor(int idtutor) {
 		Tutor tutor = (Tutor) usersService.getById(idtutor);
-		List<Period> collect = tutor.getServices().stream().map(TutorService::getStandardPeriods).flatMap(Set::stream)
+		return tutor.getServices().stream().map(TutorService::getStandardPeriods).flatMap(Set::stream)
 				.collect(Collectors.toList());
-		return collect;
+	}
+
+	@Override
+	public void addNewSubscriber(int serviceId, User loggedinUser) {
+		this.update(this.getById(serviceId).addNewSubscriber(loggedinUser));
+	}
+
+	@Override
+	public void addNewDiscountOffer(int idservice, DiscountOffer offer) {
+		TutorService tutorService=this.getById(idservice);
+		tutorService.addDiscountOffer(offer);
+		this.update(tutorService);
+		this.notifySubscribers(tutorService);
+	}
+	@Async
+	private void notifySubscribers(TutorService tutorService) {
+		tutorService.getSubscribers().forEach(subscirber-> emailService.sendDiscountNotificationEmail(subscirber, tutorService));
 	}
 }

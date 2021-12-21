@@ -3,9 +3,11 @@ package com.isa.FishingBooker.service;
 import java.util.List;
 import java.util.Set;
 
+import com.isa.FishingBooker.model.DiscountOffer;
 import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.Photo;
 import com.isa.FishingBooker.model.TutorService;
+import com.isa.FishingBooker.model.User;
 
 public interface TutorServicesService extends Service<TutorService>{
 	public void delete(int id);
@@ -15,4 +17,6 @@ public interface TutorServicesService extends Service<TutorService>{
 	public void deletePhoto(int idservice, int idphoto);
 	public void addNewStandardPeriod(int idservice, Period period);
 	public List<Period> getAllAvailablePeriodsByTutor(int idtutor);
+	public void addNewSubscriber(int serviceId, User loggedinUser);
+	public void addNewDiscountOffer(int idservice, DiscountOffer offer);
 }

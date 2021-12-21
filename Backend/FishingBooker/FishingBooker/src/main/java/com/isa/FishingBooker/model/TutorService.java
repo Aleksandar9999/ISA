@@ -47,11 +47,13 @@ public class TutorService {
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	private Status status;
+	private String extrasServices;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<User> subscribers = new HashSet<>();
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Photo> photos = new HashSet<Photo>();
-
-	private String extrasServices;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<DiscountOffer> disconutOffers = new HashSet<DiscountOffer>();
@@ -109,7 +111,17 @@ public class TutorService {
 	public Status getStatus() {
 		return status;
 	}
-
+	
+	public Set<User> getSubscribers() {
+		return Set.copyOf(this.subscribers);
+	}
+	
+	public TutorService addNewSubscriber(User user) {
+		if(this.subscribers==null) this.subscribers=new HashSet<User>();
+		this.subscribers.add(user);
+		return this;
+	}
+	
 	public void addStandardPeriod(Period period) {
 		if(this.standardPeriods==null) this.standardPeriods=new HashSet<Period>();
 		this.standardPeriods.add(period);
