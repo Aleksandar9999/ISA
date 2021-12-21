@@ -22,7 +22,7 @@ import Confirmation from '../components/Confirm.vue'
 import UsersList from '../components/AdminPanel/Users/UsersList.vue'
 import SystemSettings from '../components/AdminPanel/SystemSettings.vue'
 import ResetPasswordModalDialog from '../components/AdminPanel/ResetPasswordModalDialog.vue'
-
+import RevisionsList from "../components/AdminPanel/Revisions/RevisionsList.vue"
 
 import TutorServicesList from '../components/TutorPanel/TutorServices/TutorServicesList.vue'
 import TutorAvailablePeriods from '../components/TutorPanel/TutorProfile/TutorAvailablePeriods.vue'
@@ -43,6 +43,7 @@ const routes = [
   {path: "/tutors/:idtutor/appointments", name: "TutorServicesAppointments", component: AppointmentsList},
   {path: "/tutors/:idtutor/services/:idservice", name: "TutorService", component: TutorServicePage},
   
+  {path: "/revisions",name:"RevisionsList",component: RevisionsList},
   {path: "/users",name:"UsersList",component: UsersList},
   {path: "/system/settings",name: "SystemSettings", component:SystemSettings},
   {path: "/admin/reset-password",name: "ResetPassword", component:ResetPasswordModalDialog},
