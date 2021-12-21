@@ -39,40 +39,41 @@ public class AppointmentController {
 	public ResponseEntity<ArrayList<Appointment>> getAll() {
 		return ResponseEntity.ok((ArrayList<Appointment>) service.getAll());
 	}
+	
 	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/resortAppointments")
 	public ResponseEntity<ArrayList<ResortAppointment>> getAllResort() {
 		return ResponseEntity.ok((ArrayList<ResortAppointment>) service.getResortApointments());
 	}
+	
 	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/boatAppointments")
 	public ResponseEntity<ArrayList<BoatAppointment>> getAllBoat() {
 		return ResponseEntity.ok((ArrayList<BoatAppointment>) service.getBoatApointments());
 	}
+	
 	@PreAuthorize("hasRole('USER')")
-	@GetMapping("api/tutor-service/appointments")
+	@GetMapping("api/appointments/tutor-service")
 	public ResponseEntity<ArrayList<TutorServiceAppointment>> getAllTutorServiceAppointments() {
 		return ResponseEntity.ok((ArrayList<TutorServiceAppointment>) service.getTutorServiceApointments());
 	}
-
+	
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("api/appointments/tutor-service")
-	public ResponseEntity addTutorServiceAppointment(@RequestBody TutorServiceAppointmentDTO dto) {
+	public ResponseEntity<?> addTutorServiceAppointment(@RequestBody TutorServiceAppointmentDTO dto) {
 		TutorServiceAppointment appointment = tutorServiceModelMapper.convertToEntity(dto);
-		//appointment.setUser(new User(1)); // TODO: Get id of loggedin user
 		service.addNewTutorServiceAppointment(appointment);
 		return ResponseEntity.ok(tutorServiceModelMapper.convertToDto(appointment));
 	}
-
+	
 	@GetMapping("api/users/tutors/{idtutor}/tutor-service/appointments")
-	public ResponseEntity getAllAppointmentsByTutor(@PathVariable("idtutor") Integer idtutor) {
+	public ResponseEntity<?> getAllAppointmentsByTutor(@PathVariable("idtutor") Integer idtutor) {
 		return ResponseEntity
 				.ok(tutorServiceModelMapper.convertToDtos(service.getAllTutorServiceAppointmentsByTutor(idtutor)));
 	}
-
 	
 	@GetMapping("/getPendingAppointments")
 	public ResponseEntity<List<Appointment>>  getPendingAppointments(@RequestBody String email){
 		return ResponseEntity.ok((List<Appointment>)service.getPendingApointments(email));
 	}
-
 }

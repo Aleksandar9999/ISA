@@ -2,8 +2,11 @@ package com.isa.FishingBooker.model;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+
+
 @Entity
 public class TutorRevision extends Revision {
+	
 	@OneToOne
 	private Tutor tutor;
 	public TutorRevision() {}

@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.isa.FishingBooker.exceptions.InvalidPeriodDefinitionException;
+import com.isa.FishingBooker.exceptions.PeriodOverlapException;
 
 @Entity
 public class Period {
@@ -68,4 +69,27 @@ public class Period {
 	public Date getEndDate() {
 		return this.endDate;
 	}
+	
+	public void overlap(Period newPeriod) {
+		periodBetweenPeriod(newPeriod);
+		endDateBetweenPeriod(newPeriod);
+		startDateBetweenPeriod(newPeriod);
+	}
+
+	private void startDateBetweenPeriod(Period newPeriod) {
+		System.out.println(newPeriod.getStartDate().after(startDate));
+		System.out.println(newPeriod.getStartDate().before(endDate));
+		if(newPeriod.getStartDate().after(startDate) && newPeriod.getStartDate().before(endDate))
+			throw new PeriodOverlapException();
+	}
+
+	private void endDateBetweenPeriod(Period newPeriod) {
+		if(newPeriod.getEndDate().after(startDate) && newPeriod.getEndDate().before(endDate)) 
+			throw new PeriodOverlapException();
+	}
+
+	private void periodBetweenPeriod(Period newPeriod) {
+		if(newPeriod.getStartDate().after(this.startDate) && newPeriod.getEndDate().before(endDate))
+			throw new PeriodOverlapException();
+	} 
 }

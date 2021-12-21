@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.model.Appointment;
 import com.isa.FishingBooker.model.BoatAppointment;
+import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.ResortAppointment;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.TutorServiceAppointment;
@@ -19,7 +20,7 @@ import com.isa.FishingBooker.repository.TutorServiceRepository;
 public class AppointmentServiceImplementation extends CustomServiceAbstract<Appointment> implements AppointmentService {
 	
 	@Autowired
-	private TutorServiceRepository tutorServiceRepository;
+	private TutorServicesService tutorServicesService;
 		
 	public List<ResortAppointment> getResortApointments(){
 		return ((AppointmentRepository)repository).getAllResortAppoints();
@@ -40,11 +41,14 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 
 	@Override
 	public void addNewTutorServiceAppointment(TutorServiceAppointment app) {
-		TutorService tutorService=tutorServiceRepository.getById(app.getTutorService().getId());
+		TutorService tutorService=tutorServicesService.getById(app.getTutorService().getId());
+		app.setTutorService(tutorService);
+		validateNewTutorServiceAppointment(app);
 		app.setPrice(tutorService.calculatePrice((int) app.getDuration()));
 		super.addNew(app);
 	}
 
+	//TODO:REFACTOR
 	@Override
 	public List<Appointment> getPendingApointments(String email) {
 		List<Appointment> appointments = new ArrayList<Appointment>();
@@ -79,4 +83,22 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		
 	}
 
+	private void validateNewTutorServiceAppointment(TutorServiceAppointment newAppointment) {
+		List<TutorServiceAppointment> allInCommingAppointmentsByTutor = this.getAllInCommingAppointmentsByTutor(newAppointment.getTutorId());
+		for (TutorServiceAppointment tutorServiceAppointment : allInCommingAppointmentsByTutor) {
+			createPeriod(newAppointment).overlap(createPeriod(tutorServiceAppointment));
+		}
+	}
+
+	private Period createPeriod(TutorServiceAppointment tutorServiceAppointment) {
+		Calendar calendar = new Calendar.Builder().build();
+		calendar.setTime(tutorServiceAppointment.getStart());
+		Date startDate=calendar.getTime();
+		calendar.add(Calendar.DAY_OF_MONTH, (int) tutorServiceAppointment.getDuration());
+		return new Period(startDate,calendar.getTime());
+	}
+
+	private List<TutorServiceAppointment> getAllInCommingAppointmentsByTutor(int tutorId) {
+		return ((AppointmentRepository)repository).getAllInCommingAppointmentsByTutor(tutorId);
+	}
 }
