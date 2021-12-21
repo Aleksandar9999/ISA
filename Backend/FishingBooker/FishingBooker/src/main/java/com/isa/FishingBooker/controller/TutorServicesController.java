@@ -130,6 +130,11 @@ public class TutorServicesController {
 	}
 	
 	/**PERIODS**/
+	@GetMapping("api/users/tutors/{id}/standard-periods")
+	public ResponseEntity<?> getPeriodsAllTutorServices(@PathVariable("id") int idtutor) {
+		tutorServicesService.getAllAvailablePeriodsByTutor(idtutor);
+		return ResponseEntity.status(200).body(tutorServicesService.getAllAvailablePeriodsByTutor(idtutor));
+	}
 	@PostMapping("api/tutor-services/{idservice}/standard-periods")
 	@PreAuthorize("hasRole('TUTOR')")
 	public ResponseEntity<?> addTutorServiceStandardPeriod(@RequestBody Period period, @PathVariable("idservice") int idservice) {
@@ -162,8 +167,7 @@ public class TutorServicesController {
 			return ResponseEntity.status(ex.getHttpStatus()).body(ex.getMessage());
 		}
 	}
-
-	
+	/**PERIODS**/
 	
 	@GetMapping("api/tutor-services/{idservice}/prices")
 	public ResponseEntity<?> getTutorServicePrice(@PathVariable("idservice") int idservice) {
