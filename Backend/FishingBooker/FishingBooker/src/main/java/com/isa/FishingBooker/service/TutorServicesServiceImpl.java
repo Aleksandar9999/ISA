@@ -1,16 +1,27 @@
 package com.isa.FishingBooker.service;
 
+import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.Photo;
 import com.isa.FishingBooker.model.Status;
+import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.TutorService;
+import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.TutorServiceRepository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TutorServicesServiceImpl extends CustomServiceAbstract<TutorService> implements TutorServicesService {
+
+	@Autowired
+	private UsersService usersService;
+
 	@Override
 	public void addNew(TutorService item) {
 		item.setStatus(Status.CONFIRMED);
@@ -51,5 +62,20 @@ public class TutorServicesServiceImpl extends CustomServiceAbstract<TutorService
 		TutorService tutorService = this.getById(idservice);
 		tutorService.deletePhoto(idphoto);
 		this.update(tutorService);
+	}
+
+	@Override
+	public void addNewStandardPeriod(int idservice, Period period) {
+		TutorService tutorService = this.getById(idservice);
+		tutorService.addStandardPeriod(period);
+		this.update(tutorService);
+	}
+
+	@Override
+	public List<Period> getAllAvailablePeriodsByTutor(int idtutor) {
+		Tutor tutor = (Tutor) usersService.getById(idtutor);
+		List<Period> collect = tutor.getServices().stream().map(TutorService::getStandardPeriods).flatMap(Set::stream)
+				.collect(Collectors.toList());
+		return collect;
 	}
 }

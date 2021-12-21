@@ -52,12 +52,13 @@ public class TutorService {
 	private Set<Photo> photos = new HashSet<Photo>();
 
 	private String extrasServices;
-	/*@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Extras> extrasServices;
-*/
+
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<DiscountOffer> disconutOffers = new HashSet<DiscountOffer>();
-
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Period> standardPeriods = new HashSet<Period>();
+	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<ServicePrice> prices = new HashSet<ServicePrice>();
 
@@ -67,7 +68,6 @@ public class TutorService {
 	private Tutor tutor;
 	
 	public TutorService() {
-		// TODO Auto-generated constructor stub
 	}
 	public TutorService(Integer id) {
 		this.id = id;
@@ -110,6 +110,15 @@ public class TutorService {
 		return status;
 	}
 
+	public void addStandardPeriod(Period period) {
+		if(this.standardPeriods==null) this.standardPeriods=new HashSet<Period>();
+		this.standardPeriods.add(period);
+	}
+	
+	public Set<Period> getStandardPeriods(){
+		return this.standardPeriods;
+	}
+	
 	public void setStatus(Status status) {
 		this.status = status;
 	}
@@ -134,10 +143,6 @@ public class TutorService {
 		return photos;
 	}
 
-	/*public Set<Extras> getExtrasServices() {
-		return extrasServices;
-	}*/
-
 	public Set<DiscountOffer> getDisconutOffers() {
 		return disconutOffers;
 	}
@@ -151,11 +156,6 @@ public class TutorService {
 	public void deletePhoto(int id) {
 		this.photos.removeIf(photo->photo.getId()==id);
 	}
-	/*public void addExtraService(Extras extras) {
-		if (extrasServices == null)
-			extrasServices = new HashSet<>();
-		extrasServices.add(extras);
-	}*/
 
 	public void addDiscountOffer(DiscountOffer offer) {
 		if (disconutOffers == null)

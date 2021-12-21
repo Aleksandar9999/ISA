@@ -122,7 +122,7 @@ export default {
   },
   mounted() {
     axios
-      .get(config.apiStart + "/api/users/tutors/4/services",config.requestHeader)
+      .get(`${config.apiStart}/api/users/tutors/${this.idTutor}/services`,config.requestHeader)
       .then((resp) => (this.services = resp.data));
     axios
       .get(config.apiStart + "/api/users/clients",config.requestHeader)

@@ -9,7 +9,7 @@
       :itemRow="itemRow"
       @showUserProfile="showUserDialog"
     />
-    <NewAppointmentModalDialog :idTutor=dialog.id :show=dialog.show @hideDialog="hideModalDialog" />
+    <NewAppointmentModalDialog :idTutor=idTutor :show=dialog.show @hideDialog="hideModalDialog" />
   </div>
 </template>
 <script>
@@ -30,9 +30,9 @@ export default {
       headers: ["START DATE", "DURATION", "NUMBER OF PERSONS", "PRICE", ""],
       itemRow: AppointmentInfoRow,
       dialog:{
-        show: false,
-        id:4
-      }
+        show: false
+      },
+      idTutor: this.$route.params.idtutor
     };
   },
   mounted() {
@@ -40,11 +40,8 @@ export default {
   },
   methods: {
     fetchData() {
-      axios
-        .get(
-          "http://localhost:8080/api/users/tutors/4/tutor-service/appointments",
-          config.requestHeader
-        )
+      let api=`${config.apiStart}/api/users/tutors/${this.idTutor}/tutor-service/appointments`
+      axios.get(api, config.requestHeader)
         .then((resp) => {
           this.data = resp.data;
           console.log(this.data);
