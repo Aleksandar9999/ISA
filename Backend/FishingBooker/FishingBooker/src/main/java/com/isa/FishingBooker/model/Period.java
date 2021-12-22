@@ -71,14 +71,18 @@ public class Period {
 	}
 	
 	public void overlap(Period newPeriod) {
+		periodStartOrEndSameTime(newPeriod);
 		periodBetweenPeriod(newPeriod);
 		endDateBetweenPeriod(newPeriod);
 		startDateBetweenPeriod(newPeriod);
 	}
 
+	private void periodStartOrEndSameTime(Period newPeriod) {
+		if(newPeriod.getStartDate().equals(startDate) || newPeriod.getEndDate().equals(startDate))
+			throw new PeriodOverlapException();
+	}
+
 	private void startDateBetweenPeriod(Period newPeriod) {
-		System.out.println(newPeriod.getStartDate().after(startDate));
-		System.out.println(newPeriod.getStartDate().before(endDate));
 		if(newPeriod.getStartDate().after(startDate) && newPeriod.getStartDate().before(endDate))
 			throw new PeriodOverlapException();
 	}

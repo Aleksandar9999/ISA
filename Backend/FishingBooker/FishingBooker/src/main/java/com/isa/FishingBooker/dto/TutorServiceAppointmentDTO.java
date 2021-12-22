@@ -26,6 +26,7 @@ public class TutorServiceAppointmentDTO {
 	private Address address;
 	private int userId;
 	private int serviceId;
+	private boolean validateUser;
 	
 	public TutorServiceAppointmentDTO() {
 	}
@@ -100,6 +101,14 @@ public class TutorServiceAppointmentDTO {
 
 	public void setServiceId(int serviceId) {
 		this.serviceId = serviceId;
+	}
+
+	public boolean isValidateUser() {
+		return validateUser;
+	}
+
+	public void setValidateUser(boolean validateUser) {
+		this.validateUser = validateUser;
 	}
 	
 }

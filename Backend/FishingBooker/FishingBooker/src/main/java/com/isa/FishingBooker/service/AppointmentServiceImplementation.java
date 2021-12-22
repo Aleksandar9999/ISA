@@ -2,11 +2,14 @@ package com.isa.FishingBooker.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.isa.FishingBooker.exceptions.PeriodOverlapException;
+import com.isa.FishingBooker.exceptions.UserAppointmentInProgressException;
 import com.isa.FishingBooker.model.Appointment;
 import com.isa.FishingBooker.model.BoatAppointment;
 import com.isa.FishingBooker.model.Period;
@@ -48,6 +51,33 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		super.addNew(app);
 	}
 
+	@Override
+	public void addNewTutorServiceAppointment(TutorServiceAppointment app, boolean validateUser) {
+		if(validateUser) {
+			validateUseCurrentAppointment(app.getUser().getId());
+		}
+		this.addNewTutorServiceAppointment(app);
+	}
+	
+	private void validateUseCurrentAppointment(Integer id) {
+	    Date currentDate= new Date(System.currentTimeMillis());
+	    Period currentPeriod= new Period(currentDate, currentDate);
+		for (TutorServiceAppointment appointment : ((AppointmentRepository)repository).getAllTutorServiceAppointmentsByUser(id)) {
+			try{
+				validateUserAppointmentOverlap(currentPeriod, appointment);
+			}catch (PeriodOverlapException e) {
+				break;
+			}catch (UserAppointmentInProgressException e) {
+				throw e;
+			}
+		}
+	}
+
+	private void validateUserAppointmentOverlap(Period currentPeriod, TutorServiceAppointment appointment) {
+		createPeriod(appointment).overlap(currentPeriod);
+		throw new UserAppointmentInProgressException();
+	}
+
 	//TODO:REFACTOR
 	@Override
 	public List<Appointment> getPendingApointments(String email) {
@@ -80,7 +110,6 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 	@Override
 	public void deleteResortAppointments(int resortId) {
 		((AppointmentRepository)repository).deleteResortAppointments(resortId);
-		
 	}
 
 	private void validateNewTutorServiceAppointment(TutorServiceAppointment newAppointment) {

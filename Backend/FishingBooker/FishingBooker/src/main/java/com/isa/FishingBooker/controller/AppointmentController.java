@@ -62,7 +62,7 @@ public class AppointmentController {
 	@PostMapping("api/appointments/tutor-service")
 	public ResponseEntity<?> addTutorServiceAppointment(@RequestBody TutorServiceAppointmentDTO dto) {
 		TutorServiceAppointment appointment = tutorServiceModelMapper.convertToEntity(dto);
-		service.addNewTutorServiceAppointment(appointment);
+		service.addNewTutorServiceAppointment(appointment,dto.isValidateUser());
 		return ResponseEntity.ok(tutorServiceModelMapper.convertToDto(appointment));
 	}
 	
