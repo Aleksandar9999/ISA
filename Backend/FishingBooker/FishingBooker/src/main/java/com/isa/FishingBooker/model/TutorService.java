@@ -20,6 +20,7 @@ import javax.persistence.OneToOne;
 import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.isa.FishingBooker.exceptions.UndefinedServicePricesException;
 
 @Entity
 @Transactional
@@ -261,6 +262,7 @@ public class TutorService {
 	}
 
 	private ServicePrice getBestOfferByDuration(int duration) {
+		if(prices == null || prices.size()==0) throw new UndefinedServicePricesException();
 		ServicePrice ret = null;
 		for (Object object : prices.stream().sorted().collect(Collectors.toList())) {
 			ServicePrice price=(ServicePrice)object;		

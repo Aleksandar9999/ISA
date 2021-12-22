@@ -10,100 +10,116 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class Appointment {
 	
-   private Date start;
-   private double duration;
-   private int maxPerson;
-   private String additionalServices;
-   private double price;
-   
-   @Id
-   @GeneratedValue(strategy=GenerationType.IDENTITY)
-   private Integer id;
-   
-   @ManyToOne(fetch=FetchType.EAGER)
-   @JoinColumn(name="address_id")
-   private Address address;
+	private Date start;
+	private double duration;
+	private int maxPerson;
+	private String additionalServices;
+	private double price;
 
-   public Date getStart() {
-      return start;
-   }
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-   public void setStart(Date start) {
-      this.start = start;
-   }
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "address_id")
+	private Address address;
 
-   public double getDuration() {
-      return duration;
-   }
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
-   public void setDuration(double duration) {
-      this.duration = duration;
-   }
+	public Date getStart() {
+		return start;
+	}
 
-   public int getMaxPerson() {
-      return maxPerson;
-   }
+	public User getUser() {
+		return user;
+	}
 
-   public void setMaxPerson(int maxPerson) {
-      this.maxPerson = maxPerson;
-   }
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-   public String getAdditionalServices() {
-      return additionalServices;
-   }
+	public void setStart(Date start) {
+		this.start = start;
+	}
 
-   public void setAdditionalServices(String additionalServices) {
-      this.additionalServices = additionalServices;
-   }
+	public double getDuration() {
+		return duration;
+	}
 
-   public double getPrice() {
-      return price;
-   }
+	public void setDuration(double duration) {
+		this.duration = duration;
+	}
 
-   public void setPrice(double price) {
-      this.price = price;
-   }
+	public int getMaxPerson() {
+		return maxPerson;
+	}
 
-   public Integer getId() {
-      return id;
-   }
+	public void setMaxPerson(int maxPerson) {
+		this.maxPerson = maxPerson;
+	}
 
-   public void setId(Integer id) {
-      this.id = id;
-   }
+	public String getAdditionalServices() {
+		return additionalServices;
+	}
 
-   public Address getAddress() {
-      return address;
-   }
+	public void setAdditionalServices(String additionalServices) {
+		this.additionalServices = additionalServices;
+	}
 
-   public void setAddress(Address address) {
-      this.address = address;
-   }
+	public double getPrice() {
+		return price;
+	}
 
-   /*
-    * public java.util.Collection<Extras> extras;
-    * 
-    * public java.util.Collection<Extras> getExtras() { if (extras == null) extras
-    * = new java.util.HashSet<Extras>(); return extras; }
-    * 
-    * public java.util.Iterator getIteratorExtras() { if (extras == null) extras =
-    * new java.util.HashSet<Extras>(); return extras.iterator(); }
-    * 
-    * public void setExtras(java.util.Collection<Extras> newExtras) {
-    * removeAllExtras(); for (java.util.Iterator iter = newExtras.iterator();
-    * iter.hasNext();) addExtras((Extras) iter.next()); }
-    * 
-    * public void addExtras(Extras newExtras) { if (newExtras == null) return; if
-    * (this.extras == null) this.extras = new java.util.HashSet<Extras>(); if
-    * (!this.extras.contains(newExtras)) this.extras.add(newExtras); }
-    * 
-    * public void removeExtras(Extras oldExtras) { if (oldExtras == null) return;
-    * if (this.extras != null) if (this.extras.contains(oldExtras))
-    * this.extras.remove(oldExtras); }
-    * 
-    * public void removeAllExtras() { if (extras != null) extras.clear(); }
-    */
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	/*
+	 * public java.util.Collection<Extras> extras;
+	 * 
+	 * public java.util.Collection<Extras> getExtras() { if (extras == null) extras
+	 * = new java.util.HashSet<Extras>(); return extras; }
+	 * 
+	 * public java.util.Iterator getIteratorExtras() { if (extras == null) extras =
+	 * new java.util.HashSet<Extras>(); return extras.iterator(); }
+	 * 
+	 * public void setExtras(java.util.Collection<Extras> newExtras) {
+	 * removeAllExtras(); for (java.util.Iterator iter = newExtras.iterator();
+	 * iter.hasNext();) addExtras((Extras) iter.next()); }
+	 * 
+	 * public void addExtras(Extras newExtras) { if (newExtras == null) return; if
+	 * (this.extras == null) this.extras = new java.util.HashSet<Extras>(); if
+	 * (!this.extras.contains(newExtras)) this.extras.add(newExtras); }
+	 * 
+	 * public void removeExtras(Extras oldExtras) { if (oldExtras == null) return;
+	 * if (this.extras != null) if (this.extras.contains(oldExtras))
+	 * this.extras.remove(oldExtras); }
+	 * 
+	 * public void removeAllExtras() { if (extras != null) extras.clear(); }
+	 */
 }
