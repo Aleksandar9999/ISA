@@ -22,6 +22,11 @@ public class EmailService {
 	private Environment env;
 	
 	@Async
+	public void sendCustomEmail(String email,String subject, String text) {
+		this.sendEmail(this.createMail(email, subject, text));
+	}
+	
+	@Async
 	public void sendRegisterConfirmationMail(User user) {
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(user.getEmail());
@@ -48,7 +53,6 @@ public class EmailService {
 		String text=String.format("Dear %s,\nOur admin team confirmed your registration.\nBest regards,\n FishingBooker App Team", user.getName());
 		this.sendEmail(this.createMail(user.getEmail(), subject, text));
 	}
-	
 	private SimpleMailMessage createMail(String email,String subject, String text) {
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(email);
