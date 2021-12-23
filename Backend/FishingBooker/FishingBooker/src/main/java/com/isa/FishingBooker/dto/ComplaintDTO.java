@@ -10,7 +10,6 @@ public class ComplaintDTO {
 	private String type;
 	
 	public ComplaintDTO() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public int getAppelleeServiceId() {

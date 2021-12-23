@@ -27,4 +27,9 @@ public class TutorComplaint extends Complaint{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public String getType() {
+		return "tutor";
+	}
 }

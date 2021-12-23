@@ -23,4 +23,9 @@ public class BoatComplaint extends Complaint<Boat>{
 	public int getAppelleServiceId() {
 		return this.boat.getId();
 	}
+
+	@Override
+	public String getType() {
+		return "boat";
+	}
 }

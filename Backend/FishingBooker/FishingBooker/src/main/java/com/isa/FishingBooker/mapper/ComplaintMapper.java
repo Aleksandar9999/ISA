@@ -11,7 +11,7 @@ public class ComplaintMapper<E extends Complaint> extends CustomModelMapperAbstr
 	public ComplaintDTO convertToDto(E entity) {
 		ComplaintDTO dto= super.convertToDto(entity);
 		dto.setAppelleeServiceId(entity.getAppelleServiceId());
-		dto.setType(entity.getClass().toString());
+		dto.setType(entity.getType());
 		return dto;
 	}
 }

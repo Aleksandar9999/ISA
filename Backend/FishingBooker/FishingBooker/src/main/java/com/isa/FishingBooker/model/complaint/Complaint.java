@@ -29,7 +29,7 @@ public abstract class Complaint<T> {
 	public abstract void setAppelleeService(T item);
 	public abstract int getAppelleServiceId();
 	public abstract void setAppelleeServiceId(int id);
-	
+	public abstract String getType();
 	public int getAppelleeId() {return this.appellee.getId();}
 	public String getAppelleeEmail() {return this.appellee.getEmail();}
 	public int getAppellantId() {return this.appellant.getId();}
