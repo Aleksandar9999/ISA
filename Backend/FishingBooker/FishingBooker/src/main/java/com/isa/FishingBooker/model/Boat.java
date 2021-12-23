@@ -13,9 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
 @Entity
 public class Boat {
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String name;
 	private String typeOfBoat;
 	private String length;
@@ -23,8 +24,8 @@ public class Boat {
 	private String enginePower;
 	private int maxSpeed;
 	private String navigationEquipment;
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="address_id")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "address_id")
 	private Address boatAddress;
 	private String description;
 	private int maxPerson;
@@ -32,28 +33,32 @@ public class Boat {
 	private String fishingEquipment;
 	private double cancelPercentage;
 	private int rate;
-	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Photo> photos;
-	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Extras> extrasServices;
-	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<DiscountOffer> disconutOffers;
-	
-	@ManyToOne
-	@JoinColumn(name="boatOwner_id")
-	private BoatOwner boatOwner;
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
-	 
-	 public Boat() {
-		 
-	 }
 
-	 public Boat(String name, String type, String length, String engineId, String enginePower, int maxSpeed,
-			String navigationEquipment, Address boatAddress, String description, int maxPerson,
-			String rules, String fishingEquipment) {
+	@ManyToOne
+	@JoinColumn(name = "boatOwner_id")
+	private BoatOwner boatOwner;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
+	public Boat() {
+
+	}
+
+	public Boat(int id) {
+		this.id=id;
+	}
+
+	public Boat(String name, String type, String length, String engineId, String enginePower, int maxSpeed,
+			String navigationEquipment, Address boatAddress, String description, int maxPerson, String rules,
+			String fishingEquipment) {
 		super();
 		this.name = name;
 		this.typeOfBoat = type;
@@ -69,8 +74,7 @@ public class Boat {
 		this.fishingEquipment = fishingEquipment;
 	}
 
-	
-	 public String getName() {
+	public String getName() {
 		return name;
 	}
 
@@ -173,8 +177,8 @@ public class Boat {
 	public void setCancelPercentage(double cancelPercentage) {
 		this.cancelPercentage = cancelPercentage;
 	}
-	 
-	 public Set<Photo> getPhotos() {
+
+	public Set<Photo> getPhotos() {
 		return photos;
 	}
 
@@ -213,24 +217,24 @@ public class Boat {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
-	 public void addPhoto(Photo photo) {
-	      if (photos == null)
-	         photos = new HashSet<>();
-	      photos.add(photo);
-	   }
 
-	   public void addExtraService(Extras extras) {
-	      if (extrasServices == null)
-	         extrasServices = new HashSet<>();
-	      extrasServices.add(extras);
-	   }
+	public void addPhoto(Photo photo) {
+		if (photos == null)
+			photos = new HashSet<>();
+		photos.add(photo);
+	}
 
-	   public void addDiscountOffer(DiscountOffer offer) {
-	      if (disconutOffers == null)
-	         disconutOffers = new HashSet<>();
-	      disconutOffers.add(offer);
-	   }
+	public void addExtraService(Extras extras) {
+		if (extrasServices == null)
+			extrasServices = new HashSet<>();
+		extrasServices.add(extras);
+	}
+
+	public void addDiscountOffer(DiscountOffer offer) {
+		if (disconutOffers == null)
+			disconutOffers = new HashSet<>();
+		disconutOffers.add(offer);
+	}
 
 	public int getRate() {
 		return rate;
@@ -239,6 +243,5 @@ public class Boat {
 	public void setRate(int rate) {
 		this.rate = rate;
 	}
-	
-	
+
 }
