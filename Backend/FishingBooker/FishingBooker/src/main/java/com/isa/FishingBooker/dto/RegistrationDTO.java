@@ -1,5 +1,7 @@
 package com.isa.FishingBooker.dto;
 
+import org.springframework.stereotype.Component;
+
 import com.isa.FishingBooker.model.Address;
 
 public class RegistrationDTO {

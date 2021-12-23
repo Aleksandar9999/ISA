@@ -1,4 +1,4 @@
-package com.isa.FishingBooker.model;
+package com.isa.FishingBooker.model.revision;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +10,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.isa.FishingBooker.model.Status;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

@@ -7,21 +7,10 @@ import com.isa.FishingBooker.model.User;
 
 @Component("registrationMapper")
 public class RegistrationMapper<T extends User> extends CustomModelMapperAbstract<T, RegistrationDTO>{
-	
 	@Override
 	public T convertToEntity(RegistrationDTO dto, Class<? extends T> retClass) {
 		T entity = modelMapper.map(dto, retClass);
 		entity.setRolesNames();
 		return entity;
-	}
-
-	@Override
-	public RegistrationDTO convertToDto(T entity) {
-		return modelMapper.map(entity, RegistrationDTO.class);
-	}
-
-	@Override
-	public T convertToEntity(RegistrationDTO dto) {
-		return this.convertToEntity(dto, (Class<T>) User.class);
 	}
 }

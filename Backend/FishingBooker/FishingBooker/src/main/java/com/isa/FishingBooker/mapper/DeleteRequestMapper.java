@@ -15,10 +15,4 @@ public class DeleteRequestMapper extends CustomModelMapperAbstract<DeleteRequest
 		req.setUserId(entity.getId());
 		return req;
 	}
-
-	@Override
-	public DeleteRequest convertToEntity(DeleteRequestDTO dto) {
-		DeleteRequest req=modelMapper.map(dto, DeleteRequest.class);
-		return req;
-	}
 }
