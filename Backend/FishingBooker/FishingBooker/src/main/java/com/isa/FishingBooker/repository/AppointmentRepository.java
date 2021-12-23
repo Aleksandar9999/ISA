@@ -18,10 +18,10 @@ import com.isa.FishingBooker.model.TutorServiceAppointment;
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment ,Integer> {
 	
-	@Query(value="select start, duration, max_person, additional_services, price, address_id, resort_id, user_id from appoinment a where a.dtype=ResortAppointment", nativeQuery=true)
+	@Query("select a from Appointment a where TYPE(a)=ResortAppointment")
 	public List<ResortAppointment> getAllResortAppoints();
 	
-	@Query(value="select start, duration, max_person, additional_services, price, address_id, boat_id, user_id from appoinment a where a.dtype=BoatAppointment", nativeQuery=true)
+	@Query("select a from Appointment a where TYPE(a)=BoatAppointment")
 	public List<BoatAppointment> getAllBoatAppoints();
 	
 	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment")

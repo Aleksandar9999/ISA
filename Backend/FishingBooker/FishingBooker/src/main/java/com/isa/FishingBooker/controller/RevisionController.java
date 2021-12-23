@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,4 +43,20 @@ public class RevisionController {
 		revisionService.update(revision);
 		return ResponseEntity.ok(revision);
 	}
+	
+	@GetMapping("api/revision/boatAppointmentRate/{id}")
+	public ResponseEntity<?> getRevisionsForBoatAppointment(@PathVariable("id") Integer id){
+		return ResponseEntity.ok(revisionService.getBoatAppointmentRevisionsRate(id));
+	}
+	
+	@GetMapping("api/revision/resortAppointmentRate/{id}")
+	public ResponseEntity<?> getRevisionsForResortAppointment(@PathVariable("id") Integer id){
+		return ResponseEntity.ok(revisionService.getResortAppointmentRevisionsRate(id));
+	}
+	
+	@GetMapping("api/revision/tutorServiceAppointmentRate/{id}")
+	public ResponseEntity<?> getRevisionsForTutorServiceAppointment(@PathVariable("id") Integer id){
+		return ResponseEntity.ok(revisionService.getTutorServiceAppointmentRevisionsRate(id));
+	}
+	
 }

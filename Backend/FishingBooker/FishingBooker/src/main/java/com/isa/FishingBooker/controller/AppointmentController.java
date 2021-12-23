@@ -68,11 +68,14 @@ public class AppointmentController {
 		return ResponseEntity
 				.ok(tutorServiceModelMapper.convertToDtos(service.getAllTutorServiceAppointmentsByTutor(idtutor)));
 	}
-
 	
 	@GetMapping("/getPendingAppointments")
 	public ResponseEntity<List<Appointment>>  getPendingAppointments(@RequestBody String email){
 		return ResponseEntity.ok((List<Appointment>)service.getPendingApointments(email));
 	}
 
+	@PostMapping("/makeBoatReservation")
+	public ResponseEntity<?> makeReservation(@RequestBody BoatAppointment appointment){
+		return ResponseEntity.ok(service.makeBoatReservation(appointment));
+	}
 }

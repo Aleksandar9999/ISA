@@ -79,4 +79,23 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		
 	}
 
+	@Override
+	public String makeBoatReservation(BoatAppointment appointment) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String makeResorttReservation(ResortAppointment appointment) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String makeTutorServiceReservation(TutorServiceAppointment appointment) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }

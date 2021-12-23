@@ -1,12 +1,13 @@
 <template>
-    <div class="searchBox">        
+    <div class="radios">     
         <input type="radio" name="entityType" id="" value="resort">
-        <label for="">Resort</label> <br/>
+        <label for="">Resort</label> 
         <input type="radio" name="entityType" id="" value="boat">
-        <label for="">Boat</label> <br/>
+        <label for="">Boat</label> 
         <input type="radio" name="entityType" id="" value="adventure">
-        <label for="">Adventure</label> <br/>
-        
+        <label for="">Adventure</label>
+    </div> 
+    <div class="searchBox"> 
         <label for="">Date and time: </label>
         <input type="datetime" name="" id="dateID" v-model="dateAndTime">
 
@@ -26,6 +27,10 @@
             <option @click="sort('priceDesc')" value="priceDesc">Sort by price descending</option>
         </select>
     </div>
+    <div v-if="showAdditionalInfo">
+      <input type="checkbox" name="" id=""> <p></p> <br>
+      <button @click="makeReservation(item.id)">Make Reservation</button>
+    </div>
     <div class="grid-container" id="tabela" v-if="showSrc"> 
         <div>
         <table class="r-table" cellspacing="0" cellpadding="0" border="0">
@@ -37,7 +42,7 @@
             </tr>  
             </thead>
             <tbody class="tbl-content" v-for="item in entitiesData" :key="item">
-              <tr><td>{{item.name}}</td><td>{{item.start}}</td><td>{{item.address}}</td><td>{{item.price}}</td><td>{{item.rate}}</td><td><router-link :to="{name:profileName, params: {id:item.id}}">Reserve</router-link></td></tr>
+              <tr><td>{{item.start}}</td><td>{{item.address.city}} {{item.address.country}}</td><td>{{item.maxPerson}}</td><td>{{item.price}}</td><td>{{item.rate}}</td><td><button @click="showAditionalInf()">Reserve</button></td></tr>
             </tbody>
 
         </table>
@@ -59,13 +64,28 @@ export default {
             numDays: 0,
             numPersons: 0,
             showSrc:false,
-            tableHeader:['Name','Date and time','Address','Price','Rate', 'Make Reservation']
+            showAdditionalInfo:false,
+            tableHeader:['Date and time','Address','Max persons','Price','Rate', 'Make Reservation']
         }
     },
     methods: {
-        setRates(list){
+        setRatesResort(list){
           for(let i=0; i<list.length; i++){
-              axios.get('http://localhost:8080/'+list[i].id).then(response =>
+              axios.get('http://localhost:8080/api/revision/resortAppointmentRate/'+list[i].id).then(response =>
+            list[i].rate=response.data
+          );
+          }          
+        },
+        setRatesBoat(list){
+          for(let i=0; i<list.length; i++){
+              axios.get('http://localhost:8080/api/revision/boatAppointmentRate/'+list[i].id).then(response =>
+            list[i].rate=response.data
+          );
+          }          
+        },
+        setRatesAdventures(list){
+          for(let i=0; i<list.length; i++){
+              axios.get('http://localhost:8080/api/revision/tutorServiceAppointmentRate/'+list[i].id).then(response =>
             list[i].rate=response.data
           );
           }          
@@ -74,7 +94,7 @@ export default {
             let entityType = document.getElementsByName('entityType')
             if(entityType==='resort'){
                 this.entitiesData=this.resorts;
-                this.setRates(this.entitiesData)
+                this.setRatesResort(this.entitiesData)
                 for(let i = 0; i<this.entitiesData.length; i++){
                   if(!this.entitiesData[i].start>=this.dateAndTime && !this.entitiesData[i].start+this.entitiesData[i].duration*24*60<=this.dateAndTime){
                     this.entitiesData.splice(i,1);
@@ -83,7 +103,7 @@ export default {
                 }
             } else if(entityType==='boat') {
                 this.entitiesData=this.boats; 
-                this.setRates(this.entitiesData)
+                this.setRatesBoat(this.entitiesData)
                 for(let i = 0; i<this.entitiesData.length; i++){
                   if(!this.entitiesData[i].start>=this.dateAndTime && !this.entitiesData[i].start+this.entitiesData[i].duration*24*60<=this.dateAndTime){
                     this.entitiesData.splice(i,1);
@@ -92,7 +112,7 @@ export default {
                 }    
             } else {
                 this.entitiesData=this.adventures
-                this.setRates(this.entitiesData)
+                this.setRatesAdventures(this.entitiesData)
                 for(let i = 0; i<this.entitiesData.length; i++){
                   if(!this.entitiesData[i].start>=this.dateAndTime && !this.entitiesData[i].start+this.entitiesData[i].duration*24*60<=this.dateAndTime){
                     this.entitiesData.splice(i,1);
@@ -116,16 +136,24 @@ export default {
             if(sortType==='priceDesc'){
                 this.showSrc=false
             } 
+        },
+        showAditionalInf(){
+          this.showAdditionalInfo=true
+        },
+        makeReservation(id){
+          if (confirm("Do you want to reserve this appointment?")) {
+            axios.post('http://localhost:8080/', {id}).then((response) => console.log(response.data));
+        }
         }
     },
     mounted() {
-      axios.get('http://localhost:8080/boats').then(response =>
-            this.boats=response.data
+      axios.get('http://localhost:8080/boatAppointments').then(response =>
+          this.boats=response.data
           );
-      axios.get('http://localhost:8080/resorts').then(response =>
+      axios.get('http://localhost:8080/resortAppointments').then(response =>
           this.resorts=response.data
           );
-      axios.get('http://localhost:8080/api/users/tutors/services').then(response =>
+      axios.get('http://localhost:8080/api/tutor-service/appointments').then(response =>
           this.adventures=response.data
           )
     }
@@ -133,6 +161,22 @@ export default {
 </script>
 
 <style scoped>
+
+.radios{
+  display: flex;
+    justify-content: center;
+    margin: 5px;
+    padding: 1%;
+    border: solid 4px rgb(5, 100, 76);
+    border-radius: 25px;
+    background-color: green;
+}
+
+.radios input{
+  margin-left: 25px;
+  margin-right: 5px;
+}
+
 .r-table {
     width: 60%;
     margin-left: 20%;
@@ -200,6 +244,8 @@ export default {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 16px;
     border-radius: 7px;
+    margin-left: 5px;
+    margin-right: 25px;
   }
 
   .searchBox button {

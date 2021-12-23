@@ -15,4 +15,7 @@ public interface AppointmentService extends Service<Appointment> {
 	public void addNewTutorServiceAppointment(TutorServiceAppointment app);
 	public List<Appointment>getPendingApointments(String email);
 	public void deleteResortAppointments(int resortId);
+	public String makeBoatReservation(BoatAppointment appointment);
+	public String makeResorttReservation(ResortAppointment appointment);
+	public String makeTutorServiceReservation(TutorServiceAppointment appointment);
 }
