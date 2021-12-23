@@ -1,18 +1,26 @@
 package com.isa.FishingBooker.model.complaint;
 
-import com.isa.FishingBooker.model.Boat;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
-public class BoatComplaint extends Complaint{
-	
+import com.isa.FishingBooker.model.Boat;
+@Entity
+public class BoatComplaint extends Complaint<Boat>{
+	@OneToOne
 	private Boat boat;
 
 	@Override
-	public void setAppelleeId(int id) {
+	public void setAppelleeService(Boat item) {
+		this.boat=boat;
+	}
+
+	@Override
+	public void setAppelleeServiceId(int id) {
 		this.boat=new Boat(id);
 	}
 
 	@Override
-	public String getAppelleEmail() {
-		return this.boat.getBoatOwner().getEmail();
+	public int getAppelleServiceId() {
+		return this.boat.getId();
 	}
 }

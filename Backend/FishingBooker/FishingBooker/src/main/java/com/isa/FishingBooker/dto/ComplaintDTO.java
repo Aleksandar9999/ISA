@@ -4,11 +4,21 @@ public class ComplaintDTO {
 	private int id;
 	private int appellantId;
 	private int appelleeId;
+	private int appelleeServiceId;
 	private String complaintText;
 	private String adminResponse;
 	private String type;
+	
 	public ComplaintDTO() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public int getAppelleeServiceId() {
+		return appelleeServiceId;
+	}
+
+	public void setAppelleeServiceId(int appelleeServiceId) {
+		this.appelleeServiceId = appelleeServiceId;
 	}
 	
 	public int getAppellantId() {
