@@ -3,7 +3,7 @@ package com.isa.FishingBooker.mapper;
 import org.springframework.stereotype.Component;
 
 import com.isa.FishingBooker.dto.RevisionDTO;
-import com.isa.FishingBooker.model.Revision;
+import com.isa.FishingBooker.model.revision.Revision;
 @Component
 public class RevisionMapper<E extends Revision> extends CustomModelMapperAbstract<E, RevisionDTO> {
 
@@ -20,10 +20,5 @@ public class RevisionMapper<E extends Revision> extends CustomModelMapperAbstrac
 		dto.setRelatedId(entity.getRelatedId());
 		dto.setClassName(entity.getClass().toString());
 		return dto;
-	}
-
-	@Override
-	public E convertToEntity(RevisionDTO dto) {
-		return this.convertToEntity(dto, (Class<? extends E>) Revision.class);
 	}
 }
