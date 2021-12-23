@@ -18,6 +18,7 @@ import ResortAppointmentHistory from '../components/ClientMenuLists/ResortAppoin
 import TutorAppointmentHistory from '../components/ClientMenuLists/TutorAppointmentHistory.vue'
 import FrontPage from '../components/FrontPage.vue'
 import Confirmation from '../components/Confirm.vue'
+import ReservationPage from '../components/ReservationClientPage.vue'
 
 import UsersList from '../components/AdminPanel/Users/UsersList.vue'
 import SystemSettings from '../components/AdminPanel/SystemSettings.vue'
@@ -131,6 +132,12 @@ const routes = [
     path:'/confirmation',
     name:'Confirmation',
     component:Confirmation,
+    props:true
+  },
+  {
+    path: '/reservation',
+    name:'ReservationPage',
+    component: ReservationPage,
     props:true
   }
 ]
