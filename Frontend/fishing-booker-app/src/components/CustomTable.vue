@@ -46,6 +46,7 @@ export default {
     dataList:{
       immediate:true,
       handler(itemFromProps) {
+        console.log(itemFromProps)
         if (itemFromProps) {
           this.data_local = {
             ...itemFromProps,
