@@ -27,11 +27,22 @@
             <option @click="sort('priceDesc')" value="priceDesc">Sort by price descending</option>
         </select>
     </div>
+
     <div v-if="showAdditionalInfo">
-      <input type="checkbox" name="" id=""> <p></p> <br>
-      <button @click="makeReservation(item.id)">Make Reservation</button>
+      <table class="r-table" cellspacing="0" cellpadding="0" border="0">
+        <thead>
+              <tr >
+              <th>Name: </th>  <th>Check:</th>
+            </tr>  
+            </thead>
+            <tbody class="tbl-content" v-for="item in additionalServices" :key="item">
+              <tr><td >{{item.name}}</td><td><input type="checkbox" name="" id="" @click="addExtra(item)"></td></tr>
+            </tbody>
+      </table>
+      <button @click="makeReservation()">Make Reservation</button>
     </div>
-    <div class="grid-container" id="tabela" v-if="showSrc"> 
+
+    <div class="grid-container" id="tabela" v-if="showSrc && entityType==='boat'"> 
         <div>
         <table class="r-table" cellspacing="0" cellpadding="0" border="0">
             <thead>
@@ -42,10 +53,43 @@
             </tr>  
             </thead>
             <tbody class="tbl-content" v-for="item in entitiesData" :key="item">
-              <tr><td v-if="entityType='boat'">{{item.boat.name}}</td><td v-if="entityType='resort'">{{item.resort.name}}</td><td v-if="entityType='adventure'">{{item.tutorService.name}}</td>
-              <td>{{item.start}}</td><td>{{item.address.city}} {{item.address.country}}</td><td>{{item.maxPerson}}</td><td>{{item.price}}</td><td>{{item.rate}}</td><td><button @click="showAditionalInf()">Reserve</button></td></tr>
+              <tr><td>{{item.boat.name}}</td>
+              <td>{{item.start}}</td><td>{{item.address.city}} {{item.address.country}}</td><td>{{item.maxPerson}}</td><td>{{item.price}}</td><td>{{item.rate}}</td><td><button @click="showAditionalInfB(item)">Reserve</button></td></tr>
             </tbody>
-
+        </table>
+        </div>
+    </div>
+    <div class="grid-container" id="tabela" v-if="showSrc && entityType==='resort'"> 
+        <div>
+        <table class="r-table" cellspacing="0" cellpadding="0" border="0">
+            <thead>
+              <tr >
+              <th v-for="header in tableHeader" :key="header">
+                  {{header}}                
+              </th>
+            </tr>  
+            </thead>
+            <tbody class="tbl-content" v-for="item in entitiesData" :key="item">
+              <tr><td>{{item.resort.name}}</td>
+              <td>{{item.start}}</td><td>{{item.address.city}} {{item.address.country}}</td><td>{{item.maxPerson}}</td><td>{{item.price}}</td><td>{{item.rate}}</td><td><button @click="showAditionalInfR(item)">Reserve</button></td></tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+    <div class="grid-container" id="tabela" v-if="showSrc && entityType==='adventure'"> 
+        <div>
+        <table class="r-table" cellspacing="0" cellpadding="0" border="0">
+            <thead>
+              <tr >
+              <th v-for="header in tableHeader" :key="header">
+                  {{header}}                
+              </th>
+            </tr>  
+            </thead>
+            <tbody class="tbl-content" v-for="item in entitiesData" :key="item">
+              <tr><td >{{item.tutorService.name}}</td>
+              <td>{{item.start}}</td><td>{{item.address.city}} {{item.address.country}}</td><td>{{item.maxPerson}}</td><td>{{item.price}}</td><td>{{item.rate}}</td><td><button @click="showAditionalInfA(item)">Reserve</button></td></tr>
+            </tbody>
         </table>
         </div>
     </div>
@@ -67,7 +111,10 @@ export default {
             numPersons: 0,
             showSrc:false,
             showAdditionalInfo:false,
-            tableHeader:['Name','Date and time','Address','Max persons','Price','Rate', 'Make Reservation']
+            tableHeader:['Name','Date and time','Address','Max persons','Price','Rate', 'Make Reservation'],
+            appointment:{},
+            additionalServices:[],
+            extras:[]
         }
     },
     methods: {
@@ -135,11 +182,13 @@ export default {
                 }
             }
         },
+
         formatDate(javaDate){
           let splitDate=javaDate.split("T")[0]
           let date= Date.parse(splitDate)
           return date
         },
+
         searchDays(){
           for(let i = 0; i<this.entitiesData.length; i++){
             if(this.entitiesData[i].duration>this.numDays){
@@ -148,6 +197,7 @@ export default {
             }
           }
         },
+
         searchGuests(){
             for(let i = 0; i<this.entitiesData.length; i++){
             if(this.entitiesData[i].maxPerson>this.numPersons){
@@ -156,6 +206,7 @@ export default {
             }
           }
         },
+
         sort(sortType){
             if(sortType==='rateAsc'){
                 this.entitiesData.sort((a,b)=> (a.rate>b.rate) ? 1 :(b.rate>a.rate) ? -1 :0);
@@ -170,15 +221,46 @@ export default {
                 this.entitiesData.sort((a,b)=> (a.price<b.price) ? 1 :(b.price<a.price) ? -1 :0);
             } 
         },
-        showAditionalInf(){
+
+        showAditionalInfB(item){
           this.showAdditionalInfo=true
+          this.additionalServices=item.boat.extrasServices
+          this.appointment=item
         },
-        makeReservation(id){
+        showAditionalInfR(item){
+          this.showAdditionalInfo=true
+          this.additionalServices=item.resort.extrasServices
+          this.appointment=item
+        },
+        showAditionalInfA(item){
+          this.showAdditionalInfo=true
+          this.additionalServices=item.tutorService.extrasServices
+          this.appointment=item
+        },
+
+        addExtra(item){
+          this.extras.append(item);
+        },
+
+        makeReservation(){
           if (confirm("Do you want to reserve this appointment?")) {
-            axios.post('http://localhost:8080/', {id}).then((response) => console.log(response.data));
+            if(this.entityType==='boat'){
+              this.appointment.extras=this.extras;
+              axios.post('http://localhost:8080/makeBoatReservation', this.appointment).then((response) => console.log(response.data));
+            } else 
+            if(this.entityType==='resort'){
+              this.appointment.extras=this.extras;
+              axios.post('http://localhost:8080/makeResortReservation', this.appointment).then((response) => console.log(response.data));
+            } else
+            {
+              this.appointment.extras=this.extras;
+              axios.post('http://localhost:8080/makeTutorServiceReservation', this.appointment).then((response) => console.log(response.data));
+            }
+            
         }
         this.showSrc=false
         },
+
         loadEntities(){
           axios.get('http://localhost:8080/boatAppointments').then(response =>
           this.boats=response.data
@@ -217,8 +299,8 @@ export default {
 
 .r-table {
     width: 80%;
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: 10%;
+    margin-right: 10%;
     margin-top: 20px;
     background-color: white;
     margin-bottom: 150px;

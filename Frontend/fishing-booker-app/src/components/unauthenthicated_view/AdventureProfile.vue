@@ -14,6 +14,7 @@
 
     </div>
     <div>
+        <button v-if="loggedIn" class="buttons" @click="subscripe()">Subscripe</button>
         <button class="buttons" @click="back()">Back</button>
         <button class="buttons" @click="showMapEvent()">See address on map</button>
     </div>
@@ -43,6 +44,12 @@ export default {
             layer:{},
             adventure:{},
             address: '',
+            get loggedIn(){
+                return localStorage.getItem('logedIn')
+            },
+            set loggedIn(val){
+                this.loggedIn=val;
+            } 
         }
     },
     methods:{
@@ -93,6 +100,9 @@ export default {
         },
         back(){
             this.$router.push('/')
+        },
+        subscripe(){
+            axios.post('http://localhost:8080/subscripeTutorService',this.adventure).then(response=>alert(response.data))
         }  
     },
     mounted(){ 
