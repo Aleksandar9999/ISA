@@ -22,7 +22,7 @@ public class RevisionServiceImpl extends CustomServiceAbstract<Revision> impleme
 	}
 
 	@Override
-	public double getBoatAppointmentRevisionsRate(Integer id) {
+	public int getBoatAppointmentRevisionsRate(Integer id) {
 		// TODO Auto-generated method stub
 		List<BoatAppointmentRevision> revisions = ((RevisionRepository) repository).getBoatAppointmentRevisionById(id);
 		double result = 0;
@@ -30,11 +30,11 @@ public class RevisionServiceImpl extends CustomServiceAbstract<Revision> impleme
 			result+=r.getRate();
 		}
 		result = result/revisions.size();
-		return result;
+		return (int) result;
 	}
 
 	@Override
-	public double getResortAppointmentRevisionsRate(Integer id) {
+	public int getResortAppointmentRevisionsRate(Integer id) {
 		// TODO Auto-generated method stub
 		List<ResortAppointmentRevision> revisions = ((RevisionRepository) repository).getResortAppointmentRevisionById(id);
 		double result = 0;
@@ -42,11 +42,11 @@ public class RevisionServiceImpl extends CustomServiceAbstract<Revision> impleme
 			result+=r.getRate();
 		}
 		result = result/revisions.size();
-		return result;
+		return (int) result;
 	}
 
 	@Override
-	public double getTutorServiceAppointmentRevisionsRate(Integer id) {
+	public int getTutorServiceAppointmentRevisionsRate(Integer id) {
 		// TODO Auto-generated method stub
 		List<TutorServiceAppointmentRevision> revisions = ((RevisionRepository) repository).getTutorServiceAppointmentRevisionById(id);
 		double result = 0;
@@ -54,7 +54,7 @@ public class RevisionServiceImpl extends CustomServiceAbstract<Revision> impleme
 			result+=r.getRate();
 		}
 		result = result/revisions.size();
-		return result;
+		return (int) result;
 	}	
 	
 }

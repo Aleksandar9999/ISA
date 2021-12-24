@@ -70,12 +70,27 @@ public class AppointmentController {
 	}
 	
 	@GetMapping("/getPendingAppointments")
-	public ResponseEntity<List<Appointment>>  getPendingAppointments(@RequestBody String email){
-		return ResponseEntity.ok((List<Appointment>)service.getPendingApointments(email));
+	public ResponseEntity<List<Appointment>>  getPendingAppointments(){
+		return ResponseEntity.ok((List<Appointment>)service.getPendingApointments());
 	}
 
 	@PostMapping("/makeBoatReservation")
-	public ResponseEntity<?> makeReservation(@RequestBody BoatAppointment appointment){
+	public ResponseEntity<?> makeBoatReservation(@RequestBody BoatAppointment appointment){
 		return ResponseEntity.ok(service.makeBoatReservation(appointment));
+	}
+	
+	@PostMapping("/makeResortReservation")
+	public ResponseEntity<?> makeResortReservation(@RequestBody ResortAppointment appointment){
+		return ResponseEntity.ok(service.makeResortReservation(appointment));
+	}
+	
+	@PostMapping("/makeTutorServiceReservation")
+	public ResponseEntity<?> makeTutorServiceReservation(@RequestBody TutorServiceAppointment appointment){
+		return ResponseEntity.ok(service.makeTutorServiceReservation(appointment));
+	}
+	
+	@PostMapping("cancelReservation")
+	public ResponseEntity<?> cancelReservation(@RequestBody Integer id){
+		return ResponseEntity.ok(service.cancelReservation(id));
 	}
 }

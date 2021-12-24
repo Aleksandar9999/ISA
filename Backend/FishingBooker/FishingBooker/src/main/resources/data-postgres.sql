@@ -38,10 +38,10 @@ insert into service_price (number_of_days, price) values (1,1500);
 insert into service_price (number_of_days, price) values (5,5000);
 insert into service_price (number_of_days, price) values (10,15000);
 
-insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status, extras_services) values ('One-day fishing','One day tour accross lake with fishing on most active fishing localities.', 9, 'No smoking. No alcohol.', 'Clients equipment required', 0, 4, 4, 5,'CONFIRMED','Dodatne usluge neke test');
-insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status, extras_services) values ('Three-day fishing','Three day tour accross lake with camping and fishing on most active fishing localities.', 5, 'No smoking. No alcohol.', 'Clients equipment for camping and fishing required', 0, 4, 4, 4,'CONFIRMED', 'Dodatne usluge neke test');
-insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status, extras_services) values ('Danube fishing','One day tour accross Danube with fishing on most active fishing spots.', 7, 'No smoking. No alcohol.', 'Clients equipment required', 0, 6, 6, 5,'CONFIRMED','Dodatne usluge neke test');
-insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status, extras_services) values ('Danube camping','Three day tour accross Novi Sad Danube coast with camping and fishing on most active fishing spots.', 3, 'No smoking. No alcohol.', 'Clients equipment for camping and fishing required', 0, 6, 6, 4,'CONFIRMED', 'Dodatne usluge neke test');
+insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status) values ('One-day fishing','One day tour accross lake with fishing on most active fishing localities.', 9, 'No smoking. No alcohol.', 'Clients equipment required', 0, 4, 4, 5,'CONFIRMED');
+insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status) values ('Three-day fishing','Three day tour accross lake with camping and fishing on most active fishing localities.', 5, 'No smoking. No alcohol.', 'Clients equipment for camping and fishing required', 0, 4, 4, 4,'CONFIRMED');
+insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status) values ('Danube fishing','One day tour accross Danube with fishing on most active fishing spots.', 7, 'No smoking. No alcohol.', 'Clients equipment required', 0, 6, 6, 5,'CONFIRMED');
+insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status) values ('Danube camping','Three day tour accross Novi Sad Danube coast with camping and fishing on most active fishing spots.', 3, 'No smoking. No alcohol.', 'Clients equipment for camping and fishing required', 0, 6, 6, 4,'CONFIRMED');
 
 insert into tutor_service_prices (tutor_service_tutor_service_id, prices_service_price_id) values (1,1);
 insert into tutor_service_prices (tutor_service_tutor_service_id, prices_service_price_id) values (1,2);
@@ -63,10 +63,10 @@ insert into period (start_date, end_date) values('Mon Dec 13 10:00:00 GMT 2021',
 insert into period (start_date, end_date) values('Mon Dec 20 10:00:00 GMT 2021','Sat Dec 25 15:00:00 GMT 2021');
 insert into period (start_date, end_date) values('Mon Dec 27 10:00:00 GMT 2021','Sat Jan 01 15:00:00 GMT 2021');
 
-insert into appointment (dtype, start, duration, max_person, additional_services, price, address_id, user_id, resort_id) values ('ResortAppointment', 'Sat Jan 22 18:00:00 GMT 2022',3.0, 7, 'No additional services.', 500.00, 4, 1, 1);
-insert into appointment (dtype, start, duration, max_person, additional_services, price, address_id, user_id, tutor_service_id) values ('TutorServiceAppointment', 'Sat Jan 29 18:00:00 GMT 2022',3.0, 7, 'No additional services.', 900.00, 4, 1, 1);
-insert into appointment (dtype, start, duration, max_person, additional_services, price, address_id, user_id, boat_id) values ('BoatAppointment', 'Sat Jan 22 14:00:00 GMT 2022',3.0, 5, 'No additional services.', 1500.00, 4, 1, 1);
-insert into appointment (dtype, start, duration, max_person, additional_services, price, address_id, user_id, boat_id) values ('BoatAppointment', 'Sat Jan 29 11:00:00 GMT 2022',3.0, 8, 'No additional services.', 1200.00, 5, 1, 2);
+insert into appointment (dtype, start, duration, max_person, additional_services, price, address_id, resort_id) values ('ResortAppointment', 'Sat Jan 22 18:00:00 GMT 2022',3.0, 7, 'No additional services.', 500.00, 4, 1);
+insert into appointment (dtype, start, duration, max_person, additional_services, price, address_id, tutor_service_id) values ('TutorServiceAppointment', 'Sat Jan 29 18:00:00 GMT 2022',3.0, 7, 'No additional services.', 900.00, 4, 1);
+insert into appointment (dtype, start, duration, max_person, additional_services, price, address_id, boat_id) values ('BoatAppointment', 'Sat Jan 22 14:00:00 GMT 2022',3.0, 5, 'No additional services.', 1500.00, 4, 1);
+insert into appointment (dtype, start, duration, max_person, additional_services, price, address_id, boat_id) values ('BoatAppointment', 'Sat Jan 29 11:00:00 GMT 2022',3.0, 8, 'No additional services.', 1200.00, 5, 2);
 
 insert into discount_offer (additional_services, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None',7, 'Amajic, Zapadna Srbija', 1400.0, 2, 1, 5);
 insert into discount_offer (additional_services, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None',7, 'Vrhpolje, Zapadna Srbija', 1200.0, 1, 2, 6);

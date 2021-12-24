@@ -1,15 +1,15 @@
 <template>
     <div class="radios">     
-        <input type="radio" name="entityType" id="" value="resort">
+        <input type="radio" name="entityType" id="resortRadio" value="resort" v-model="entityType">
         <label for="">Resort</label> 
-        <input type="radio" name="entityType" id="" value="boat">
+        <input type="radio" name="entityType" id="boatRadio" value="boat" v-model="entityType">
         <label for="">Boat</label> 
-        <input type="radio" name="entityType" id="" value="adventure">
+        <input type="radio" name="entityType" id="adventureRadio" value="adventure" v-model="entityType">
         <label for="">Adventure</label>
     </div> 
     <div class="searchBox"> 
         <label for="">Date and time: </label>
-        <input type="datetime" name="" id="dateID" v-model="dateAndTime">
+        <input type="text" name="" id="dateID" placeholder="YYYY-MM-DD" v-model="dateAndTime">
 
         <label for="">Days to stay: </label>
         <input type="text" name="" id="numdays" v-model="numDays">
@@ -42,7 +42,8 @@
             </tr>  
             </thead>
             <tbody class="tbl-content" v-for="item in entitiesData" :key="item">
-              <tr><td>{{item.start}}</td><td>{{item.address.city}} {{item.address.country}}</td><td>{{item.maxPerson}}</td><td>{{item.price}}</td><td>{{item.rate}}</td><td><button @click="showAditionalInf()">Reserve</button></td></tr>
+              <tr><td v-if="entityType='boat'">{{item.boat.name}}</td><td v-if="entityType='resort'">{{item.resort.name}}</td><td v-if="entityType='adventure'">{{item.tutorService.name}}</td>
+              <td>{{item.start}}</td><td>{{item.address.city}} {{item.address.country}}</td><td>{{item.maxPerson}}</td><td>{{item.price}}</td><td>{{item.rate}}</td><td><button @click="showAditionalInf()">Reserve</button></td></tr>
             </tbody>
 
         </table>
@@ -55,17 +56,18 @@ import axios from 'axios'
 export default {
     data() {
         return{
+            entityType:'boat',
             resorts:[],
             boats:[],
             adventures:[],
             entitiesData:[],
             filteredData:[],
-            dateAndTime: Date(),
+            dateAndTime: "2022-01-21",
             numDays: 0,
             numPersons: 0,
             showSrc:false,
             showAdditionalInfo:false,
-            tableHeader:['Date and time','Address','Max persons','Price','Rate', 'Make Reservation']
+            tableHeader:['Name','Date and time','Address','Max persons','Price','Rate', 'Make Reservation']
         }
     },
     methods: {
@@ -91,50 +93,81 @@ export default {
           }          
         },
         search(){
-            let entityType = document.getElementsByName('entityType')
-            if(entityType==='resort'){
-                this.entitiesData=this.resorts;
-                this.setRatesResort(this.entitiesData)
-                for(let i = 0; i<this.entitiesData.length; i++){
-                  if(!this.entitiesData[i].start>=this.dateAndTime && !this.entitiesData[i].start+this.entitiesData[i].duration*24*60<=this.dateAndTime){
+          this.loadEntities()      
+          this.searchDate()
+          this.searchDays()
+          this.searchGuests()
+          this.showSrc=true;
+        },
+
+        searchDate(){   
+            let date=new Date(this.dateAndTime)
+            date=Date.parse(this.dateAndTime);         
+            if(this.entityType==='resort'){  
+              this.entitiesData=this.resorts;
+              this.setRatesResort(this.entitiesData)              
+              for(let i = 0; i<this.entitiesData.length; i++){
+                  var startDate=this.formatDate(this.entitiesData[i].start);
+                  if(startDate<=date){
                     this.entitiesData.splice(i,1);
                     i--
                   } 
                 }
-            } else if(entityType==='boat') {
-                this.entitiesData=this.boats; 
+            } else if(this.entityType==='boat') {
+                this.entitiesData=this.boats;
                 this.setRatesBoat(this.entitiesData)
                 for(let i = 0; i<this.entitiesData.length; i++){
-                  if(!this.entitiesData[i].start>=this.dateAndTime && !this.entitiesData[i].start+this.entitiesData[i].duration*24*60<=this.dateAndTime){
+                  var startDate1=this.formatDate(this.entitiesData[i].start);
+                  if(startDate1<=date){
                     this.entitiesData.splice(i,1);
                     i--
-                  } 
+                  }  
                 }    
             } else {
-                this.entitiesData=this.adventures
+                this.entitiesData=this.adventures;
                 this.setRatesAdventures(this.entitiesData)
                 for(let i = 0; i<this.entitiesData.length; i++){
-                  if(!this.entitiesData[i].start>=this.dateAndTime && !this.entitiesData[i].start+this.entitiesData[i].duration*24*60<=this.dateAndTime){
+                  var startDate2=this.formatDate(this.entitiesData[i].start);
+                  if(startDate2<=date){
                     this.entitiesData.splice(i,1);
                     i--
-                  } 
+                  }  
                 }
             }
-
-            this.showSrc=true;
+        },
+        formatDate(javaDate){
+          let splitDate=javaDate.split("T")[0]
+          let date= Date.parse(splitDate)
+          return date
+        },
+        searchDays(){
+          for(let i = 0; i<this.entitiesData.length; i++){
+            if(this.entitiesData[i].duration>this.numDays){
+              this.entitiesData.splice(i,1);
+                    i--
+            }
+          }
+        },
+        searchGuests(){
+            for(let i = 0; i<this.entitiesData.length; i++){
+            if(this.entitiesData[i].maxPerson>this.numPersons){
+              this.entitiesData.splice(i,1);
+                    i--
+            }
+          }
         },
         sort(sortType){
             if(sortType==='rateAsc'){
-                this.showSrc=false
+                this.entitiesData.sort((a,b)=> (a.rate>b.rate) ? 1 :(b.rate>a.rate) ? -1 :0);
             } else 
             if(sortType==='rateDesc'){
-                this.showSrc=false
+                this.entitiesData.sort((a,b)=> (a.rate<b.rate) ? 1 :(b.rate<a.rate) ? -1 :0);
             } else 
             if(sortType==='priceAsc'){
-                this.showSrc=false
+                this.entitiesData.sort((a,b)=> (a.price>b.price) ? 1 :(b.price>a.price) ? -1 :0);
             } else 
             if(sortType==='priceDesc'){
-                this.showSrc=false
+                this.entitiesData.sort((a,b)=> (a.price<b.price) ? 1 :(b.price<a.price) ? -1 :0);
             } 
         },
         showAditionalInf(){
@@ -144,10 +177,10 @@ export default {
           if (confirm("Do you want to reserve this appointment?")) {
             axios.post('http://localhost:8080/', {id}).then((response) => console.log(response.data));
         }
-        }
-    },
-    mounted() {
-      axios.get('http://localhost:8080/boatAppointments').then(response =>
+        this.showSrc=false
+        },
+        loadEntities(){
+          axios.get('http://localhost:8080/boatAppointments').then(response =>
           this.boats=response.data
           );
       axios.get('http://localhost:8080/resortAppointments').then(response =>
@@ -156,6 +189,11 @@ export default {
       axios.get('http://localhost:8080/api/tutor-service/appointments').then(response =>
           this.adventures=response.data
           )
+        },
+        
+    },
+    mounted() {
+      this.loadEntities();
     }
 }
 </script>
@@ -178,7 +216,7 @@ export default {
 }
 
 .r-table {
-    width: 60%;
+    width: 80%;
     margin-left: 20%;
     margin-right: 20%;
     margin-top: 20px;

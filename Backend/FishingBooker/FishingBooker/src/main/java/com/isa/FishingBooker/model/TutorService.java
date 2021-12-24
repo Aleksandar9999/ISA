@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -47,7 +48,8 @@ public class TutorService {
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	private Status status;
-	private String extrasServices;
+	@ManyToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Extras> extrasServices;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<User> subscribers = new HashSet<>();
@@ -245,8 +247,12 @@ public class TutorService {
 		this.disconutOffers = disconutOffers;
 	}
 
-	public String getExtrasServices() {
+	public Set<Extras> getExtrasServices() {
 		return extrasServices;
+	}
+
+	public void setExtrasServices(Set<Extras> extrasServices) {
+		this.extrasServices = extrasServices;
 	}
 	
 	

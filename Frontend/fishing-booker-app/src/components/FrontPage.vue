@@ -366,7 +366,7 @@ export default {
     mounted(){
       this.changeTab('resort');
       this.getData();    
-      if(!localStorage.initialFlag){
+      if(!localStorage.jwtToken){
         localStorage.logedIn=false;
       }
     }

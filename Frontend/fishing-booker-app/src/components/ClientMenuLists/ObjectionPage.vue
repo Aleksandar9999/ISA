@@ -1,8 +1,11 @@
 <template>
-<div>
+<div v-if="pickEntity">
+
+</div>
+<div v-if="showObjectionField">
     <label for="">Text of my objection:</label><br/>
     <textarea v-model="text" name="" id="objc" cols="100" rows="25"></textarea><br/>
-    <button>Send objection</button>
+    <button @click="sendObjection()">Send objection</button>
 </div>    
 </template>
 
@@ -11,18 +14,28 @@ import axios from 'axios'
 export default {
     data(){
         return {
+            pickEntity:true,
+            showObjectionField:false,
             objection:{},
-            text:''
+            text:'',
+            entityType:'',
+            entityId:-1
         }
     },
     methods:{
+        pickEnt(){
+            this.showObjectionField=true;
+        },
         collectData(){
             this.objection.text=this.text;
-            this.objection.user_id='1';
+            this.objection.entityType=this.entityType;
+            this.objection.entityId=this.entityId;
         },
         sendObjection(){
             this.collectData()
             axios.post('http://localhost:8080/sendObjection',this.objection).then(response=>console.log(response.data))
+            this.showObjectionField=false;
+            this.pickEntity=true;
         }
     }
 }

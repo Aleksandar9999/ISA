@@ -70,7 +70,7 @@ export default {
               .then((resp) => {
                 this.$router.push(`/tutors/${resp.data.id}/services`);
               });
-          } else this.$router.push("/");
+          } else this.$router.push("/profile");
         });
     },
     collectData() {

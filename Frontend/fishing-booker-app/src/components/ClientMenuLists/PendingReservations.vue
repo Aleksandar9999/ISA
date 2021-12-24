@@ -21,7 +21,7 @@
             </tr>  
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.date}}</td><td>{{item.price}}</td><td>{{item.duration}}</td></tr>
+                <tr><td>{{item.start}}</td><td>{{item.address.city}} {{item.address.country}}</td><td>{{item.price}}</td><td>{{item.duration}}</td><td><button @click="cancelReservation(item.id)">Cancel</button></td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -34,7 +34,7 @@ import axios from 'axios'
 export default {
     data(){
         return{
-            headerList:['ID','Date','Price','Duration'],
+            headerList:['Date and Time','Address','Price','Duration', 'Cancel'],
             dataList:[]
         }
     },
@@ -64,11 +64,14 @@ export default {
             if(criteria === 'price'){
                 this.dataList.sort((a,b)=> (a.rate<b.rate) ? 1 :(b.rate<a.rate) ? -1 :0);
             }
+        },
+        cancelReservation(id){
+            axios.post('http://localhost:8080/cancelReservation',id).then(response => alert(response.data))
         }
     },
     mounted(){
         this.dataList=[]
-        axios.get('http://localhost:8080/pendingAppointments').then(response =>
+        axios.get('http://localhost:8080/getPendingAppointments').then(response =>
         this.dataList=response.data)
     }
 }
