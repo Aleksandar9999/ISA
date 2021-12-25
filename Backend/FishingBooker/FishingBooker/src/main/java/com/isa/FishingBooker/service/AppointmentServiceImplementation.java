@@ -212,5 +212,4 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		return "Reservation canceled.";
 	}
 
-
 }

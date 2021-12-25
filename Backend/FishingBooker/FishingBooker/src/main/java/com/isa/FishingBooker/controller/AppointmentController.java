@@ -69,28 +69,34 @@ public class AppointmentController {
 				.ok(tutorServiceModelMapper.convertToDtos(service.getAllTutorServiceAppointmentsByTutor(idtutor)));
 	}
 	
+	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/getPendingAppointments")
 	public ResponseEntity<List<Appointment>>  getPendingAppointments(){
 		return ResponseEntity.ok((List<Appointment>)service.getPendingApointments());
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("/makeBoatReservation")
 	public ResponseEntity<?> makeBoatReservation(@RequestBody BoatAppointment appointment){
 		return ResponseEntity.ok(service.makeBoatReservation(appointment));
 	}
 	
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("/makeResortReservation")
 	public ResponseEntity<?> makeResortReservation(@RequestBody ResortAppointment appointment){
 		return ResponseEntity.ok(service.makeResortReservation(appointment));
 	}
 	
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("/makeTutorServiceReservation")
 	public ResponseEntity<?> makeTutorServiceReservation(@RequestBody TutorServiceAppointment appointment){
 		return ResponseEntity.ok(service.makeTutorServiceReservation(appointment));
 	}
 	
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("cancelReservation")
 	public ResponseEntity<?> cancelReservation(@RequestBody Integer id){
 		return ResponseEntity.ok(service.cancelReservation(id));
 	}
+	
 }
