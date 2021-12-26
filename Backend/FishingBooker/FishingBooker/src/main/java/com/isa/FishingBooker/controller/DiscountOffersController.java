@@ -25,9 +25,30 @@ import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.TutorServiceAppointment;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.service.AppointmentService;
+import com.isa.FishingBooker.service.DiscountOfferService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class DiscountOffersController {
-
+	@Autowired
+	DiscountOfferService service;
+	
+	@PreAuthorize("hasRole('USER')")
+	@GetMapping("/boatDiscounts")
+	public ResponseEntity<?> getAllBoatDiscounts(){
+		return ResponseEntity.ok(service.getAllBoatDiscountOffers());
+	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@GetMapping("/resortDiscounts")
+	public ResponseEntity<?> getAllResortDiscounts(){
+		return ResponseEntity.ok(service.getAllResortDiscountOffers());
+	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@GetMapping("/tutorDiscounts")
+	public ResponseEntity<?> getAllTutorDiscounts(){
+		return ResponseEntity.ok(service.getAllTutorServiceDiscountOffers());
+	}
+	
 }

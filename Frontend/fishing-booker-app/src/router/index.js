@@ -28,6 +28,8 @@ import RevisionsList from "../components/AdminPanel/Revisions/RevisionsList.vue"
 import TutorServicesList from '../components/TutorPanel/TutorServices/TutorServicesList.vue'
 import TutorAvailablePeriods from '../components/TutorPanel/TutorProfile/TutorAvailablePeriods.vue'
 import AppointmentsList from '../components/TutorPanel/TutorServices/Appointments/AppointmentsList.vue'
+import DiscountOffer from '../components/DiscountOffers.vue'
+
 const routes = [
   {
     path: "/about",
@@ -139,6 +141,12 @@ const routes = [
     name:'ReservationPage',
     component: ReservationPage,
     props:true
+  },
+  {
+    path:'/discountOffers',
+    name: 'DiscountOffers',
+    component: DiscountOffer,
+    props: true
   }
 ]
 

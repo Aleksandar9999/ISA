@@ -94,6 +94,13 @@ public class AppointmentController {
 	}
 	
 	@PreAuthorize("hasRole('USER')")
+	@PostMapping("/makeQuickReservation")
+	public ResponseEntity<?> makeQuickBoatReservation(@RequestBody Integer id){
+		return ResponseEntity.ok(service.makeQuickReservation(id));
+	}
+
+	
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("cancelReservation")
 	public ResponseEntity<?> cancelReservation(@RequestBody Integer id){
 		return ResponseEntity.ok(service.cancelReservation(id));

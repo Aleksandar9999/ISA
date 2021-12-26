@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.model.Appointment;
+import com.isa.FishingBooker.model.AppointmentType;
 import com.isa.FishingBooker.model.BoatAppointment;
 import com.isa.FishingBooker.model.ResortAppointment;
 import com.isa.FishingBooker.model.TutorService;
@@ -211,5 +212,39 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		}		
 		return "Reservation canceled.";
 	}
+	
+	public List<BoatAppointment> getAllBoatAppoints() {
+		return ((AppointmentRepository)repository).getAllBoatAppoints();
+	}
+	
+	public List<ResortAppointment> getAllResortAppoints() {
+		return ((AppointmentRepository)repository).getAllResortAppoints();
+	}
+	
+	public List<TutorServiceAppointment> getAllTutorServiceAppoints() {
+		return ((AppointmentRepository)repository).getAllTutorServiceAppointments();
+	}
 
+	@Override
+	public String makeQuickReservation(Integer id) {
+		// TODO Auto-generated method stub
+		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext().getAuthentication();
+		User usr = (User) aut.getPrincipal();
+		Appointment appointment = repository.getById(id);
+		
+		if(appointment.getType()==AppointmentType.BOAT) {
+			BoatAppointment a =(BoatAppointment)repository.getById(id);
+			((AppointmentRepository)repository).save(a);
+		} else
+		if(appointment.getType()==AppointmentType.RESORT) {
+			ResortAppointment a =(ResortAppointment)repository.getById(id);
+			((AppointmentRepository)repository).save(a);
+		} else	
+		{
+			TutorServiceAppointment a =(TutorServiceAppointment)repository.getById(id);
+			((AppointmentRepository)repository).save(a);
+		}		
+		emailService.sendReservationMail(usr);
+		return null;
+	}
 }

@@ -97,7 +97,7 @@ export default {
         }
         }
         if(this.dataList.length>0){
-          date=Date.parse(new Date());  
+          let date=Date.parse(new Date());  
           for(let i =0; i<this.dataList.length; i++){
             var startDate=this.formatDate(this.dataList[i].start);
               if(startDate>=date){
