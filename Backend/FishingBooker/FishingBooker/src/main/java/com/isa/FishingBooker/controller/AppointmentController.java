@@ -106,4 +106,10 @@ public class AppointmentController {
 		return ResponseEntity.ok(service.cancelReservation(id));
 	}
 	
+	@PreAuthorize("hasRole('USER')")
+	@GetMapping("/getAppointmentHistory")
+	public ResponseEntity<?> odlAppointments(){
+		return ResponseEntity.ok(service.getOldAppointments());
+	}
+	
 }

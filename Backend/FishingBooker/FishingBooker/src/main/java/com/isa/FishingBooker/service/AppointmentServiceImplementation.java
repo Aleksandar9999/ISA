@@ -29,6 +29,7 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 	@Autowired
 	private UsersService userService;
 	
+	//non reserved appointments
 	public List<ResortAppointment> getResortApointments(){
 		List<ResortAppointment> list = ((AppointmentRepository)repository).getAllResortAppoints();
 		List<ResortAppointment> returnList = new ArrayList<ResortAppointment>();
@@ -44,7 +45,7 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		}
 		return returnList;
 	}
-	
+	//non reserved appointments
 	public List<BoatAppointment> getBoatApointments(){
 		List<BoatAppointment> list = ((AppointmentRepository)repository).getAllBoatAppoints();
 		List<BoatAppointment> returnList = new ArrayList<BoatAppointment>();
@@ -60,7 +61,7 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		}
 		return returnList;
 	}
-	
+	//non reserved appointments
 	public List<TutorServiceAppointment> getTutorServiceApointments(){
 		List<TutorServiceAppointment> list = ((AppointmentRepository)repository).getAllTutorServiceAppointments();
 		List<TutorServiceAppointment> returnList = new ArrayList<TutorServiceAppointment>();
@@ -246,5 +247,50 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		}		
 		emailService.sendReservationMail(usr);
 		return null;
+	}
+
+	@Override
+	public List<Appointment> getOldAppointments() {
+		// TODO Auto-generated method stub
+		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext().getAuthentication();
+		User usr = (User) aut.getPrincipal();
+		
+		List<BoatAppointment> boatLista = ((AppointmentRepository)repository).getAllBoatAppoints();
+		List<ResortAppointment> resortLista = ((AppointmentRepository)repository).getAllResortAppoints();
+		List<TutorServiceAppointment> tutorServiceLista = ((AppointmentRepository)repository).getAllTutorServiceAppointments();
+		List<Appointment> retLista= new ArrayList<Appointment>();
+		
+		if(boatLista.size()>0) {
+		for(BoatAppointment ap : boatLista) {
+			if(ap.getUser()!=null) {
+			if(ap.getUser().getId()==usr.getId()) {
+				retLista.add(ap);
+			}
+			}
+		}
+		}
+		
+		if(resortLista.size()>0) {
+		for(ResortAppointment ap : resortLista) {
+			if(ap.getUser()!=null) {
+			if(ap.getUser().getId()==usr.getId()) {
+				retLista.add(ap);
+			}
+			}
+		}
+		}
+		
+		if(tutorServiceLista.size()>0) {
+			for(TutorServiceAppointment ap : tutorServiceLista) {
+				if(ap.getUser()!=null) {
+				if(ap.getUser().getId()==usr.getId()) {
+					retLista.add(ap);
+				}
+			}
+			}
+			}
+		
+		
+		return retLista;
 	}
 }

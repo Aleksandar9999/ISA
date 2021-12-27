@@ -1,9 +1,11 @@
 package com.isa.FishingBooker.service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.dto.DiscountOfferDTO;
 import com.isa.FishingBooker.model.Appointment;
@@ -15,6 +17,7 @@ import com.isa.FishingBooker.model.TutorServiceAppointment;
 import com.isa.FishingBooker.repository.AppointmentRepository;
 import com.isa.FishingBooker.repository.DiscountOfferRepository;
 
+@Service
 public class DiscountOfferServiceImplementation implements DiscountOfferService{
 	
 	@Autowired
@@ -57,6 +60,7 @@ public class DiscountOfferServiceImplementation implements DiscountOfferService{
 		// TODO Auto-generated method stub
 		List<DiscountOfferDTO> retList = new ArrayList<DiscountOfferDTO>();
 		for(DiscountOffer d : repository.findAll()) {
+			if(d.getEntityType()==AppointmentType.BOAT) {
 			for(BoatAppointment a : appointmentService.getAllBoatAppoints()) {
 				if(a.getBoat().getId()==d.getBoat().getId()) {
 					DiscountOfferDTO dto = new DiscountOfferDTO();
@@ -65,10 +69,13 @@ public class DiscountOfferServiceImplementation implements DiscountOfferService{
 					dto.setNewPrice(d.getPrice());
 					dto.setPrice(a.getPrice());
 					dto.setStart(a.getStart());
-					double discount = 1 - d.getPrice()/a.getPrice();
-					dto.setDiscount(discount);
+					double discount = (1 - d.getPrice()/a.getPrice()) * 100;
+					DecimalFormat df = new DecimalFormat("#.##");
+					double p = Double.parseDouble(df.format(discount));
+					dto.setDiscount(p);
 					retList.add(dto);
 				}
+			}
 			}
 		}
 		
@@ -80,6 +87,7 @@ public class DiscountOfferServiceImplementation implements DiscountOfferService{
 		// TODO Auto-generated method stub
 		List<DiscountOfferDTO> retList = new ArrayList<DiscountOfferDTO>();
 		for(DiscountOffer d : repository.findAll()) {
+			if(d.getEntityType()==AppointmentType.RESORT) {
 			for(ResortAppointment a : appointmentService.getAllResortAppoints()) {
 				if(a.getResort().getId()==d.getResort().getId()) {
 					DiscountOfferDTO dto = new DiscountOfferDTO();
@@ -88,10 +96,13 @@ public class DiscountOfferServiceImplementation implements DiscountOfferService{
 					dto.setNewPrice(d.getPrice());
 					dto.setPrice(a.getPrice());
 					dto.setStart(a.getStart());
-					double discount = 1 - d.getPrice()/a.getPrice();
-					dto.setDiscount(discount);
+					double discount = (1 - d.getPrice()/a.getPrice())*100;
+					DecimalFormat df = new DecimalFormat("#.##");
+					double p = Double.parseDouble(df.format(discount));
+					dto.setDiscount(p);
 					retList.add(dto);
 				}
+			}
 			}
 		}
 		
@@ -103,6 +114,7 @@ public class DiscountOfferServiceImplementation implements DiscountOfferService{
 		// TODO Auto-generated method stub
 		List<DiscountOfferDTO> retList = new ArrayList<DiscountOfferDTO>();
 		for(DiscountOffer d : repository.findAll()) {
+			if(d.getEntityType()==AppointmentType.TUTORSERVICE) {
 			for(TutorServiceAppointment a : appointmentService.getAllTutorServiceAppoints()) {
 				if(a.getTutorService().getId()==d.getTutorService().getId()) {
 					DiscountOfferDTO dto = new DiscountOfferDTO();
@@ -111,10 +123,13 @@ public class DiscountOfferServiceImplementation implements DiscountOfferService{
 					dto.setNewPrice(d.getPrice());
 					dto.setPrice(a.getPrice());
 					dto.setStart(a.getStart());
-					double discount = 1 - d.getPrice()/a.getPrice();
-					dto.setDiscount(discount);
+					double discount = (1 - d.getPrice()/a.getPrice())*100;
+					DecimalFormat df = new DecimalFormat("#.##");
+					double p = Double.parseDouble(df.format(discount));
+					dto.setDiscount(p);
 					retList.add(dto);
 				}
+			}
 			}
 		}
 		

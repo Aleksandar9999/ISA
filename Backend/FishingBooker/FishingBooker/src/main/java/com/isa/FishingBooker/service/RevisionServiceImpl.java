@@ -55,6 +55,24 @@ public class RevisionServiceImpl extends CustomServiceAbstract<Revision> impleme
 		}
 		result = result/revisions.size();
 		return (int) result;
+	}
+
+	@Override
+	public String makeTutorServiceRevision(TutorServiceAppointmentRevision revision) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String makeBoatRevision(BoatAppointmentRevision revision) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String makeResortRevision(ResortAppointmentRevision revision) {
+		// TODO Auto-generated method stub
+		return null;
 	}	
 	
 }

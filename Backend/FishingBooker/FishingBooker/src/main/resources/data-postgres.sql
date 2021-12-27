@@ -68,10 +68,10 @@ insert into appointment (dtype, start, duration, max_person, additional_services
 insert into appointment (dtype, start, duration, max_person, additional_services, price, appoint_type, address_id, boat_id) values ('BoatAppointment', 'Sat Jan 22 14:00:00 GMT 2022',3.0, 5, 'No additional services.', 1500.00,'BOAT', 4, 1);
 insert into appointment (dtype, start, duration, max_person, additional_services, price, appoint_type, address_id, boat_id, user_id) values ('BoatAppointment', 'Sat Jan 29 11:00:00 GMT 2022',3.0, 8, 'No additional services.', 1200.00, 'BOAT', 5, 2,1);
 
-insert into discount_offer (additional_services, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None',7, 'Amajic, Zapadna Srbija', 1400.0, 2, 1, 5);
-insert into discount_offer (additional_services, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None',7, 'Vrhpolje, Zapadna Srbija', 1200.0, 1, 2, 6);
-insert into discount_offer (additional_services, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None',7, 'Mali Zvornik, Zapadna Srbija', 2500.0, 2, 3, 7);
-insert into discount_offer (additional_services, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None',7, 'Perucac, Zapadna Srbija', 1900.0, 1, 4, 8);
+insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Amajic, Zapadna Srbija', 1000.0, 2, 1, 5);
+insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Vrhpolje, Zapadna Srbija', 1200.0, 1, 2, 6);
+insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Mali Zvornik, Zapadna Srbija', 800.0, 2, 3, 7);
+insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Perucac, Zapadna Srbija', 800.0, 1, 4, 8);
 
 insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','Boat is excelent.',4.00, 4, 3);
 insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','Boat is excelent.',5.00, 4, 3);

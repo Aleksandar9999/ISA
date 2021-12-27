@@ -1,5 +1,9 @@
 <template><div>
-    <div class="searchBox">
+<div v-if="revisionBox">
+<button @click="makeRevision()">Send Revision</button>
+</div>
+
+<div class="searchBox">
   <select name="sort" id="sort">
     <option value="date_asc">Sort by date ascending</option>
     <option value="date">Sort by date descending</option>
@@ -21,7 +25,7 @@
             </tr>  
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.date}}</td><td>{{item.price}}</td><td>{{item.duration}}</td></tr>
+                <tr><td>{{item.id}}</td><td>{{item.start}}</td><td>{{item.price}}</td><td>{{item.duration}}</td><td><button @click="giveRate(item)">Rate</button></td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -35,8 +39,13 @@ import axios from 'axios'
 export default {
     data(){
         return{
-            headerList:['ID','Date','Price','Duration'],
-            dataList:[]
+            headerList:['ID','Date','Price','Duration','Give a rate'],
+            dataList:[],
+            revision:{},
+            revisionBox: false,
+            appointmentForRevision:{},
+            revisionText:'',
+            rate:0
         }
     },
     methods:{
@@ -65,12 +74,42 @@ export default {
             if(criteria === 'price'){
                 this.dataList.sort((a,b)=> (a.rate<b.rate) ? 1 :(b.rate<a.rate) ? -1 :0);
             }
+        },
+        arrangeData(response){
+          this.dataList=[]
+          let brojac =0;
+          for(let i = 0; i<response.length; i++){
+            if(response.appointType==='RESORT'){
+              this.dataList[brojac]=response[i]
+              brojac++
+            }
+          }
+        },
+        giveRate(appointment){
+          this.appointmentForRevision=appointment;
+          this.revisionBox=true;
+        },
+        collectData(){
+          if(this.validate()){
+            this.revision.comment=this.revisionText;
+            this.revision.rate=this.rate;
+            this.revision.resortAppointment=this.appointmentForRevision;
+            this.revision.status='PENDING'
+          }
+          else return;
+        },
+        makeRevision(){
+          this.collectData();
+          axios.post('http://localhost:8080/api/revision/makeResortRevision',this.revision).then(response=>this.foo(response) )
+        },
+        foo(response){
+          console.log(response.data)
+          this.revisionBox=false;
         }
     },
     mounted(){
-        this.dataList=[]
-        axios.get('http://localhost:8080/resortAppointments').then(response =>
-        this.dataList=response.data)
+        axios.get('http://localhost:8080/getAppointmentHistory').then(response =>
+        this.arrangeData(response.data))
     }
 }
 </script>

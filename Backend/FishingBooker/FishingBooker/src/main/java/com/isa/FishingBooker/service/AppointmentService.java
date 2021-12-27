@@ -23,4 +23,5 @@ public interface AppointmentService extends Service<Appointment> {
 	public List<ResortAppointment> getAllResortAppoints();
 	public List<TutorServiceAppointment> getAllTutorServiceAppoints();
 	public String makeQuickReservation(Integer id);
+	public List<Appointment> getOldAppointments();
 }

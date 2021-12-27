@@ -2,6 +2,8 @@ package com.isa.FishingBooker.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,6 +26,8 @@ public class DiscountOffer {
 	private int maxPerson;
 	private String additionalServices;
 	private double price;
+	@Enumerated(EnumType.STRING)
+	private AppointmentType entityType;
 	
 	@ManyToOne
 	@JoinColumn(name="boat_id")
@@ -37,7 +41,7 @@ public class DiscountOffer {
 	@JoinColumn(name="resort_id")
 	private Resort resort;
 	
-	@ManyToMany
+	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
    
@@ -127,6 +131,14 @@ public class DiscountOffer {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public AppointmentType getEntityType() {
+		return entityType;
+	}
+
+	public void setEntityType(AppointmentType entityType) {
+		this.entityType = entityType;
 	}
     
 	

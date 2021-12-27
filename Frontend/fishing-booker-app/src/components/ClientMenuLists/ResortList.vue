@@ -10,7 +10,7 @@
         <option value="rate">Sort by rate descending</option>
       </select>
       <button @click="sort()">Sort</button>
-      <router-link class="r-link" :to="{name:'DiscountOffers', params: {type:'boat'}}">Discount Offers</router-link>
+      <router-link class="r-link" :to="{name:'DiscountOffers', params: {type:'resort'}}">Discount Offers</router-link>
     </div>
     <div class="grid-container" id="tabela">
       <div>
