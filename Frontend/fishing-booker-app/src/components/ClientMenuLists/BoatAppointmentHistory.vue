@@ -42,6 +42,7 @@ export default {
         return{
             headerList:['ID','Date','Price','Duration','Give a rate'],
             dataList:[],
+            originalAppointments:[],
             revision:{},
             revisionBox: false,
             appointmentForRevision:{},
@@ -58,22 +59,22 @@ export default {
                 return;
             }
             if (criteria === 'date_asc'){
-                this.dataList.sort((a,b)=> (a.name>b.name) ? 1 :(b.name>a.name) ? -1 :0);
+                this.dataList.sort((a,b)=> (a.dateSort>b.dateSort) ? 1 :(b.dateSort>a.dateSort) ? -1 :0);
             } else
             if(criteria === 'date'){
-                this.dataList.sort((a,b)=> (a.name<b.name) ? 1 :(b.name<a.name) ? -1 :0);
+                this.dataList.sort((a,b)=> (a.dateSort<b.dateSort) ? 1 :(b.dateSort<a.dateSort) ? -1 :0);
             } else
             if (criteria === 'duration_asc'){
-                this.dataList.sort((a,b)=> (a.boatAddress.city>b.boatAddress.city) ? 1 :(b.boatAddress.city>a.boatAddress.city) ? -1 :0);
+                this.dataList.sort((a,b)=> (a.duration>b.duration) ? 1 :(b.duration>a.duration) ? -1 :0);
             } else
             if(criteria === 'duration'){
-                this.dataList.sort((a,b)=> (a.boatAddress.city<b.boatAddress.city) ? 1 :(b.boatAddress.city<a.boatAddress.city) ? -1 :0);
+                this.dataList.sort((a,b)=> (a.duration<b.duration) ? 1 :(b.duration<a.duration) ? -1 :0);
             }else
             if (criteria === 'price_asc'){
-                this.dataList.sort((a,b)=> (a.rate>b.rate) ? 1 :(b.rate>a.rate) ? -1 :0);
+                this.dataList.sort((a,b)=> (a.price>b.price) ? 1 :(b.price>a.price) ? -1 :0);
             } else
             if(criteria === 'price'){
-                this.dataList.sort((a,b)=> (a.rate<b.rate) ? 1 :(b.rate<a.rate) ? -1 :0);
+                this.dataList.sort((a,b)=> (a.price<b.price) ? 1 :(b.price<a.price) ? -1 :0);
             }
         },
         arrangeData(response){
@@ -82,6 +83,8 @@ export default {
           for(let i = 0; i<response.length; i++){
             if(response[i].type==='BOAT'){
               this.dataList[brojac]=response[i]
+              this.dataList[brojac].dateSort=this.formatDate(response[i].start)
+              this.originalAppointments[brojac]=response[i]
               brojac++
             }
           }
@@ -95,6 +98,12 @@ export default {
           return true;
         },
         giveRate(appointment){
+          for(let i = 0; i<this.originalAppointments.length; i++){
+            if(this.originalAppointments[i].id===appointment.id)
+            {
+              this.appointmentForRevision=this.originalAppointments[i];
+            }
+            }
           this.appointmentForRevision=appointment;
           this.revisionBox=true;
         },
@@ -114,6 +123,11 @@ export default {
         foo(response){
           console.log(response.data)
           this.revisionBox=false;
+        },
+        formatDate(javaDate){
+          let splitDate=javaDate.split("T")[0]
+          let date= Date.parse(splitDate)
+          return date
         }
     },
     mounted(){      
