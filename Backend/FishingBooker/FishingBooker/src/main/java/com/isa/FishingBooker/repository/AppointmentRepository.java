@@ -36,6 +36,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment ,Intege
 	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.user.id=?1")
 	public List<TutorServiceAppointment> getAllTutorServiceAppointmentsByUser(int tutorId);
 	
+	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.tutorService.tutor.id=?1 and date_part('year',a.start) = ?2")
+	public List<TutorServiceAppointment> getAllByTutorAndYear(int tutorId, int year);
+	
 	@Transactional
 	@Modifying
 	@Query(value="DELETE FROM Appointment a WHERE a.resort_id=?1",nativeQuery = true)

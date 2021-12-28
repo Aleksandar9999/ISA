@@ -16,4 +16,6 @@ public interface AppointmentService extends Service<Appointment> {
 	public void addNewTutorServiceAppointment(TutorServiceAppointment app,boolean validateUser);
 	public List<Appointment>getPendingApointments(String email);
 	public void deleteResortAppointments(int resortId);
+	public List<TutorServiceAppointment> getAllByTutorAndYear(int tutorId, int year);
+	
 }

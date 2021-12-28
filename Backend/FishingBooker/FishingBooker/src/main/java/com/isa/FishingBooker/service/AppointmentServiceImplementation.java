@@ -130,4 +130,9 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 	private List<TutorServiceAppointment> getAllInCommingAppointmentsByTutor(int tutorId) {
 		return ((AppointmentRepository)repository).getAllInCommingAppointmentsByTutor(tutorId);
 	}
+
+	@Override
+	public List<TutorServiceAppointment> getAllByTutorAndYear(int tutorId, int year) {
+		return ((AppointmentRepository)repository).getAllByTutorAndYear(tutorId, year);
+	}
 }
