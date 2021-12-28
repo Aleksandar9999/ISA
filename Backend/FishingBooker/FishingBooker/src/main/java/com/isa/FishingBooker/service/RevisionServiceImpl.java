@@ -60,18 +60,21 @@ public class RevisionServiceImpl extends CustomServiceAbstract<Revision> impleme
 	@Override
 	public String makeTutorServiceRevision(TutorServiceAppointmentRevision revision) {
 		// TODO Auto-generated method stub
+		super.addNew(revision);
 		return null;
 	}
 
 	@Override
 	public String makeBoatRevision(BoatAppointmentRevision revision) {
 		// TODO Auto-generated method stub
+		super.addNew(revision);
 		return null;
 	}
 
 	@Override
 	public String makeResortRevision(ResortAppointmentRevision revision) {
 		// TODO Auto-generated method stub
+		super.addNew(revision);
 		return null;
 	}	
 	

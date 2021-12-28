@@ -32,6 +32,7 @@ import Vectorr from 'ol/source/Vector'
 import Point from 'ol/geom/Point'
 import Feature from 'ol/Feature'
 import axios from 'axios'
+import config from '../../configuration/config'
 
 
 export default {
@@ -107,7 +108,7 @@ export default {
     },
     mounted(){ 
         if(this.id){      
-            axios.get('http://localhost:8080/api/users/tutors/services/'+ this.id).then(response=>this.populateData(response)
+            axios.get('http://localhost:8080/api/users/tutors/services/'+ this.id, config.requestHeader).then(response=>this.populateData(response)
             )           
         }
         

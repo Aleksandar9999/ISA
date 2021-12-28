@@ -40,11 +40,11 @@ public class TutorServicesController extends TutorServicesAbstractController {
 		return ResponseEntity.ok(tutorServicesService.getAll());
 	}
 
-	/*
-	 * @GetMapping("api/users/tutors/services/{id}")//TODO: Provijeriti da li je
-	 * potrebno? public ResponseEntity<TutorService> getService(@PathVariable("id")
-	 * Integer id) { return ResponseEntity.ok(tutorServicesService.getById(id)); }
-	 */
+	
+	@GetMapping("api/users/tutors/services/{id}")
+	public ResponseEntity<TutorService> getService(@PathVariable("id")Integer id) 
+	{ return ResponseEntity.ok(tutorServicesService.getById(id)); }
+	 
 
 	@GetMapping("api/tutor-services/valid")
 	public ResponseEntity<?> getAllValid() {

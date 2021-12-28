@@ -10,4 +10,8 @@ public interface SubscriptionService extends Service<Subscription> {
 	public String subscribeBoat(Boat boat);
 	public String subscribeResort(Resort resort);
 	public String subscribeTutorService(TutorService tutorService);
+	public String cancelBoatSubscription(Boat boat);
+	public String cancelResortSubscritpion(Resort resort);
+	public String cancelAdventureSubscription(TutorService tutorService);
+	public Subscription getSubscriptionForUser();
 }

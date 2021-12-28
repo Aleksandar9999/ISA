@@ -132,4 +132,64 @@ public class SubscriptionServiceImplementation implements SubscriptionService {
 		
 	}
 
+	@Override
+	public String cancelBoatSubscription(Boat boat) {
+		// TODO Auto-generated method stub
+		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext().getAuthentication();
+		User usr = (User) aut.getPrincipal();
+		Subscription s = this.getByUserId(usr.getId());
+		for(Boat b : s.getBoats()) {
+			if(b.getId()==boat.getId()) {
+				Set<Boat>boats=s.getBoats();
+				boats.remove(b);
+				s.setBoats(boats);
+				repository.save(s);
+				return null;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String cancelResortSubscritpion(Resort resort) {
+		// TODO Auto-generated method stub
+		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext().getAuthentication();
+		User usr = (User) aut.getPrincipal();
+		Subscription s = this.getByUserId(usr.getId());
+		for(Resort r : s.getResorts()) {
+			if(r.getId()==resort.getId()) {
+				Set<Resort> resorts=s.getResorts();
+				resorts.remove(r);
+				s.setResorts(resorts);
+				repository.save(s);
+				return null;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String cancelAdventureSubscription(TutorService tutorService) {
+		// TODO Auto-generated method stub
+		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext().getAuthentication();
+		User usr = (User) aut.getPrincipal();
+		Subscription s = this.getByUserId(usr.getId());
+		for(TutorService ts : s.getTutorServices()) {
+			if(ts.getId()==tutorService.getId()) {
+				Set<TutorService> tss=s.getTutorServices();
+				tss.remove(ts);
+				s.setTutorServices(tss);
+				repository.save(s);
+				return null;
+			}
+		}
+		return null;
+	}
+	
+	public Subscription getSubscriptionForUser() {
+		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext().getAuthentication();
+		User usr = (User) aut.getPrincipal();
+		return this.getByUserId(usr.getId());
+	}
+
 }
