@@ -19,24 +19,25 @@
       <th>sun</th>
     </tr>
     <tr>
-        <CalendarDay v-for="i in 7" :key="i" :day=calendarDaysTest[i-1] tdClassName='positive previous' />
+        <CalendarDay v-for="day in calendarDaysTest.slice(0,7)" :key="day.date" :item=day :tdClassName=day.status />
     </tr>
     <tr>
-        <CalendarDay v-for="i in 7" :key="i" :day=calendarDaysTest[7+i-1] />
+        <CalendarDay v-for="day in calendarDaysTest.slice(7,14)" :key="day.date" :item=day :tdClassName=day.status />
     </tr>
     <tr>
-        <CalendarDay v-for="i in 7" :key="i" :day=calendarDaysTest[2*7+i-1] />
+        <CalendarDay v-for="day in calendarDaysTest.slice(14,21)" :key="day.date" :item=day :tdClassName=day.status />
     </tr>
     <tr>
-        <CalendarDay v-for="i in 7" :key="i" :day=calendarDaysTest[3*7+i-1] />
+        <CalendarDay v-for="day in calendarDaysTest.slice(21,28)" :key="day.date" :item=day :tdClassName=day.status />
     </tr>
     <tr>
-        <CalendarDay v-for="i in 7" :key="i" :day=calendarDaysTest[4*7+i-1] />
+        <CalendarDay v-for="day in calendarDaysTest.slice(28,35)" :key="day.date" :item=day :tdClassName=day.status />
     </tr>
+    
   </table>
 </template>
 <script>
-import CalendarDay from "./CalendarDay.vue";
+import CalendarDay from "../CalendarItem.vue";
 export default {
   props: ["calendarDays"],
   components: { CalendarDay },
@@ -45,25 +46,19 @@ export default {
       totalHours: 0,
       rowsCount: [1, 2, 3, 4, 5],
       calendarDaysTest:[],
-      
       calendarRows: [],
     };
   },
   beforeMount() {
       for(let i=0;i<35;i++)
-      this.calendarDaysTest.push({
-        hours: 5,
+      {this.calendarDaysTest.push({
+        duration: "Hours: " + 5,
         date: `2021-05-${i}`, 
         },)
-  },
-  mounted() {
-      
-      console.log(this.calendarDaysTest.length);
-  },
-  methods: {
-      
-  },
-
+        if(i % 3){
+          this.calendarDaysTest[i].status='reserved'
+        }  
+      }
+  }
 };
 </script>
-<style lang=""></style>
