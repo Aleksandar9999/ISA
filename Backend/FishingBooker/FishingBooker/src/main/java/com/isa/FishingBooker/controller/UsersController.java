@@ -63,7 +63,7 @@ public class UsersController {
 	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("api/admins/reset-password")
 	public ResponseEntity<?> isAdminPasswordReset() {
-		Admin admin=(Admin) usersService.getById(this.getLoggedInUserId());
+		Admin admin=(Admin) usersService.getById(getLoggedInUserId());
 		return ResponseEntity.ok(admin.isPasswordChanged());
 	}
 	
@@ -113,7 +113,7 @@ public class UsersController {
 			return Integer.parseInt(param);
 	}
 
-	private Integer getLoggedInUserId() {
+	public static Integer getLoggedInUserId() {
 		return ((User) ((TokenBasedAuthentication) SecurityContextHolder.getContext().getAuthentication())
 				.getPrincipal()).getId();
 	}

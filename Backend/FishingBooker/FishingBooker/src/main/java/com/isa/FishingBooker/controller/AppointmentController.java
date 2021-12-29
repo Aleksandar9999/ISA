@@ -1,9 +1,15 @@
 package com.isa.FishingBooker.controller;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,9 +21,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.isa.FishingBooker.dto.TutorServiceAppointmentDTO;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
-import com.isa.FishingBooker.mapper.YearCalendarMapper;
+import com.isa.FishingBooker.mapper.calendar.MonthCalendarMapper;
+import com.isa.FishingBooker.mapper.calendar.YearCalendarMapper;
 import com.isa.FishingBooker.model.Appointment;
 import com.isa.FishingBooker.model.BoatAppointment;
 import com.isa.FishingBooker.model.ResortAppointment;
@@ -33,15 +41,38 @@ public class AppointmentController {
 	@Autowired
 	private CustomModelMapper<TutorServiceAppointment, TutorServiceAppointmentDTO> tutorServiceModelMapper;
 
+	@SuppressWarnings("rawtypes")
 	@Autowired
 	private YearCalendarMapper yearCalendarMapper;
-	
-	@GetMapping("/appointments")
-	public ResponseEntity<?> getAll(@RequestParam(name = "year",defaultValue = "0") int year) {
-		if (year != 0) {
-			return ResponseEntity.ok(yearCalendarMapper.convertToDtos(service.getAllByTutorAndYear(4, year), year));
+
+	@SuppressWarnings("rawtypes")
+	@Autowired
+	private MonthCalendarMapper monthCalendarMapper;
+
+	@SuppressWarnings("unchecked")
+	@GetMapping("/appointments/tutor")
+	public ResponseEntity<?> getAll(@RequestParam(name = "startDate", defaultValue = "") String startDate,
+			@RequestParam(name = "endDate", defaultValue = "") String endDate,
+			@RequestParam(name = "type", defaultValue = "") String calendarType) {
+		int loggedinUserId = UsersController.getLoggedInUserId();
+		if (!(startDate.isEmpty() && endDate.isEmpty())) {
+			switch (calendarType) {
+			case "year":
+				return ResponseEntity.ok(yearCalendarMapper.convertToDtos(
+						service.getAllByTutorAndPeriod(4, Date.valueOf(startDate), Date.valueOf(endDate))));
+			case "month":
+				return ResponseEntity.ok(monthCalendarMapper.convertToDtos(
+						service.getAllByTutorAndPeriod(4, Date.valueOf(startDate), Date.valueOf(endDate)),
+						LocalDate.parse(startDate), LocalDate.parse(endDate)));
+			case "week":
+
+				break;
+
+			default:
+				break;
+			}
 		}
-		return ResponseEntity.ok((ArrayList<Appointment>) service.getAll());
+		return ResponseEntity.ok(service.getAllTutorServiceAppointmentsByTutor(loggedinUserId));
 	}
 
 	@PreAuthorize("hasRole('USER')")
