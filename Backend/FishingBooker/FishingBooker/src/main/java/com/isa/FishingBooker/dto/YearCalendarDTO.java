@@ -3,8 +3,6 @@ package com.isa.FishingBooker.dto;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
-import org.springframework.format.datetime.DateFormatter;
-
 public class YearCalendarDTO {
 	private double duration;
 	private Date date;
@@ -18,11 +16,12 @@ public class YearCalendarDTO {
 		this.date = date;
 	}
 
-	public String getMonth() {
+	public String getDate() {
 		SimpleDateFormat formater=new SimpleDateFormat("MMMM");
 		return formater.format(date);
 	}
+	
 	public String getDuration() {
-		return "Days: " + (int)duration;
+		return "Days" + duration;
 	}
 }
