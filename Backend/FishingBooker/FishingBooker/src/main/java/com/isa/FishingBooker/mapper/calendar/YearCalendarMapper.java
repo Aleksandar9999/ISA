@@ -1,4 +1,4 @@
-package com.isa.FishingBooker.mapper;
+package com.isa.FishingBooker.mapper.calendar;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -13,11 +13,11 @@ import com.isa.FishingBooker.model.Appointment;
 @Component
 public class YearCalendarMapper<E extends Appointment>{
 	
-	public List<YearCalendarDTO> convertToDtos(List<E> entities, int year) {
+	public List<YearCalendarDTO> convertToDtos(List<E> entities) {
 		//List<YearCalendarDTO> search = ((YearCalendarDTO) this.getRepository()).search(quaryParams);
 		List<YearCalendarDTO> list=new ArrayList<YearCalendarDTO>();
-		LocalDate firstInYear=LocalDate.of(year, 1, 1);
-		LocalDate lastInYear=LocalDate.of(year, 12, 30);
+		LocalDate firstInYear=LocalDate.of(LocalDate.now().getYear(), 1, 1);
+		LocalDate lastInYear=LocalDate.of(LocalDate.now().getYear(), 12, 30);
 		for (; firstInYear.isBefore(lastInYear); firstInYear=firstInYear.plusMonths(1)) {
 			list.add(new YearCalendarDTO(calculateReservedDays(Date.valueOf(firstInYear), entities),Date.valueOf(firstInYear)));
 		}
