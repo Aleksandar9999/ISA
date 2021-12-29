@@ -132,7 +132,7 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 	}
 
 	@Override
-	public List<TutorServiceAppointment> getAllByTutorAndYear(int tutorId, int year) {
-		return ((AppointmentRepository)repository).getAllByTutorAndYear(tutorId, year);
+	public List<TutorServiceAppointment> getAllByTutorAndPeriod(int tutorId, java.sql.Date start, java.sql.Date end) {
+		return ((AppointmentRepository)repository).getAllByTutorAndPeriod(tutorId,start,end); 
 	}
 }

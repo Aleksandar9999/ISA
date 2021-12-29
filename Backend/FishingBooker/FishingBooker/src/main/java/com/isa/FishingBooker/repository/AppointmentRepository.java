@@ -1,5 +1,6 @@
 package com.isa.FishingBooker.repository;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -36,8 +37,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment ,Intege
 	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.user.id=?1")
 	public List<TutorServiceAppointment> getAllTutorServiceAppointmentsByUser(int tutorId);
 	
-	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.tutorService.tutor.id=?1 and date_part('year',a.start) = ?2")
-	public List<TutorServiceAppointment> getAllByTutorAndYear(int tutorId, int year);
+	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.tutorService.tutor.id=?1 and CAST(a.start as date) between CAST(?2 as date) and CAST(?3 as date)")
+	public List<TutorServiceAppointment> getAllByTutorAndPeriod(int tutorId, Date start,Date end);
+	
 	
 	@Transactional
 	@Modifying

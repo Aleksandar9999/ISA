@@ -1,6 +1,8 @@
 package com.isa.FishingBooker.service;
 
+import java.sql.Date;
 import java.util.List;
+
 
 import com.isa.FishingBooker.model.Appointment;
 import com.isa.FishingBooker.model.BoatAppointment;
@@ -16,6 +18,6 @@ public interface AppointmentService extends Service<Appointment> {
 	public void addNewTutorServiceAppointment(TutorServiceAppointment app,boolean validateUser);
 	public List<Appointment>getPendingApointments(String email);
 	public void deleteResortAppointments(int resortId);
-	public List<TutorServiceAppointment> getAllByTutorAndYear(int tutorId, int year);
+	public List<TutorServiceAppointment> getAllByTutorAndPeriod(int tutorId, Date start, Date end);
 	
 }
