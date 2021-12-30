@@ -19,13 +19,17 @@
 
         <button @click="search()">Search</button>
     </div>
-    <div v-if="showSrc">
+    <div v-if="showSrc" class="searchBox">
         <select name="" id="">
             <option @click="sort('rateAsc')" value="rateAsc">Sort by rate ascending</option>
             <option @click="sort('rateDesc')" value="rateDesc">Sort by rate descending</option>
             <option @click="sort('priceAsc')" value="priceAsc">Sort by price ascending</option>
             <option @click="sort('priceDesc')" value="priceDesc">Sort by price descending</option>
         </select>
+        <label for="">Search location: </label>
+        <input type="text" name="" id="numdays" v-model="location">
+
+        <button @click="searchLocation()">Search location</button>
     </div>
 
     <div v-if="showAdditionalInfo">
@@ -114,7 +118,8 @@ export default {
             tableHeader:['Name','Date and time','Address','Max persons','Price','Rate', 'Make Reservation'],
             appointment:{},
             additionalServices:[],
-            extras:[]
+            extras:[],
+            location:''
         }
     },
     methods: {
@@ -140,13 +145,30 @@ export default {
           }          
         },
         search(){
+          if(this.numDays<1 || this.numPersons<1){
+            alert('You must fill all fields before search.')
+            return;
+          }
           this.loadEntities()      
           this.searchDate()
           this.searchDays()
           this.searchGuests()
           this.showSrc=true;
         },
-
+        searchLocation(){
+          if(this.location!=''){
+            this.search();
+          for(let i = 0; i<this.entitiesData.length; i++){            
+            let loc= this.entitiesData[i].address.city + this.entitiesData[i].address.country             
+                  if(!loc.toLowerCase().includes(this.location)){
+                    this.entitiesData.splice(i,1);
+                    i--
+                  }  
+                }
+          } else {
+            this.search();
+          }
+        },
         searchDate(){   
             let date=new Date(this.dateAndTime)
             date=Date.parse(this.dateAndTime);         

@@ -72,7 +72,7 @@ export default {
               });
           } else {
             localStorage.email=this.email;
-            this.$router.push("/profile");}
+            this.$router.push("/");}
         });
     },
     collectData() {
