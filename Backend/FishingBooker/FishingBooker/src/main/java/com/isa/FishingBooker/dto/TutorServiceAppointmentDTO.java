@@ -9,9 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.isa.FishingBooker.model.Address;
 
 public class TutorServiceAppointmentDTO {
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date start;
 	private double duration;
 	private int maxPerson;
@@ -21,6 +26,7 @@ public class TutorServiceAppointmentDTO {
 	private Address address;
 	private int userId;
 	private int serviceId;
+	private boolean validateUser;
 	
 	public TutorServiceAppointmentDTO() {
 	}
@@ -95,6 +101,14 @@ public class TutorServiceAppointmentDTO {
 
 	public void setServiceId(int serviceId) {
 		this.serviceId = serviceId;
+	}
+
+	public boolean isValidateUser() {
+		return validateUser;
+	}
+
+	public void setValidateUser(boolean validateUser) {
+		this.validateUser = validateUser;
 	}
 	
 }

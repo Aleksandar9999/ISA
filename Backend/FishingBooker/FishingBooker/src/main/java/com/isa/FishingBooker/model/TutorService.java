@@ -20,6 +20,7 @@ import javax.persistence.OneToOne;
 import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.isa.FishingBooker.exceptions.UndefinedServicePricesException;
 
 @Entity
 @Transactional
@@ -28,28 +29,39 @@ public class TutorService {
 	@Column(name = "tutor_service_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@Column(name = "name")
 	private String name;
+	@Column(name = "description")
 	private String description;
+	@Column(name = "max_person")
 	private int maxPerson;
+	@Column(name = "rules")
 	private String rules;
+	@Column(name = "fishing_equipment")
 	private String fishingEquipment;
+	@Column(name = "cancel_procentage")
 	private double cancelProcentage;
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
+	@Column(name = "rate")
 	private int rate;
+	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	private Status status;
+	private String extrasServices;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<User> subscribers = new HashSet<>();
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Photo> photos = new HashSet<Photo>();
 
-	private String extrasServices;
-	/*@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Extras> extrasServices;
-*/
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<DiscountOffer> disconutOffers = new HashSet<DiscountOffer>();
-
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Period> standardPeriods = new HashSet<Period>();
+	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<ServicePrice> prices = new HashSet<ServicePrice>();
 
@@ -59,7 +71,6 @@ public class TutorService {
 	private Tutor tutor;
 	
 	public TutorService() {
-		// TODO Auto-generated constructor stub
 	}
 	public TutorService(Integer id) {
 		this.id = id;
@@ -76,7 +87,7 @@ public class TutorService {
 		this.address = address;
 	}
 
-	public void updateInfo(TutorService service) {
+	public TutorService updateInfo(TutorService service) {
 		this.name = service.getName();
 		this.description = service.getDescription();
 		this.maxPerson = service.getMaxPerson();
@@ -86,6 +97,7 @@ public class TutorService {
 		this.fishingEquipment=service.getFishingEquipment();
 		this.rate=service.getRate();
 		this.status=service.getStatus();
+		return this;
 	}
 
 	
@@ -100,7 +112,26 @@ public class TutorService {
 	public Status getStatus() {
 		return status;
 	}
-
+	
+	public Set<User> getSubscribers() {
+		return Set.copyOf(this.subscribers);
+	}
+	
+	public TutorService addNewSubscriber(User user) {
+		if(this.subscribers==null) this.subscribers=new HashSet<User>();
+		this.subscribers.add(user);
+		return this;
+	}
+	
+	public void addStandardPeriod(Period period) {
+		if(this.standardPeriods==null) this.standardPeriods=new HashSet<Period>();
+		this.standardPeriods.add(period);
+	}
+	
+	public Set<Period> getStandardPeriods(){
+		return this.standardPeriods;
+	}
+	
 	public void setStatus(Status status) {
 		this.status = status;
 	}
@@ -125,10 +156,6 @@ public class TutorService {
 		return photos;
 	}
 
-	/*public Set<Extras> getExtrasServices() {
-		return extrasServices;
-	}*/
-
 	public Set<DiscountOffer> getDisconutOffers() {
 		return disconutOffers;
 	}
@@ -139,11 +166,9 @@ public class TutorService {
 		photos.add(photo);
 	}
 
-	/*public void addExtraService(Extras extras) {
-		if (extrasServices == null)
-			extrasServices = new HashSet<>();
-		extrasServices.add(extras);
-	}*/
+	public void deletePhoto(int id) {
+		this.photos.removeIf(photo->photo.getId()==id);
+	}
 
 	public void addDiscountOffer(DiscountOffer offer) {
 		if (disconutOffers == null)
@@ -217,18 +242,6 @@ public class TutorService {
 		return address;
 	}
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-	public void setPhotos(Set<Photo> photos) {
-		this.photos = photos;
-	}
-
-/*	void setExtrasServices(Set<Extras> extrasServices) {
-		this.extrasServices = extrasServices;
-	}
-*/	
 	public void setDisconutOffers(Set<DiscountOffer> disconutOffers) {
 		this.disconutOffers = disconutOffers;
 	}
@@ -236,9 +249,8 @@ public class TutorService {
 	public String getExtrasServices() {
 		return extrasServices;
 	}
-	public void setExtrasServices(String extrasServices) {
-		this.extrasServices = extrasServices;
-	}
+	
+	
 	public double calculatePrice(int duration) {
 		double appointmentPrice=0;
 		while (duration != 0) {
@@ -250,6 +262,7 @@ public class TutorService {
 	}
 
 	private ServicePrice getBestOfferByDuration(int duration) {
+		if(prices == null || prices.size()==0) throw new UndefinedServicePricesException();
 		ServicePrice ret = null;
 		for (Object object : prices.stream().sorted().collect(Collectors.toList())) {
 			ServicePrice price=(ServicePrice)object;		

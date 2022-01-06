@@ -1,7 +1,5 @@
 package com.isa.FishingBooker.controller;
 
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,16 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.isa.FishingBooker.dto.TutorServiceDTO;
-import com.isa.FishingBooker.dto.UserConfirmationDTO;
 import com.isa.FishingBooker.dto.UserInfoDTO;
-import com.isa.FishingBooker.exceptions.RegistrationException;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.model.Admin;
-import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.Status;
-import com.isa.FishingBooker.model.Tutor;
-import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
 import com.isa.FishingBooker.service.UsersService;
@@ -48,20 +40,14 @@ public class UsersController {
 		return ResponseEntity.ok(usersService.getAll());
 	}
 
-	@GetMapping("api/users/tutors/{id}/available-periods")
-	public ResponseEntity<?> getTutorAvailablePeriods(@PathVariable("id") int id) {
-		Tutor tutor = usersService.getTutorById(id);// TODO:FIX POTENTIAL BUG
-		return ResponseEntity.ok(tutor.getAvailabilityPeriods());
-	}
-
-	@PostMapping("api/users/tutors/{id}/available-periods")
+/*	@PostMapping("api/users/tutors/{id}/available-periods")
 	@PreAuthorize("hasRole('TUTOR')")
 	public ResponseEntity<?> addPeriod(@RequestBody Period period, @PathVariable("id") int id) {
 		Tutor tutor = usersService.getTutorById(id);// TODO:FIX HARDCODE
 		tutor.addPeriod(period);
 		usersService.update(tutor);
 		return ResponseEntity.ok(period);
-	}
+	}*/
 
 	@GetMapping("api/users/search")
 	public ResponseEntity<?> getAllUsersByStatus(@RequestParam(value = "status", defaultValue = "") Status s) {
@@ -89,7 +75,7 @@ public class UsersController {
 	}
 	
 	@GetMapping("api/users/{id}")
-	public ResponseEntity getUserById(@PathVariable String id) {
+	public ResponseEntity<?> getUserById(@PathVariable String id) {
 		return ResponseEntity.ok(userInfoMapper.convertToDto(usersService.getById(getUserIdFromParam(id))));
 	}
 
@@ -105,7 +91,7 @@ public class UsersController {
 	}
 
 	@GetMapping("api/users/clients")
-	public ResponseEntity getAllClients() {
+	public ResponseEntity<?> getAllClients() {
 		return ResponseEntity.ok(userInfoMapper.convertToDtos(usersService.getAllClients()));
 	}
 

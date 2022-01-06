@@ -117,12 +117,13 @@ export default {
         price: "",
         serviceId: "",
         userId: "",
+        validateUser: true
       },
     };
   },
   mounted() {
     axios
-      .get(config.apiStart + "/api/users/tutors/4/services",config.requestHeader)
+      .get(`${config.apiStart}/api/users/tutors/${this.idTutor}/services`,config.requestHeader)
       .then((resp) => (this.services = resp.data));
     axios
       .get(config.apiStart + "/api/users/clients",config.requestHeader)
@@ -137,6 +138,7 @@ export default {
       });
     },
     save() {
+      this.appointmentLocal.start+=" 12:00:00";
       axios
         .post(
           config.apiStart + "/api/appointments/tutor-service",
@@ -147,6 +149,8 @@ export default {
           this.success = true;
           this.hideDialog();
           console.log(resp);
+        }).catch((error)=>{
+          alert(`${error.response.data.error}\n\n${error.response.data.message}`)
         });
         console.log(this.appointmentLocal)
     },

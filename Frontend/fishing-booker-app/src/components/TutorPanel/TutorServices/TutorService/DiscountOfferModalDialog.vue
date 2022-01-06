@@ -133,7 +133,6 @@ export default {
       });
     },
     save() {
-  
       axios.post(config.apiStart+"/api/tutor-services/"+this.idservice+"/discount-offers",this.discountOfferLocal,config.requestHeader).then(console.log("CREATED"))
       console.log(this.discountOfferLocal)
     },
