@@ -50,19 +50,19 @@ public class RevisionController {
 	
 	@PreAuthorize("hasRole('USER')")
 	@GetMapping("api/revision/boatAppointmentRate/{id}")
-	public ResponseEntity<Integer> getRevisionsForBoatAppointment(@PathVariable("id") Integer id){
+	public ResponseEntity<?> getRevisionsForBoatAppointment(@PathVariable("id") Integer id){
 		return ResponseEntity.ok(revisionService.getBoatAppointmentRevisionsRate(id));
 	}
 	
 	@PreAuthorize("hasRole('USER')")
 	@GetMapping("api/revision/resortAppointmentRate/{id}")
-	public ResponseEntity<Integer> getRevisionsForResortAppointment(@PathVariable("id") Integer id){
+	public ResponseEntity<?> getRevisionsForResortAppointment(@PathVariable("id") Integer id){
 		return ResponseEntity.ok(revisionService.getResortAppointmentRevisionsRate(id));
 	}
 	
 	@PreAuthorize("hasRole('USER')")
 	@GetMapping("api/revision/tutorServiceAppointmentRate/{id}")
-	public ResponseEntity<Integer> getRevisionsForTutorServiceAppointment(@PathVariable("id") Integer id){
+	public ResponseEntity<?> getRevisionsForTutorServiceAppointment(@PathVariable("id") Integer id){
 		return ResponseEntity.ok(revisionService.getTutorServiceAppointmentRevisionsRate(id));
 	}
 	

@@ -30,7 +30,7 @@ public class RevisionServiceImpl extends CustomServiceAbstract<Revision> impleme
 			result+=r.getRate();
 		}
 		if(revisions.size()!=0) {
-			result = result/revisions.size();
+			result = result/revisions.size();			
 		} else {
 			result= 0;
 		}

@@ -80,7 +80,7 @@ export default {
           this.dataList=[]
           let brojac =0;
           for(let i = 0; i<response.length; i++){
-            if(response.appointType==='RESORT'){
+            if(response[i].type==='RESORT'){
               this.dataList[brojac]=response[i]
               this.dataList[brojac].dateSort=this.formatDate(response[i].start)
               this.originalAppointments[brojac]=response[i]

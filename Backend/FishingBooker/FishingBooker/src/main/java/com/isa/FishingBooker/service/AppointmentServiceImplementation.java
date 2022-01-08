@@ -108,24 +108,30 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		User usr = (User) aut.getPrincipal();
 		String email= usr.getEmail();
 		for(BoatAppointment a : ((AppointmentRepository)repository).getAllBoatAppoints()) {
+			if(a.getUser()!=null) {
 			if(a.getUser().getEmail().equals(email)) {
 				if(a.getStart().compareTo(thisMoment)>0) {					
 					appointments.add(a);
 				}
+			}
 			}
 		}
 		for(ResortAppointment a : ((AppointmentRepository)repository).getAllResortAppoints()) {
+			if(a.getUser()!=null) {
 			if(a.getUser().getEmail().equals(email)) {
 				if(a.getStart().compareTo(thisMoment)>0) {					
 					appointments.add(a);
 				}
 			}
+			}
 		}
 		for(TutorServiceAppointment a : ((AppointmentRepository)repository).getAllTutorServiceAppointments()) {
+			if(a.getUser()!=null) {
 			if(a.getUser().getEmail().equals(email)) {
 				if(a.getStart().compareTo(thisMoment)>0) {					
 					appointments.add(a);
 				}
+			}
 			}
 		}
 		return appointments;
