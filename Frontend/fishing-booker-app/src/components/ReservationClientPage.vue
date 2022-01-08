@@ -119,7 +119,8 @@ export default {
             appointment:{},
             additionalServices:[],
             extras:[],
-            location:''
+            location:'',
+            appointmentToSendDTO:{}
         }
     },
     methods: {
@@ -260,27 +261,32 @@ export default {
           this.appointment=item
         },
 
-        addExtra(item){
-          this.extras.append(item);
+        addExtra(item){  
+          this.appointment.additionalServices=''
+          this.appointment.additionalServices+=item.service + ',';
         },
 
         makeReservation(){
           if (confirm("Do you want to reserve this appointment?")) {
-            if(this.entityType==='boat'){
-              this.appointment.extras=this.extras;
+            if(this.entityType==='boat'){     
+              delete this.appointment.rate;    
+              this.appointment.boat.boatOwner=null;     
               axios.post('http://localhost:8080/makeBoatReservation', this.appointment).then((response) => console.log(response.data));
             } else 
             if(this.entityType==='resort'){
-              this.appointment.extras=this.extras;
+              delete this.appointment.rate; 
               axios.post('http://localhost:8080/makeResortReservation', this.appointment).then((response) => console.log(response.data));
             } else
             {
-              this.appointment.extras=this.extras;
+              delete this.appointment.rate; 
               axios.post('http://localhost:8080/makeTutorServiceReservation', this.appointment).then((response) => console.log(response.data));
             }
             
         }
         this.showSrc=false
+        },
+        getBoatExtras(){
+
         },
 
         loadEntities(){
