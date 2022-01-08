@@ -66,7 +66,12 @@ insert into period (start_date, end_date) values('Mon Dec 27 10:00:00 GMT 2021',
 insert into appointment (dtype, start, duration, max_person, additional_services, price, appoint_type, address_id, resort_id) values ('ResortAppointment', 'Sat Jan 22 18:00:00 GMT 2022',3.0, 7, 'No additional services.', 500.00, 'RESORT', 4, 1);
 insert into appointment (dtype, start, duration, max_person, additional_services, price, appoint_type, address_id, tutor_service_id) values ('TutorServiceAppointment', 'Sat Jan 29 18:00:00 GMT 2022',3.0, 7, 'No additional services.', 900.00, 'TUTORSERVICE', 4, 1);
 insert into appointment (dtype, start, duration, max_person, additional_services, price, appoint_type, address_id, boat_id) values ('BoatAppointment', 'Sat Jan 22 14:00:00 GMT 2022',3.0, 5, 'No additional services.', 1500.00,'BOAT', 4, 1);
-insert into appointment (dtype, start, duration, max_person, additional_services, price, appoint_type, address_id, boat_id, user_id) values ('BoatAppointment', 'Sat Jan 29 11:00:00 GMT 2022',3.0, 8, 'No additional services.', 1200.00, 'BOAT', 5, 2,1);
+insert into appointment (dtype, start, duration, max_person, additional_services, price, appoint_type, address_id, boat_id, user_id) values ('BoatAppointment', 'Sat Jan 15 11:00:00 GMT 2022',3.0, 8, 'No additional services.', 1200.00, 'BOAT', 5, 2,1);
+insert into appointment (dtype, start, duration, max_person, additional_services, price, appoint_type, address_id, resort_id) values ('ResortAppointment', 'Sat Feb 15 11:00:00 GMT 2022',4.0, 7, 'No additional services.', 400.00, 'RESORT', 4, 1);
+insert into appointment (dtype, start, duration, max_person, additional_services, price, appoint_type, address_id, tutor_service_id) values ('TutorServiceAppointment', 'Sat Feb 15 11:00:00 GMT 2022',2.0, 7, 'No additional services.', 1900.00, 'TUTORSERVICE', 4, 1);
+insert into appointment (dtype, start, duration, max_person, additional_services, price, appoint_type, address_id, boat_id) values ('BoatAppointment', 'Sat Feb 15 11:00:00 GMT 2022',5.0, 5, 'No additional services.', 1700.00,'BOAT', 4, 1);
+insert into appointment (dtype, start, duration, max_person, additional_services, price, appoint_type, address_id, boat_id, user_id) values ('BoatAppointment', 'Sat Feb 15 11:00:00 GMT 2022',4.0, 8, 'No additional services.', 800.00, 'BOAT', 5, 2,1);
+
 
 insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Amajic, Zapadna Srbija', 1000.0, 2, 1, 5);
 insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Vrhpolje, Zapadna Srbija', 1200.0, 1, 2, 6);
@@ -78,7 +83,12 @@ insert into revisions (dtype, comment, rate, status, boat_appointment_id) values
 insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','',3.50, 4, 3);
 insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','Boat is bad.',2.00, 4, 4);
 insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','Boat is good.',4.00, 4, 4);
-insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','Great expirience.',5.00, 4, 4);
-
+insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','Great expirience.',3.00, 4, 4);
+insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','Boat is excelent.',4.00, 4, 7);
+insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','Boat is excelent.',5.00, 4, 7);
+insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','',3.00, 4, 7);
+insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','Boat is bad.',2.00, 4, 8);
+insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','Boat is good.',4.00, 4, 8);
+insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','Great expirience.',5.00, 4, 8);
 
 insert into system_data (id, procentage, revenue) values (1,5,0);

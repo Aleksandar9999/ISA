@@ -1,7 +1,5 @@
 package com.isa.FishingBooker.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -292,5 +290,43 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		
 		
 		return retLista;
+	}
+	@Override
+	public List<String> getAdditionalServicesForBoat(Integer boatId) {
+		// TODO Auto-generated method stub
+		List<String> addServices= new ArrayList<>();
+		List<BoatAppointment> appointments = new ArrayList<BoatAppointment>();		
+		Date thisMoment = new Date(System.currentTimeMillis());
+		for(BoatAppointment a : ((AppointmentRepository)repository).getAllBoatAppoints()) {
+				if(a.getStart().compareTo(thisMoment)>0) {					
+					appointments.add(a);
+				}
+		}
+		for(BoatAppointment b : appointments) {
+			if(b.getBoat().getId()==boatId) {
+				addServices.add(b.getAdditionalServices());
+			}
+		}
+		return addServices;
+	}
+	@Override
+	public List<Date> getBoatPeriods(Integer boatId) {
+		// TODO Auto-generated method stub
+		List<Date> retList = new ArrayList<Date>();
+		List<BoatAppointment> appointments = new ArrayList<BoatAppointment>();		
+		Date thisMoment = new Date(System.currentTimeMillis());
+		for(BoatAppointment a : ((AppointmentRepository)repository).getAllBoatAppoints()) {
+				if(a.getStart().compareTo(thisMoment)>0) {					
+					appointments.add(a);
+				}
+		}
+		for(BoatAppointment b : appointments) {
+			if(b.getBoat().getId()==boatId) {
+				retList.add(b.getStart());
+			}
+		}
+		
+		
+		return retList;
 	}
 }

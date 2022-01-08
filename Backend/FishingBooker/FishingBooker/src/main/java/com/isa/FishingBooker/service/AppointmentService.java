@@ -1,5 +1,6 @@
 package com.isa.FishingBooker.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.isa.FishingBooker.model.Appointment;
@@ -24,4 +25,6 @@ public interface AppointmentService extends Service<Appointment> {
 	public List<TutorServiceAppointment> getAllTutorServiceAppoints();
 	public String makeQuickReservation(Integer id);
 	public List<Appointment> getOldAppointments();
+	public List<String> getAdditionalServicesForBoat(Integer boatId);
+	public List<Date> getBoatPeriods(Integer boatId);
 }

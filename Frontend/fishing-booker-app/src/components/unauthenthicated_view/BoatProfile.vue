@@ -30,8 +30,8 @@
             <thead>
                 <tr><th>Free time period:</th></tr>
             </thead>
-            <tbody>
-                <tr><td>Not implemented yet</td></tr>
+            <tbody v-for="item in boatPeriods" :key="item">
+                <tr><td>{{item}}</td></tr>
             </tbody>
         </table>
     </div>
@@ -68,7 +68,8 @@ export default {
             layer:{},
             boat:{},
             extras:[],
-            periods:[],
+            additionalServices:[],
+            boatPeriods:[],
             get loggedIn(){
                 return localStorage.getItem('logedIn')
             },
@@ -132,13 +133,10 @@ export default {
             }
         },
         getPeriods(response){
-            this.periods=response.data
-            for(let i=0; i<this.periods.length; i++){
-                if(this.periods[i].boat_id!=this.id){                    
-                    this.periods.splice(i,1)
-                    i--
-                }
-            }
+            this.boatPeriods=response.data
+        },
+        getAdditionals(response){
+            this.additionalServices=response.data
         },
         back(){
             this.$router.push('/')
@@ -152,7 +150,8 @@ export default {
             axios.get('http://localhost:8080/boats/'+ this.id).then(response=>this.populateData(response)
             )
             axios.get('http://localhost:8080/extras').then(response=>this.getExtras(response))  
-            axios.get('http://localhost:8080/periods').then(response=>this.getPeriods(response))             
+            axios.get('http://localhost:8080/appointments/getBoatPeriods/'+this.id).then(response=>this.getPeriods(response))    
+            axios.get('http://localhost:8080/appointments/additionalServices/'+this.id).then(response=>this.getAdditionals(response))           
         }
     }
 }
@@ -224,7 +223,7 @@ export default {
   }
 
   .prices{
-    width: 20%;
+    width: 40%;
     background-color: white;
     table-layout: auto;
     margin-left: 20%;

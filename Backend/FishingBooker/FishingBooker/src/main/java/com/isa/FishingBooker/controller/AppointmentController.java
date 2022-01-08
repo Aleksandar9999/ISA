@@ -112,4 +112,13 @@ public class AppointmentController {
 		return ResponseEntity.ok(service.getOldAppointments());
 	}
 	
+	@GetMapping("/appointments/additionalServices/{boatId}")
+	public ResponseEntity<?> additionalServicesListBoat(@PathVariable("boatId") Integer boatID){
+		return ResponseEntity.ok(service.getAdditionalServicesForBoat(boatID));
+	}
+	
+	@GetMapping("/appointments/getBoatPeriods/{boatId}")
+	public ResponseEntity<?> getBoatPeriods(@PathVariable("boatId") Integer boatID){
+		return ResponseEntity.ok(service.getBoatPeriods(boatID));
+	}
 }
