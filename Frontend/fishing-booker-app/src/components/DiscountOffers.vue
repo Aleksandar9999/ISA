@@ -63,7 +63,7 @@ export default {
     methods:{
         makeReservation(id){
           if (confirm("Do you want to reserve this appointment?")) {
-              axios.post('http://localhost:8080/makeQuickReservation', id).then((response) => console.log(response.data));            
+              axios.post('http://localhost:8080/makeQuickReservation/'+ id).then((response) => console.log(response.data));            
         }
         },
         getData(){

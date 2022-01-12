@@ -285,9 +285,6 @@ export default {
         }
         this.showSrc=false
         },
-        getBoatExtras(){
-
-        },
 
         loadEntities(){
           axios.get('http://localhost:8080/boatAppointments').then(response =>

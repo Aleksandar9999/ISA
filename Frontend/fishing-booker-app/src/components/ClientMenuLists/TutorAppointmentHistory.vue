@@ -14,6 +14,11 @@
   </select>
   <button @click="sort()">Sort</button>
 </div>
+<div v-if="revisionBox" class="searchBox">
+<label for="">Opinion: <input type="text" v-model="revisionText"></label>
+<label for="">Rate: <input type="number" v-model="rate"></label>
+<button @click="makeRevision()">Send Revision</button>
+</div>
  <div class="grid-container" id="tabela">
       <div>        
       <table  class="r-table" cellspacing="0" cellpadding="0" border="0">
@@ -119,7 +124,14 @@ export default {
           let splitDate=javaDate.split("T")[0]
           let date= Date.parse(splitDate)
           return date
-        }
+        },
+        validate(){
+          if(this.rate>5 || this.rate<1){
+            alert('You must enter rate inbetween 1 and 5');
+            return false;
+          }
+          return true;
+        },
     },
     mounted(){
         axios.get('http://localhost:8080/getAppointmentHistory').then(response =>

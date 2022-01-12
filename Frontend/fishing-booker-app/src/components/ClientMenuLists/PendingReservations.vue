@@ -66,7 +66,7 @@ export default {
             }
         },
         cancelReservation(id){
-            axios.post('http://localhost:8080/cancelReservation',id).then(response => alert(response.data))
+            axios.post('http://localhost:8080/cancelReservation/'+id).then(response => alert(response.data))
         },
         formatDate(javaDate){
           let splitDate=javaDate.split("T")[0]

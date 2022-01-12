@@ -188,30 +188,53 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		for(BoatAppointment a : ((AppointmentRepository)repository).getAllBoatAppoints()) {
 			if(a.getId()==id) {
 				if(a.getStart().compareTo(thisMoment)>0) {
-					a.setUser(null);
 					User u = a.getUser();
-					u.getReservationsList().add(id);
-					userService.update(u);
+					a.setUser(null);
+					if(u.getReservationsList()==null) {
+						Set<Integer> reservList = new HashSet<Integer>();
+						reservList.add(id);
+						u.setReservationsList(reservList);
+						userService.update(u);
+					} else {
+						u.getReservationsList().add(id);
+						userService.update(u);
+					}					
 				} else return "You can not cancel reservation in last 3 days.";				
 			}
 		}
+		
 		for(ResortAppointment a : ((AppointmentRepository)repository).getAllResortAppoints()) {
 			if(a.getId()==id) {
 				if(a.getStart().compareTo(thisMoment)>0) {
-					a.setUser(null);
 					User u = a.getUser();
-					u.getReservationsList().add(id);
-					userService.update(u);
+					a.setUser(null);					
+					if(u.getReservationsList()==null) {
+						Set<Integer> reservList = new HashSet<Integer>();
+						reservList.add(id);
+						u.setReservationsList(reservList);
+						userService.update(u);
+					} else {
+						u.getReservationsList().add(id);
+						userService.update(u);
+					}
 				} else return "You can not cancel reservation in last 3 days.";
 			}				
 		}
+		
 		for(TutorServiceAppointment a : ((AppointmentRepository)repository).getAllTutorServiceAppointments()) {
 			if(a.getId()==id) {
 				if(a.getStart().compareTo(thisMoment)>0) {
-					a.setUser(null);
 					User u = a.getUser();
-					u.getReservationsList().add(id);
-					userService.update(u);
+					a.setUser(null);
+					if(u.getReservationsList()==null) {
+						Set<Integer> reservList = new HashSet<Integer>();
+						reservList.add(id);
+						u.setReservationsList(reservList);
+						userService.update(u);
+					} else {
+						u.getReservationsList().add(id);
+						userService.update(u);
+					}
 				} else return "You can not cancel reservation in last 3 days.";
 			}
 		}		
@@ -238,15 +261,22 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		Appointment appointment = repository.getById(id);
 		
 		if(appointment.getType()==AppointmentType.BOAT) {
-			BoatAppointment a =(BoatAppointment)repository.getById(id);
-			((AppointmentRepository)repository).save(a);
+			BoatAppointment ba = new BoatAppointment();
+			ba=this.mapAppointmentToBoatAppointment(appointment, ba);
+			ba.setUser(usr);
+			((AppointmentRepository)repository).save(ba);
 		} else
 		if(appointment.getType()==AppointmentType.RESORT) {
-			ResortAppointment a =(ResortAppointment)repository.getById(id);
-			((AppointmentRepository)repository).save(a);
+			ResortAppointment ra = new ResortAppointment();
+			ra=this.mapAppointmentToResortAppointment(appointment, ra);
+			ra.setUser(usr);
+			((AppointmentRepository)repository).save(ra);
 		} else	
 		{
-			TutorServiceAppointment a =(TutorServiceAppointment)repository.getById(id);
+			Appointment a =repository.getById(id);
+			TutorServiceAppointment tsa = new TutorServiceAppointment();
+			tsa=this.mapAppointmentToTutorServiceAppointment(appointment, tsa);
+			tsa.setUser(usr);
 			((AppointmentRepository)repository).save(a);
 		}		
 		emailService.sendReservationMail(usr);
@@ -334,5 +364,40 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		
 		
 		return retList;
+	}
+	
+	private BoatAppointment mapAppointmentToBoatAppointment(Appointment appointment, BoatAppointment ba) {
+		ba.setId(appointment.getId());
+		ba.setAdditionalServices(appointment.getAdditionalServices());
+		ba.setAddress(appointment.getAddress());
+		ba.setDuration(appointment.getDuration());
+		ba.setMaxPerson(appointment.getMaxPerson());
+		ba.setPrice(appointment.getPrice());
+		ba.setStart(appointment.getStart());
+		ba.setType(appointment.getType());				
+		return ba;
+	}
+	private ResortAppointment mapAppointmentToResortAppointment(Appointment appointment, ResortAppointment ra) {
+		ra.setId(appointment.getId());
+		ra.setAdditionalServices(appointment.getAdditionalServices());
+		ra.setAddress(appointment.getAddress());
+		ra.setDuration(appointment.getDuration());
+		ra.setMaxPerson(appointment.getMaxPerson());
+		ra.setPrice(appointment.getPrice());
+		ra.setStart(appointment.getStart());
+		ra.setType(appointment.getType());	
+		return ra;
+	}
+	
+	private TutorServiceAppointment mapAppointmentToTutorServiceAppointment(Appointment appointment, TutorServiceAppointment ta) {
+		ta.setId(appointment.getId());
+		ta.setAdditionalServices(appointment.getAdditionalServices());
+		ta.setAddress(appointment.getAddress());
+		ta.setDuration(appointment.getDuration());
+		ta.setMaxPerson(appointment.getMaxPerson());
+		ta.setPrice(appointment.getPrice());
+		ta.setStart(appointment.getStart());
+		ta.setType(appointment.getType());	
+		return ta;
 	}
 }
