@@ -14,6 +14,7 @@
 
     </div>
     <div>
+        <button v-if="loggedIn" class="buttons" @click="subscripe()">Subscripe</button>
         <button class="buttons" @click="back()">Back</button>
         <button class="buttons" @click="showMapEvent()">See address on map</button>
     </div>
@@ -31,6 +32,7 @@ import Vectorr from 'ol/source/Vector'
 import Point from 'ol/geom/Point'
 import Feature from 'ol/Feature'
 import axios from 'axios'
+import config from '../../configuration/config'
 
 
 export default {
@@ -43,6 +45,12 @@ export default {
             layer:{},
             adventure:{},
             address: '',
+            get loggedIn(){
+                return localStorage.getItem('logedIn')
+            },
+            set loggedIn(val){
+                this.loggedIn=val;
+            } 
         }
     },
     methods:{
@@ -93,11 +101,14 @@ export default {
         },
         back(){
             this.$router.push('/')
+        },
+        subscripe(){
+            axios.post('http://localhost:8080/subscripeTutorService',this.adventure).then(response=>alert(response.data))
         }  
     },
     mounted(){ 
         if(this.id){      
-            axios.get('http://localhost:8080/api/users/tutors/services/'+ this.id).then(response=>this.populateData(response)
+            axios.get('http://localhost:8080/api/users/tutors/services/'+ this.id, config.requestHeader).then(response=>this.populateData(response)
             )           
         }
         

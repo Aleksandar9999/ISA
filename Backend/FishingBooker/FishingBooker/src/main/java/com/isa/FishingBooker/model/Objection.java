@@ -14,11 +14,11 @@ public class Objection {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	@ManyToOne
-	@JoinColumn(name="user_id")
-	private User user;
+	@JoinColumn(name="appointment_id")
+	private Appointment appointment;
 	
 	private String objection;
-
+	private String userEmail;
 	public Integer getId() {
 		return id;
 	}
@@ -27,12 +27,12 @@ public class Objection {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
+	public Appointment getAppointment() {
+		return appointment;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setAppointment(Appointment appointment) {
+		this.appointment = appointment;
 	}
 
 	public String getObjection() {
@@ -41,6 +41,14 @@ public class Objection {
 
 	public void setObjection(String objection) {
 		this.objection = objection;
+	}
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
 	
 	

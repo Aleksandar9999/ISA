@@ -70,7 +70,9 @@ export default {
               .then((resp) => {
                 this.$router.push(`/tutors/${resp.data.id}/services`);
               });
-          } else this.$router.push("/");
+          } else {
+            localStorage.email=this.email;
+            this.$router.push("/");}
         });
     },
     collectData() {

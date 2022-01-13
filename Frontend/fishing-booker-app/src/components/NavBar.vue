@@ -4,6 +4,7 @@
         <ul>
             <li v-if="loggedIn==='true'"><router-link to="/">Home</router-link></li>
             <li v-if="loggedIn==='true'"><router-link to="/profile">My profile</router-link></li>
+            <li v-if="loggedIn==='true'"><router-link to="/reservation">Make reservation</router-link></li>
             <li v-if="loggedIn==='true'"><button v-on:click="dropDown()">Lista</button>
             <div class="dropD">
             <div id="Ddown" class="ddown">

@@ -115,6 +115,11 @@ export default {
         this.warning = true;
         return false;
       }
+      if(this.email===''||this.name===''||this.surname===''){
+        this.warningMessage = "You must fill all fields.";
+        this.warning = true;
+        return false;
+      }
       this.warning = false;
       return true;
     },

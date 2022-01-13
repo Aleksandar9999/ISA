@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -49,7 +51,9 @@ public class User implements UserDetails {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private List<Role> roles;
-
+	@ElementCollection(targetClass=Integer.class)
+	private Set<Integer> reservationsList;
+	
 	public User() {
 	}
 	
@@ -186,4 +190,13 @@ public class User implements UserDetails {
 		return null;
 	}
 
+	public Set<Integer> getReservationsList() {
+		return reservationsList;
+	}
+
+	public void setReservationsList(Set<Integer> reservationsList) {
+		this.reservationsList = reservationsList;
+	}
+
+	
 }

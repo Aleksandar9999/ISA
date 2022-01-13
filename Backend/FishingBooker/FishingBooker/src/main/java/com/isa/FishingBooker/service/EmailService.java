@@ -65,4 +65,14 @@ public class EmailService {
 	private void sendEmail(SimpleMailMessage massage) {
 		javaMailSender.send(massage);
 	}
+	
+	@Async
+	public void sendReservationMail(User user) {
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(user.getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Fishingbooker: You maked an reservation");
+		mail.setText("Thank you for making reservation of one of our services. \nBest wishes, your Fishingbooker.");
+		javaMailSender.send(mail);
+	}
 }

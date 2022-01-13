@@ -10,6 +10,7 @@
         <option value="rate">Sort by rate descending</option>
       </select>
       <button @click="sort()">Sort</button>
+      <router-link class="r-link" :to="{name:'DiscountOffers', params: {type:'resort'}}">Discount Offers</router-link>
     </div>
     <div class="grid-container" id="tabela">
       <div>
@@ -207,4 +208,21 @@ export default {
 .searchBox button:hover {
   background-color: rgb(10, 226, 28);
 }
+
+.r-link{
+    font-size: 18px;
+    border: 3px black;
+    padding: 4px 5px;
+    color: whitesmoke;
+    background-color: rgb(15, 71, 10); 
+    margin-left: 10px;
+    border-radius: 15px;
+    width: 160px;
+    height:  auto;
+    transition: 0.8s;
+  }
+
+  .r-link:hover{
+    background-color: rgb(10, 226, 28);
+  }
 </style>

@@ -3,6 +3,8 @@ package com.isa.FishingBooker.model;
 import java.util.*;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,10 +20,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Appointment {
 	
 	private Date start;
-	private double duration;
-	private int maxPerson;
-	private String additionalServices;
-	private double price;
+    private double duration;
+    private int maxPerson;
+    private String additionalServices;
+    private double price;
+    @Enumerated(EnumType.STRING)
+    private AppointmentType appointType;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -122,4 +126,3 @@ public class Appointment {
 	 * 
 	 * public void removeAllExtras() { if (extras != null) extras.clear(); }
 	 */
-}
