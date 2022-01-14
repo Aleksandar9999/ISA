@@ -4,7 +4,6 @@ package com.isa.FishingBooker.service;
 import com.isa.FishingBooker.model.revision.Revision;
 import com.isa.FishingBooker.model.BoatAppointmentRevision;
 import com.isa.FishingBooker.model.ResortAppointmentRevision;
-import com.isa.FishingBooker.model.Revision;
 import com.isa.FishingBooker.model.TutorServiceAppointmentRevision;
 
 public interface RevisionService extends Service<Revision> {

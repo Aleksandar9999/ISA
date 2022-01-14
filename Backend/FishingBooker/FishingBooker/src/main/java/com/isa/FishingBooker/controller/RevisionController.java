@@ -17,8 +17,6 @@ import com.isa.FishingBooker.model.revision.Revision;
 import com.isa.FishingBooker.model.revision.TutorRevision;
 import com.isa.FishingBooker.model.BoatAppointmentRevision;
 import com.isa.FishingBooker.model.ResortAppointmentRevision;
-import com.isa.FishingBooker.model.Revision;
-import com.isa.FishingBooker.model.TutorRevision;
 import com.isa.FishingBooker.model.TutorServiceAppointmentRevision;
 import com.isa.FishingBooker.service.RevisionService;
 @CrossOrigin(origins = "*", allowedHeaders = "*")

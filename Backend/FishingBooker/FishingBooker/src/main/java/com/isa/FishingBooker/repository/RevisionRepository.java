@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.isa.FishingBooker.model.revision.Revision;
-import com.isa.FishingBooker.model.Revision;
 import com.isa.FishingBooker.model.TutorServiceAppointmentRevision;
 import com.isa.FishingBooker.model.BoatAppointmentRevision;
 import com.isa.FishingBooker.model.ResortAppointmentRevision;

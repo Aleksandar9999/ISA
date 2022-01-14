@@ -138,9 +138,6 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 	}
 
 	//TODO:REFACTOR
-	@Override
-	public List<Appointment> getPendingApointments(String email) {
-		List<Appointment> appointments = new ArrayList<Appointment>();
 
 	public List<Appointment> getPendingApointments() {
 		List<Appointment> appointments = new ArrayList<Appointment>();		
@@ -201,7 +198,8 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 
 	private List<TutorServiceAppointment> getAllInCommingAppointmentsByTutor(int tutorId) {
 		return ((AppointmentRepository)repository).getAllInCommingAppointmentsByTutor(tutorId);
-
+	}
+	
 	@Override
 	public String makeBoatReservation(BoatAppointment appointment) {
 		// TODO Auto-generated method stub
@@ -458,5 +456,10 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		ta.setStart(appointment.getStart());
 		ta.setType(appointment.getType());	
 		return ta;
+	}
+	@Override
+	public List<Appointment> getPendingApointments(String email) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

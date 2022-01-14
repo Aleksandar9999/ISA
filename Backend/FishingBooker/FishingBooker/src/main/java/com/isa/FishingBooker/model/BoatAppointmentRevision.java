@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.isa.FishingBooker.model.revision.Revision;
+
 @Entity
 public class BoatAppointmentRevision extends Revision {
 	

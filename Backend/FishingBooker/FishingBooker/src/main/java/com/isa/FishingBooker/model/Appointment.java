@@ -103,6 +103,16 @@ public class Appointment {
 		this.address = address;
 	}
 
+	public AppointmentType getType() {
+		return appointType;
+	}
+
+	public void setType(AppointmentType appointType) {
+		this.appointType = appointType;
+	}
+	
+	
+}
 	/*
 	 * public java.util.Collection<Extras> extras;
 	 * 
