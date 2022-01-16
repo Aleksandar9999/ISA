@@ -44,4 +44,6 @@ public class BoatsController {
 		boatsService.delete(id);
 		return ResponseEntity.ok().build();
 	}
+	
+	
 }

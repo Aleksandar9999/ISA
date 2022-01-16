@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,11 +16,13 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Appointment {
 	
-	private Timestamp start;
-	private double duration;
-	private int maxPerson;
-	private String additionalServices;
-	private double price;
+	  private Timestamp start;
+		private double duration;
+    private int maxPerson;
+    private String additionalServices;
+    private double price;
+    @Enumerated(EnumType.STRING)
+    private AppointmentType appointType;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -101,4 +105,13 @@ public class Appointment {
 		LocalDateTime startLocal=start.toLocalDateTime();
 		return (startLocal.isBefore(date) && end.isAfter(date)) || startLocal.toLocalDate().isEqual(date.toLocalDate()) || end.isEqual(date);
 	}
+
+	public AppointmentType getType() {
+		return appointType;
+	}
+
+	public void setType(AppointmentType appointType) {
+		this.appointType = appointType;
+	}
+		
 }

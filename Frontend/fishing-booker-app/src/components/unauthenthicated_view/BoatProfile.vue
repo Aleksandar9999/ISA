@@ -30,8 +30,8 @@
             <thead>
                 <tr><th>Free time period:</th></tr>
             </thead>
-            <tbody>
-                <tr><td>Not implemented yet</td></tr>
+            <tbody v-for="item in boatPeriods" :key="item">
+                <tr><td>{{item}}</td></tr>
             </tbody>
         </table>
     </div>
@@ -40,6 +40,7 @@
 
     </div>
     <div>
+        <button v-if="loggedIn" class="buttons" @click="subscripe()">Subscripe</button>
         <button class="buttons" @click="back()">Back</button>
         <button class="buttons" @click="showMapEvent()">See address on map</button>
     </div>
@@ -67,7 +68,14 @@ export default {
             layer:{},
             boat:{},
             extras:[],
-            periods:[]
+            additionalServices:[],
+            boatPeriods:[],
+            get loggedIn(){
+                return localStorage.getItem('logedIn')
+            },
+            set loggedIn(val){
+                this.loggedIn=val;
+            } 
         }
     },
     methods:{
@@ -125,24 +133,25 @@ export default {
             }
         },
         getPeriods(response){
-            this.periods=response.data
-            for(let i=0; i<this.periods.length; i++){
-                if(this.periods[i].boat_id!=this.id){                    
-                    this.periods.splice(i,1)
-                    i--
-                }
-            }
+            this.boatPeriods=response.data
+        },
+        getAdditionals(response){
+            this.additionalServices=response.data
         },
         back(){
             this.$router.push('/')
-        }  
+        },
+        subscripe(){
+            axios.post('http://localhost:8080/subscripeBoat',this.boat).then(response=>alert(response.data))
+        }   
     },
     mounted(){
         if(this.id){      
             axios.get('http://localhost:8080/boats/'+ this.id).then(response=>this.populateData(response)
             )
             axios.get('http://localhost:8080/extras').then(response=>this.getExtras(response))  
-            axios.get('http://localhost:8080/periods').then(response=>this.getPeriods(response))             
+            axios.get('http://localhost:8080/appointments/getBoatPeriods/'+this.id).then(response=>this.getPeriods(response))    
+            axios.get('http://localhost:8080/appointments/additionalServices/'+this.id).then(response=>this.getAdditionals(response))           
         }
     }
 }
@@ -214,7 +223,7 @@ export default {
   }
 
   .prices{
-    width: 20%;
+    width: 40%;
     background-color: white;
     table-layout: auto;
     margin-left: 20%;

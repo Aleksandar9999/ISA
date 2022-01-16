@@ -9,7 +9,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class BoatOwner  extends User {
 
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany
 	private Set<Boat> boats;
 	
 
