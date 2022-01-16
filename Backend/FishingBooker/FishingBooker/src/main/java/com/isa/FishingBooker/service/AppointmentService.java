@@ -31,5 +31,5 @@ public interface AppointmentService extends Service<Appointment> {
 	public String makeQuickReservation(Integer id);
 	public List<Appointment> getOldAppointments();
 	public List<String> getAdditionalServicesForBoat(Integer boatId);
-	public List<Date> getBoatPeriods(Integer boatId);
+	public List<java.util.Date> getBoatPeriods(Integer boatId);
 }
