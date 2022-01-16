@@ -22,6 +22,6 @@ public class YearCalendarDTO {
 	}
 	
 	public String getDuration() {
-		return "Days" + duration;
+		return duration + " days";
 	}
 }
