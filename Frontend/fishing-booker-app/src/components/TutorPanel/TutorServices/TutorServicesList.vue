@@ -14,7 +14,7 @@
         </td>
       </tr>
     </table>
-    <w-flex justify-end class="pa3" style="padding-right: 20%">
+    <w-flex justify-end class="pa3" style="padding-right: 20%" v-if="showTutorButtonsFunc()">
       <w-button @click="showModalDialog">Add new</w-button>
     </w-flex>
     <CustomTable
@@ -99,6 +99,12 @@ export default {
       if (value.success) {
         this.fetchData();
       }
+    },
+    showTutorButtonsFunc(){
+      if (localStorage.roles)
+        if (localStorage.roles.includes("ROLE_TUTOR")) {
+          return true;
+        }return false;
     },
   },
 };

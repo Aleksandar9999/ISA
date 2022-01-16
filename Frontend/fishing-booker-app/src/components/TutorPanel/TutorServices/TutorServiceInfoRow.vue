@@ -8,7 +8,7 @@
     <td>
       <a :href="showService">Show</a>
     </td>
-    <td style="padding: 0px 15px">
+    <td style="padding: 10px 0px">
       <w-button class="mr2" @click="deleteService" bg-color="error">
         Delete
       </w-button>

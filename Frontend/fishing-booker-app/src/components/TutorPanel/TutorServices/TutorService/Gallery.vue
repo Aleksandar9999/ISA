@@ -1,7 +1,7 @@
 <template>
   <div class="images-container">
     <w-card class="main-card" title="Gallery" no-border>
-      <w-flex justify-end class="pa3">
+      <w-flex justify-end class="pa3" v-if="showAddButton">
         <w-button @click="showDialog">Add new</w-button>
       </w-flex>
        </w-card>
@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  props: ["photos","deleteFunction"],
+  props: ["photos","deleteFunction","showAddButton"],
   data() {
     return {
       index: 0,
