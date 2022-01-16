@@ -57,4 +57,9 @@ public class Tutor extends User {
 	public void setBio(String bio) {
 		this.bio = bio;
 	}
+
+	@Override
+	public boolean isEnabled() {
+		return this.getStatus().equals(Status.ADMIN_CONFIRMED);
+	}
 }

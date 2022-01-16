@@ -7,5 +7,13 @@ import com.isa.FishingBooker.model.User;
 
 @Component("userInfoMapper")
 public class UserInfoMapper extends CustomModelMapperAbstract<User, UserInfoDTO> {
-//TODO: DELETE CLASS?
+
+	@Override
+	public UserInfoDTO convertToDto(User entity) {
+		UserInfoDTO dto= super.convertToDto(entity);
+		dto.setClassName(entity.getClass().toString());
+		dto.setShouldApprove(!entity.isEnabled());
+		return dto;
+	}
+	
 }

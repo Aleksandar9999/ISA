@@ -23,4 +23,8 @@ public class ResortOwner extends User {
 	public ResortOwner(){
 		resorts=new HashSet<>();
 	}
+	@Override
+	public boolean isEnabled() {
+		return this.getStatus().equals(Status.ADMIN_CONFIRMED);
+	}
 }

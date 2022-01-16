@@ -63,7 +63,7 @@ public class AuthenticationController {
 	@PostMapping("api/registration/user")
 	public ResponseEntity<?> register(@RequestBody RegistrationDTO dto) {
 		try {
-			User user = userRegistrationMapper.convertToEntity(dto);
+			User user = userRegistrationMapper.convertToEntity(dto,User.class);
 			usersService.addNew(user);
 			emailService.sendRegisterConfirmationMail(user);
 			return ResponseEntity.ok(user);
