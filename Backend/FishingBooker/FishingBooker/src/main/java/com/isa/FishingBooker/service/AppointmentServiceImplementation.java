@@ -199,6 +199,11 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 	private List<TutorServiceAppointment> getAllInCommingAppointmentsByTutor(int tutorId) {
 		return ((AppointmentRepository)repository).getAllInCommingAppointmentsByTutor(tutorId);
 	}
+
+	@Override
+	public List<TutorServiceAppointment> getAllByTutorAndPeriod(int tutorId, java.sql.Date start, java.sql.Date end) {
+		return ((AppointmentRepository)repository).getAllByTutorAndPeriod(tutorId,start,end); 
+}
 	
 	@Override
 	public String makeBoatReservation(BoatAppointment appointment) {

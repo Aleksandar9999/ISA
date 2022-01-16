@@ -1,6 +1,7 @@
 package com.isa.FishingBooker.model;
 
-import java.util.*;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,15 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 @Entity
 public class Appointment {
 	
-	private Date start;
-    private double duration;
+	  private Timestamp start;
+		private double duration;
     private int maxPerson;
     private String additionalServices;
     private double price;
@@ -39,7 +36,7 @@ public class Appointment {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	public Date getStart() {
+	public Timestamp getStart() {
 		return start;
 	}
 
@@ -51,7 +48,7 @@ public class Appointment {
 		this.user = user;
 	}
 
-	public void setStart(Date start) {
+	public void setStart(Timestamp start) {
 		this.start = start;
 	}
 
@@ -103,6 +100,12 @@ public class Appointment {
 		this.address = address;
 	}
 
+	public boolean inPeriod(LocalDateTime date) {
+		LocalDateTime end=start.toLocalDateTime().plusDays((int)duration);
+		LocalDateTime startLocal=start.toLocalDateTime();
+		return (startLocal.isBefore(date) && end.isAfter(date)) || startLocal.toLocalDate().isEqual(date.toLocalDate()) || end.isEqual(date);
+	}
+
 	public AppointmentType getType() {
 		return appointType;
 	}
@@ -110,29 +113,5 @@ public class Appointment {
 	public void setType(AppointmentType appointType) {
 		this.appointType = appointType;
 	}
-	
-	
+		
 }
-	/*
-	 * public java.util.Collection<Extras> extras;
-	 * 
-	 * public java.util.Collection<Extras> getExtras() { if (extras == null) extras
-	 * = new java.util.HashSet<Extras>(); return extras; }
-	 * 
-	 * public java.util.Iterator getIteratorExtras() { if (extras == null) extras =
-	 * new java.util.HashSet<Extras>(); return extras.iterator(); }
-	 * 
-	 * public void setExtras(java.util.Collection<Extras> newExtras) {
-	 * removeAllExtras(); for (java.util.Iterator iter = newExtras.iterator();
-	 * iter.hasNext();) addExtras((Extras) iter.next()); }
-	 * 
-	 * public void addExtras(Extras newExtras) { if (newExtras == null) return; if
-	 * (this.extras == null) this.extras = new java.util.HashSet<Extras>(); if
-	 * (!this.extras.contains(newExtras)) this.extras.add(newExtras); }
-	 * 
-	 * public void removeExtras(Extras oldExtras) { if (oldExtras == null) return;
-	 * if (this.extras != null) if (this.extras.contains(oldExtras))
-	 * this.extras.remove(oldExtras); }
-	 * 
-	 * public void removeAllExtras() { if (extras != null) extras.clear(); }
-	 */

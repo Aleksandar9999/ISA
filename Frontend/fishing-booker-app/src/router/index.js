@@ -20,6 +20,11 @@ import FrontPage from '../components/FrontPage.vue'
 import Confirmation from '../components/Confirm.vue'
 import ReservationPage from '../components/ReservationClientPage.vue'
 
+import MonthlyCalendar from '../components/Calendar/CalendarMonths/MonthlyCalendar.vue'
+import WeeklyCalendar from '../components/Calendar/CalendarWeeks/WeeklyCalendar.vue'
+import YearlyCalendar from '../components/Calendar/CalendarYear/YearlyCalendar.vue'
+
+
 import UsersList from '../components/AdminPanel/Users/UsersList.vue'
 import SystemSettings from '../components/AdminPanel/SystemSettings.vue'
 import ResetPasswordModalDialog from '../components/AdminPanel/ResetPasswordModalDialog.vue'
@@ -40,6 +45,10 @@ const routes = [
   {path: "/login", name: "Login", component: Login},
   {path: "/register", name: "Register",component: Register},
   {path: "/profile", name: "Profile", component: Profile},
+
+  {path: "/calendar/year/:year", name: "YearlyCalendar", component: YearlyCalendar},
+  {path: "/calendar/year/:year/month/:month", name: "MonthlyCalendar", component: MonthlyCalendar},
+  {path: "/calendar/week/:date", name: "WeeklyCalendar", component: WeeklyCalendar},
 
   {path: "/tutors/:idtutor/services", name: "TutorServices", component: TutorServicesList},
   {path: "/tutors/:idtutor/available-periods", name: "TutorAvailablePeriods", component: TutorAvailablePeriods},
