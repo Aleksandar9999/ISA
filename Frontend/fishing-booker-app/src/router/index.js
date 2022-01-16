@@ -42,10 +42,11 @@ const routes = [
   {path: "/login", name: "Login", component: Login},
   {path: "/register", name: "Register",component: Register},
   {path: "/profile", name: "Profile", component: Profile},
-  {path: "/calendar/month/:month", name: "MonthlyCalendar", component: MonthlyCalendar},
-  {path: "/calendar/days/:date", name: "WeeklyCalendar", component: WeeklyCalendar},
+
   {path: "/calendar/year/:year", name: "YearlyCalendar", component: YearlyCalendar},
-  
+  {path: "/calendar/year/:year/month/:month", name: "MonthlyCalendar", component: MonthlyCalendar},
+  {path: "/calendar/week/:date", name: "WeeklyCalendar", component: WeeklyCalendar},
+
   {path: "/tutors/:idtutor/services", name: "TutorServices", component: TutorServicesList},
   {path: "/tutors/:idtutor/available-periods", name: "TutorAvailablePeriods", component: TutorAvailablePeriods},
   {path: "/tutors/:idtutor/appointments", name: "TutorServicesAppointments", component: AppointmentsList},

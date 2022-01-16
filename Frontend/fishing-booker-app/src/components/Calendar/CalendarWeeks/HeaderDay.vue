@@ -11,7 +11,7 @@ export default {
     props:['dayDate','className'],
     methods: {
         getHref(){
-            return `/calendar/days/${this.dayDate.format("YYYY-MM-DD")}`
+            return `/calendar/week/${this.dayDate.format("YYYY-MM-DD")}`
         }
     },
 }

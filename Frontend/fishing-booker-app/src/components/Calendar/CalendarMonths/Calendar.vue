@@ -19,19 +19,19 @@
       <th>sun</th>
     </tr>
     <tr>
-        <CalendarDay v-for="day in calendarDaysTest.slice(0,7)" :key="day.date" :item=day :tdClassName=day.status />
+        <CalendarDay v-for="day in calendarDays.slice(0,7)" :key="day.date" :item=day :tdClassName=day.status />
     </tr>
     <tr>
-        <CalendarDay v-for="day in calendarDaysTest.slice(7,14)" :key="day.date" :item=day :tdClassName=day.status />
+        <CalendarDay v-for="day in calendarDaysLocal.slice(7,14)" :key="day.date" :item=day :tdClassName=day.status />
     </tr>
     <tr>
-        <CalendarDay v-for="day in calendarDaysTest.slice(14,21)" :key="day.date" :item=day :tdClassName=day.status />
+        <CalendarDay v-for="day in calendarDaysLocal.slice(14,21)" :key="day.date" :item=day :tdClassName=day.status />
     </tr>
     <tr>
-        <CalendarDay v-for="day in calendarDaysTest.slice(21,28)" :key="day.date" :item=day :tdClassName=day.status />
+        <CalendarDay v-for="day in calendarDaysLocal.slice(21,28)" :key="day.date" :item=day :tdClassName=day.status />
     </tr>
     <tr>
-        <CalendarDay v-for="day in calendarDaysTest.slice(28,35)" :key="day.date" :item=day :tdClassName=day.status />
+        <CalendarDay v-for="day in calendarDaysLocal.slice(28,35)" :key="day.date" :item=day :tdClassName=day.status />
     </tr>
     
   </table>
@@ -45,20 +45,20 @@ export default {
     return {
       totalHours: 0,
       rowsCount: [1, 2, 3, 4, 5],
-      calendarDaysTest:[],
-      calendarRows: [],
+      calendarDaysLocal:[]
     };
   },
-  beforeMount() {
-      for(let i=0;i<35;i++)
-      {this.calendarDaysTest.push({
-        duration: "Hours: " + 5,
-        date: `2021-05-${i}`, 
-        },)
-        if(i % 3){
-          this.calendarDaysTest[i].status='reserved'
-        }  
+  watch:{
+    calendarDays:{
+      immediate:true,
+      handler(prop){
+        console.log("IMA NEKIH VALJDA")
+        console.log(prop)
+
+        if(prop)
+          this.calendarDaysLocal=prop
       }
+    }
   }
 };
 </script>

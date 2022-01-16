@@ -1,18 +1,18 @@
 <template lang="">
   <div class="wrapper">
-    <section class="content">
-      <h2><i class="ico timesheet"></i>TimeSheet</h2>
+    <section class="content" style="margin: 3% 0px 0px 0px">
+      <h2><i class="ico timesheet"></i>Calendar</h2>
       <div class="grey-box-wrap">
         <div class="top">
-          <a href="javascript:;" class="prev">
+          <a :href="getPreviousWeekHref()" class="prev">
             <i class="zmdi zmdi-chevron-left"></i>previous week
           </a>
-          <span class="center"> February 04 - February 10, 2013 (week 6) </span>
-          <a href="javascript:;" class="next">
+          <span class="center"> {{getHeaderDateText()}} </span>
+          <a :href="getNextWeekHref()" class="next">
             next week<i class="zmdi zmdi-chevron-right"></i>
           </a>
         </div>
-        <header-days :dateLocal=date ></header-days>
+        <header-days ></header-days>
       </div>
       <TasksTable :date="date" />
     </section>
@@ -21,17 +21,28 @@
 <script>
 import HeaderDays from "./HeaderDays.vue";
 import TasksTable from "./TasksTable.vue";
+import moment from 'moment'
 export default {
   components: { HeaderDays, TasksTable },
   data() {
     return {
-      date: '',
+      date: this.$route.params.date,
     };
+  },
+  methods: {
+    getHeaderDateText(){
+      return `${moment(this.date).format("MMMM DD")} - ${moment(this.date).add(7,'days').format("MMMM DD")}`  
+    },
+    getNextWeekHref(){
+      return `${moment(this.date).add(7,'days').format('YYYY-MM-DD')}`
+    },
+    getPreviousWeekHref(){
+      return `${moment(this.date).subtract(7,'days').format('YYYY-MM-DD')}`
+    }
   },
   beforeMount() {
     console.log(this.$route.params.date)
     this.data=this.$route.params.date
-  
   },
   mounted() {
     },

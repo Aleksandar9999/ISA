@@ -1,6 +1,6 @@
 <template lang="">
   <div class="wrapper">
-    <section class="content">
+    <section class="content" style="margin: 3% 0px 0px 0px">
       <h2><i class="ico timesheet"></i>TimeSheet</h2>
       <div class="grey-box-wrap">
         <div class="top">
@@ -14,50 +14,64 @@
         </div>
         <div className="bottom"></div>
       </div>
-      <Calendar />
+      <Calendar :months="calendarMonths" />
     </section>
   </div>
 </template>
 <script>
 import moment from "moment";
-import Calendar from './Calendar.vue'
+import Calendar from "./Calendar.vue";
 import "../../../assets/styles/style.css";
+
+import config from "../../../configuration/config";
 export default {
   components: {
     Calendar,
   },
   data() {
     return {
-      calendarDays: [],
+      calendarMonths: [],
       startDate: "",
-      firstInMonth: "",
+      firstInYear: "",
       headingText: "",
     };
   },
   mounted() {
-    this.firstInMonth = moment().subtract(moment().format("D") - 1, "d");
-    this.startDate = this.firstInMonth.clone().subtract(this.firstInMonth.format("d") - 1, "d");
-    this.headingText =  this.firstInMonth.format("yyyy");
+    this.fetchMonths();
   },
   methods: {
+    fetchMonths() {
+      let firstDate = `${this.$route.params.year}-01-01`;
+      this.firstInYear = moment(firstDate);
+      this.headingText = this.firstInYear.format("yyyy");
+      this.createRequest(this.$route.params.year);
+    },
+    createRequest(year) {
+      let role = "tutor";
+      let firstDate = `${year}-01-01`;
+      let lastDate = `${year}-12-31`;
+      this.$axios
+        .get(
+          `${
+            config.apiStart
+          }/api/appointments/${role}?startDate=${firstDate}&endDate=${lastDate}&type=year`
+        )
+        .then((resp) => {
+          this.calendarMonths = resp.data;
+        });
+    },
     addMonth() {
-      this.firstInMonth = this.firstInMonth.add(1, "M");
+      this.firstInYear = this.firstInYear.add(1, "Y");
       this.dateCalculation();
     },
     subtractMonth() {
-      this.firstInMonth = this.firstInMonth.subtract(1, "M");
+      this.firstInYear = this.firstInYear.subtract(1, "Y");
       this.dateCalculation();
     },
     dateCalculation() {
-      let daysBeforeFirst = this.firstInMonth.format("d") - 1;
-      if (this.firstInMonth.format("d") == 0)
-        // Ako je prvi nedelja
-        daysBeforeFirst = 6;
-      this.startDate = this.firstInMonth.clone().subtract(daysBeforeFirst, "d");
-      this.headingText =
-        this.firstInMonth.format("MMMM") +
-        ", " +
-        this.firstInMonth.format("yyyy");
+      this.headingText = this.firstInYear.format("YYYY");
+      this.$router.push(`./${this.headingText}`)
+      this.createRequest(this.headingText)
     },
   },
 };

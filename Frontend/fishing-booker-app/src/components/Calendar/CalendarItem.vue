@@ -2,9 +2,9 @@
   <td :class="getTdClassName()">
     <div class="progress">
       <div class="date">
-        <span
+        <a :href="getHref()" > <span
           ><p>{{ item.date }}</p></span
-        >
+        ></a>
       </div>
       <div class="hours">
         <a :href="getHref()">
@@ -17,17 +17,18 @@
 </template>
 <script>
 export default {
-  props: ["item", "tdClassName"],
+  props: ["item", "tdClassName","href"],
   methods: {
     getHref() {
-      if (this.tdClassName == "reserved")
-        return `/calendar/days/${this.item.date}`;
-      return "";
+      if(this.href) return this.href;      
+      return `../../../week/${this.item.date}`;
     },
     getTdClassName(){
-      console.log(this.item.duration)
-      if (this.tdClassName == "reserved" || this.item.duration.split(" ")[1] > 0)
+      console.log(this.item)
+      if (this.tdClassName == "reserved") 
         return 'reserved'
+      if(this.item.reservedHours) return "reserved"
+      //if(this.item.duration.split(" ")[1] > 0  || this.item.duration.split(" ")[0] > 0) return 'reserved'
       return ''
     }
   },

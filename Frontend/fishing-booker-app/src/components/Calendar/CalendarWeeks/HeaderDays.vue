@@ -1,14 +1,15 @@
 <template>
-    <div className="bottom">
-                <ul className="days">
-                    <HeaderDay v-for="date in dates" :key=date :dayDate=date 
-                    :className=headerDayClassName(date) />
+    <div class="bottom">
+                <ul class="days">
+                    <HeaderDay v-for="date in dates" :key=date :dayDate=date.date 
+                    :class=headerDayClassName(date.reserved) />
                 </ul>
             </div>
 </template>
 <script>
 import HeaderDay from './HeaderDay.vue'
 import moment from 'moment'
+import config from '../../../configuration/config'
 export default {
     props:['dateProp'],
     components:{
@@ -17,25 +18,40 @@ export default {
     data() {
         return {
             dates:[],
-            dateLocal:''
+            dateLocal:'',
+            datesReserved:[]
         }
     },
     methods: {
-        headerDayClassName(date){
-            return this.dateLocal.isSame(moment(date))?'active':''
+        headerDayClassName(reserved){
+            return reserved?'active':''
+            
         }
     },
-    beforeMount() {
-        this.dateLocal= this.dateProp?this.dateProp:this.$route.params.date
-        this.dateLocal=moment(this.dateLocal)
+    async beforeMount()  {
+        this.dateLocal= this.$route.params.date
+        this.dateLocal=moment(this.dateLocal);
     },
     mounted() {
-        let startDate = this.dateLocal.clone().subtract(3, 'd');
-        let endDate = this.dateLocal.clone().add(3, 'd');
-        for(startDate;startDate.isSameOrBefore(endDate); startDate= startDate.clone().add(1,'d'))
-           this.dates.push(startDate);
+        let startDate = this.dateLocal.clone();
+        let endDate = this.dateLocal.clone().add(6,'days');
+        let rola='tutor';
+       
+        this.$axios.get(`${config.apiStart}/api/appointments/${rola}?startDate=${startDate.format("YYYY-MM-DD")}&endDate=${endDate.format("YYYY-MM-DD")}&type=month`)
+        .then(resp=>{
+            this.datesReserved=resp.data;
+            console.log(this.datesReserved)
+            resp.data.forEach(element => {
+                this.dates.push({date:moment(element.date),reserved:element.reservedHours})
+            });
+        });
+        
+        
         
     },   
     
 }
 </script>
+<style scoped>
+
+</style>
