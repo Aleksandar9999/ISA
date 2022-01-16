@@ -7,7 +7,7 @@
     </td>
     <td v-if="item_local.status !== 'PENDING'">{{ item_local.status }}</td>
     <td
-      v-if="item_local.status == 'PENDING' || item_local.status == 'CONFIRMED'"
+      v-if="item_local.shouldApprove"
     >
       <select name="status" id="status" v-model="status" @change="changeStatus">
         <option value="ADMIN_CONFIRMED">CONFIRM</option>
@@ -49,6 +49,7 @@ export default {
       })
     },
     showDialog() {
+      console.log(this.item_local);
       alert(
         this.item_local.name +
           " " +
@@ -62,7 +63,8 @@ export default {
           ", " +
           this.item_local.address.city +
           ", " +
-          this.item_local.address.country
+          this.item_local.address.country+
+          "\nType: "+ this.item_local.className.split(".").at(-1)
       );
     },
     save() {
