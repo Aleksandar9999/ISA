@@ -1,22 +1,45 @@
 package com.isa.FishingBooker.service;
 
+import com.isa.FishingBooker.exceptions.RevisionCreatorException;
 import com.isa.FishingBooker.model.Status;
+import com.isa.FishingBooker.model.User;
+import com.isa.FishingBooker.model.revision.BoatAppointmentRevision;
+import com.isa.FishingBooker.model.revision.ResortAppointmentRevision;
 import com.isa.FishingBooker.model.revision.Revision;
-import com.isa.FishingBooker.model.TutorServiceAppointmentRevision;
+import com.isa.FishingBooker.model.revision.TutorServiceAppointmentRevision;
 
 import java.util.List;
 
-import com.isa.FishingBooker.model.BoatAppointmentRevision;
-import com.isa.FishingBooker.model.ResortAppointmentRevision;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.isa.FishingBooker.repository.AppointmentRepository;
 import com.isa.FishingBooker.repository.RevisionRepository;
+import com.isa.FishingBooker.repository.UserRepository;
 
 @org.springframework.stereotype.Service
 public class RevisionServiceImpl extends CustomServiceAbstract<Revision> implements RevisionService {	
 	
+	@Autowired
+	private AppointmentRepository appointmentRepository;
+	@Autowired
+	private UserRepository usersRepository;
 	@Override
 	public void addNew(Revision item) {
 		item.setStatus(Status.PENDING);
+		//item.setCreator(usersRepository.getById(item.getCreator().getId()));
 		super.addNew(item);
+	}
+	
+	@Override
+	public void makeTutorRevision(Revision revision) {
+		validateRevisionCreator(revision.getCreator().getId(),revision.getRelatedId());
+		this.addNew(revision);
+	}
+	
+	private void validateRevisionCreator(int creatorId, int tutorId) {
+		if(appointmentRepository.getAllByTutorAndUserBeforeCurrentDate(creatorId,tutorId).size()==0) {
+			throw new RevisionCreatorException();
+		}
 	}
 
 	@Override

@@ -44,7 +44,10 @@ public interface AppointmentRepository extends JpaRepository<Appointment ,Intege
 	public List<TutorServiceAppointment> getAllInCommingAppointmentsByTutor(int tutorId);
 	
 	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.user.id=?1")
-	public List<TutorServiceAppointment> getAllTutorServiceAppointmentsByUser(int tutorId);
+	public List<TutorServiceAppointment> getAllTutorServiceAppointmentsByUser(int userid);
+	
+	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.user.id=?1 and a.tutorService.tutor.id=?2 and a.start < CURRENT_DATE")
+	public List<TutorServiceAppointment> getAllByTutorAndUserBeforeCurrentDate(int userid, int tutorid);
 	
 	
 	@Query(value="select dtype, id,start + interval '1' day * duration as endDate, appoint_type, additional_services, duration, ts.max_person, price, start, ts.address_id, user_id, boat_id, resort_id, ts.tutor_id,ts.tutor_service_id, "

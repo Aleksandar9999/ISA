@@ -1,10 +1,10 @@
 package com.isa.FishingBooker.service;
 
 
+import com.isa.FishingBooker.model.revision.BoatAppointmentRevision;
+import com.isa.FishingBooker.model.revision.ResortAppointmentRevision;
 import com.isa.FishingBooker.model.revision.Revision;
-import com.isa.FishingBooker.model.BoatAppointmentRevision;
-import com.isa.FishingBooker.model.ResortAppointmentRevision;
-import com.isa.FishingBooker.model.TutorServiceAppointmentRevision;
+import com.isa.FishingBooker.model.revision.TutorServiceAppointmentRevision;
 
 public interface RevisionService extends Service<Revision> {
 	
@@ -14,4 +14,5 @@ public interface RevisionService extends Service<Revision> {
 	public String makeTutorServiceRevision(TutorServiceAppointmentRevision revision);
 	public String makeBoatRevision(BoatAppointmentRevision revision);
 	public String makeResortRevision(ResortAppointmentRevision revision);
+	public void makeTutorRevision(Revision revision);
 }
