@@ -59,14 +59,14 @@ public class AppointmentController {
 			switch (calendarType) {
 			case "year":
 				return ResponseEntity.ok(yearCalendarMapper.convertToDtos(
-						service.getAllByTutorAndPeriod(4, Date.valueOf(startDate), Date.valueOf(endDate))));//ТODO: CHANGE FIXED TUTOR ID
+						service.getAllByTutorAndPeriod(loggedinUserId, Date.valueOf(startDate), Date.valueOf(endDate))));//ТODO: CHANGE FIXED TUTOR ID
 			case "month":
 				return ResponseEntity.ok(monthCalendarMapper.convertToDtos(
-						service.getAllByTutorAndPeriod(4, Date.valueOf(startDate), Date.valueOf(endDate)),
+						service.getAllByTutorAndPeriod(loggedinUserId, Date.valueOf(startDate), Date.valueOf(endDate)),
 						LocalDate.parse(startDate), LocalDate.parse(endDate)));
 			case "week":{
 				LocalDate endDateLocal=Date.valueOf(startDate).toLocalDate().plusDays(7);
-				return ResponseEntity.ok(service.getAllByTutorAndPeriod(4, Date.valueOf(startDate), Date.valueOf(endDateLocal)));
+				return ResponseEntity.ok(service.getAllByTutorAndPeriod(loggedinUserId, Date.valueOf(startDate), Date.valueOf(endDateLocal)));
 			}
 			default:
 				break;

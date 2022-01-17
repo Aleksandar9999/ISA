@@ -10,7 +10,7 @@ INSERT INTO ROLE (name) VALUES ('ROLE_USER');
 INSERT INTO ROLE (name) VALUES ('ROLE_ADMIN');
 INSERT INTO ROLE (name) VALUES ('ROLE_TUTOR');
 
-insert into clients (dtype, email, password, name, surname, phone_number, status, address_id) values ('User','badzaic@gmail.com', 'bojan', 'Blagoje', 'Adzic', '021334563','CONFIRMED',1);
+insert into clients (dtype, email, password, name, surname, phone_number, status, address_id) values ('User','abrkljac052@gmail.com', 'bojan', 'Blagoje', 'Adzic', '021334563','CONFIRMED',1);
 insert into clients (dtype, email, password, name, surname, phone_number, status, address_id) values ('BoatOwner','badzaa@gmail.com', 'bojan', 'Bosko', 'Adzic', '021554263','ADMIN_CONFIRMED',1);
 insert into clients (dtype, email, password, name, surname, phone_number, status, address_id) values ('ResortOwner','radomBoj@gmail.com', 'bojan', 'Radomir', 'Bojanic', '015553363','ADMIN_CONFIRMED',2);
 insert into clients (dtype, email, password, name, surname, phone_number, status, address_id) values ('Tutor','dragoOrasanin@gmail.com', 'bojan', 'Drago', 'Orasanin','015252161','ADMIN_CONFIRMED',2);
