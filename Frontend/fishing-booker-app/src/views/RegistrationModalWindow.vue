@@ -137,6 +137,9 @@ export default {
         )
         .then(() => {
           alert("SUCCESS");
+        }).catch((err)=>{
+          console.log(err)
+          alert(err.response.data)
         });
       /*axios
         .post("http://localhost:8080/register", this.regReqData)

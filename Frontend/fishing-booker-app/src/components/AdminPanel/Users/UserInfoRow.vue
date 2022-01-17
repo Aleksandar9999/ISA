@@ -7,7 +7,7 @@
     </td>
     <td v-if="item_local.status !== 'PENDING'">{{ item_local.status }}</td>
     <td
-      v-if="item_local.shouldApprove"
+      v-if="item_local.shouldApprove && item_local.status!='DELETED'"
     >
       <select name="status" id="status" v-model="status" @change="changeStatus">
         <option value="ADMIN_CONFIRMED">CONFIRM</option>
@@ -44,6 +44,7 @@ export default {
       this.statusChanged = true;
     },
     deleteUser(){
+      this.item_local.status="DELETED"
       this.$axios.delete(`${config.apiStart}/api/users/${this.item_local.id}`).then(()=>{
         alert("DONE")
       })
