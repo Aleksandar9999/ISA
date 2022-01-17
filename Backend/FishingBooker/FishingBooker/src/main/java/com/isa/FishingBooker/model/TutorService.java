@@ -44,13 +44,15 @@ public class TutorService {
 	private double cancelProcentage;
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
+	
 	@Column(name = "rate")
 	private int rate;
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	private Status status;
-	@ManyToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<Extras> extrasServices;
+	private String tutorBio;
+	//@ManyToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	private String extrasServices;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<User> subscribers = new HashSet<>();
@@ -99,6 +101,8 @@ public class TutorService {
 		this.fishingEquipment=service.getFishingEquipment();
 		this.rate=service.getRate();
 		this.status=service.getStatus();
+		this.tutorBio=service.getTutorBio();
+		this.extrasServices=service.getExtrasServices();
 		return this;
 	}
 
@@ -123,6 +127,27 @@ public class TutorService {
 		if(this.subscribers==null) this.subscribers=new HashSet<User>();
 		this.subscribers.add(user);
 		return this;
+	}
+
+	public double calculatePrice(int duration) {
+		double appointmentPrice=0;
+		while (duration != 0) {
+			ServicePrice price = getBestOfferByDuration(duration);
+			appointmentPrice+=price.getPrice();
+			duration-=price.getNumberOfDays();
+		}
+		return appointmentPrice;
+	}
+
+	private ServicePrice getBestOfferByDuration(int duration) {
+		if(prices == null || prices.size()==0) throw new UndefinedServicePricesException();
+		ServicePrice ret = null;
+		for (Object object : prices.stream().sorted().collect(Collectors.toList())) {
+			ServicePrice price=(ServicePrice)object;		
+			if(price.getNumberOfDays()<=duration)
+				ret=price;
+		}
+		return ret;
 	}
 	
 	public void addStandardPeriod(Period period) {
@@ -248,33 +273,29 @@ public class TutorService {
 		this.disconutOffers = disconutOffers;
 	}
 
-	public Set<Extras> getExtrasServices() {
+	public String getTutorBio() {
+		return tutorBio;
+	}
+	public void setTutorBio(String tutorBio) {
+		this.tutorBio = tutorBio;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	public void setSubscribers(Set<User> subscribers) {
+		this.subscribers = subscribers;
+	}
+	public void setPhotos(Set<Photo> photos) {
+		this.photos = photos;
+	}
+	public void setStandardPeriods(Set<Period> standardPeriods) {
+		this.standardPeriods = standardPeriods;
+	}
+	public String getExtrasServices() {
 		return extrasServices;
 	}
-
-	public void setExtrasServices(Set<Extras> extrasServices) {
+	public void setExtrasServices(String extrasServices) {
 		this.extrasServices = extrasServices;
 	}
 	
-	
-	public double calculatePrice(int duration) {
-		double appointmentPrice=0;
-		while (duration != 0) {
-			ServicePrice price = getBestOfferByDuration(duration);
-			appointmentPrice+=price.getPrice();
-			duration-=price.getNumberOfDays();
-		}
-		return appointmentPrice;
-	}
-
-	private ServicePrice getBestOfferByDuration(int duration) {
-		if(prices == null || prices.size()==0) throw new UndefinedServicePricesException();
-		ServicePrice ret = null;
-		for (Object object : prices.stream().sorted().collect(Collectors.toList())) {
-			ServicePrice price=(ServicePrice)object;		
-			if(price.getNumberOfDays()<=duration)
-				ret=price;
-		}
-		return ret;
-	}
 }
