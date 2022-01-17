@@ -39,7 +39,7 @@ public class AppointmentController {
 	@Autowired
 	private AppointmentService service;
 	@Autowired
-	private CustomModelMapper<TutorServiceAppointment, TutorServiceAppointmentDTO> tutorServiceModelMapper;
+	private CustomModelMapper<TutorServiceAppointment, TutorServiceAppointmentDTO> tutorServiceAppointmentModelMapper;
 
 	@SuppressWarnings("rawtypes")
 	@Autowired
@@ -96,15 +96,24 @@ public class AppointmentController {
 	@PreAuthorize("hasRole('USER')")
 	@PostMapping("api/appointments/tutor-service")
 	public ResponseEntity<?> addTutorServiceAppointment(@RequestBody TutorServiceAppointmentDTO dto) {
-		TutorServiceAppointment appointment = tutorServiceModelMapper.convertToEntity(dto);
-		service.addNewTutorServiceAppointment(appointment, dto.isValidateUser());
-		return ResponseEntity.ok(tutorServiceModelMapper.convertToDto(appointment));
+		TutorServiceAppointment appointment = tutorServiceAppointmentModelMapper.convertToEntity(dto);
+		service.addNewTutorServiceAppointment(appointment, false);
+		return ResponseEntity.ok(tutorServiceAppointmentModelMapper.convertToDto(appointment));
 	}
 
+	@PreAuthorize("hasRole('TUTOR')")
+	@PostMapping("api/appointments/tutor-service/tutor")
+	public ResponseEntity<?> addTutorServiceAppointmentByTutor(@RequestBody TutorServiceAppointmentDTO dto) {
+		TutorServiceAppointment appointment = tutorServiceAppointmentModelMapper.convertToEntity(dto);
+		service.addNewTutorServiceAppointment(appointment, true);
+		return ResponseEntity.ok(tutorServiceAppointmentModelMapper.convertToDto(appointment));
+	}
+
+	
 	@GetMapping("api/users/tutors/{idtutor}/tutor-service/appointments")
 	public ResponseEntity<?> getAllAppointmentsByTutor(@PathVariable("idtutor") Integer idtutor) {
 		return ResponseEntity
-				.ok(tutorServiceModelMapper.convertToDtos(service.getAllTutorServiceAppointmentsByTutor(idtutor)));
+				.ok(tutorServiceAppointmentModelMapper.convertToDtos(service.getAllTutorServiceAppointmentsByTutor(idtutor)));
 	}
 	
 	@PreAuthorize("hasRole('USER')")

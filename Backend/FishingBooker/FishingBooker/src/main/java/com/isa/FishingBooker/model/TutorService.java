@@ -133,6 +133,7 @@ public class TutorService {
 		double appointmentPrice=0;
 		while (duration != 0) {
 			ServicePrice price = getBestOfferByDuration(duration);
+			if(price==null) throw new UndefinedServicePricesException();
 			appointmentPrice+=price.getPrice();
 			duration-=price.getNumberOfDays();
 		}
