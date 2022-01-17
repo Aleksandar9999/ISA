@@ -58,7 +58,7 @@
                     <option value="">--Please choose an option--</option>
                     <option value="user">User</option>
                     <option value="tutor">Tutor</option>
-                    <option value="admin">Administrator</option>
+                    <option v-if="showAdminRole()" value="admin">Administrator</option>
                   </select>
                 </td>
               </tr>
@@ -155,6 +155,12 @@ export default {
       this.regReqData.city = this.city;
       this.regReqData.country = this.state;
       this.regReqData.phoneNumber = this.phoneNum;
+    },
+    showAdminRole(){
+      if (localStorage.roles)
+        if (localStorage.roles.includes("ROLE_ADMIN")) {
+          return true;
+        }return false;
     },
   },
 };
