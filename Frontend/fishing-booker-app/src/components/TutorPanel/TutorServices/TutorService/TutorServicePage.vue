@@ -115,6 +115,7 @@ export default {
   },
   mounted() {
     this.fetchData();
+    this.showAdminButtonsFunc();
   },
 };
 </script>

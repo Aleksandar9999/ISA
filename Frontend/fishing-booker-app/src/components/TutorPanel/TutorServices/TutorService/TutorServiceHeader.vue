@@ -165,6 +165,23 @@
           </div>
         </w-flex>
 
+<w-flex wrap class="text-center">
+          <div class="xs6 pa1">
+            <p style="margin-top: 3%">Tutor bio:</p>
+          </div>
+          <div class="xs6 pa1">
+            <w-textarea
+              class="mb3"
+              style="text-alignment:center"
+              color: black
+              v-model="service_form.tutorBio"
+              bg-color="white"
+              border
+              placeholder="Extras Services"
+              outline
+            ></w-textarea>
+          </div>
+        </w-flex>
         <div v-if="showAdminButtons" class="text-right mt6">
           <w-button type="submit" bg-color="green" color="white" @click="save">Save</w-button>
         </div>
