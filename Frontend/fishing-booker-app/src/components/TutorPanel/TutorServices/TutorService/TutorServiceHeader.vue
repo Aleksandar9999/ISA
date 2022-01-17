@@ -2,6 +2,9 @@
   <div>
     <w-card class="info-card" no-border>
       <w-form no-keyup-validation no-blur-validation>
+        <div class="text-right mt6" style="margin: 0px 0px 25px 0px">
+          <w-button type="submit" bg-color="red" color="white" v-if="showSubscribeButtonsFunc()" @click="subscribe" >Subscribe</w-button>
+        </div>
         <w-flex wrap class="text-center">
           <div class="xs6 pa1">
             <p>Service name:</p>
@@ -177,7 +180,7 @@
               v-model="service_form.tutorBio"
               bg-color="white"
               border
-              placeholder="Extras Services"
+              placeholder="Tutor bio"
               outline
             ></w-textarea>
           </div>
@@ -210,6 +213,18 @@ export default {
         if (localStorage.roles.includes("ROLE_TUTOR")) {
           this.showAdminButtons = true;
         }
+    },
+    showSubscribeButtonsFunc(){
+      console.log(localStorage.roles)
+      if (localStorage.roles)
+        if (localStorage.roles.trim() === "ROLE_USER") {
+          return true;
+        }return false;
+    },
+    subscribe(){
+      this.$axios.post(`${config.apiStart}/api/tutor-services/${this.service_form.id}/subscribers`,config.requestHeader).then(()=>{
+        alert("SUBSCRIBED")
+      })
     },
     save() {
       console.log(this.service_form);
