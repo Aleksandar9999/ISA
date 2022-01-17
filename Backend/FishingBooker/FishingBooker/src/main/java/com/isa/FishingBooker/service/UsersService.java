@@ -16,7 +16,6 @@ public interface UsersService extends Service<User>, UserDetailsService {
 	public List<User> getAllClients();
 	public Tutor getTutorById(int id);
 	public List<User> search(Status status);
-	public LoginReturnDTO Login(LoginInfoDTO user);
 	public String confirmAccount(Integer id);
 	public User EditUser(User user);
 	public User getUserProfileData();
