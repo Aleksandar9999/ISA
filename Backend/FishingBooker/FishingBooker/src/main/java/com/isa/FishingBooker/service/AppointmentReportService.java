@@ -7,4 +7,5 @@ public interface AppointmentReportService extends Service<AppointmentReport>{
 	public void addOkCommentReport(AppointmentReport report);
 	public void acceptBadReport(int reportId);
 	public void rejectBadReport(int reportId, String reason);
+	public AppointmentReport getByAppointmentId(int id);
 }

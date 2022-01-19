@@ -16,6 +16,10 @@ public class TutorServiceAppointment extends Appointment {
 	public TutorServiceAppointment() {
 	}
 
+	public TutorServiceAppointment(int id) {
+		super(id);
+	}
+
 	public TutorService getTutorService() {
 		return tutorService;
 	}

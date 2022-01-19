@@ -93,20 +93,20 @@ insert into revisions (dtype, comment, rate, status, boat_appointment_id) values
 insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','',5, 4, 8);
 insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','Boat is bad.',4, 4, 8);
 insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','Boat is good.',5, 4, 8);
-insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','Great expirience.',5, 4, 8);
+insert into revisions (dtype, comment, rate, status, boat_appointment_id, creator_id) values ('BoatAppointmentRevision','Great expirience.',5, 0, 8,1);
 
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Resort is excelent.',4, 4, 9);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Resort is excelent.',5, 4, 9);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','',1, 4, 9);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Resort is bad.',2, 4, 9);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Resort is good.',4, 4, 9);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Great expirience.',3, 4, 11);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Resort is excelent.',4, 4, 11);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Resort is excelent.',5, 4, 11);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','',1, 4, 11);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Resort is bad.',2, 4, 11);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Resort is good.',4, 4, 9);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Great expirience.',5, 4, 11);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Resort is excelent.',4, 0, 9,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Resort is excelent.',5, 1, 9,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','',1, 4, 9,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Resort is bad.',2, 4, 9,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Resort is good.',4, 4, 9,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Great expirience.',3, 4, 11,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Resort is excelent.',4, 4, 11,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Resort is excelent.',5, 4, 11,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','',1, 4, 11,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Resort is bad.',2, 4, 11,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Resort is good.',4, 4, 9,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Great expirience.',5, 4, 11,1);
 
 
 insert into system_data (id, procentage, revenue) values (1,5,0);

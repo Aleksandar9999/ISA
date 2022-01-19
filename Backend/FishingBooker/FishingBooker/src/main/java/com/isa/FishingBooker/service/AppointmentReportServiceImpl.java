@@ -8,6 +8,7 @@ import com.isa.FishingBooker.model.AppointmentReport;
 import com.isa.FishingBooker.model.ReportType;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.User;
+import com.isa.FishingBooker.repository.AppointmentReportRepository;
 
 @Service
 public class AppointmentReportServiceImpl extends CustomServiceAbstract<AppointmentReport>
@@ -32,6 +33,7 @@ public class AppointmentReportServiceImpl extends CustomServiceAbstract<Appointm
 	@Override
 	public void addNotShopUpReport(AppointmentReport report) {
 		report.setStatusAndTypeOfReport(Status.CONFIRMED, ReportType.CLIENT_NOT_SHOW_UP);
+		report.setComment("Klijent se nije pojavio.\n"+report.getComment());
 		updateClientPenaltyCountAndNotify(report);
 		super.addNew(report);
 	}
@@ -74,5 +76,10 @@ public class AppointmentReportServiceImpl extends CustomServiceAbstract<Appointm
 		report.setStatus(status);
 		this.update(report);
 		return report;
+	}
+
+	@Override
+	public AppointmentReport getByAppointmentId(int id) {
+		return ((AppointmentReportRepository)repository).getByAppointmentId(id);
 	}
 }

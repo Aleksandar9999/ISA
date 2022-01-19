@@ -2,6 +2,8 @@ package com.isa.FishingBooker.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +17,7 @@ import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.model.AppointmentReport;
 import com.isa.FishingBooker.service.AppointmentReportService;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class AppointmentReportController {
 
@@ -22,36 +25,57 @@ public class AppointmentReportController {
 	private AppointmentReportService service;
 	@Autowired
 	private CustomModelMapper<AppointmentReport, AppointmentReportDTO> mapper;
-	private final String api="api/appointment-report";
-	@PostMapping(api+"/bad-comment")
+	private final String api = "api/appointment-report";
+
+
+	@PreAuthorize("hasRole('TUTOR')")
+	@PostMapping(api + "/bad-comment")
 	public ResponseEntity<?> addBadCommentReport(@RequestBody AppointmentReportDTO report) {
 		service.addBadCommentReport(mapper.convertToEntity(report));
 		return ResponseEntity.ok().build();
 	}
-	@PostMapping(api+"/not-show-up")
+
+
+	@PreAuthorize("hasRole('TUTOR')")
+	@PostMapping(api + "/not-show-up")
 	public ResponseEntity<?> addNotShopUpReport(@RequestBody AppointmentReportDTO report) {
 		service.addNotShopUpReport(mapper.convertToEntity(report));
 		return ResponseEntity.ok().build();
 	}
-	@PostMapping(api+"/ok-comment")
+
+
+	@PreAuthorize("hasRole('TUTOR')")
+	@PostMapping(api + "/ok-comment")
 	public ResponseEntity<?> addOkCommentReport(@RequestBody AppointmentReportDTO report) {
 		service.addOkCommentReport(mapper.convertToEntity(report));
 		return ResponseEntity.ok().build();
 	};
-	
-	@PutMapping(api+"/bad-comment/{id}/accept")
-	public ResponseEntity<?> acceptBadReport(@PathVariable("id")int reportId) {
+
+	@PreAuthorize("hasRole('ADMIN')")
+	@PutMapping(api + "/bad-comment/{id}/accept")
+	public ResponseEntity<?> acceptBadReport(@PathVariable("id") int reportId) {
 		service.acceptBadReport(reportId);
 		return ResponseEntity.ok().build();
 	};
-	
-	@PutMapping(api+"/bad-comment/{id}/reject")
-	public ResponseEntity<?> rejectReportStatus(@PathVariable("id")int reportId,@RequestBody ReasonDTO reasonDto) {
-		service.rejectBadReport(reportId,reasonDto.getReason());
+
+	@PreAuthorize("hasRole('ADMIN')")
+	@PutMapping(api + "/bad-comment/{id}/reject")
+	public ResponseEntity<?> rejectReportStatus(@PathVariable("id") int reportId, @RequestBody ReasonDTO reasonDto) {
+		service.rejectBadReport(reportId, reasonDto.getReason());
 		return ResponseEntity.ok().build();
 	};
-	
+
+	@PreAuthorize("hasAnyRole('TUTOR', 'ADMIN')")
 	@GetMapping(api)
-	public ResponseEntity<?> getAll(){return ResponseEntity.ok(service.getAll());}
-	
+	public ResponseEntity<?> getAll() {
+		return ResponseEntity.ok(service.getAll());
+	}
+
+	@PreAuthorize("hasRole('TUTOR')")
+	@GetMapping(api + "/appointment/{id}")
+	public ResponseEntity<?> isReportCreated(@PathVariable("id") int id) {
+		if (service.getByAppointmentId(id) == null)
+			return ResponseEntity.notFound().build();
+		return ResponseEntity.ok().build();
+	}
 }

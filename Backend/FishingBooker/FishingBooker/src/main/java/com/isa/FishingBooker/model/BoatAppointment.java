@@ -13,6 +13,10 @@ public class BoatAppointment extends Appointment {
 	public BoatAppointment() {
 	}
 	
+	public BoatAppointment(int id) {
+		super(id);
+	}
+
 	public Boat getBoat() {
 		return boat;
 	}
