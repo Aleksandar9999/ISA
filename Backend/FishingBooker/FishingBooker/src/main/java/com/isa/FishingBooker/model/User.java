@@ -198,5 +198,4 @@ public class User implements UserDetails {
 		this.reservationsList = reservationsList;
 	}
 
-	
 }

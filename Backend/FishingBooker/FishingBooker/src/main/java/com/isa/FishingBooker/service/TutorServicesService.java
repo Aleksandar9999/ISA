@@ -18,5 +18,6 @@ public interface TutorServicesService extends Service<TutorService>{
 	public void addNewStandardPeriod(int idservice, Period period);
 	public List<Period> getAllAvailablePeriodsByTutor(int idtutor);
 	public void addNewSubscriber(int serviceId, User loggedinUser);
+	public void removeSubscriber(int serviceId, User loggedinUser);
 	public void addNewDiscountOffer(int idservice, DiscountOffer offer);
 }

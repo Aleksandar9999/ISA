@@ -128,7 +128,10 @@ public class TutorService {
 		this.subscribers.add(user);
 		return this;
 	}
-
+	public TutorService removeSubscriber(User user) {
+		this.subscribers.removeIf(subs->subs.getId().equals(user.getId()));
+		return this;
+	}
 	public double calculatePrice(int duration) {
 		double appointmentPrice=0;
 		while (duration != 0) {

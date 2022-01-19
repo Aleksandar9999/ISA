@@ -46,6 +46,7 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		validateNewTutorServiceAppointment(app);
 		app.setPrice(tutorService.calculatePrice((int) app.getDuration()));
 		super.addNew(app);
+		emailService.sendReservationMail(userService.getById(app.getUser().getId()));
 	}
 
 	@Override
