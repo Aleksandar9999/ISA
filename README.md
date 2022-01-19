@@ -1,4 +1,4 @@
-# fishing-booker-app
+# Fishing booker
 Our team members:
 
 Student 1 - Bojan Prodanovic RA 34/2018
