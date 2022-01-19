@@ -126,21 +126,21 @@ export default {
     methods: {
         setRatesResort(list){
           for(let i=0; i<list.length; i++){
-              axios.get('http://localhost:8080/api/revision/resortAppointmentRate/'+list[i].id).then(response =>
+              axios.get('http://localhost:8080/api/revision/resortAppointmentRate/'+list[i].resort.id).then(response =>
             list[i].rate=response.data
           );
           }          
         },
         setRatesBoat(list){
           for(let i=0; i<list.length; i++){
-              axios.get('http://localhost:8080/api/revision/boatAppointmentRate/'+list[i].id).then(response =>
+              axios.get('http://localhost:8080/api/revision/boatAppointmentRate/'+list[i].boat.id).then(response =>
             list[i].rate=response.data
           );
           }          
         },
         setRatesAdventures(list){
           for(let i=0; i<list.length; i++){
-              axios.get('http://localhost:8080/api/revision/tutorServiceAppointmentRate/'+list[i].id).then(response =>
+              axios.get('http://localhost:8080/api/revision/tutorServiceAppointmentRate/'+list[i].tutorService.id).then(response =>
             list[i].rate=response.data
           );
           }          
@@ -293,10 +293,17 @@ export default {
       axios.get('http://localhost:8080/resortAppointments').then(response =>
           this.resorts=response.data
           );
-      axios.get('http://localhost:8080/api/tutor-service/appointments').then(response =>
+      axios.get('http://localhost:8080/api/appointments/tutor-service').then(response =>
           this.adventures=response.data
           )
         },
+
+      getExtras(){
+        axios.get('http://localhost:8080/extras').then(response=>this.addExtras(response.data))
+      },
+      addExtras(data){
+        this.additionalServices=data
+      }
         
     },
     mounted() {

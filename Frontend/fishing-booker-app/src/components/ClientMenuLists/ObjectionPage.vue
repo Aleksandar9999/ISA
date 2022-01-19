@@ -11,7 +11,7 @@
                     </tr>           
                 </thead>       
                 <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                        <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.address.street + ' ' + item.address.country }}</td><td><button @click="makeObjection(item)">Make objection</button></td></tr>
+                        <tr><td>{{item.id}}</td><td>{{item.start}}</td><td>{{item.address.street + ' ' + item.address.country }}</td><td><button @click="makeObjection(item)">Make objection</button></td></tr>
                 </tbody>                   
             </table>
         </div>     
@@ -43,7 +43,7 @@ export default {
             entityType:'',
             entityId:-1,
             objectionEntity:{},
-            headerList:['ID','Name','Location','Make objection'],
+            headerList:['ID','Date','Location','Make objection'],
             dataList: [],
             reserveList: []
         }
