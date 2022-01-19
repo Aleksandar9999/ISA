@@ -28,4 +28,9 @@ public class TutorServiceAppointment extends Appointment {
 	public int getTutorId() {
 		return tutorService.getTutor().getId();
 	}
+
+	@Override
+	public User getOwner() {
+		return tutorService.getTutor();
+	}
 }

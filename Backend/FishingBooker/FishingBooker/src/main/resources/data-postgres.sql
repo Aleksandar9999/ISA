@@ -10,12 +10,12 @@ INSERT INTO ROLE (name) VALUES ('ROLE_USER');
 INSERT INTO ROLE (name) VALUES ('ROLE_ADMIN');
 INSERT INTO ROLE (name) VALUES ('ROLE_TUTOR');
 
-insert into clients (dtype, email, password, name, surname, phone_number, status, address_id) values ('User','abrkljac052@gmail.com', 'bojan', 'Blagoje', 'Adzic', '021334563','CONFIRMED',1);
-insert into clients (dtype, email, password, name, surname, phone_number, status, address_id) values ('BoatOwner','badzaa@gmail.com', 'bojan', 'Bosko', 'Adzic', '021554263','ADMIN_CONFIRMED',1);
-insert into clients (dtype, email, password, name, surname, phone_number, status, address_id) values ('ResortOwner','radomBoj@gmail.com', 'bojan', 'Radomir', 'Bojanic', '015553363','ADMIN_CONFIRMED',2);
-insert into clients (dtype, email, password, name, surname, phone_number, status, address_id) values ('Tutor','dragoOrasanin@gmail.com', 'bojan', 'Drago', 'Orasanin','015252161','ADMIN_CONFIRMED',2);
-insert into clients (dtype, email, password, name, surname, phone_number, status, address_id, password_changed) values ('Admin','admin@gmail.com', 'admin', 'admin', 'admin','015252161','ADMIN_CONFIRMED',3,'true');
-insert into clients (dtype, email, password, name, surname, phone_number, status, address_id) values ('Tutor','abrkljac9@gmail.com', 'bojan', 'Mihailo', 'Radic','015235561','ADMIN_CONFIRMED',1);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('User','abrkljac052@gmail.com', 'bojan', 'Blagoje', 'Adzic', '021334563','CONFIRMED',1,0);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('BoatOwner','badzaa@gmail.com', 'bojan', 'Bosko', 'Adzic', '021554263','ADMIN_CONFIRMED',1,0);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('ResortOwner','radomBoj@gmail.com', 'bojan', 'Radomir', 'Bojanic', '015553363','ADMIN_CONFIRMED',2,0);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('Tutor','dragoOrasanin@gmail.com', 'bojan', 'Drago', 'Orasanin','015252161','ADMIN_CONFIRMED',2,0);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,password_changed,penalty_count) values ('Admin','admin@gmail.com', 'admin', 'admin', 'admin','015252161','ADMIN_CONFIRMED',3,'true',0);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('Tutor','abrkljac9@gmail.com', 'bojan', 'Mihailo', 'Radic','015235561','ADMIN_CONFIRMED',1,0);
 
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (1, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (2, 1); 

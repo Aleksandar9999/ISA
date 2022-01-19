@@ -27,6 +27,23 @@ public class EmailService {
 	}
 	
 	@Async
+	public void sendPenaltyUpdateNotification(User client, String reason) {
+		String mailContent= String.format("Dear %s,\nYou got new penalty.\nNew number of penalties: %s.\n\nReason:%s", client.getName(),client.getPenaltyCount(),reason);
+		this.sendCustomEmail(client.getEmail(), "Penalty count update", mailContent);
+	}
+	
+	@Async
+	public void sendAppointmentReportAcceptedNotification(User user) {
+		String mailContent= String.format("Dear %s,\nWe accepted your report. User penalty count updated.\nBest regards,\nFishingBooker App Team", user.getName());
+		this.sendCustomEmail(user.getEmail(), "Penalty count update", mailContent);
+	}
+	@Async
+	public void sendAppointmentReportRejectedNotification(User user, String reason) {
+		String mailContent= String.format("Dear %s,\nWe rejected your report.\n\nReason:%s\nBest regards,\nFishingBooker App Team", user.getName());
+		this.sendCustomEmail(user.getEmail(), "Penalty count update", mailContent);
+	}
+	
+	@Async
 	public void sendRegisterConfirmationMail(User user) {
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(user.getEmail());
@@ -50,7 +67,7 @@ public class EmailService {
 	@Async
 	public void sendConfirmConfirmationMail(User user) {
 		String subject="Registration confirmation";
-		String text=String.format("Dear %s,\nOur admin team confirmed your registration.\nBest regards,\n FishingBooker App Team", user.getName());
+		String text=String.format("Dear %s,\nOur admin team confirmed your registration.\nBest regards,\nFishingBooker App Team", user.getName());
 		this.sendEmail(this.createMail(user.getEmail(), subject, text));
 	}
 	private SimpleMailMessage createMail(String email,String subject, String text) {
