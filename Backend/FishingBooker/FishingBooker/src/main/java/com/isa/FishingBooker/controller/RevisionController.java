@@ -43,11 +43,18 @@ public class RevisionController {
 		return ResponseEntity.ok(revision);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@PutMapping("api/revision/{id}")
 	public ResponseEntity<?> updateRevision(@RequestBody RevisionDTO dto){
-		Revision revision=revisionModelMapper.convertToEntity(dto, TutorRevision.class);
-		revisionService.update(revision);
-		return ResponseEntity.ok(revision);
+		Revision revision;
+		try {
+			revision = revisionModelMapper.convertToEntity(dto, (Class<? extends Revision>) Class.forName(dto.getClassName()));
+			revisionService.update(revision);
+			return ResponseEntity.ok(revision);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.badRequest().body("Unrecognized class.");
+		}
 	}
 	
 	@PreAuthorize("hasRole('USER')")

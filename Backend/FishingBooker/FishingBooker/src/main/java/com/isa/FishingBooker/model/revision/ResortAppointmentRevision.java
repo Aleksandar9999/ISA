@@ -17,13 +17,11 @@ public class ResortAppointmentRevision extends Revision {
 
 	@Override
 	public void setRelatedId(int id) {
-		// TODO Auto-generated method stub
-		resortAppointment.setId(id);
+		resortAppointment=new ResortAppointment(id);
 	}
 
 	@Override
 	public int getRelatedId() {
-		// TODO Auto-generated method stub
 		return resortAppointment.getId();
 	}
 }

@@ -10,12 +10,12 @@ INSERT INTO ROLE (name) VALUES ('ROLE_USER');
 INSERT INTO ROLE (name) VALUES ('ROLE_ADMIN');
 INSERT INTO ROLE (name) VALUES ('ROLE_TUTOR');
 
-insert into clients (dtype, email, password, name, surname, phone_number, status, address_id) values ('User','abrkljac052@gmail.com', 'bojan', 'Blagoje', 'Adzic', '021334563','CONFIRMED',1);
-insert into clients (dtype, email, password, name, surname, phone_number, status, address_id) values ('BoatOwner','badzaa@gmail.com', 'bojan', 'Bosko', 'Adzic', '021554263','ADMIN_CONFIRMED',1);
-insert into clients (dtype, email, password, name, surname, phone_number, status, address_id) values ('ResortOwner','radomBoj@gmail.com', 'bojan', 'Radomir', 'Bojanic', '015553363','ADMIN_CONFIRMED',2);
-insert into clients (dtype, email, password, name, surname, phone_number, status, address_id) values ('Tutor','dragoOrasanin@gmail.com', 'bojan', 'Drago', 'Orasanin','015252161','ADMIN_CONFIRMED',2);
-insert into clients (dtype, email, password, name, surname, phone_number, status, address_id, password_changed) values ('Admin','admin@gmail.com', 'admin', 'admin', 'admin','015252161','ADMIN_CONFIRMED',3,'true');
-insert into clients (dtype, email, password, name, surname, phone_number, status, address_id) values ('Tutor','abrkljac9@gmail.com', 'bojan', 'Mihailo', 'Radic','015235561','ADMIN_CONFIRMED',1);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('User','abrkljac052@gmail.com', 'bojan', 'Blagoje', 'Adzic', '021334563','CONFIRMED',1,0);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('BoatOwner','badzaa@gmail.com', 'bojan', 'Bosko', 'Adzic', '021554263','ADMIN_CONFIRMED',1,0);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('ResortOwner','radomBoj@gmail.com', 'bojan', 'Radomir', 'Bojanic', '015553363','ADMIN_CONFIRMED',2,0);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('Tutor','dragoOrasanin@gmail.com', 'bojan', 'Drago', 'Orasanin','015252161','ADMIN_CONFIRMED',2,0);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,password_changed,penalty_count) values ('Admin','admin@gmail.com', 'admin', 'admin', 'admin','015252161','ADMIN_CONFIRMED',3,'true',0);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('Tutor','abrkljac9@gmail.com', 'bojan', 'Mihailo', 'Radic','015235561','ADMIN_CONFIRMED',1,0);
 
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (1, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (2, 1); 
@@ -93,20 +93,20 @@ insert into revisions (dtype, comment, rate, status, boat_appointment_id) values
 insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','',5, 4, 8);
 insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','Boat is bad.',4, 4, 8);
 insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','Boat is good.',5, 4, 8);
-insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','Great expirience.',5, 4, 8);
+insert into revisions (dtype, comment, rate, status, boat_appointment_id, creator_id) values ('BoatAppointmentRevision','Great expirience.',5, 0, 8,1);
 
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Resort is excelent.',4, 4, 9);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Resort is excelent.',5, 4, 9);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','',1, 4, 9);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Resort is bad.',2, 4, 9);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Resort is good.',4, 4, 9);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Great expirience.',3, 4, 11);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Resort is excelent.',4, 4, 11);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Resort is excelent.',5, 4, 11);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','',1, 4, 11);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Resort is bad.',2, 4, 11);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Resort is good.',4, 4, 9);
-insert into revisions (dtype, comment, rate, status, resort_appointment_id) values ('ResortAppointmentRevision','Great expirience.',5, 4, 11);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Resort is excelent.',4, 0, 9,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Resort is excelent.',5, 1, 9,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','',1, 4, 9,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Resort is bad.',2, 4, 9,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Resort is good.',4, 4, 9,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Great expirience.',3, 4, 11,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Resort is excelent.',4, 4, 11,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Resort is excelent.',5, 4, 11,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','',1, 4, 11,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Resort is bad.',2, 4, 11,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Resort is good.',4, 4, 9,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Great expirience.',5, 4, 11,1);
 
 
 insert into system_data (id, procentage, revenue) values (1,5,0);

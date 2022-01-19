@@ -16,7 +16,6 @@ public class Objection {
 	@ManyToOne
 	@JoinColumn(name="appointment_id")
 	private Appointment appointment;
-	
 	private String objection;
 	private String userEmail;
 	public Integer getId() {

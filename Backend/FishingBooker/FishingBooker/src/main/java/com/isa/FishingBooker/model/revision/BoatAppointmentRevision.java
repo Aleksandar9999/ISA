@@ -17,8 +17,7 @@ public class BoatAppointmentRevision extends Revision {
 	
 	@Override
 	public void setRelatedId(int id) {
-		// TODO Auto-generated method stub
-		boatAppointment.setId(id);
+		boatAppointment=new BoatAppointment(id);
 	}
 
 	@Override

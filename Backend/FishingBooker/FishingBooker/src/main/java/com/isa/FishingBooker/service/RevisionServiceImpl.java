@@ -26,7 +26,7 @@ public class RevisionServiceImpl extends CustomServiceAbstract<Revision> impleme
 	@Override
 	public void addNew(Revision item) {
 		item.setStatus(Status.PENDING);
-		//item.setCreator(usersRepository.getById(item.getCreator().getId()));
+		item.setCreator(usersRepository.getById(item.getCreator().getId()));
 		super.addNew(item);
 	}
 	

@@ -14,8 +14,11 @@
 					<th>
 						User name and surname:
 					</th>
+					<th>
+						
+					</th>
 				</tr>
-				<TaskItem v-for="appointment in appointments" :key="appointment" :item=appointment />
+				<TaskItem v-for="appointment in appointments" :key="appointment" :item=appointment @createReportShow=createReportShow />
 			</table>
 </template>
 <script>
@@ -32,6 +35,11 @@ export default {
 		}
 	},
 	components:{TaskItem},
+	methods: {
+		createReportShow(value){
+			this.$emit("createReportShow", value);
+		}
+	},
 	mounted() {
 		this.$axios.get(`${config.apiStart}/api/appointments/${this.role}?startDate=${moment(this.startDate).format("YYYY-MM-DD")}&type=week`)
 		.then(resp=>{

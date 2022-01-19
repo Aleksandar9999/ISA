@@ -10,12 +10,23 @@ public class BoatAppointment extends Appointment {
 	@ManyToOne
 	@JoinColumn(name="boat_id")
 	private Boat boat;
+	public BoatAppointment() {
+	}
 	
+	public BoatAppointment(int id) {
+		super(id);
+	}
+
 	public Boat getBoat() {
 		return boat;
 	}
 	public void setBoat(Boat boat) {
 		this.boat = boat;
+	}
+
+	@Override
+	public User getOwner() {
+		return boat.getBoatOwner();
 	}
 	
 }

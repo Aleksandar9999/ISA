@@ -13,29 +13,37 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Appointment {
-	
-	private Timestamp start;
-    private double duration;
-    private int maxPerson;
-    private String additionalServices;
-    private double price;
-    @Enumerated(EnumType.STRING)
-    private AppointmentType appointType;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
+	private Timestamp start;
+	private double duration;
+	private int maxPerson;
+	private String additionalServices;
+	private double price;
+	@Enumerated(EnumType.STRING)
+	private AppointmentType appointType;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "address_id")
 	private Address address;
-
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 
+	public Appointment() {
+	}
+
+	public Appointment(int id) {
+		this.id = id;
+	}
+
+	@JsonIgnore
+	public User getOwner() {return null;}
+	
 	public Timestamp getStart() {
 		return start;
 	}
@@ -101,10 +109,11 @@ public class Appointment {
 	}
 
 	public boolean inPeriod(LocalDateTime date) {
-		LocalDateTime end=start.toLocalDateTime().plusDays((int)duration-1);
-		LocalDateTime startLocal=start.toLocalDateTime();
-		
-		return (startLocal.isBefore(date) && end.isAfter(date)) || startLocal.toLocalDate().isEqual(date.toLocalDate()) || end.isEqual(date);
+		LocalDateTime end = start.toLocalDateTime().plusDays((int) duration - 1);
+		LocalDateTime startLocal = start.toLocalDateTime();
+
+		return (startLocal.isBefore(date) && end.isAfter(date)) || startLocal.toLocalDate().isEqual(date.toLocalDate())
+				|| end.isEqual(date);
 	}
 
 	public AppointmentType getType() {
@@ -114,5 +123,5 @@ public class Appointment {
 	public void setType(AppointmentType appointType) {
 		this.appointType = appointType;
 	}
-		
+
 }

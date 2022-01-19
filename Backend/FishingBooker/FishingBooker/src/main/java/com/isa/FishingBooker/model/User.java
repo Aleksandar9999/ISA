@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Table(name = "clients")
+@Table(name = "users")
 public class User implements UserDetails {
 
 	@Id
@@ -51,16 +51,17 @@ public class User implements UserDetails {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private List<Role> roles;
-	@ElementCollection(targetClass=Integer.class)
+	@ElementCollection(targetClass = Integer.class)
 	private Set<Integer> reservationsList;
-	
+	private int penaltyCount;
+
 	public User() {
 	}
-	
+
 	public void updateUserInfo(User user) {
 		this.id = user.getId();
 		this.email = user.getEmail();
-		this.password = user.getPassword()==null?this.password:user.getPassword();
+		this.password = user.getPassword() == null ? this.password : user.getPassword();
 		this.name = user.getName();
 		this.surname = user.getSurname();
 		this.address = user.getAddress();
@@ -72,14 +73,18 @@ public class User implements UserDetails {
 	public List<Role> getRoles() {
 		return roles;
 	}
-	//TODO: This methode must be overrided by every subclass of this
+
+	// TODO: This methode must be overrided by every subclass of this
 	public void setRolesNames() {
 		this.setRoleName(Role.USER_ROLE);
 	}
+
 	protected void setRoleName(String name) {
-		if(this.roles==null) this.roles=new ArrayList<Role>();
+		if (this.roles == null)
+			this.roles = new ArrayList<Role>();
 		this.roles.add(new Role(name));
 	}
+
 	public User(int id) {
 		this.id = id;
 	}
@@ -154,7 +159,6 @@ public class User implements UserDetails {
 		return this.roles;
 	}
 
-
 	@JsonIgnore
 	@Override
 	public String getUsername() {
@@ -196,6 +200,14 @@ public class User implements UserDetails {
 
 	public void setReservationsList(Set<Integer> reservationsList) {
 		this.reservationsList = reservationsList;
+	}
+
+	public int getPenaltyCount() {
+		return penaltyCount;
+	}
+
+	public void addPenalty(int count) {
+		this.penaltyCount += count;
 	}
 
 }

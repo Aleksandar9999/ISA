@@ -28,8 +28,6 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 	@Autowired
 	private TutorServicesService tutorServicesService;
 	@Autowired
-	private TutorServiceRepository tutorServiceRepository;
-	@Autowired
 	private EmailService emailService;
 	@Autowired
 	private UsersService userService;
@@ -61,7 +59,7 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 	private boolean validateUseCurrentAppointment(Integer userid, int tutorServiceId) {
 		Date currentDate = new Date(System.currentTimeMillis());
 		Period currentPeriod = new Period(currentDate, currentDate);
-		TutorService tutorService=tutorServiceRepository.findById(tutorServiceId).get();
+		TutorService tutorService=tutorServicesService.getById(tutorServiceId);
 		for (TutorServiceAppointment appointment : ((AppointmentRepository) repository).getAllByTutorAndUserBeforeCurrentDate(userid,tutorService.getTutor().getId())) {
 			try {
 				validateUserAppointmentOverlap(currentPeriod, appointment);
