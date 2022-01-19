@@ -1,5 +1,7 @@
 package com.isa.FishingBooker.model;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -68,6 +70,14 @@ public class Period {
 
 	public Date getEndDate() {
 		return this.endDate;
+	}
+	
+	public static Period createPeriod(Timestamp start, int duration) {
+		Calendar calendar = new Calendar.Builder().build();
+		calendar.setTime(start);
+		Date startDate=calendar.getTime();
+		calendar.add(Calendar.DAY_OF_MONTH, duration);
+		return new Period(startDate,calendar.getTime());
 	}
 	
 	public void overlap(Period newPeriod) {

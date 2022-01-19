@@ -36,7 +36,8 @@ export default {
     };
   },
   mounted() {
-    this.firstInMonth = moment().subtract(moment().format("D") - 1, "d");
+    let first = `${this.$route.params.year}-${this.$route.params.month}-01`
+    this.firstInMonth = moment(first);
     let daysBeforeFirst = this.firstInMonth.format("d") - 1;
     if (this.firstInMonth.format("d") == 0) daysBeforeFirst = 6;
     this.startDate = this.firstInMonth.clone().subtract(daysBeforeFirst, "d");

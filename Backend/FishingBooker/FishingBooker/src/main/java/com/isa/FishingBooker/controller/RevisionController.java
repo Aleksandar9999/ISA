@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.dto.RevisionDTO;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
+import com.isa.FishingBooker.model.User;
+import com.isa.FishingBooker.model.revision.BoatAppointmentRevision;
+import com.isa.FishingBooker.model.revision.ResortAppointmentRevision;
 import com.isa.FishingBooker.model.revision.Revision;
 import com.isa.FishingBooker.model.revision.TutorRevision;
-import com.isa.FishingBooker.model.BoatAppointmentRevision;
-import com.isa.FishingBooker.model.ResortAppointmentRevision;
-import com.isa.FishingBooker.model.TutorServiceAppointmentRevision;
+import com.isa.FishingBooker.model.revision.TutorServiceAppointmentRevision;
 import com.isa.FishingBooker.service.RevisionService;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -33,11 +34,12 @@ public class RevisionController {
 	public ResponseEntity<?> getAllRevisions(){
 		return ResponseEntity.ok(revisionModelMapper.convertToDtos(revisionService.getAll()));
 	}
-	
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("api/revision/tutor")
 	public ResponseEntity<?> createNewTutorRevision(@RequestBody RevisionDTO dto){
 		Revision revision=revisionModelMapper.convertToEntity(dto, TutorRevision.class);
-		revisionService.addNew(revision);
+		revision.setCreator(new User(UsersController.getLoggedInUserId()));
+		revisionService.makeTutorRevision(revision);
 		return ResponseEntity.ok(revision);
 	}
 	
@@ -69,18 +71,22 @@ public class RevisionController {
 	@PreAuthorize("hasRole('USER')")
 	@PostMapping("api/revision/makeTutorServiceRevision")
 	public ResponseEntity<?> makeTutorServiceRevision(@RequestBody TutorServiceAppointmentRevision revision){
+		revision.setCreator(new User(UsersController.getLoggedInUserId()));
 		return ResponseEntity.ok(revisionService.makeTutorServiceRevision(revision));
 	}
 	
 	@PreAuthorize("hasRole('USER')")
 	@PostMapping("api/revision/makeBoatRevision")
 	public ResponseEntity<?> makeBoatRevision(@RequestBody BoatAppointmentRevision revision){
+		revision.setCreator(new User(UsersController.getLoggedInUserId()));
+		
 		return ResponseEntity.ok(revisionService.makeBoatRevision(revision));
 	}
 	
 	@PreAuthorize("hasRole('USER')")
 	@PostMapping("api/revision/makeResortRevision")
 	public ResponseEntity<?> makeResortRevision(@RequestBody ResortAppointmentRevision revision){
+		revision.setCreator(new User(UsersController.getLoggedInUserId()));
 		return ResponseEntity.ok(revisionService.makeResortRevision(revision));
 	}
 	

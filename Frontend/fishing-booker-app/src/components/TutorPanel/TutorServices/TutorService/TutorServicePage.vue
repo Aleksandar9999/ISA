@@ -1,8 +1,8 @@
 <template>
   <div>
     <TutorServiceHeader :service_info="service_info" />
-    <Gallery :photos="gallery" :deleteFunction="deleteImage" @showDialog="this.photoDialog.show=true" />
-    <ExtrasServices />
+    <Gallery :photos="gallery" :deleteFunction="deleteImage" @showDialog="this.photoDialog.show=true" :showAddButton=showAdminButtons />
+    <!--<ExtrasServices /> -->
     <FastAppointments
       @showDiscountOfferDialog="discountOfferDialog.show = true"
       :idservice="idservice"
@@ -12,9 +12,9 @@
       :idservice="idservice"
       @hideDialog="hideDiscountOfferDialog"
     />
-    <prices-list :idservice=idservice @showDialog="this.priceDialog.show=true;" :fetch=this.priceDialog.success />
+    <prices-list :idservice=idservice @showDialog="this.priceDialog.show=true;" :fetch=this.priceDialog.success :showAddButton=showAdminButtons />
     <price-modal-dialog :idservice=idservice :show=this.priceDialog.show @hideDialog=checkForUpdatePrices />
-    <photo-dialog :api="api" :show=photoDialog.show @hideDialog=hidePhotoDialog />
+    <photo-dialog :api="api" :show=photoDialog.show @hideDialog=hidePhotoDialog  />
   </div>
 </template>
 
@@ -64,6 +64,7 @@ export default {
       idservice: this.$route.params.idservice,
       extra_services: [],
       fast_appointments: [],
+      showAdminButtons:false,
       api:`${config.apiStart}/api/tutor-services/${this.$route.params.idservice}`
     };
   },
@@ -89,6 +90,12 @@ export default {
       if(value.success)
         this.priceDialog.success=!this.priceDialog.success
     },
+    showAdminButtonsFunc(){
+      if (localStorage.roles)
+        if (localStorage.roles.includes("ROLE_TUTOR")) {
+          this.showAdminButtons = true;
+        }
+    },
     fetchPhotos(){
       this.$axios.get(`${this.api}/photos`).then(resp=>{
         this.gallery=resp.data;
@@ -108,6 +115,7 @@ export default {
   },
   mounted() {
     this.fetchData();
+    this.showAdminButtonsFunc();
   },
 };
 </script>

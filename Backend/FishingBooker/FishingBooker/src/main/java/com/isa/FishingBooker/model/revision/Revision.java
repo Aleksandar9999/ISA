@@ -6,11 +6,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.isa.FishingBooker.model.Status;
+import com.isa.FishingBooker.model.User;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -22,7 +24,9 @@ public abstract class Revision {
 	private double rate;
 	private String comment;
 	private Status status;
-
+	@OneToOne
+	private User creator;
+	
 	public Revision() {
 	}
 
@@ -32,6 +36,14 @@ public abstract class Revision {
 
 	public Status getStatus() {
 		return status;
+	}
+
+	public User getCreator() {
+		return creator;
+	}
+
+	public void setCreator(User creator) {
+		this.creator = creator;
 	}
 
 	public void setId(Integer id) {

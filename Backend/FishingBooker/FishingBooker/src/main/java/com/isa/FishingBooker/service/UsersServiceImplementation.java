@@ -1,6 +1,8 @@
 package com.isa.FishingBooker.service;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,34 +28,15 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 
 	@Autowired
 	private RoleService roleService;
-	
-	@Override
-	public LoginReturnDTO Login(LoginInfoDTO user) {
-		User logTry = ((UserRepository) repository).findByEmail(user.getEmail());
-		LoginReturnDTO returnDTO = new LoginReturnDTO();
-		UserToLoginReturnDTOMapper mapper = new UserToLoginReturnDTOMapper();
+	public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
+			Pattern.CASE_INSENSITIVE);
 
-		if (logTry == null) {
-			return null;
-		}
-		if (logTry.getStatus() != Status.CONFIRMED) {
-			return null;
-		}
-
-		if (logTry.getPassword().equals(user.getPassword())) {
-			return mapper.mapUserToLoginReturnDTO(logTry, returnDTO);
-		}
-		return null;
-	}
-
-	
 	@Override
 	public void update(User item) {
-		User user=this.getById(item.getId());
+		User user = this.getById(item.getId());
 		user.updateUserInfo(item);
 		super.update(user);
 	}
-
 
 	@Override
 	public void addNew(User item) {
@@ -64,12 +47,15 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 	}
 
 	private void setUserRoles(User item) {
-		item.getRoles().forEach(role-> role.setId(roleService.findRoleIdByName(role.getName())));
+		item.getRoles().forEach(role -> role.setId(roleService.findRoleIdByName(role.getName())));
 	}
 
 	private void validateEmail(String email) {
+		Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
+		if(!matcher.find()) throw new EmailExistException("Email address problem. Please check your email.");
+	
 		if (((UserRepository) repository).findByEmail(email) != null)
-			throw new EmailExistException();
+			throw new EmailExistException("Email already exist");
 	}
 
 	@Override
@@ -110,11 +96,12 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 
 	@Override
 	public void delete(Integer id) {
-		User user =this.getById(id);
+		User user = this.getById(id);
 		user.setStatus(Status.DELETED);
-		super.update(user);;
+		super.update(user);
+		;
 	}
-	
+
 	@Override
 	public User EditUser(User user) {
 		// TODO Auto-generated method stub
@@ -123,14 +110,15 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 
 	@Override
 	public User getUserProfileData() {
-		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext().getAuthentication();
+		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
+				.getAuthentication();
 		User usr = (User) aut.getPrincipal();
 		return this.getById(usr.getId());
 	}
 
 	@Override
 	public void resetAdminPassword(User user) {
-		Admin admin=(Admin) this.getById(user.getId());
+		Admin admin = (Admin) this.getById(user.getId());
 		admin.resetPassword(user.getPassword());
 		repository.save(admin);
 	}

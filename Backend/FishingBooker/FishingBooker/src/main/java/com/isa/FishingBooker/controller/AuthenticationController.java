@@ -63,11 +63,12 @@ public class AuthenticationController {
 	@PostMapping("api/registration/user")
 	public ResponseEntity<?> register(@RequestBody RegistrationDTO dto) {
 		try {
-			User user = userRegistrationMapper.convertToEntity(dto);
+			User user = userRegistrationMapper.convertToEntity(dto,User.class);
 			usersService.addNew(user);
 			emailService.sendRegisterConfirmationMail(user);
 			return ResponseEntity.ok(user);
 		} catch (RegistrationException ex) {
+			System.out.println(ex.getMessage());
 			return ResponseEntity.status(400).body(ex.getMessage());
 		}
 	}
@@ -83,7 +84,7 @@ public class AuthenticationController {
 			return ResponseEntity.status(400).body(ex.getMessage());
 		}
 	}
-	//TODO: Provjeriti ispravnost email adrese prije registracije
+	
 	@PostMapping("api/registration/admin")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> registerAdmin(@RequestBody RegistrationDTO dto) {

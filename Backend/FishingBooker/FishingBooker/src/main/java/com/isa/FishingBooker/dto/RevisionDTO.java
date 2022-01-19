@@ -7,6 +7,7 @@ public class RevisionDTO {
 	private double rate;
 	private String comment;
 	private int relatedId;
+	private int creatorId;
 	private Status status;
 	private String className;
 	public RevisionDTO() {
@@ -46,6 +47,14 @@ public class RevisionDTO {
 	}
 	public void setRelatedId(int relatedId) {
 		this.relatedId = relatedId;
+	}
+
+	public int getCreatorId() {
+		return creatorId;
+	}
+
+	public void setCreatorId(int creatorId) {
+		this.creatorId = creatorId;
 	}
 
 	public int getId() {

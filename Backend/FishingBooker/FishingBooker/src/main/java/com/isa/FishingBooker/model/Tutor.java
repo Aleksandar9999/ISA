@@ -13,7 +13,6 @@ import javax.persistence.OneToMany;
 public class Tutor extends User {
 
 	private static final long serialVersionUID = -4342071307816418991L;
-	private String bio;
 	@OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<TutorService> services = new HashSet<TutorService>();
 
@@ -29,7 +28,6 @@ public class Tutor extends User {
 
 	public Tutor(String bio, Set<TutorService> services) {
 		this();
-		this.bio = bio;
 		this.services = services;
 	}
 
@@ -50,11 +48,8 @@ public class Tutor extends User {
 		return services;
 	}
 
-	public String getBio() {
-		return bio;
-	}
-
-	public void setBio(String bio) {
-		this.bio = bio;
+	@Override
+	public boolean isEnabled() {
+		return this.getStatus().equals(Status.ADMIN_CONFIRMED);
 	}
 }

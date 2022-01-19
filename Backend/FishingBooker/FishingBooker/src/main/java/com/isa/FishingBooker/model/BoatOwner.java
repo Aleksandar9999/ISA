@@ -24,4 +24,8 @@ public class BoatOwner  extends User {
 	public BoatOwner(){
 		boats=new HashSet<>();
 	}
+	@Override
+	public boolean isEnabled() {
+		return this.getStatus().equals(Status.ADMIN_CONFIRMED);
+	}
 }

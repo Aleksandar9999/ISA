@@ -29,7 +29,7 @@ export default {
       console.log("PENDING USERS LIST")
       if(!this.dataList) return [];
       if(this.showPending)
-        return this.dataList.filter(item=> {return (item.status==='PENDING')})
+        return this.dataList.filter(item=> {return (item.shouldApprove)})
       else{
         return this.dataList;
       }

@@ -16,8 +16,8 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Appointment {
 	
-	  private Timestamp start;
-		private double duration;
+	private Timestamp start;
+    private double duration;
     private int maxPerson;
     private String additionalServices;
     private double price;
@@ -101,8 +101,9 @@ public class Appointment {
 	}
 
 	public boolean inPeriod(LocalDateTime date) {
-		LocalDateTime end=start.toLocalDateTime().plusDays((int)duration);
+		LocalDateTime end=start.toLocalDateTime().plusDays((int)duration-1);
 		LocalDateTime startLocal=start.toLocalDateTime();
+		
 		return (startLocal.isBefore(date) && end.isAfter(date)) || startLocal.toLocalDate().isEqual(date.toLocalDate()) || end.isEqual(date);
 	}
 

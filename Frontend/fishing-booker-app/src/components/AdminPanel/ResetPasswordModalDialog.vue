@@ -58,8 +58,6 @@ export default {
       .then((response) => {
         if (response.data) {
           this.$router.push("/profile");
-          console.log("MODALNI DIALOG PASSWORD");
-          console.log(response);
         }
       });
     axios
@@ -74,9 +72,8 @@ export default {
           this.admin,
           config.requestHeader
         )
-        .then((resp) => {
-          alert("Done");
-          console.log(resp);
+        .then(() => {
+          this.$router.push("/profile");
         });
     },
   },

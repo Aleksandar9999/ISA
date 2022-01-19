@@ -1,6 +1,6 @@
 <template>
   <w-card class="main-card" title="Price list" no-border>
-    <w-flex justify-end class="pa3">
+    <w-flex justify-end class="pa3" v-if="showAddButton">
       <w-button @click="showDialog">Add new</w-button>
     </w-flex>
     <price-card
@@ -16,7 +16,7 @@ import axios from "axios";
 import PriceCard from "./PriceCard.vue";
 import config from "../../../../configuration/config";
 export default {
-  props: ["idservice", "fetch"],
+  props: ["idservice", "fetch","showAddButton"],
   data() {
     return {
       prices: [],

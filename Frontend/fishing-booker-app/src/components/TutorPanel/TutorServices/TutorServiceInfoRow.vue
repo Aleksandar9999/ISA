@@ -8,7 +8,7 @@
     <td>
       <a :href="showService">Show</a>
     </td>
-    <td style="padding: 0px 15px">
+    <td style="padding: 10px 0px" v-if="showDeleteButton()">
       <w-button class="mr2" @click="deleteService" bg-color="error">
         Delete
       </w-button>
@@ -27,6 +27,13 @@ export default {
     };
   },
   methods: {
+    showDeleteButton() {
+      if (localStorage.roles)
+        if (localStorage.roles.includes("ROLE_TUTOR")) {
+          return true;
+        }
+      return false;
+    },
     deleteService() {
       if (confirm("Do you really want to delete your service?")) {
         axios

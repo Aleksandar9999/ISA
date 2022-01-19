@@ -141,7 +141,7 @@ export default {
       this.appointmentLocal.start+=" 12:00:00";
       axios
         .post(
-          config.apiStart + "/api/appointments/tutor-service",
+          config.apiStart + "/api/appointments/tutor-service/tutor",
           this.appointmentLocal,
           config.requestHeader
         )

@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.isa.FishingBooker.model.revision.BoatAppointmentRevision;
+import com.isa.FishingBooker.model.revision.ResortAppointmentRevision;
 import com.isa.FishingBooker.model.revision.Revision;
-import com.isa.FishingBooker.model.TutorServiceAppointmentRevision;
-import com.isa.FishingBooker.model.BoatAppointmentRevision;
-import com.isa.FishingBooker.model.ResortAppointmentRevision;
+import com.isa.FishingBooker.model.revision.TutorServiceAppointmentRevision;
 @Repository
 public interface RevisionRepository extends JpaRepository<Revision, Integer>{
 	

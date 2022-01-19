@@ -87,7 +87,13 @@ public class TutorServicesServiceImpl extends CustomServiceAbstract<TutorService
 	public void addNewSubscriber(int serviceId, User loggedinUser) {
 		this.update(this.getById(serviceId).addNewSubscriber(loggedinUser));
 	}
-
+	
+	@Override
+	public void removeSubscriber(int serviceId, User loggedinUser) {
+		this.update(this.getById(serviceId).removeSubscriber(loggedinUser));
+	}
+	
+	
 	@Override
 	public void addNewDiscountOffer(int idservice, DiscountOffer offer) {
 		TutorService tutorService=this.getById(idservice);

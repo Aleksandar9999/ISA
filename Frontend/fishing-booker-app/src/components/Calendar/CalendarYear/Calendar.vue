@@ -4,10 +4,10 @@
         <CalendarItemMonth v-for="(month,index) in calendarMonthTest.slice(0,4)" :key="month" :item=month :href=getMonthHref(index) />
     </tr>
     <tr>
-        <CalendarItemMonth v-for="month in calendarMonthTest.slice(4,8)" :key="month" :item=month />
+        <CalendarItemMonth v-for="(month,index) in calendarMonthTest.slice(4,8)" :key="month" :item=month :href=getMonthHref(4+index) />
     </tr>
     <tr>
-        <CalendarItemMonth v-for="month in calendarMonthTest.slice(8,12)" :key="month" :item=month />
+        <CalendarItemMonth v-for="(month,index) in calendarMonthTest.slice(8,12)" :key="month" :item=month :href=getMonthHref(8+index) />
     </tr>
   </table>
 </template>

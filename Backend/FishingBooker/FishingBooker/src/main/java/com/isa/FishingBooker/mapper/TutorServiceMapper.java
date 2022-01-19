@@ -14,7 +14,6 @@ public class TutorServiceMapper extends CustomModelMapperAbstract<TutorService, 
 	@Override
 	public TutorServiceDTO convertToDto(TutorService entity) {
 		TutorServiceDTO dto = modelMapper.map(entity, TutorServiceDTO.class);
-		dto.setTutorBio(entity.getTutor().getBio());
 		dto.setTutorId(entity.getTutor().getId());
 		return dto;
 	}

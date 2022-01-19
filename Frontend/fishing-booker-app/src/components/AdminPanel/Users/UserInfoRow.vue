@@ -7,7 +7,7 @@
     </td>
     <td v-if="item_local.status !== 'PENDING'">{{ item_local.status }}</td>
     <td
-      v-if="item_local.status == 'PENDING' || item_local.status == 'CONFIRMED'"
+      v-if="item_local.shouldApprove && item_local.status!='DELETED'"
     >
       <select name="status" id="status" v-model="status" @change="changeStatus">
         <option value="ADMIN_CONFIRMED">CONFIRM</option>
@@ -44,11 +44,13 @@ export default {
       this.statusChanged = true;
     },
     deleteUser(){
+      this.item_local.status="DELETED"
       this.$axios.delete(`${config.apiStart}/api/users/${this.item_local.id}`).then(()=>{
         alert("DONE")
       })
     },
     showDialog() {
+      console.log(this.item_local);
       alert(
         this.item_local.name +
           " " +
@@ -62,7 +64,8 @@ export default {
           ", " +
           this.item_local.address.city +
           ", " +
-          this.item_local.address.country
+          this.item_local.address.country+
+          "\nType: "+ this.item_local.className.split(".").at(-1)
       );
     },
     save() {

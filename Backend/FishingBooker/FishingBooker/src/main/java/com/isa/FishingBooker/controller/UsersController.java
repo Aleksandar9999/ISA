@@ -37,7 +37,7 @@ public class UsersController {
 	@GetMapping("api/users")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> getAll() {
-		return ResponseEntity.ok(usersService.getAll());
+		return ResponseEntity.ok(userInfoMapper.convertToDtos(usersService.getAll()));
 	}
 
 /*	@PostMapping("api/users/tutors/{id}/available-periods")

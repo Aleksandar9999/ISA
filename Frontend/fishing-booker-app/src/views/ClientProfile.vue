@@ -235,7 +235,8 @@ export default {
             { userId: this.id, reason: this.deleteReqComment },
             config.requestHeader
           )
-          .then((response) => console.log(response.data));
+          .then(() => alert("Delete request successfully created. Our adim team will review your request soon."))
+          .catch((error)=>alert(error.response.data));
       }
     },
   },

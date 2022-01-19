@@ -1,10 +1,10 @@
-package com.isa.FishingBooker.model;
+package com.isa.FishingBooker.model.revision;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import com.isa.FishingBooker.model.revision.Revision;
+import com.isa.FishingBooker.model.TutorServiceAppointment;
 
 @Entity
 public class TutorServiceAppointmentRevision extends Revision {
