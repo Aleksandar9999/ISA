@@ -14,22 +14,38 @@
         </div>
         <header-days ></header-days>
       </div>
-      <TasksTable :date="date" />
+      <TasksTable :date="date" @createReportShow=createReportShow />
     </section>
+    <AppointmentReportModalDialog :show=appointmentReportModalDialog.show :idAppointment=appointmentReportModalDialog.appointmentId @hideDialog=hideDialogReport />
   </div>
 </template>
 <script>
 import HeaderDays from "./HeaderDays.vue";
 import TasksTable from "./TasksTable.vue";
 import moment from 'moment'
+import AppointmentReportModalDialog from './AppointmentReportModalDialog.vue'
 export default {
-  components: { HeaderDays, TasksTable },
+  components: { HeaderDays, TasksTable,AppointmentReportModalDialog },
   data() {
     return {
+      appointmentReportModalDialog:{
+        show:false,
+        success:false,
+        appointmentId:''
+      },
       date: this.$route.params.date,
     };
   },
   methods: {
+    hideDialogReport(value){
+      if(value.success) {
+        this.$forceUpdate();
+      }
+    },
+    createReportShow(value){
+      this.appointmentReportModalDialog.appointmentId=value.id;
+      this.appointmentReportModalDialog.show=true;
+    },
     getHeaderDateText(){
       return `${moment(this.date).format("MMMM DD")} - ${moment(this.date).add(7,'days').format("MMMM DD")}`  
     },

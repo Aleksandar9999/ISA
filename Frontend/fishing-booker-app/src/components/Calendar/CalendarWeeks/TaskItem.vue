@@ -16,20 +16,33 @@
 			<td>
 				<p>{{item.user.name}} {{item.user.surname}}</p>
 			</td>
+			<td v-if=showReportButton>
+				<w-button @click="createReport" bg-color="success"> Create report </w-button>
+			</td>
 		</tr>
 </template>
 <script>
 import moment from 'moment'
+import config from '../../../configuration/config'
 export default {
 	props:['item'],
 	data() {
 		return {
-			showSubmitButton:false,
+			showReportButton:false,
 			task:{}
 		}
 	},
+	mounted() {
+		console.log(this.item)
+		this.$axios.get(`${config.apiStart}/api/appointment-report/appointment/${this.item.id}`)
+		.then(()=>this.showReportButton=false)
+		.catch(()=>this.showReportButton=true);
+	},
 	methods: {
-		getStartDate(){return moment(this.item.start).format("MMM DD, YYYY")}
+		getStartDate(){return moment(this.item.start).format("MMM DD, YYYY")},
+		createReport(){
+			this.$emit("createReportShow", this.item);
+		}
 	},
 }
 </script>

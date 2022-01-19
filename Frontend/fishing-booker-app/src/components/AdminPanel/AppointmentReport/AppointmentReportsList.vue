@@ -6,28 +6,24 @@
 <script>
 import config from '../../../configuration/config';
 import CustomTable from "../../CustomTable.vue";
-import ComplaintInfoRow from "./ComplaintInfoRow.vue"
+import AppointmentReportInfoRow from './AppointmentReportInfoRow.vue'
 export default {
     components: {
     CustomTable,
-    ComplaintInfoRow,
+    AppointmentReportInfoRow,
   },
   data() {
       return {
-          headers:["ID","Appellant","Appelle","Type","TEXT","ADMIN RESPONSE",""],
+          headers:["ID","COMMENT","TYPE","STATUS"],
           data:[],
-          row: ComplaintInfoRow
+          row: AppointmentReportInfoRow
       }
   },
   mounted() {
-      this.$axios.get(`${config.apiStart}/objections`).then(resp=>{
+      this.$axios.get(`${config.apiStart}/api/appointment-report`).then(resp=>{
           this.data=resp.data
-          console.log("ISPIS COMPLAINT");
-          console.log(this.data)
+          console.log(this.data);
       })
   },
 }
 </script>
-<style lang="">
-    
-</style>
