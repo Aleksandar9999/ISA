@@ -86,9 +86,11 @@ export default {
         }
     },
     checkForUpdatePrices(value){
+      console.log("CIJENEPRICES")
+      console.log(value);
       this.priceDialog.show=value.dialog;
       if(value.success)
-        this.priceDialog.success=!this.priceDialog.success
+        this.priceDialog.success=!this.priceDialog.success;
     },
     showAdminButtonsFunc(){
       if (localStorage.roles)

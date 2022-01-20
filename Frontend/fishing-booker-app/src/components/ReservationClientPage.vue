@@ -139,9 +139,10 @@ export default {
           }          
         },
         setRatesAdventures(list){
+          console.log(list);
           for(let i=0; i<list.length; i++){
               axios.get(`http://localhost:8080/api/revision/tutor-service/${list[i].tutorService.id}/rate`).then(response =>
-            list[i].rate=response.data
+                  list[i].rate=response.data
           );
           }          
         },
