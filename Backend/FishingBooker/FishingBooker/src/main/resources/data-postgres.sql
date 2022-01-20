@@ -38,6 +38,8 @@ insert into service_price (number_of_days, price) values (1,1500);
 insert into service_price (number_of_days, price) values (5,5000);
 insert into service_price (number_of_days, price) values (10,15000);
 
+insert into service_price (number_of_days, price) values (1,1500);
+
 insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status,tutor_bio) values ('One-day fishing','One day tour accross lake with fishing on most active fishing localities.', 9, 'No smoking. No alcohol.', 'Clients equipment required', 0, 4, 4, 5,'CONFIRMED','Tutor with 20 years of expirience. Great knower of Danube Backa coast and fish.');
 insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status,tutor_bio) values ('Three-day fishing','Three day tour accross lake with camping and fishing on most active fishing localities.', 5, 'No smoking. No alcohol.', 'Clients equipment for camping and fishing required', 0, 4, 4, 4,'CONFIRMED','Tutor with 20 years of expirience. Great knower of Danube Backa coast and fish.');
 insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status,tutor_bio) values ('Danube fishing','One day tour accross Danube with fishing on most active fishing spots.', 7, 'No smoking. No alcohol.', 'Clients equipment required', 0, 6, 6, 5,'CONFIRMED','Tutor with 20 years of expirience. Great knower of Danube Backa coast and fish.');
@@ -46,6 +48,8 @@ insert into tutor_service (name, description, max_person, rules, fishing_equipme
 insert into tutor_service_prices (tutor_service_tutor_service_id, prices_service_price_id) values (1,1);
 insert into tutor_service_prices (tutor_service_tutor_service_id, prices_service_price_id) values (1,2);
 insert into tutor_service_prices (tutor_service_tutor_service_id, prices_service_price_id) values (1,3);
+
+insert into tutor_service_prices (tutor_service_tutor_service_id, prices_service_price_id) values (3,4);
 
 insert into extras (service, price, boat_id) values('Fishing', '900', 1);
 insert into extras (service, price, boat_id) values('Lake drive', '500', 1);
@@ -62,6 +66,11 @@ insert into period (start_date, end_date) values('Mon Dec 06 10:00:00 GMT 2021',
 insert into period (start_date, end_date) values('Mon Dec 13 10:00:00 GMT 2021','Sat Dec 18 15:00:00 GMT 2021');
 insert into period (start_date, end_date) values('Mon Dec 20 10:00:00 GMT 2021','Sat Dec 25 15:00:00 GMT 2021');
 insert into period (start_date, end_date) values('Mon Dec 27 10:00:00 GMT 2021','Sat Jan 01 15:00:00 GMT 2021');
+
+
+insert into period (start_date, end_date) values('2022-02-01 13:00:00','2022-02-15 13:00:00');
+
+insert into tutor_service_standard_periods (tutor_service_tutor_service_id, standard_periods_id) values (3,9);
 
 insert into appointment (dtype, start, duration, max_person, additional_services, price, appoint_type, address_id, resort_id) values ('ResortAppointment', 'Sat Jan 29 18:00:00 GMT 2022',3.0, 7, 'No additional services.', 500.00, 'RESORT', 4, 1);
 insert into appointment (dtype, start, duration, max_person, additional_services, price, appoint_type, address_id, tutor_service_id) values ('TutorServiceAppointment', 'Sat Jan 29 18:00:00 GMT 2022',3.0, 7, 'No additional services.', 900.00, 'TUTORSERVICE', 5, 1);

@@ -14,7 +14,7 @@ public class TutorServiceMapper extends CustomModelMapperAbstract<TutorService, 
 	public TutorServiceDTO convertToDto(TutorService entity) {
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		TutorServiceDTO dto = modelMapper.map(entity, TutorServiceDTO.class);
-		dto.setTutor(entity.getTutor().getId());
+		//dto.setTutorId(entity.getTutor().getId());
 		return dto;
 	}
 

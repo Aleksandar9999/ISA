@@ -49,7 +49,6 @@ public class AppointmentController {
 	@Autowired
 	private MonthCalendarMapper monthCalendarMapper;
 
-	@SuppressWarnings("unchecked")
 	@GetMapping("api/appointments/tutor/calendar/week")
 	public ResponseEntity<?> getAllCalendarWeek(@RequestParam(name = "startDate", defaultValue = "") String startDate,
 			@RequestParam(name = "endDate", defaultValue = "") String endDate) {
@@ -116,7 +115,7 @@ public class AppointmentController {
 	@PostMapping("api/appointments/tutor-service")
 	public ResponseEntity<?> addTutorServiceAppointment(@RequestBody TutorServiceAppointmentDTO dto) {
 		TutorServiceAppointment appointment = tutorServiceAppointmentModelMapper.convertToEntity(dto);
-		service.addNewTutorServiceAppointment(appointment, false);
+		service.addNewTutorServiceAppointment(appointment);
 		return ResponseEntity.ok(tutorServiceAppointmentModelMapper.convertToDto(appointment));
 	}
 
@@ -124,7 +123,7 @@ public class AppointmentController {
 	@PostMapping("api/appointments/tutor-service/tutor")
 	public ResponseEntity<?> addTutorServiceAppointmentByTutor(@RequestBody TutorServiceAppointmentDTO dto) {
 		TutorServiceAppointment appointment = tutorServiceAppointmentModelMapper.convertToEntity(dto);
-		service.addNewTutorServiceAppointment(appointment, true);
+		service.addNewTutorServiceAppointmentByTutor(appointment, true);
 		return ResponseEntity.ok(tutorServiceAppointmentModelMapper.convertToDto(appointment));
 	}
 

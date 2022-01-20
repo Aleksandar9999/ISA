@@ -1,5 +1,6 @@
 package com.isa.FishingBooker.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
@@ -21,4 +22,5 @@ public interface TutorServicesService extends Service<TutorService>{
 	public void removeSubscriber(int serviceId, User loggedinUser);
 	public void addNewDiscountOffer(int idservice, DiscountOffer offer);
 	public List<DiscountOffer> getAllDiscountOffers(int tutorId);
+	public List<TutorService> getAllTutorServicesAvailablePeriods(Timestamp start, int duration, int maxPerson);
 }
