@@ -1,6 +1,12 @@
 package com.isa.FishingBooker.service;
 
+
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -138,6 +144,7 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 	}
 
 	@Override
+	@Transactional
 	public String makeBoatReservation(BoatAppointment appointment) {
 		// TODO Auto-generated method stub
 		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
@@ -150,6 +157,7 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 	}
 
 	@Override
+	@Transactional
 	public String makeResortReservation(ResortAppointment appointment) {
 		// TODO Auto-generated method stub
 		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
@@ -162,6 +170,7 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 	}
 
 	@Override
+	@Transactional
 	public String makeTutorServiceReservation(TutorServiceAppointment appointment) {
 		// TODO Auto-generated method stub
 		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
@@ -254,6 +263,7 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 	}
 
 	@Override
+	@Transactional
 	public String makeQuickReservation(Integer id) {
 		// TODO Auto-generated method stub
 		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
