@@ -103,6 +103,7 @@ public class TutorService {
 		this.status=service.getStatus();
 		this.tutorBio=service.getTutorBio();
 		this.extrasServices=service.getExtrasServices();
+		this.subscribers=service.getSubscribers();
 		return this;
 	}
 
@@ -120,11 +121,11 @@ public class TutorService {
 	}
 	
 	public Set<User> getSubscribers() {
-		return Set.copyOf(this.subscribers);
+		return this.subscribers;
 	}
 	
 	public TutorService addNewSubscriber(User user) {
-		if(this.subscribers==null) this.subscribers=new HashSet<User>();
+		//if(this.subscribers==null) this.subscribers=new HashSet<User>();
 		this.subscribers.add(user);
 		return this;
 	}
