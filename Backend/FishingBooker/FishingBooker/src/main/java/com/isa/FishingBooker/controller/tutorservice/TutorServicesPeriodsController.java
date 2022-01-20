@@ -1,5 +1,9 @@
 package com.isa.FishingBooker.controller.tutorservice;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -7,9 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isa.FishingBooker.controller.UsersController;
 import com.isa.FishingBooker.exceptions.AuthorizationException;
+import com.isa.FishingBooker.mapper.calendar.DiscountOfferCalendarMapper;
+import com.isa.FishingBooker.mapper.calendar.StandardPeriodCalendarMapper;
 import com.isa.FishingBooker.model.DiscountOffer;
 import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.TutorService;
@@ -17,9 +25,13 @@ import com.isa.FishingBooker.model.TutorService;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class TutorServicesPeriodsController extends TutorServicesAbstractController {
+	@Autowired
+	private DiscountOfferCalendarMapper discountOfferCalendarMapper;
+	@Autowired
+	private StandardPeriodCalendarMapper standardPeriodCalendarMapper;
+
 	@GetMapping("api/users/tutors/{id}/standard-periods")
 	public ResponseEntity<?> getPeriodsAllTutorServices(@PathVariable("id") int idtutor) {
-		tutorServicesService.getAllAvailablePeriodsByTutor(idtutor);
 		return ResponseEntity.status(200).body(tutorServicesService.getAllAvailablePeriodsByTutor(idtutor));
 	}
 
@@ -47,8 +59,35 @@ public class TutorServicesPeriodsController extends TutorServicesAbstractControl
 	@PreAuthorize("hasRole('TUTOR')")
 	public ResponseEntity<?> addTutorServiceDiscountOffers(@RequestBody DiscountOffer offer,
 			@PathVariable("idservice") int idservice) {
-		// validateTutor(tutorService); TODO: VALIDACIJA
+		// validateTutor(tutorService); //TODO: VALIDACIJA
 		tutorServicesService.addNewDiscountOffer(idservice, offer);
 		return ResponseEntity.ok(offer);
+	}
+
+	@PreAuthorize("hasRole('TUTOR')")
+	@GetMapping("api/tutor-services/discount-offers")
+	public ResponseEntity<?> getAllTutorDiscountOffers(
+			@RequestParam(name = "startDate", defaultValue = "") String startDate,
+			@RequestParam(name = "endDate", defaultValue = "") String endDate) {
+		List<DiscountOffer> allDiscountOffers = tutorServicesService
+				.getAllDiscountOffers(UsersController.getLoggedInUserId());
+		if (!(startDate.isEmpty() && endDate.isEmpty()))
+			return ResponseEntity.status(200).body(discountOfferCalendarMapper.convertToDtos(allDiscountOffers,
+					LocalDate.parse(startDate), LocalDate.parse(endDate)));
+		return ResponseEntity.ok(allDiscountOffers);
+	}
+
+	@PreAuthorize("hasRole('TUTOR')")
+	@GetMapping("api/tutor-services/standard-periods")
+	public ResponseEntity<?> getAllTutorStandardPeriod(
+			@RequestParam(name = "startDate", defaultValue = "") String startDate,
+			@RequestParam(name = "endDate", defaultValue = "") String endDate) {
+		List<Period> allAvailablePeriodsByTutor = tutorServicesService
+				.getAllAvailablePeriodsByTutor(UsersController.getLoggedInUserId());
+		if (!(startDate.isEmpty() && endDate.isEmpty())) {
+			return ResponseEntity.status(200).body(standardPeriodCalendarMapper
+					.convertToDtos(allAvailablePeriodsByTutor, LocalDate.parse(startDate), LocalDate.parse(endDate)));
+		}
+		return ResponseEntity.ok(allAvailablePeriodsByTutor);
 	}
 }

@@ -1,5 +1,6 @@
 package com.isa.FishingBooker.service;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -57,7 +58,7 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 	}
 
 	private boolean validateUseCurrentAppointment(Integer userid, int tutorServiceId) {
-		Date currentDate = new Date(System.currentTimeMillis());
+		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		Period currentPeriod = new Period(currentDate, currentDate);
 		TutorService tutorService=tutorServicesService.getById(tutorServiceId);
 		for (TutorServiceAppointment appointment : ((AppointmentRepository) repository).getAllByTutorAndUserBeforeCurrentDate(userid,tutorService.getTutor().getId())) {
