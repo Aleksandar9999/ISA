@@ -5,6 +5,7 @@
     <td>{{ item.maxPerson }}</td>
     <td>{{ item.rules }}</td>
     <td>{{ item.status }}</td>
+    <td>{{ rate }}</td>
     <td>
       <a :href="showService">Show</a>
     </td>
@@ -24,7 +25,13 @@ export default {
     return {
       item_local: {},
       showService: "",
+      rate:''
     };
+  },
+  mounted() {
+    this.$axios.get(`${config.apiStart}/api/revision/tutor-service/${this.item.id}/rate`).then((resp)=>
+      this.rate=resp.data
+    );
   },
   methods: {
     showDeleteButton() {
