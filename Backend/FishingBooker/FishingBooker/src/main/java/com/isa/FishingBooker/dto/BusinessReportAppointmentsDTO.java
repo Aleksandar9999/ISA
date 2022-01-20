@@ -16,7 +16,7 @@ public class BusinessReportAppointmentsDTO<T extends Appointment> {
 		return appointments;
 	}
 
-	public double getSumPrice() {
+	public double getRevenue() {
 		double sum = appointments.stream().filter(app -> app.getStatus().equals(AppointmentStatus.SUCCESSFUL))
 				.mapToDouble(Appointment::getPrice).sum();
 		sum += appointments.stream().filter(app -> app.getStatus().equals(AppointmentStatus.CANCELED))

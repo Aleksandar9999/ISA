@@ -28,9 +28,8 @@ public class BusinessReportController {
 			@RequestParam(name = "startDate", defaultValue = "") String startDate,
 			@RequestParam(name = "endDate", defaultValue = "") String endDate) {
 		if (!(startDate.isEmpty() && endDate.isEmpty())) {
-			LocalDate endDateLocal = Date.valueOf(startDate).toLocalDate().plusDays(7);
 			List<TutorServiceAppointment> appointmentsInPeriod = appointmentService
-					.getAllByTutorAndPeriod(tutorId, Date.valueOf(startDate), Date.valueOf(endDateLocal));
+					.getAllByTutorAndPeriod(tutorId, Date.valueOf(startDate), Date.valueOf(endDate));
 			return ResponseEntity.ok(new BusinessReportAppointmentsDTO<TutorServiceAppointment>(appointmentsInPeriod));
 		}
 		return ResponseEntity.ok(appointmentService.getAllTutorServiceAppointmentsByTutor(tutorId));
