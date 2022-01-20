@@ -101,6 +101,12 @@ public class AppointmentController {
 	}
 
 	@PreAuthorize("hasRole('USER')")
+	@GetMapping("/appointments")
+	public ResponseEntity<ArrayList<Appointment>> getAllAppoints() {
+		return ResponseEntity.ok((ArrayList<Appointment>) service.getAll());
+	}
+	
+	@PreAuthorize("hasRole('USER')")
 	@GetMapping("api/appointments/tutor-service")
 	public ResponseEntity<ArrayList<TutorServiceAppointment>> getAllTutorServiceAppointments() {
 		return ResponseEntity.ok((ArrayList<TutorServiceAppointment>) service.getTutorServiceApointments());
