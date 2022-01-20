@@ -41,7 +41,7 @@ export default {
 		}
 	},
 	mounted() {
-		this.$axios.get(`${config.apiStart}/api/appointments/${this.role}?startDate=${moment(this.startDate).format("YYYY-MM-DD")}&type=week`)
+		this.$axios.get(`${config.apiStart}/api/appointments/${this.role}/calendar/week?startDate=${moment(this.startDate).format("YYYY-MM-DD")}`)
 		.then(resp=>{
 			this.appointments=resp.data;
 			console.log(resp.data)

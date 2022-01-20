@@ -1,7 +1,7 @@
 <template lang="">
   <div class="wrapper">
     <section class="content" style="margin: 3% 0px 0px 0px">
-      <h2><i class="ico timesheet"></i>TimeSheet</h2>
+      <h2><i class="ico timesheet"></i>Year calendar</h2>
       <div class="grey-box-wrap">
         <div class="top">
           <a @click="subtractMonth" class="prev"
@@ -54,7 +54,7 @@ export default {
         .get(
           `${
             config.apiStart
-          }/api/appointments/${role}?startDate=${firstDate}&endDate=${lastDate}&type=year`
+          }/api/appointments/${role}/calendar/year?startDate=${firstDate}&endDate=${lastDate}`
         )
         .then((resp) => {
           this.calendarMonths = resp.data;
