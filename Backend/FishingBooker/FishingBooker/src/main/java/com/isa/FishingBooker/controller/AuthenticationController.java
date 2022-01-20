@@ -2,6 +2,8 @@ package com.isa.FishingBooker.controller;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -60,6 +62,7 @@ public class AuthenticationController {
 		return ResponseEntity.ok(new UserTokenState(jwt, user.getRoles()));
 	}
 
+	@Transactional
 	@PostMapping("api/registration/user")
 	public ResponseEntity<?> register(@RequestBody RegistrationDTO dto) {
 		try {

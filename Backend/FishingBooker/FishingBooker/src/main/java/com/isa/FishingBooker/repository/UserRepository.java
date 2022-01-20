@@ -4,7 +4,10 @@ package com.isa.FishingBooker.repository;
 
 import java.util.List;
 
+import javax.persistence.LockModeType;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -28,5 +31,8 @@ public interface UserRepository extends JpaRepository<User ,Integer> {
 	
 	@Query("select u from User u where TYPE(u)=User")
 	public List<User> findAllClients();
+	
+	@Lock(LockModeType.PESSIMISTIC_WRITE)
+	public User save(User user);
 	
 }
