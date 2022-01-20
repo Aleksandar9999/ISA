@@ -82,7 +82,12 @@ public class TutorServicesServiceImpl extends CustomServiceAbstract<TutorService
 		return tutor.getServices().stream().map(TutorService::getStandardPeriods).flatMap(Set::stream)
 				.collect(Collectors.toList());
 	}
-
+	@Override
+	public List<DiscountOffer> getAllDiscountOffers(int tutorId){
+		List<TutorService> tutorServices=this.getAllValidByTutor(tutorId);
+		return tutorServices.stream().map(TutorService::getDisconutOffers).flatMap(Set::stream).collect(Collectors.toList());
+	}
+	
 	@Override
 	public void addNewSubscriber(int serviceId, User loggedinUser) {
 		this.update(this.getById(serviceId).addNewSubscriber(loggedinUser));
@@ -92,7 +97,6 @@ public class TutorServicesServiceImpl extends CustomServiceAbstract<TutorService
 	public void removeSubscriber(int serviceId, User loggedinUser) {
 		this.update(this.getById(serviceId).removeSubscriber(loggedinUser));
 	}
-	
 	
 	@Override
 	public void addNewDiscountOffer(int idservice, DiscountOffer offer) {

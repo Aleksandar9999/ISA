@@ -14,7 +14,7 @@
         </div>
         <div className="bottom"></div>
       </div>
-      <Calendar :calendarDays="calendarDays" />
+      <Calendar :calendarDays="calendarDays" :discountDays=calendarDaysDiscountOffers :standardPeriods=calendarDaysStandardPeriods />
     </section>
   </div>
 </template>
@@ -30,6 +30,8 @@ export default {
   data() {
     return {
       calendarDays: [],
+      calendarDaysDiscountOffers:[],
+      calendarDaysStandardPeriods:[],
       startDate: "",
       firstInMonth: "",
       headingText: "",
@@ -51,9 +53,20 @@ export default {
       console.log("KREIRAJ ZAHTIJEV");
       console.log(this.startDate.format("YYYY-MM-DD"));
       let role = "tutor";
-      this.$axios.get(`${config.apiStart}/api/appointments/${role}?startDate=${this.startDate.format("YYYY-MM-DD")}&endDate=${this.startDate.add(35, "d").format("YYYY-MM-DD")}&type=month`).then(resp=>{
+      let services="tutor-services";
+      let startDateQuery=this.startDate.format("YYYY-MM-DD");
+      let endDateQuery=this.startDate.add(35, "d").format("YYYY-MM-DD");
+      this.$axios.get(`${config.apiStart}/api/appointments/${role}/calendar/month?startDate=${startDateQuery}&endDate=${endDateQuery}`).then(resp=>{
           this.calendarDays=resp.data
         });
+
+      this.$axios.get(`${config.apiStart}/api/${services}/discount-offers?startDate=${startDateQuery}&endDate=${endDateQuery}`).then(resp=>{
+          this.calendarDaysDiscountOffers=resp.data;
+        });
+        this.$axios.get(`${config.apiStart}/api/${services}/standard-periods?startDate=${startDateQuery}&endDate=${endDateQuery}`).then(resp=>{
+          this.calendarDaysStandardPeriods=resp.data;
+        });
+        
     },
     addMonth() {
       this.firstInMonth = this.firstInMonth.add(1, "M");

@@ -1,7 +1,5 @@
 package com.isa.FishingBooker.dto;
 
-import javax.persistence.OneToOne;
-
 import com.isa.FishingBooker.model.ReportType;
 import com.isa.FishingBooker.model.Status;
 

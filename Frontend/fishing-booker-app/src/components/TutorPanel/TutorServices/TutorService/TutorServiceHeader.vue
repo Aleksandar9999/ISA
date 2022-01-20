@@ -222,7 +222,7 @@ export default {
         }return false;
     },
     subscribe(){
-      this.$axios.post(`${config.apiStart}/api/tutor-services/${this.service_form.id}/subscribers`,config.requestHeader).then(()=>{
+      this.$axios.post(`${config.apiStart}/subscripeTutorService`,this.service_form).then(()=>{
         alert("SUBSCRIBED")
       })
     },

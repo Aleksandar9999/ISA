@@ -50,27 +50,40 @@ public class AppointmentController {
 	private MonthCalendarMapper monthCalendarMapper;
 
 	@SuppressWarnings("unchecked")
-	@GetMapping("api/appointments/tutor")
-	public ResponseEntity<?> getAll(@RequestParam(name = "startDate", defaultValue = "") String startDate,
-			@RequestParam(name = "endDate", defaultValue = "") String endDate,
-			@RequestParam(name = "type", defaultValue = "") String calendarType) {
+	@GetMapping("api/appointments/tutor/calendar/week")
+	public ResponseEntity<?> getAllCalendarWeek(@RequestParam(name = "startDate", defaultValue = "") String startDate,
+			@RequestParam(name = "endDate", defaultValue = "") String endDate) {
 		int loggedinUserId = UsersController.getLoggedInUserId();
 		if (!(startDate.isEmpty() && endDate.isEmpty())) {
-			switch (calendarType) {
-			case "year":
-				return ResponseEntity.ok(yearCalendarMapper.convertToDtos(
-						service.getAllByTutorAndPeriod(loggedinUserId, Date.valueOf(startDate), Date.valueOf(endDate))));//ТODO: CHANGE FIXED TUTOR ID
-			case "month":
+				LocalDate endDateLocal = Date.valueOf(startDate).toLocalDate().plusDays(7);
+				return ResponseEntity.ok(service.getAllByTutorAndPeriod(loggedinUserId, Date.valueOf(startDate),
+						Date.valueOf(endDateLocal)));
+		}
+		return ResponseEntity.ok(service.getAllTutorServiceAppointmentsByTutor(loggedinUserId));
+	}
+
+	@SuppressWarnings("unchecked")
+	@GetMapping("api/appointments/tutor/calendar/month")
+	public ResponseEntity<?> getAllCalendarMonth(@RequestParam(name = "startDate", defaultValue = "") String startDate,
+			@RequestParam(name = "endDate", defaultValue = "") String endDate) {
+		int loggedinUserId = UsersController.getLoggedInUserId();
+		if (!(startDate.isEmpty() && endDate.isEmpty())) {
 				return ResponseEntity.ok(monthCalendarMapper.convertToDtos(
 						service.getAllByTutorAndPeriod(loggedinUserId, Date.valueOf(startDate), Date.valueOf(endDate)),
 						LocalDate.parse(startDate), LocalDate.parse(endDate)));
-			case "week":{
-				LocalDate endDateLocal=Date.valueOf(startDate).toLocalDate().plusDays(7);
-				return ResponseEntity.ok(service.getAllByTutorAndPeriod(loggedinUserId, Date.valueOf(startDate), Date.valueOf(endDateLocal)));
-			}
-			default:
-				break;
-			}
+		}
+		return ResponseEntity.ok(service.getAllTutorServiceAppointmentsByTutor(loggedinUserId));
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@GetMapping("api/appointments/tutor/calendar/year")
+	public ResponseEntity<?> getAllCalendarYear(@RequestParam(name = "startDate", defaultValue = "") String startDate,
+			@RequestParam(name = "endDate", defaultValue = "") String endDate) {
+		int loggedinUserId = UsersController.getLoggedInUserId();
+		if (!(startDate.isEmpty() && endDate.isEmpty())) {
+			return ResponseEntity.ok(yearCalendarMapper.convertToDtos(
+					service.getAllByTutorAndPeriod(loggedinUserId, Date.valueOf(startDate), Date.valueOf(endDate))));
 		}
 		return ResponseEntity.ok(service.getAllTutorServiceAppointmentsByTutor(loggedinUserId));
 	}
@@ -109,62 +122,61 @@ public class AppointmentController {
 		return ResponseEntity.ok(tutorServiceAppointmentModelMapper.convertToDto(appointment));
 	}
 
-	
 	@GetMapping("api/users/tutors/{idtutor}/tutor-service/appointments")
 	public ResponseEntity<?> getAllAppointmentsByTutor(@PathVariable("idtutor") Integer idtutor) {
-		return ResponseEntity
-				.ok(tutorServiceAppointmentModelMapper.convertToDtos(service.getAllTutorServiceAppointmentsByTutor(idtutor)));
+		return ResponseEntity.ok(tutorServiceAppointmentModelMapper
+				.convertToDtos(service.getAllTutorServiceAppointmentsByTutor(idtutor)));
 	}
-	
+
 	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/getPendingAppointments")
-	public ResponseEntity<List<Appointment>>  getPendingAppointments(){
-		return ResponseEntity.ok((List<Appointment>)service.getPendingApointments());
+	public ResponseEntity<List<Appointment>> getPendingAppointments() {
+		return ResponseEntity.ok((List<Appointment>) service.getPendingApointments());
 	}
 
 	@PreAuthorize("hasRole('USER')")
 	@PostMapping("/makeBoatReservation")
-	public ResponseEntity<?> makeBoatReservation(@RequestBody BoatAppointment appointment){
+	public ResponseEntity<?> makeBoatReservation(@RequestBody BoatAppointment appointment) {
 		return ResponseEntity.ok(service.makeBoatReservation(appointment));
 	}
-	
+
 	@PreAuthorize("hasRole('USER')")
 	@PostMapping("/makeResortReservation")
-	public ResponseEntity<?> makeResortReservation(@RequestBody ResortAppointment appointment){
+	public ResponseEntity<?> makeResortReservation(@RequestBody ResortAppointment appointment) {
 		return ResponseEntity.ok(service.makeResortReservation(appointment));
 	}
-	
+
 	@PreAuthorize("hasRole('USER')")
 	@PostMapping("/makeTutorServiceReservation")
-	public ResponseEntity<?> makeTutorServiceReservation(@RequestBody TutorServiceAppointment appointment){
+	public ResponseEntity<?> makeTutorServiceReservation(@RequestBody TutorServiceAppointment appointment) {
 		return ResponseEntity.ok(service.makeTutorServiceReservation(appointment));
 	}
-	
+
 	@PreAuthorize("hasRole('USER')")
 	@PostMapping("/makeQuickReservation/{id}")
-	public ResponseEntity<?> makeQuickBoatReservation(@PathVariable("id") Integer id){
+	public ResponseEntity<?> makeQuickBoatReservation(@PathVariable("id") Integer id) {
 		return ResponseEntity.ok(service.makeQuickReservation(id));
 	}
-	
+
 	@PreAuthorize("hasRole('USER')")
 	@PostMapping("cancelReservation/{id}")
-	public ResponseEntity<?> cancelReservation(@PathVariable("id") Integer id){
+	public ResponseEntity<?> cancelReservation(@PathVariable("id") Integer id) {
 		return ResponseEntity.ok(service.cancelReservation(id));
 	}
-	
+
 	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/getAppointmentHistory")
-	public ResponseEntity<?> odlAppointments(){
+	public ResponseEntity<?> odlAppointments() {
 		return ResponseEntity.ok(service.getOldAppointments());
 	}
-	
+
 	@GetMapping("/appointments/additionalServices/{boatId}")
-	public ResponseEntity<?> additionalServicesListBoat(@PathVariable("boatId") Integer boatID){
+	public ResponseEntity<?> additionalServicesListBoat(@PathVariable("boatId") Integer boatID) {
 		return ResponseEntity.ok(service.getAdditionalServicesForBoat(boatID));
 	}
-	
+
 	@GetMapping("/appointments/getBoatPeriods/{boatId}")
-	public ResponseEntity<?> getBoatPeriods(@PathVariable("boatId") Integer boatID){
+	public ResponseEntity<?> getBoatPeriods(@PathVariable("boatId") Integer boatID) {
 		return ResponseEntity.ok(service.getBoatPeriods(boatID));
 	}
 
