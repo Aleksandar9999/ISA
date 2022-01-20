@@ -1,7 +1,6 @@
 package com.isa.FishingBooker.mapper;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Component;
 
 import com.isa.FishingBooker.dto.TutorServiceDTO;
@@ -13,8 +12,9 @@ public class TutorServiceMapper extends CustomModelMapperAbstract<TutorService, 
 
 	@Override
 	public TutorServiceDTO convertToDto(TutorService entity) {
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		TutorServiceDTO dto = modelMapper.map(entity, TutorServiceDTO.class);
-		dto.setTutorId(entity.getTutor().getId());
+		dto.setTutor(entity.getTutor().getId());
 		return dto;
 	}
 
