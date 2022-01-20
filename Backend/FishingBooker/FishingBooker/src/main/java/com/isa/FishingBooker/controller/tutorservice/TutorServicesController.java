@@ -96,7 +96,7 @@ public class TutorServicesController extends TutorServicesAbstractController {
 
 	private TutorServiceDTO setLoggedinTutor(TutorServiceDTO dto) {
 		User tutor = getLoggedinUser();
-		dto.setTutorId(tutor.getId());
+		dto.setTutor(tutor.getId());
 		return dto;
 	}
 }
