@@ -5,10 +5,11 @@ Student 1 - Bojan Prodanovic RA 34/2018
 
 Student 2 - Marko Trifunovic RA /2018
 
-Student 3 - Aleksandar Brkljac RA /2018
+Student 3 - Aleksandar Brkljac RA 225/2018
 
 Emails and passwords:
-For ordinary client - username/email: badzaic@gmail.com password: bojan
+For ordinary client - username/email: abrkljac052@gmail.com password: bojan
+Rest are saved in database script.
 
 The backend is a Maven SpringBoot application. Can be found in the Backend folder. It can be started normally as a Java project in Eclipse. PostgreSQL is needed for the backend. Database connection settings can be found in the application.properties file. 
 
