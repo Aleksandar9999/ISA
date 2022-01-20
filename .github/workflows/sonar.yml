@@ -9,6 +9,8 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    env:
+      MAVEN_OPTS: "-Dmaven.repo.local=${{ github.workspace }}/repository"
     steps:
       - uses: actions/checkout@v2
         with:
@@ -26,11 +28,12 @@ jobs:
       - name: Cache Maven packages
         uses: actions/cache@v1
         with:
-          path: ~/.m2
+          path: "${{ github.workspace }}/repository"
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build and analyze
+        working-directory: 'Backend/FishingBooker/FishingBooker'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify -f Backend/Fishingbooker/Fishingbooker/pom.xml org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Aleksandar9999_ISA
+        run: mvn -B verify  org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Aleksandar9999_ISA
