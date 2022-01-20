@@ -3,6 +3,7 @@ package com.isa.FishingBooker.dto;
 import java.util.List;
 
 import com.isa.FishingBooker.model.Appointment;
+import com.isa.FishingBooker.model.AppointmentStatus;
 
 public class BusinessReportAppointmentsDTO<T extends Appointment> {
 	private List<T> appointments;
@@ -16,13 +17,19 @@ public class BusinessReportAppointmentsDTO<T extends Appointment> {
 	}
 
 	public double getSumPrice() {
-		return appointments.stream().mapToDouble(Appointment::getPrice).sum();
+		double sum = appointments.stream().filter(app -> app.getStatus().equals(AppointmentStatus.SUCCESSFUL))
+				.mapToDouble(Appointment::getPrice).sum();
+		sum += appointments.stream().filter(app -> app.getStatus().equals(AppointmentStatus.CANCELED))
+				.mapToDouble(Appointment::getPriceCanceled).sum();
+		return sum;
 	}
 
 	public long getNumberOfCancelledAppointments() {
-		return appointments.stream().filter(app -> app.getUser() == null).count();
+		return appointments.stream().filter(app -> app.getStatus().equals(AppointmentStatus.CANCELED)).count();
 	}
-
+	public long getNumberOfSuccessfulAppointments() {
+		return appointments.stream().filter(app -> app.getStatus().equals(AppointmentStatus.SUCCESSFUL)).count();
+	}
 	public long getNumberOfAppointments() {
 		return appointments.stream().count();
 	}

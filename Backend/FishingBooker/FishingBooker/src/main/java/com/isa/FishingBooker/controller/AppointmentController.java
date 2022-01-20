@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,7 @@ import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.mapper.calendar.MonthCalendarMapper;
 import com.isa.FishingBooker.mapper.calendar.YearCalendarMapper;
 import com.isa.FishingBooker.model.Appointment;
+import com.isa.FishingBooker.model.AppointmentStatus;
 import com.isa.FishingBooker.model.BoatAppointment;
 import com.isa.FishingBooker.model.ResortAppointment;
 import com.isa.FishingBooker.model.TutorServiceAppointment;
@@ -132,7 +134,15 @@ public class AppointmentController {
 		return ResponseEntity.ok(tutorServiceAppointmentModelMapper
 				.convertToDtos(service.getAllTutorServiceAppointmentsByTutor(idtutor)));
 	}
-
+	
+	@PutMapping("api/appointments/{id}")
+	public ResponseEntity<?> cancelAppointment(@PathVariable("id") int id) {
+		Appointment appointment = service.getById(id);
+		appointment.setStatus(AppointmentStatus.CANCELED);
+		service.update(appointment);
+		return ResponseEntity.ok().build();
+	}
+	
 	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/getPendingAppointments")
 	public ResponseEntity<List<Appointment>> getPendingAppointments() {

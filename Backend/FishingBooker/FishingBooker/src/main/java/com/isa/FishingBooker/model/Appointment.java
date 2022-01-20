@@ -33,7 +33,8 @@ public class Appointment {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
-
+	@Enumerated(EnumType.STRING)
+	private AppointmentStatus status;
 	public Appointment() {
 	}
 
@@ -43,7 +44,8 @@ public class Appointment {
 
 	@JsonIgnore
 	public User getOwner() {return null;}
-	
+	@JsonIgnore
+	public double getPriceCanceled() {return -1;}
 	public Timestamp getStart() {
 		return start;
 	}
@@ -87,7 +89,7 @@ public class Appointment {
 	public double getPrice() {
 		return price;
 	}
-
+	
 	public void setPrice(double price) {
 		this.price = price;
 	}
@@ -111,7 +113,6 @@ public class Appointment {
 	public boolean inPeriod(LocalDateTime date) {
 		LocalDateTime end = start.toLocalDateTime().plusDays((int) duration - 1);
 		LocalDateTime startLocal = start.toLocalDateTime();
-
 		return (startLocal.isBefore(date) && end.isAfter(date)) || startLocal.toLocalDate().isEqual(date.toLocalDate())
 				|| end.isEqual(date);
 	}
@@ -124,4 +125,19 @@ public class Appointment {
 		this.appointType = appointType;
 	}
 
+	public AppointmentType getAppointType() {
+		return appointType;
+	}
+
+	public void setAppointType(AppointmentType appointType) {
+		this.appointType = appointType;
+	}
+
+	public AppointmentStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(AppointmentStatus status) {
+		this.status = status;
+	}	
 }

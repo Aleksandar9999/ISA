@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.model.Appointment;
 import com.isa.FishingBooker.model.AppointmentReport;
+import com.isa.FishingBooker.model.AppointmentStatus;
 import com.isa.FishingBooker.model.ReportType;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.User;
@@ -23,11 +24,22 @@ public class AppointmentReportServiceImpl extends CustomServiceAbstract<Appointm
 	private AppointmentService appointmentService;
 
 	private final int PENALTY_COUNT = 1;
-
+	@Override
+	public void addNew(AppointmentReport item) {
+		updateAppointmentStatus(item.getAppointment().getId());
+		super.addNew(item);
+	}
+	
+	private void updateAppointmentStatus(Integer id) {
+		Appointment appointment=appointmentService.getById(id);
+		appointment.setStatus(AppointmentStatus.SUCCESSFUL);
+		appointmentService.update(appointment);
+	}
+	
 	@Override
 	public void addBadCommentReport(AppointmentReport report) {
 		report.setStatusAndTypeOfReport(Status.PENDING, ReportType.BAD);
-		super.addNew(report);
+		this.addNew(report);
 	}
 
 	@Override
@@ -35,13 +47,13 @@ public class AppointmentReportServiceImpl extends CustomServiceAbstract<Appointm
 		report.setStatusAndTypeOfReport(Status.CONFIRMED, ReportType.CLIENT_NOT_SHOW_UP);
 		report.setComment("Klijent se nije pojavio.\n"+report.getComment());
 		updateClientPenaltyCountAndNotify(report);
-		super.addNew(report);
+		this.addNew(report);
 	}
 
 	@Override
 	public void addOkCommentReport(AppointmentReport report) {
 		report.setStatusAndTypeOfReport(Status.CONFIRMED, ReportType.GOOD);
-		super.addNew(report);
+		this.addNew(report);
 	}
 
 	@Override

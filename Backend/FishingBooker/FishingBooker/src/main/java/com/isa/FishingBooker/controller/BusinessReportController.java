@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,7 @@ import com.isa.FishingBooker.dto.BusinessReportAppointmentsDTO;
 import com.isa.FishingBooker.model.TutorServiceAppointment;
 import com.isa.FishingBooker.service.AppointmentService;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class BusinessReportController {
 
@@ -25,14 +27,13 @@ public class BusinessReportController {
 	public ResponseEntity<?> getAllCalendarWeek(@PathVariable("id") int tutorId,
 			@RequestParam(name = "startDate", defaultValue = "") String startDate,
 			@RequestParam(name = "endDate", defaultValue = "") String endDate) {
-		int loggedinUserId = UsersController.getLoggedInUserId();
 		if (!(startDate.isEmpty() && endDate.isEmpty())) {
 			LocalDate endDateLocal = Date.valueOf(startDate).toLocalDate().plusDays(7);
 			List<TutorServiceAppointment> appointmentsInPeriod = appointmentService
-					.getAllByTutorAndPeriod(loggedinUserId, Date.valueOf(startDate), Date.valueOf(endDateLocal));
+					.getAllByTutorAndPeriod(tutorId, Date.valueOf(startDate), Date.valueOf(endDateLocal));
 			return ResponseEntity.ok(new BusinessReportAppointmentsDTO<TutorServiceAppointment>(appointmentsInPeriod));
 		}
-		return ResponseEntity.ok(appointmentService.getAllTutorServiceAppointmentsByTutor(loggedinUserId));
+		return ResponseEntity.ok(appointmentService.getAllTutorServiceAppointmentsByTutor(tutorId));
 	}
 
 }

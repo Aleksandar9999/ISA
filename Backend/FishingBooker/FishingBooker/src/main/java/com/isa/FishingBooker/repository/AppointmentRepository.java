@@ -52,7 +52,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment ,Intege
 	public List<TutorServiceAppointment> getAllByTutorAndUserBeforeCurrentDate(int userid, int tutorid);
 	
 	
-	@Query(value="select dtype, id,start + interval '1' day * duration as endDate, appoint_type, additional_services, duration, ts.max_person, price, start, ts.address_id, user_id, boat_id, resort_id, ts.tutor_id,ts.tutor_service_id, "
+	@Query(value="select dtype, id,start + interval '1' day * duration as endDate,a.status, appoint_type, additional_services, duration, ts.max_person, price, start, ts.address_id, user_id, boat_id, resort_id, ts.tutor_id,ts.tutor_service_id, "
 			+ "    ts.name from Appointment a INNER JOIN tutor_service as ts on a.tutor_service_id=ts.tutor_service_id where a.dtype='TutorServiceAppointment' and ts.tutor_id=?1 and "
 			+ "(a.start, a.start + interval '1' day * a.duration) OVERLAPS (CAST(?2 as date), CAST(?3 as date))",nativeQuery = true)
 	public List<TutorServiceAppointment> getAllByTutorAndPeriod(int tutorId, Date start,Date end);
