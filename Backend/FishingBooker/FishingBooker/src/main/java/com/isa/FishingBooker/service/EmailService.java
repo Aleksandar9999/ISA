@@ -55,7 +55,7 @@ public class EmailService {
 	@Async
 	public void sendDiscountNotificationEmail(User user, TutorService service) {
 		String subject="NEW DISCOUNT OFFER";
-		String text=String.format("Dear %s,\nNew discount offer has been created for %s. Make your reservation at: %s", user.getName(), service.getName(),"LINK DO USLUGE GDJE SE KREIRA BRZA REZERVACIJA");
+		String text=String.format("Dear %s,\nNew discount offer has been created for %s.", user.getName(), service.getName());
 		this.sendEmail(this.createMail(user.getEmail(), subject, text));
 	}
 	@Async

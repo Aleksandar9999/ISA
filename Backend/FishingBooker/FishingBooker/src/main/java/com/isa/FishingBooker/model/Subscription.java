@@ -1,5 +1,6 @@
 package com.isa.FishingBooker.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -28,11 +29,14 @@ public class Subscription {
 	private Set<Resort> resorts;
 	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
 	private Set<TutorService> tutorServices;
-	
-	
+
 	public Subscription() {
 	}
 	
+	public Subscription(User usr) {
+		this.user=usr;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -63,6 +67,9 @@ public class Subscription {
 	public void setTutorServices(Set<TutorService> tutorServices) {
 		this.tutorServices = tutorServices;
 	}
-	
-	
+
+	public void addTutorService(TutorService tutorService) {
+		if(this.tutorServices==null) this.tutorServices=new HashSet<TutorService>();
+		this.tutorServices.add(tutorService);
+	}
 }
