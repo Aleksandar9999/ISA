@@ -107,7 +107,8 @@
             </tr>  
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPerson}}</td><td>{{item.rules}}</td><td><router-link :to="{name:profileName, params: {id:item.id} }">Page</router-link></td></tr>
+                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPerson}}</td><td>{{item.rules}}</td>
+                <td><a :href=getTutorServicePageHref(item)>Page</a></td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -149,6 +150,11 @@ export default {
     }
     } ,
     methods:{
+      getTutorServicePageHref(item){
+        console.log("Ovo je za hrefTutorService")
+        console.log(item);
+        return `/tutors/${item.tutorId}/services/${item.id}`
+      },
       changeTab(type){
         this.tabType=type;
         if(type==='boats'){

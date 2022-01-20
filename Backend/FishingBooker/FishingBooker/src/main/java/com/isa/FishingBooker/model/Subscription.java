@@ -62,6 +62,7 @@ public class Subscription {
 		this.resorts = resorts;
 	}
 	public Set<TutorService> getTutorServices() {
+		if(tutorServices==null) return new HashSet<TutorService>();
 		return tutorServices;
 	}
 	public void setTutorServices(Set<TutorService> tutorServices) {

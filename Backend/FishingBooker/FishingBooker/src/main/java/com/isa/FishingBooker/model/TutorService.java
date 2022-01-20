@@ -68,8 +68,6 @@ public class TutorService {
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<ServicePrice> prices = new HashSet<ServicePrice>();
-
-	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "tutor_id")
 	private Tutor tutor;
@@ -175,15 +173,19 @@ public class TutorService {
 	public void setRate(int rate) {
 		this.rate = rate;
 	}
-
+	@JsonIgnore
 	public Tutor getTutor() {
 		return tutor;
 	}
 
+	public int getTutorId() {
+		return tutor.getId();
+	}
+	
 	public void setTutor(Tutor tutor) {
 		this.tutor = tutor;
 	}
-
+	
 	public Set<Photo> getPhotos() {
 		return photos;
 	}

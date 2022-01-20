@@ -3,14 +3,14 @@
     <w-card class="info-card" no-border>
       <w-form no-keyup-validation no-blur-validation>
         <div class="text-right mt6" style="margin: 0px 0px 25px 0px">
-          <w-button type="submit" bg-color="red" color="white" v-if="showSubscribeButtonsFunc()" @click="subscribe" >Subscribe</w-button>
+          <w-button type="submit" :bg-color="subscribeButton.bgColor" color="white" v-if="showSubscribeButtonsFunc()" @click="subscribe" >{{subscribeButton.title}}</w-button>
         </div>
         <w-flex wrap class="text-center">
           <div class="xs6 pa1">
             <p>Service name:</p>
           </div>
           <div class="xs6 pa1">
-            <w-input
+            <w-input 
               class="mb3"
               style="color: black"
               v-model="service_form.name"
@@ -202,12 +202,27 @@ export default {
     return {
       service_form: {},
       showAdminButtons:false,
+      subscribeButton:{
+        title:'SUBSCRIBE',
+        bgColor:'red'
+      }
     };
   },
   mounted() {
-    this.showAdminButtonsFunc()
+    this.showAdminButtonsFunc();
+    
   },
   methods: {
+    isSubscribed(){
+      this.$axios.get(`${config.apiStart}/api/subscriptions/tutor-service/${this.service_info.id}`).then(resp=>{
+        this.subscribeButton.title="UNSUBSCRIBE"
+        this.subscribeButton.bgColor=''
+        console.log(resp)
+      }).catch(()=>{
+        this.subscribeButton.title="SUBSCRIBE"
+        this.subscribeButton.bgColor='red'
+      })
+    },
     showAdminButtonsFunc(){
       if (localStorage.roles)
         if (localStorage.roles.includes("ROLE_TUTOR")) {
@@ -215,16 +230,15 @@ export default {
         }
     },
     showSubscribeButtonsFunc(){
-      console.log(localStorage.roles)
       if (localStorage.roles)
-        if (localStorage.roles.trim() === "ROLE_USER") {
-          return true;
-        }return false;
+        return localStorage.roles.trim() === "ROLE_USER";
     },
     subscribe(){
-      this.$axios.post(`${config.apiStart}/subscripeTutorService`,this.service_form).then(()=>{
-        alert("SUBSCRIBED")
-      })
+      if(this.subscribeButton.title=='SUBSCRIBE')
+        this.$axios.post(`${config.apiStart}/subscripeTutorService`,this.service_form).then(()=>this.isSubscribed()
+        );
+      else this.$axios.post(`${config.apiStart}/cancelTutorServiceSubscription`,this.service_form).then(()=>this.isSubscribed()); 
+      
     },
     save() {
       console.log(this.service_form);
@@ -248,6 +262,7 @@ export default {
             ...this.service_form,
             ...serviceFromProps,
           };
+          this.isSubscribed()
         }
       },
     },
@@ -258,6 +273,7 @@ export default {
 p {
   text-align: start;
   color: white;
+  font-size: 15px;
 }
 .flex-container {
   display: flex;

@@ -140,7 +140,7 @@ export default {
         },
         setRatesAdventures(list){
           for(let i=0; i<list.length; i++){
-              axios.get('http://localhost:8080/api/revision/tutorServiceAppointmentRate/'+list[i].tutorService.id).then(response =>
+              axios.get(`http://localhost:8080/api/revision/tutor-service/${list[i].tutorService.id}/rate`).then(response =>
             list[i].rate=response.data
           );
           }          

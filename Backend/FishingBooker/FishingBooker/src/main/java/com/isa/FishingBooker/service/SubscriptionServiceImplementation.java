@@ -132,7 +132,6 @@ public class SubscriptionServiceImplementation implements SubscriptionService {
 
 	@Override
 	public String cancelBoatSubscription(Boat boat) {
-		// TODO Auto-generated method stub
 		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
 				.getAuthentication();
 		User usr = (User) aut.getPrincipal();
@@ -174,6 +173,7 @@ public class SubscriptionServiceImplementation implements SubscriptionService {
 		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
 				.getAuthentication();
 		User usr = (User) aut.getPrincipal();
+		removeTutorServiceSubscriber(usr,tutorService.getId());
 		Subscription s = this.getByUserId(usr.getId());
 		for (TutorService ts : s.getTutorServices()) {
 			if (ts.getId() == tutorService.getId()) {
@@ -187,10 +187,17 @@ public class SubscriptionServiceImplementation implements SubscriptionService {
 		return null;
 	}
 
+	private void removeTutorServiceSubscriber(User usr, Integer id) {
+		tutorServicesService.removeSubscriber(id, usr);
+	}
+
 	public Subscription getSubscriptionForUser() {
 		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
 				.getAuthentication();
 		User usr = (User) aut.getPrincipal();
-		return this.getByUserId(usr.getId());
+		Subscription subscrioption = this.getByUserId(usr.getId());
+		if(subscrioption==null)
+			return new Subscription(usr);
+		return subscrioption;
 	}
 }

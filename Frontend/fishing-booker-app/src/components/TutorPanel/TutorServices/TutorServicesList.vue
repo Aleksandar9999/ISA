@@ -57,6 +57,7 @@ export default {
         "Max number of persons",
         "Rules",
         "Status",
+        "RATE",
         "More info",
         "",
       ],
