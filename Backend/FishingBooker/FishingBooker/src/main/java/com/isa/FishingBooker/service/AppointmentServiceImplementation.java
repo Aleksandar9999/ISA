@@ -64,6 +64,20 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		}
 		throw new TutorServiceUnavailableAtSpecifiedPeriod();
 	}
+	
+	public void addNewTutorServiceAppointmentFromDiscount(TutorServiceAppointment app) {
+		TutorService tutorService = tutorServicesService.getById(app.getTutorService().getId());
+		app.setTutorService(tutorService);
+		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
+				.getAuthentication();
+		User usr = (User) aut.getPrincipal();
+		app.setUser(usr);
+		app.setAddress(tutorService.getAddress());
+		app.setType(AppointmentType.TUTORSERVICE);		
+		super.addNew(app);
+		emailService.sendReservationMail(userService.getById(app.getUser().getId()));
+
+	}
 
 	private void updateTutorServiceAvailablePeriods(TutorService ts,TutorServiceAppointment app) {
 		Period period=Period.createPeriod(app.getStart(), (int) app.getDuration());

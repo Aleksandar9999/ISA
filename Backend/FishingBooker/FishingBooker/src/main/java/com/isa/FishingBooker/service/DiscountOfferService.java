@@ -9,5 +9,6 @@ import com.isa.FishingBooker.dto.*;
 public interface DiscountOfferService extends Service<DiscountOffer> {
 	public List<DiscountOfferDTO> getAllBoatDiscountOffers();
 	public List<DiscountOfferDTO> getAllResortDiscountOffers();
-	public List<DiscountOfferDTO> getAllTutorServiceDiscountOffers();
+	public List<DiscountOffer> getAllTutorServiceDiscountOffers();
+	public String makeTutorServiceAppointmentOfDiscount(DiscountOffer discountOffer);
 }

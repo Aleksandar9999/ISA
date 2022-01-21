@@ -99,6 +99,11 @@ insert into discount_offer (additional_services, entity_type, max_person, place,
 insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Mali Zvornik, Zapadna Srbija', 800.0, 2, 3, 7);
 insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Perucac, Zapadna Srbija', 800.0, 1, 4, 8);
 
+insert into discount_offer (additional_services, entity_type, max_person, place, price, tutor_service_id, reservation_per_id, validity_per_id) values ('None', 'TUTORSERVICE', 7, 'Amajic, Zapadna Srbija', 1000.0, 2, 9, 12);
+insert into discount_offer (additional_services, entity_type, max_person, place, price, tutor_service_id, reservation_per_id, validity_per_id) values ('None', 'TUTORSERVICE', 7, 'Vrhpolje, Zapadna Srbija', 700.0, 1, 10, 12);
+insert into discount_offer (additional_services, entity_type, max_person, place, price, tutor_service_id, reservation_per_id, validity_per_id) values ('None', 'TUTORSERVICE', 7, 'Mali Zvornik, Zapadna Srbija', 800.0, 3, 11, 13);
+insert into discount_offer (additional_services, entity_type, max_person, place, price, tutor_service_id, reservation_per_id, validity_per_id) values ('None', 'TUTORSERVICE', 7, 'Perucac, Zapadna Srbija', 800.0, 4, 11, 13);
+
 insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','Boat is excelent.',4, 4, 4);
 insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','Boat is excelent.',4, 4, 4);
 insert into revisions (dtype, comment, rate, status, boat_appointment_id) values ('BoatAppointmentRevision','',2, 4, 4);

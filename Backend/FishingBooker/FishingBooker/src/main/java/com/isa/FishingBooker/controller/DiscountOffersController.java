@@ -19,6 +19,7 @@ import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.mapper.CustomModelMapperAbstract;
 import com.isa.FishingBooker.model.Appointment;
 import com.isa.FishingBooker.model.BoatAppointment;
+import com.isa.FishingBooker.model.DiscountOffer;
 import com.isa.FishingBooker.model.ResortAppointment;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.TutorService;
@@ -49,6 +50,12 @@ public class DiscountOffersController {
 	@GetMapping("/tutorDiscounts")
 	public ResponseEntity<?> getAllTutorDiscounts(){
 		return ResponseEntity.ok(service.getAllTutorServiceDiscountOffers());
+	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@PostMapping("/reserveTutorServiceDiscount")
+	public ResponseEntity<?> makeTutorServiceDiscountReservation(@RequestBody DiscountOffer discountOffer){
+		return ResponseEntity.ok(service.makeTutorServiceAppointmentOfDiscount(discountOffer));
 	}
 	
 }

@@ -31,18 +31,18 @@
         </table>
         </div>
     </div>
-    <div class="grid-container" id="tabela" v-if="entityType==='adventure'"> 
+    <div class="grid-container" id="tabela" v-if="entityType==='tutor'"> 
         <div>
         <table class="r-table" cellspacing="0" cellpadding="0" border="0">
             <thead>
               <tr >
-              <th v-for="header in tableHeader" :key="header">
+              <th v-for="header in tableHeaderTS" :key="header">
                   {{header}}                
               </th>
             </tr>  
             </thead>
             <tbody class="tbl-content" v-for="item in entitiesData" :key="item">
-             <tr > <td>{{item.start}}</td><td>{{item.address.city}} {{item.address.country}}</td><td>{{item.price}}</td><td>{{item.newPrice}}</td><td>{{item.discount}} </td><td><button @click="makeReservation(item.appointmentId)">Reserve</button></td></tr>
+             <tr > <td>{{item.validityPeriod.startDate}}</td><td>{{item.validityPeriod.endDate}}</td><td>{{item.reservationPeriod.startDate}}</td><td>{{item.reservationPeriod.endDate}}</td><td>{{item.price}}</td><td>{{item.tutorService.name}}</td><td>{{item.place}} </td><td><button @click="makeTutorServiceReservationFromDiscount(item)">Reserve</button></td></tr>
             </tbody>
         </table>
         </div>
@@ -58,6 +58,7 @@ export default {
             entityType:'',
             entitiesData:[],
             tableHeader:['Date and time','Address','Price','New Price','Discount','Make Reservation'],
+            tableHeaderTS:['Validity start','Validity end','Reservation start','Reservation end','Price','Name','Place','Make Reservation'],
         }
     },
     methods:{
@@ -79,9 +80,12 @@ export default {
             } else
             {
                 axios.get('http://localhost:8080/tutorDiscounts').then(response =>
-                this.adventures=response.data
+                this.entitiesData=response.data
                 )
             }
+        },
+        makeTutorServiceReservationFromDiscount(item){
+          axios.post('http://localhost:8080/reserveTutorServiceDiscount',item).then(response=>console.log(response.data))
         }
     },
     mounted(){
