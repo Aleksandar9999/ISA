@@ -33,6 +33,8 @@ import RevisionsList from "../components/AdminPanel/Revisions/RevisionsList.vue"
 import ComplaintsList from "../components/AdminPanel/Complaints/ComplaintsList.vue"
 import AppointmentReportsList from '../components/AdminPanel/AppointmentReport/AppointmentReportsList.vue'
 
+import ReportList from '../components/BusinessReportPanel/ReportList.vue'
+
 import TutorServicesList from '../components/TutorPanel/TutorServices/TutorServicesList.vue'
 import TutorAvailablePeriods from '../components/TutorPanel/TutorProfile/TutorAvailablePeriods.vue'
 import AppointmentsList from '../components/TutorPanel/TutorServices/Appointments/AppointmentsList.vue'
@@ -57,7 +59,8 @@ const routes = [
   {path: "/tutors/:idtutor/available-periods", name: "TutorAvailablePeriods", component: TutorAvailablePeriods},
   {path: "/tutors/:idtutor/appointments", name: "TutorServicesAppointments", component: AppointmentsList},
   {path: "/tutors/:idtutor/services/:idservice", name: "TutorService", component: TutorServicePage},
-  
+
+  {path: "/business/reports",name:"ReportList",component: ReportList},
   {path: "/revisions",name:"RevisionsList",component: RevisionsList},
   {path: "/complaints",name:"ComplaintsList",component: ComplaintsList},
   {path: "/appointment-reports",name:"AppointmentReportsList",component: AppointmentReportsList},

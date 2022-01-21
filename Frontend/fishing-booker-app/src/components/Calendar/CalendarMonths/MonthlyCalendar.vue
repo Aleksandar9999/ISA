@@ -63,7 +63,7 @@ export default {
       this.$axios.get(`${config.apiStart}/api/${services}/discount-offers?startDate=${startDateQuery}&endDate=${endDateQuery}`).then(resp=>{
           this.calendarDaysDiscountOffers=resp.data;
         });
-        this.$axios.get(`${config.apiStart}/api/${services}/standard-periods?startDate=${startDateQuery}&endDate=${endDateQuery}`).then(resp=>{
+        this.$axios.get(`${config.apiStart}/api/${services}/standard-periods/me?startDate=${startDateQuery}&endDate=${endDateQuery}`).then(resp=>{
           this.calendarDaysStandardPeriods=resp.data;
         });
         

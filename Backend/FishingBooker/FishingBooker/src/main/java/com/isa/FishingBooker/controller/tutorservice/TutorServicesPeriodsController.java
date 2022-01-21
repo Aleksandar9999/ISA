@@ -1,5 +1,7 @@
 package com.isa.FishingBooker.controller.tutorservice;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -49,6 +51,14 @@ public class TutorServicesPeriodsController extends TutorServicesAbstractControl
 		return ResponseEntity.status(200).body(tutorService.getStandardPeriods());
 	}
 
+	@GetMapping("api/tutor-services/standard-periods")
+	public ResponseEntity<?> getAllTutorServiceStandardPeriod(
+			@RequestParam(name = "start",defaultValue = "") String start,
+			@RequestParam(name = "duration",defaultValue = "") int duration,
+			@RequestParam(name = "number-of-guests",defaultValue = "") int maxPersons) {
+		return ResponseEntity.status(200).body(tutorServicesService.getAllTutorServicesAvailablePeriods(new Timestamp(Date.valueOf(start).getTime()), duration, maxPersons));
+	}
+
 	@GetMapping("api/tutor-services/{idservice}/discount-offers")
 	public ResponseEntity<?> getTutorServiceDiscountOffers(@PathVariable("idservice") int idservice) {
 		TutorService tutorService = tutorServicesService.getById(idservice);
@@ -78,7 +88,7 @@ public class TutorServicesPeriodsController extends TutorServicesAbstractControl
 	}
 
 	@PreAuthorize("hasRole('TUTOR')")
-	@GetMapping("api/tutor-services/standard-periods")
+	@GetMapping("api/tutor-services/standard-periods/me")
 	public ResponseEntity<?> getAllTutorStandardPeriod(
 			@RequestParam(name = "startDate", defaultValue = "") String startDate,
 			@RequestParam(name = "endDate", defaultValue = "") String endDate) {

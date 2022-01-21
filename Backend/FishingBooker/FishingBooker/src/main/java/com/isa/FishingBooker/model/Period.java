@@ -1,6 +1,7 @@
 package com.isa.FishingBooker.model;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,30 +29,18 @@ public class Period {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "start_date")
-	private final Timestamp startDate;
+	private Timestamp startDate;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "end_date")
-	private final Timestamp endDate;
+	private Timestamp endDate;
 
 	public Period() {
 		this.startDate = null;
 		this.endDate = null;
 	}
-	/*
-	 * public Period() { this.startDate = new Date(); this.endDate = new Date(); }
-	 */
-
-	/*
-	 * @JsonCreator public Period(@JsonProperty("startDate") Date
-	 * startDate, @JsonProperty("endDate") Date endDate) { this.startDate =
-	 * startDate; this.endDate = endDate; validateDates(); }
-	 * 
-	 * @JsonCreator public Period(@JsonProperty("id")int
-	 * id, @JsonProperty("startDate") Date startDate, @JsonProperty("endDate") Date
-	 * endDate) { this(startDate,endDate); this.id=id; }
-	 */
+	
 	@JsonCreator
 	public Period(@JsonProperty("startDate") Timestamp startDate, @JsonProperty("endDate") Timestamp endDate) {
 		this.startDate = startDate;
@@ -74,15 +63,28 @@ public class Period {
 			throw new InvalidPeriodDefinitionException();
 	}
 
+	public static boolean isSameDate(Timestamp s1,Timestamp s2) {
+		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-mm-dd");
+		return  formatter.format(s1).equals(formatter.format(s2));
+	}
+	
+	public boolean areStartEndAreSameDate() {
+		return isSameDate(startDate, endDate);
+	}
+	
+	public void setStartDate(Timestamp start) {
+		this.startDate=start;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
 
-	public Date getStartDate() {
+	public Timestamp getStartDate() {
 		return this.startDate;
 	}
 
-	public Date getEndDate() {
+	public Timestamp getEndDate() {
 		return this.endDate;
 	}
 
@@ -124,7 +126,7 @@ public class Period {
 			throw new PeriodOverlapException();
 	}
 
-	private void periodBetweenPeriod(Period newPeriod) {
+	public void periodBetweenPeriod(Period newPeriod) {
 		if (newPeriod.getStartDate().after(this.startDate) && newPeriod.getEndDate().before(endDate))
 			throw new PeriodOverlapException();
 	}

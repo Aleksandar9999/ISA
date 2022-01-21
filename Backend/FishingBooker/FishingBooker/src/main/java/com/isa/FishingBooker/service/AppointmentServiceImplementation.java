@@ -3,14 +3,11 @@ package com.isa.FishingBooker.service;
 
 import java.sql.Timestamp;
 
-
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +15,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.exceptions.PeriodOverlapException;
+import com.isa.FishingBooker.exceptions.TutorServiceUnavailableAtSpecifiedPeriod;
 import com.isa.FishingBooker.exceptions.UserAppointmentInProgressException;
 import com.isa.FishingBooker.model.Appointment;
 import com.isa.FishingBooker.model.AppointmentType;
 import com.isa.FishingBooker.model.BoatAppointment;
 import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.ResortAppointment;
-import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.TutorServiceAppointment;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.AppointmentRepository;
-import com.isa.FishingBooker.repository.TutorServiceRepository;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
 
 @Service
@@ -51,18 +47,35 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 	public void addNewTutorServiceAppointment(TutorServiceAppointment app) {
 		TutorService tutorService = tutorServicesService.getById(app.getTutorService().getId());
 		app.setTutorService(tutorService);
-		validateNewTutorServiceAppointment(app);
-		app.setPrice(tutorService.calculatePrice((int) app.getDuration()));
-		super.addNew(app);
-		emailService.sendReservationMail(userService.getById(app.getUser().getId()));
+		try {
+			validateNewTutorServiceAppointment(app);	
+		}catch(PeriodOverlapException ex) {
+			app.setPrice(tutorService.calculatePrice((int) app.getDuration()));
+			updateTutorServiceAvailablePeriods(tutorService, app);
+			super.addNew(app);
+			emailService.sendReservationMail(userService.getById(app.getUser().getId()));
+			return;
+		}
+		throw new TutorServiceUnavailableAtSpecifiedPeriod();
 	}
 
-	@Override
-	public void addNewTutorServiceAppointment(TutorServiceAppointment app, boolean validateUser) {
-		if (validateUser) {
-			if (!validateUseCurrentAppointment(app.getUser().getId(),app.getTutorService().getId()))
-				throw new UserAppointmentInProgressException();
+	private void updateTutorServiceAvailablePeriods(TutorService ts,TutorServiceAppointment app) {
+		Period period=Period.createPeriod(app.getStart(), (int) app.getDuration());
+		ts.updateStandardPeriod(period);
+		tutorServicesService.update(ts);
+	}
+	
+	private void validateNewTutorServiceAppointment(TutorServiceAppointment newAppointment) {
+		Set<Period> standardPeriods=tutorServicesService.getById(newAppointment.getTutorService().getId()).getStandardPeriods();
+		for (Period period : standardPeriods) {
+			period.periodBetweenPeriod(Period.createPeriod(newAppointment.getStart(), (int) newAppointment.getDuration()));
 		}
+	}
+	
+	@Override
+	public void addNewTutorServiceAppointmentByTutor(TutorServiceAppointment app, boolean validateUser) {
+		if (!validateUseCurrentAppointment(app.getUser().getId(),app.getTutorService().getId()))
+				throw new UserAppointmentInProgressException();
 		this.addNewTutorServiceAppointment(app);
 	}
 
@@ -126,19 +139,6 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 	@Override
 	public void deleteResortAppointments(int resortId) {
 		((AppointmentRepository) repository).deleteResortAppointments(resortId);
-	}
-
-	private void validateNewTutorServiceAppointment(TutorServiceAppointment newAppointment) {
-		List<TutorServiceAppointment> allInCommingAppointmentsByTutor = this
-				.getAllInCommingAppointmentsByTutor(newAppointment.getTutorId());
-		for (TutorServiceAppointment tutorServiceAppointment : allInCommingAppointmentsByTutor) {
-			Period.createPeriod(newAppointment.getStart(), (int) newAppointment.getDuration()).overlap(Period
-					.createPeriod(tutorServiceAppointment.getStart(), (int) tutorServiceAppointment.getDuration()));
-		}
-	}
-
-	private List<TutorServiceAppointment> getAllInCommingAppointmentsByTutor(int tutorId) {
-		return ((AppointmentRepository) repository).getAllInCommingAppointmentsByTutor(tutorId);
 	}
 
 	@Override

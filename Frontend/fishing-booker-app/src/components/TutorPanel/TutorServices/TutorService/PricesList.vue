@@ -46,9 +46,8 @@ export default {
   watch: {
     fetch: {
       immediate: true,
-      handler(prop) {
-        if (prop) this.fetchData();
-      },
+      handler() {
+          this.fetchData();}
     },
   },
 };

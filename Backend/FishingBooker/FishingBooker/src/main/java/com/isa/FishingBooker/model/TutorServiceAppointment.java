@@ -34,6 +34,11 @@ public class TutorServiceAppointment extends Appointment {
 	}
 
 	@Override
+	public double getPriceCanceled() {
+		return this.getPrice()*(tutorService.getCancelProcentage()/100);
+	}
+
+	@Override
 	public User getOwner() {
 		return tutorService.getTutor();
 	}

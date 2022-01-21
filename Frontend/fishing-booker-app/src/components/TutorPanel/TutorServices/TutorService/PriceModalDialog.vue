@@ -79,7 +79,7 @@ export default {
         .then(()=>{
           this.success = true;
           this.hideDialog();
-        });
+        }).catch(err=>alert(err.response.data.message));
     },
   },
   watch: {

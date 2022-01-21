@@ -1,5 +1,6 @@
 package com.isa.FishingBooker.service;
 
+import com.isa.FishingBooker.exceptions.PeriodOverlapException;
 import com.isa.FishingBooker.model.DiscountOffer;
 import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.Photo;
@@ -9,6 +10,7 @@ import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.TutorServiceRepository;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -105,6 +107,24 @@ public class TutorServicesServiceImpl extends CustomServiceAbstract<TutorService
 		this.update(tutorService);
 		this.notifySubscribers(tutorService);
 	}
+	
+	@Override
+	public List<TutorService> getAllTutorServicesAvailablePeriods(Timestamp start, int duration, int maxPerson){
+		List<TutorService>retList=new ArrayList<TutorService>();
+		Period newPeriod=Period.createPeriod(start, duration);
+		List<TutorService> services=this.getAll().stream().filter(service->service.getMaxPerson()>maxPerson).collect(Collectors.toList());
+		for (TutorService tutorService : services) {
+			tutorService.getStandardPeriods().forEach(period->{
+				try{
+					period.periodBetweenPeriod(newPeriod);
+				}catch (PeriodOverlapException e) {
+					retList.add(tutorService);
+				}
+			});
+		}
+		return retList;
+	}
+	
 	@Async
 	private void notifySubscribers(TutorService tutorService) {
 		tutorService.getSubscribers().forEach(subscirber-> emailService.sendDiscountNotificationEmail(subscirber, tutorService));

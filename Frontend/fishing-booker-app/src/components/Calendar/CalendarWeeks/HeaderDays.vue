@@ -37,7 +37,7 @@ export default {
         let endDate = this.dateLocal.clone().add(6,'days');
         let rola='tutor';
        
-        this.$axios.get(`${config.apiStart}/api/appointments/${rola}?startDate=${startDate.format("YYYY-MM-DD")}&endDate=${endDate.format("YYYY-MM-DD")}&type=month`)
+        this.$axios.get(`${config.apiStart}/api/appointments/${rola}/calendar/month?startDate=${startDate.format("YYYY-MM-DD")}&endDate=${endDate.format("YYYY-MM-DD")}`)
         .then(resp=>{
             this.datesReserved=resp.data;
             console.log(this.datesReserved)
