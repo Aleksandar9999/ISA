@@ -24,7 +24,7 @@ public class BusinessReportController {
 	private AppointmentService appointmentService;
 
 	@GetMapping("api/business-report/tutor/{id}/appointments")
-	public ResponseEntity<?> getAllCalendarWeek(@PathVariable("id") int tutorId,
+	public ResponseEntity<?> getTutorReport(@PathVariable("id") int tutorId,
 			@RequestParam(name = "startDate", defaultValue = "") String startDate,
 			@RequestParam(name = "endDate", defaultValue = "") String endDate) {
 		if (!(startDate.isEmpty() && endDate.isEmpty())) {
@@ -35,4 +35,11 @@ public class BusinessReportController {
 		return ResponseEntity.ok(appointmentService.getAllTutorServiceAppointmentsByTutor(tutorId));
 	}
 
+	@GetMapping("api/business-report/tutor/appointments/me")
+	public ResponseEntity<?> getReportForLoggedin(@RequestParam(name = "startDate", defaultValue = "") String startDate,
+			@RequestParam(name = "endDate", defaultValue = "") String endDate) {
+		return getTutorReport(UsersController.getLoggedInUserId(), startDate, endDate);
+	}
+
+	
 }

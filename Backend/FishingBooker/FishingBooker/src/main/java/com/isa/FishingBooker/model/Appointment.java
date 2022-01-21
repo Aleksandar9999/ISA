@@ -36,6 +36,7 @@ public class Appointment {
 	@Enumerated(EnumType.STRING)
 	private AppointmentStatus status;
 	public Appointment() {
+		this.status=AppointmentStatus.PENDING;
 	}
 
 	public Appointment(int id) {
