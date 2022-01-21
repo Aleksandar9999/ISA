@@ -23,8 +23,10 @@
         <select name="" id="">
             <option @click="sort('rateAsc')" value="rateAsc">Sort by rate ascending</option>
             <option @click="sort('rateDesc')" value="rateDesc">Sort by rate descending</option>
-            <option @click="sort('priceAsc')" value="priceAsc">Sort by price ascending</option>
-            <option @click="sort('priceDesc')" value="priceDesc">Sort by price descending</option>
+            <option v-if="entityType!='adventure'" @click="sort('priceAsc')" value="priceAsc">Sort by price ascending</option>
+            <option v-if="entityType!='adventure'" @click="sort('priceDesc')" value="priceDesc">Sort by price descending</option>
+            <option v-if="entityType==='adventure'" @click="sort('persAsc')" value="persAsc">Sort by persons ascending</option>
+            <option v-if="entityType==='adventure'" @click="sort('persDesc')" value="ppersDesc">Sort by persons descending</option>
         </select>
         <label for="">Search location: </label>
         <input type="text" name="" id="numdays" v-model="location">
@@ -85,14 +87,14 @@
         <table class="r-table" cellspacing="0" cellpadding="0" border="0">
             <thead>
               <tr >
-              <th v-for="header in tableHeader" :key="header">
+              <th v-for="header in tableHeaderTS" :key="header">
                   {{header}}                
               </th>
             </tr>  
             </thead>
             <tbody class="tbl-content" v-for="item in entitiesData" :key="item">
-              <tr><td >{{item.tutorService.name}}</td>
-              <td>{{item.start}}</td><td>{{item.address.city}} {{item.address.country}}</td><td>{{item.maxPerson}}</td><td>{{item.price}}</td><td>{{item.rate}}</td><td><button @click="showAditionalInfA(item)">Reserve</button></td></tr>
+              <tr><td >{{item.name}}</td>
+              <td>{{item.address.city}} {{item.address.country}}</td><td>{{item.maxPerson}}</td><td>{{item.rate}}</td><td><button @click="makeTutorServiceAppointment(item)">Reserve</button></td></tr>
             </tbody>
         </table>
         </div>
@@ -116,11 +118,13 @@ export default {
             showSrc:false,
             showAdditionalInfo:false,
             tableHeader:['Name','Date and time','Address','Max persons','Price','Rate', 'Make Reservation'],
+            tableHeaderTS:['Name','Address','Max persons','Rate', 'Make Reservation'],
             appointment:{},
             additionalServices:[],
             extras:[],
             location:'',
-            appointmentToSendDTO:{}
+            appointmentToSendDTO:{},
+            tutorServiceAppointmentDTO:{}
         }
     },
     methods: {
@@ -151,17 +155,26 @@ export default {
             alert('You must fill all fields before search.')
             return;
           }
+          if(this.entityType==='adventure'){
+            axios.get('http://localhost:8080/api/tutor-services/standard-periods?start='+this.dateAndTime+'&duration='+this.numDays+'&number-of-guests='+this.numPersons).then(response =>
+            this.adventures=response.data
+          )
+          this.entitiesData=this.adventures
+          this.showSrc=true;
+          }else {
           this.loadEntities()      
           this.searchDate()
           this.searchDays()
           this.searchGuests()
           this.showSrc=true;
+          }
         },
+
         searchLocation(){
           if(this.location!=''){
             this.search();
           for(let i = 0; i<this.entitiesData.length; i++){            
-            let loc= this.entitiesData[i].address.city + this.entitiesData[i].address.country             
+            let loc= this.entitiesData[i].address.city +' '+ this.entitiesData[i].address.country             
                   if(!loc.toLowerCase().includes(this.location)){
                     this.entitiesData.splice(i,1);
                     i--
@@ -243,6 +256,12 @@ export default {
             } else 
             if(sortType==='priceDesc'){
                 this.entitiesData.sort((a,b)=> (a.price<b.price) ? 1 :(b.price<a.price) ? -1 :0);
+            } else 
+            if(sortType==='persAsc'){
+                this.entitiesData.sort((a,b)=> (a.maxPerson>b.maxPerson) ? 1 :(b.maxPerson>a.maxPerson) ? -1 :0);
+            } else 
+            if(sortType==='persDesc'){
+                this.entitiesData.sort((a,b)=> (a.maxPerson<b.maxPerson) ? 1 :(b.maxPerson<a.maxPerson) ? -1 :0);
             } 
         },
 
@@ -280,11 +299,15 @@ export default {
             } else
             {
               delete this.appointment.rate; 
-              axios.post('http://localhost:8080/makeTutorServiceReservation', this.appointment).then((response) => console.log(response.data));
+              
             }
             
         }
         this.showSrc=false
+        },
+        makeTutorServiceAppointment(item){
+          this.makeTutorServiceDTO(item)
+              axios.post('http://localhost:8080/api/appointments/tutor-service', this.tutorServiceAppointmentDTO).then((response) => console.log(response.data));
         },
 
         loadEntities(){
@@ -294,9 +317,6 @@ export default {
       axios.get('http://localhost:8080/resortAppointments').then(response =>
           this.resorts=response.data
           );
-      axios.get('http://localhost:8080/api/appointments/tutor-service').then(response =>
-          this.adventures=response.data
-          )
         },
 
       getExtras(){
@@ -304,6 +324,14 @@ export default {
       },
       addExtras(data){
         this.additionalServices=data
+      },
+      makeTutorServiceDTO(item){
+        this.tutorServiceAppointmentDTO.start=this.dateAndTime +' 13:00:00'
+        this.tutorServiceAppointmentDTO.duration=this.numDays
+        this.tutorServiceAppointmentDTO.maxPerson=this.numPersons
+        this.tutorServiceAppointmentDTO.additionalServices=''
+        this.tutorServiceAppointmentDTO.userId=1
+        this.tutorServiceAppointmentDTO.serviceId=item.id
       }
         
     },

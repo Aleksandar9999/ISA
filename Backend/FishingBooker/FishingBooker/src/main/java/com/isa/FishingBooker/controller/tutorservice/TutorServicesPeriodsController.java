@@ -51,6 +51,7 @@ public class TutorServicesPeriodsController extends TutorServicesAbstractControl
 		return ResponseEntity.status(200).body(tutorService.getStandardPeriods());
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@GetMapping("api/tutor-services/standard-periods")
 	public ResponseEntity<?> getAllTutorServiceStandardPeriod(
 			@RequestParam(name = "start",defaultValue = "") String start,

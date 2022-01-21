@@ -47,6 +47,12 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 	public void addNewTutorServiceAppointment(TutorServiceAppointment app) {
 		TutorService tutorService = tutorServicesService.getById(app.getTutorService().getId());
 		app.setTutorService(tutorService);
+		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
+				.getAuthentication();
+		User usr = (User) aut.getPrincipal();
+		app.setUser(usr);
+		app.setAddress(tutorService.getAddress());
+		app.setType(AppointmentType.TUTORSERVICE);
 		try {
 			validateNewTutorServiceAppointment(app);	
 		}catch(PeriodOverlapException ex) {

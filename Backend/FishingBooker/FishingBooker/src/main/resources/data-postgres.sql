@@ -69,8 +69,16 @@ insert into period (start_date, end_date) values('Mon Dec 27 10:00:00 GMT 2021',
 
 
 insert into period (start_date, end_date) values('2022-02-01 13:00:00','2022-02-15 13:00:00');
+insert into period (start_date, end_date) values('2022-02-03 11:00:00','2022-02-17 13:00:00');
+insert into period (start_date, end_date) values('2022-02-04 13:00:00','2022-02-18 13:00:00');
+insert into period (start_date, end_date) values('2022-02-04 12:00:00','2022-02-11 13:00:00');
+insert into period (start_date, end_date) values('2022-02-15 12:00:00','2022-02-27 13:00:00');
 
 insert into tutor_service_standard_periods (tutor_service_tutor_service_id, standard_periods_id) values (3,9);
+insert into tutor_service_standard_periods (tutor_service_tutor_service_id, standard_periods_id) values (2,10);
+insert into tutor_service_standard_periods (tutor_service_tutor_service_id, standard_periods_id) values (1,11);
+insert into tutor_service_standard_periods (tutor_service_tutor_service_id, standard_periods_id) values (4,12);
+insert into tutor_service_standard_periods (tutor_service_tutor_service_id, standard_periods_id) values (3,13);
 
 insert into appointment (dtype, start, duration, max_person, additional_services, price, appoint_type, address_id, resort_id) values ('ResortAppointment', 'Sat Jan 29 18:00:00 GMT 2022',3.0, 7, 'No additional services.', 500.00, 'RESORT', 4, 1);
 insert into appointment (dtype, start, duration, max_person, additional_services, price, appoint_type, address_id, tutor_service_id) values ('TutorServiceAppointment', 'Sat Jan 29 18:00:00 GMT 2022',3.0, 7, 'No additional services.', 900.00, 'TUTORSERVICE', 5, 1);
