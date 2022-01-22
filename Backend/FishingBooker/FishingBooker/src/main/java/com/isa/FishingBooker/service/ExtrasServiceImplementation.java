@@ -6,7 +6,6 @@ import com.isa.FishingBooker.model.Extras;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.isa.FishingBooker.model.Extras;
 import com.isa.FishingBooker.repository.ExtrasRepository;
 
 @Service
