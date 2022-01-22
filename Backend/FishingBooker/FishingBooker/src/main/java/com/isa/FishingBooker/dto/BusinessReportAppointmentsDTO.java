@@ -6,7 +6,7 @@ import com.isa.FishingBooker.model.Appointment;
 import com.isa.FishingBooker.model.AppointmentStatus;
 
 public class BusinessReportAppointmentsDTO<T extends Appointment> {
-	private List<T> appointments;
+	protected List<T> appointments;
 
 	public BusinessReportAppointmentsDTO(List<T> appointments) {
 		this.appointments = appointments;

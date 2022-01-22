@@ -11,13 +11,13 @@ import com.isa.FishingBooker.model.ResortAppointment;
 import com.isa.FishingBooker.model.TutorServiceAppointment;
 
 public interface AppointmentService extends Service<Appointment> {
+	public List<Appointment> getAllInPeriod(Date start,Date end);
 	public List<ResortAppointment> getResortApointments();
 	public List<BoatAppointment> getBoatApointments();
 	public List<TutorServiceAppointment> getTutorServiceApointments();
 	public List<TutorServiceAppointment> getAllTutorServiceAppointmentsByTutor(int id);
 	public void addNewTutorServiceAppointment(TutorServiceAppointment app);
 	public void addNewTutorServiceAppointmentByTutor(TutorServiceAppointment app,boolean validateUser);
-	public List<Appointment>getPendingApointments(String email);
 	public List<Appointment>getPendingApointments();
 	public void deleteResortAppointments(int resortId);
 	public List<TutorServiceAppointment> getAllByTutorAndPeriod(int tutorId, Date start, Date end);

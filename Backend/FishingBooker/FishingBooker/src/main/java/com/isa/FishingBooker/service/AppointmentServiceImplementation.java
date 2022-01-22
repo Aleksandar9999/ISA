@@ -502,8 +502,7 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		}
 
 	@Override
-	public List<Appointment> getPendingApointments(String email) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Appointment> getAllInPeriod(java.sql.Date start, java.sql.Date end) {
+		return ((AppointmentRepository)repository).getAllInPeriod(start, end);
 	}
 }
