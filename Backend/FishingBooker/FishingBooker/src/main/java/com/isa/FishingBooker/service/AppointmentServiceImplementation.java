@@ -44,6 +44,7 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 	}
 
 	@Override
+	@Transactional
 	public void addNewTutorServiceAppointment(TutorServiceAppointment app) {
 		TutorService tutorService = tutorServicesService.getById(app.getTutorService().getId());
 		app.setTutorService(tutorService);
