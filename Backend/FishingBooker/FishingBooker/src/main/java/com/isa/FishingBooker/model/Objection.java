@@ -6,18 +6,32 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Objection {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@ManyToOne
-	@JoinColumn(name="appointment_id")
+	@JoinColumn(name = "appointment_id")
 	private Appointment appointment;
 	private String objection;
 	private String userEmail;
+
+	@OneToOne
+	@JoinColumn(nullable = true)
+	private Admin adminResponded;
+
+	public Admin getAdminResponded() {
+		return adminResponded;
+	}
+
+	public void setAdminResponded(Admin adminResponded) {
+		this.adminResponded = adminResponded;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -49,6 +63,5 @@ public class Objection {
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
 	}
-	
-	
+
 }

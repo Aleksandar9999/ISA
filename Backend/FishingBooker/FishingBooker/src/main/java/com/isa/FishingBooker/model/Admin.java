@@ -10,6 +10,9 @@ public class Admin extends User {
 	public Admin() {
 		super();
 	}
+	public Admin(int loggedInUserId) {
+		super(loggedInUserId);
+	}
 	@Override
 	public void setRolesNames() {
 		super.setRolesNames();

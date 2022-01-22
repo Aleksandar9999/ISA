@@ -7,6 +7,15 @@ public class DeleteRequestDTO {
 	private String reason;
 	private Status requestStatus;
 	private int userId;
+	private int adminRespondedId;
+	
+	public int getAdminRespondedId() {
+		return adminRespondedId;
+	}
+
+	public void setAdminRespondedId(int adminRespondedId) {
+		this.adminRespondedId = adminRespondedId;
+	}
 
 	public DeleteRequestDTO() {
 	}

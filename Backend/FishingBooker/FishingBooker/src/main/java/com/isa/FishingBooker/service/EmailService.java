@@ -29,6 +29,11 @@ public class EmailService {
 		this.sendCustomEmail(user.getEmail(), "Delete request review", mailContent);
 	}
 	
+	public void sendObjectionResponseNotification(String email,String response) {
+		String mailContent= String.format("Admin response: ",response);
+		this.sendCustomEmail(email, "Objection response", mailContent);
+	}
+	
 	@Async
 	public void sendPenaltyUpdateNotification(User client, String reason) {
 		String mailContent= String.format("Dear %s,\nYou got new penalty.\nNew number of penalties: %s.\n\nReason:%s", client.getName(),client.getPenaltyCount(),reason);

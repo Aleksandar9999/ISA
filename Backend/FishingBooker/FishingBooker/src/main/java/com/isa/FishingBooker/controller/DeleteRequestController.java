@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.FishingBooker.dto.DeleteRequestDTO;
 import com.isa.FishingBooker.dto.DeleteRequestResponseDTO;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
+import com.isa.FishingBooker.model.Admin;
 import com.isa.FishingBooker.model.DeleteRequest;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
@@ -46,7 +47,7 @@ public class DeleteRequestController {
 	@PutMapping("api/delete-request")
 	public ResponseEntity<?> updateDeleteRequest(@RequestBody DeleteRequestResponseDTO dto) {
 		DeleteRequest deleteRequest=mapper.convertToEntity(dto.getDeleteReguestDto());
-		service.update(deleteRequest,dto.getResponse());
+		service.update(deleteRequest,dto.getResponse(),new Admin(UsersController.getLoggedInUserId()));
 		return ResponseEntity.ok().build();
 	}
 	

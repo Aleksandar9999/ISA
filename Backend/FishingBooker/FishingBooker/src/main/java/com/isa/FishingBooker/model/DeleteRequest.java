@@ -2,14 +2,15 @@ package com.isa.FishingBooker.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+
 @Entity
 public class DeleteRequest {
-	
+
 	@Id
 	@Column(name = "delete_request_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,11 +20,21 @@ public class DeleteRequest {
 
 	@OneToOne
 	private User user;
+	@OneToOne
+	@JoinColumn(nullable = true)
+	private Admin adminResponded;
 
 	public DeleteRequest() {
-		// TODO Auto-generated constructor stub
 	}
-	
+
+	public Admin getAdminResponded() {
+		return adminResponded;
+	}
+
+	public void setAdminResponded(Admin adminResponded) {
+		this.adminResponded = adminResponded;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -55,5 +66,5 @@ public class DeleteRequest {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
 }

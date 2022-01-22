@@ -2,6 +2,7 @@ package com.isa.FishingBooker.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.isa.FishingBooker.model.Admin;
 import com.isa.FishingBooker.model.DeleteRequest;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.User;
@@ -32,7 +33,7 @@ public class DeleteRequestServiceImpl extends CustomServiceAbstract<DeleteReques
 	}
 
 	@Override
-	public void update(DeleteRequest item, String adminResponse) {
+	public void update(DeleteRequest item, String adminResponse, Admin admin) {
 		if (item.getRequestStatus().equals(Status.ADMIN_CONFIRMED)) {
 			this.updateUserProfileStatus(item.getUser().getId());
 		}
@@ -40,6 +41,7 @@ public class DeleteRequestServiceImpl extends CustomServiceAbstract<DeleteReques
 				adminResponse);
 		DeleteRequest request=getById(item.getId());
 		request.setRequestStatus(item.getRequestStatus());
+		request.setAdminResponded(admin);
 		this.update(request);
 	}
 

@@ -94,6 +94,9 @@ insert into appointment (dtype, start, duration, max_person, additional_services
 insert into appointment (dtype, start, duration, max_person, additional_services, price, appoint_type, address_id, tutor_service_id, user_id,status) values ('TutorServiceAppointment', 'Sat Dec 11 12:00:00 GMT 2021',2.0, 7, 'No additional services.', 1400.00, 'TUTORSERVICE', 4, 4, 1,'SUCCESSFUL');
 insert into appointment (dtype, start, duration, max_person, additional_services, price, appoint_type, address_id, boat_id,status) values ('BoatAppointment', 'Mon Jan 31 11:00:00 GMT 2022',3.0, 5, 'No additional services.', 1900.00,'BOAT', 4, 1,'SUCCESSFUL');
 
+insert into objection (appointment_id, objection, user_email) values(10,'Zalba','abrkljac052@gmail.com');
+
+
 insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Amajic, Zapadna Srbija', 1000.0, 2, 1, 5);
 insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Vrhpolje, Zapadna Srbija', 1200.0, 1, 2, 6);
 insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Mali Zvornik, Zapadna Srbija', 800.0, 2, 3, 7);
