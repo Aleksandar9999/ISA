@@ -10,13 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.isa.FishingBooker.dto.LoginInfoDTO;
-import com.isa.FishingBooker.dto.LoginReturnDTO;
-import com.isa.FishingBooker.dto.RegistrationDTO;
 import com.isa.FishingBooker.exceptions.EmailExistException;
-import com.isa.FishingBooker.mapper.UserToLoginReturnDTOMapper;
 import com.isa.FishingBooker.model.Admin;
-import com.isa.FishingBooker.model.Role;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.User;
@@ -104,7 +99,6 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 
 	@Override
 	public User EditUser(User user) {
-		// TODO Auto-generated method stub
 		return repository.save(user);
 	}
 

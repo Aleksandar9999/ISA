@@ -57,6 +57,10 @@ public interface AppointmentRepository extends JpaRepository<Appointment ,Intege
 			+ "(a.start, a.start + interval '1' day * a.duration) OVERLAPS (CAST(?2 as date), CAST(?3 as date))",nativeQuery = true)
 	public List<TutorServiceAppointment> getAllByTutorAndPeriod(int tutorId, Date start,Date end);
 	
+	@Query(value="select * from Appointment where "
+			+ "(start, start + interval '1' day * duration) OVERLAPS (CAST(?1 as date), CAST(?2 as date))",nativeQuery = true)
+	public List<Appointment> getAllInPeriod(Date start,Date end);
+	
 	
 	@Transactional
 	@Modifying

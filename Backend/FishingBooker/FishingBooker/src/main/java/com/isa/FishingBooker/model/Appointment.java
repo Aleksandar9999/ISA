@@ -35,8 +35,9 @@ public class Appointment {
 	private User user;
 	@Enumerated(EnumType.STRING)
 	private AppointmentStatus status;
+
 	public Appointment() {
-		this.status=AppointmentStatus.PENDING;
+		this.status = AppointmentStatus.PENDING;
 	}
 
 	public Appointment(int id) {
@@ -44,9 +45,15 @@ public class Appointment {
 	}
 
 	@JsonIgnore
-	public User getOwner() {return null;}
+	public User getOwner() {
+		return null;
+	}
+
 	@JsonIgnore
-	public double getPriceCanceled() {return -1;}
+	public double getPriceCanceled() {
+		return -1;
+	}
+
 	public Timestamp getStart() {
 		return start;
 	}
@@ -90,7 +97,7 @@ public class Appointment {
 	public double getPrice() {
 		return price;
 	}
-	
+
 	public void setPrice(double price) {
 		this.price = price;
 	}
@@ -140,5 +147,5 @@ public class Appointment {
 
 	public void setStatus(AppointmentStatus status) {
 		this.status = status;
-	}	
+	}
 }

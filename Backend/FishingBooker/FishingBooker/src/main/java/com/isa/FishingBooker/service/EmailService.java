@@ -2,14 +2,12 @@ package com.isa.FishingBooker.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.isa.FishingBooker.dto.RegistrationDTO;
-import com.isa.FishingBooker.mapper.RegistrationMapper;
+import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.User;
 
@@ -22,8 +20,13 @@ public class EmailService {
 	private Environment env;
 	
 	@Async
-	public void sendCustomEmail(String email,String subject, String text) {
-		this.sendEmail(this.createMail(email, subject, text));
+	public void sendDeleteRequestResponseNotification(User user, Status status, String additionalResponse) {
+		String accoutStatus="";
+		if(status.equals(Status.REJECTED)) accoutStatus="reject";
+		else accoutStatus="confirmed";
+		String mailContent= String.format("Dear %s,\nOur admin team %s your delete request.", user.getName(),accoutStatus);
+		if(!additionalResponse.isBlank()) mailContent+="\nAdmin response: "+additionalResponse;
+		this.sendCustomEmail(user.getEmail(), "Delete request review", mailContent);
 	}
 	
 	@Async
@@ -81,6 +84,11 @@ public class EmailService {
 	@Async
 	private void sendEmail(SimpleMailMessage massage) {
 		javaMailSender.send(massage);
+	}
+	
+	@Async
+	private void sendCustomEmail(String email,String subject, String text) {
+		this.sendEmail(this.createMail(email, subject, text));
 	}
 	
 	@Async

@@ -28,7 +28,7 @@
   </tr>
 </template>
 <script>
-import config from "../../../configuration/config";
+import config from '../../../configuration/config';
 export default {
   props: ["item"],
   data() {

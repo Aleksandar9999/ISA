@@ -74,7 +74,7 @@ public class User implements UserDetails {
 		return roles;
 	}
 
-	// TODO: This methode must be overrided by every subclass of this
+	// TODO: This methode must be overrided by every subclass user
 	public void setRolesNames() {
 		this.setRoleName(Role.USER_ROLE);
 	}

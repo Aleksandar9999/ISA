@@ -26,6 +26,8 @@ import YearlyCalendar from '../components/Calendar/CalendarYear/YearlyCalendar.v
 
 
 import UsersList from '../components/AdminPanel/Users/UsersList.vue'
+import DeleteRequestsList from '../components/AdminPanel/Users/DeleteRequests/DeleteRequestsList.vue'
+
 import SystemSettings from '../components/AdminPanel/SystemSettings.vue'
 import ResetPasswordModalDialog from '../components/AdminPanel/ResetPasswordModalDialog.vue'
 
@@ -66,6 +68,8 @@ const routes = [
   {path: "/appointment-reports",name:"AppointmentReportsList",component: AppointmentReportsList},
   
   {path: "/users",name:"UsersList",component: UsersList},
+  {path: "/users/delete-request",name:"DeleteRequestsList",component: DeleteRequestsList},
+  
   {path: "/system/settings",name: "SystemSettings", component:SystemSettings},
   {path: "/admin/reset-password",name: "ResetPassword", component:ResetPasswordModalDialog},
   
