@@ -40,15 +40,6 @@ public class UsersController {
 		return ResponseEntity.ok(userInfoMapper.convertToDtos(usersService.getAll()));
 	}
 
-/*	@PostMapping("api/users/tutors/{id}/available-periods")
-	@PreAuthorize("hasRole('TUTOR')")
-	public ResponseEntity<?> addPeriod(@RequestBody Period period, @PathVariable("id") int id) {
-		Tutor tutor = usersService.getTutorById(id);// TODO:FIX HARDCODE
-		tutor.addPeriod(period);
-		usersService.update(tutor);
-		return ResponseEntity.ok(period);
-	}*/
-
 	@GetMapping("api/users/search")
 	public ResponseEntity<?> getAllUsersByStatus(@RequestParam(value = "status", defaultValue = "") Status s) {
 		return ResponseEntity.ok(usersService.search(s));

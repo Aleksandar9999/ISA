@@ -78,6 +78,7 @@ export default {
           console.log(err.response)
           alert(err.response.data.message)
         });
+      this.$emit("login", true);
     },
     collectData() {
       this.regReqData.email = this.email;
