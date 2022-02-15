@@ -1,6 +1,6 @@
 <template lang="">
-  <div class="wrapper">
-    <section class="content" style="margin: 3% 0px 0px 0px">
+  <div class="wrapper" style="padding: 3% 0px 0px 0px">
+    <section class="content">
       <h2><i class="ico timesheet"></i>Year calendar</h2>
       <div class="grey-box-wrap">
         <div class="top">
@@ -76,3 +76,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.wrapper .content{
+  box-shadow: 10px 10px 8px 10px #888888;
+}
+</style>

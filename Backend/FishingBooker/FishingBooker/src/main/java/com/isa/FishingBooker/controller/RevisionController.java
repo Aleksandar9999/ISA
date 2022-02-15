@@ -69,7 +69,6 @@ public class RevisionController {
 		return ResponseEntity.ok(revisionService.getResortAppointmentRevisionsRate(id));
 	}
 	
-	@PreAuthorize("hasRole('USER')")
 	@GetMapping("api/revision/tutor-service/{id}/rate")
 	public ResponseEntity<?> getRevisionsForTutorServiceAppointment(@PathVariable("id") Integer id){
 		return ResponseEntity.ok(revisionService.getTutorServiceAppointmentRevisionsRate(id));
