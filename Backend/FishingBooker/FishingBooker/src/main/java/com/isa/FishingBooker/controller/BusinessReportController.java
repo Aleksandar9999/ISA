@@ -27,6 +27,7 @@ public class BusinessReportController {
 	private AppointmentService appointmentService;
 	@Autowired
 	private SystemDataService systemService;
+	
 	@PreAuthorize("hasAnyRole('TUTOR', 'ADMIN')")
 	@GetMapping("api/business-report/tutor/{id}/appointments")
 	public ResponseEntity<?> getTutorReport(@PathVariable("id") int tutorId,

@@ -43,13 +43,13 @@ public class RevisionController {
 		return ResponseEntity.ok(revision);
 	}
 	
-	@SuppressWarnings("unchecked")
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("api/revision/{id}")
 	public ResponseEntity<?> updateRevision(@RequestBody RevisionDTO dto){
 		Revision revision;
 		try {
 			revision = revisionModelMapper.convertToEntity(dto, (Class<? extends Revision>) Class.forName(dto.getClassName()));
-			revisionService.update(revision);
+			revisionService.updateRevisionStatus(revision,UsersController.getLoggedInUserId());
 			return ResponseEntity.ok(revision);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

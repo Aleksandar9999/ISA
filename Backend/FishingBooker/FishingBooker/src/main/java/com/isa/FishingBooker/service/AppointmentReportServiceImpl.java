@@ -64,7 +64,6 @@ public class AppointmentReportServiceImpl extends CustomServiceAbstract<Appointm
 	}
 
 	private void updateClientPenaltyCountAndNotify(AppointmentReport report) {
-		// TRANSFER TO CLIENT CLASS
 		Appointment appointment=appointmentService.getById(report.getAppointment().getId());
 		User client = appointment.getUser();
 		updateClientPenaltyCount(client);

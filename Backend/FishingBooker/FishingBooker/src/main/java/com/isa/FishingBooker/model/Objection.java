@@ -21,7 +21,6 @@ public class Objection {
 	private String userEmail;
 
 	@OneToOne
-	@JoinColumn(nullable = true)
 	private Admin adminResponded;
 
 	public Admin getAdminResponded() {
