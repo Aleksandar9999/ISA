@@ -68,7 +68,7 @@ const routes = [
   {path: "/appointment-reports",name:"AppointmentReportsList",component: AppointmentReportsList},
   
   {path: "/users",name:"UsersList",component: UsersList},
-  {path: "/users/delete-request",name:"DeleteRequestsList",component: DeleteRequestsList},
+  {path: "/users/delete-requests",name:"DeleteRequestsList",component: DeleteRequestsList},
   
   {path: "/system/settings",name: "SystemSettings", component:SystemSettings},
   {path: "/admin/reset-password",name: "ResetPassword", component:ResetPasswordModalDialog},
