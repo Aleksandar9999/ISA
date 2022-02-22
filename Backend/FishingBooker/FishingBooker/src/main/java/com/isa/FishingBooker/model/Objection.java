@@ -18,11 +18,11 @@ public class Objection {
 	@JoinColumn(name = "appointment_id")
 	private Appointment appointment;
 	private String objection;
-	private String userEmail;
-
+	@OneToOne
+	private User creator;
 	@OneToOne
 	private Admin adminResponded;
-
+	private String response;
 	public Admin getAdminResponded() {
 		return adminResponded;
 	}
@@ -56,11 +56,23 @@ public class Objection {
 	}
 
 	public String getUserEmail() {
-		return userEmail;
+		return creator.getEmail();
 	}
 
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
+	public User getCreator() {
+		return creator;
+	}
+
+	public void setCreator(User creator) {
+		this.creator = creator;
+	}
+
+	public String getResponse() {
+		return response;
+	}
+
+	public void setResponse(String response) {
+		this.response = response;
 	}
 
 }

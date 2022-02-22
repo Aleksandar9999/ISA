@@ -1,7 +1,5 @@
 package com.isa.FishingBooker.dto;
 
-import com.isa.FishingBooker.model.Objection;
-
 public class ObjectionResponseDTO extends ObjectionDTO {
 	private String response;
 
