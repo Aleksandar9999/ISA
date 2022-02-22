@@ -47,6 +47,6 @@ public class ObjectionController {
 	@PutMapping("/api/objections/{id}")
 	public ResponseEntity<?> updateObjection(@RequestBody ObjectionResponseDTO dto) {
 		service.sendAdminResponsEmails(mapper.convertToEntity(dto), dto.getResponse(), new Admin(UsersController.getLoggedInUserId()));
-		return ResponseEntity.ok("");
+		return ResponseEntity.ok().build();
 	}
 }

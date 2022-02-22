@@ -49,7 +49,7 @@ p {
 }
 
 .discount-offer {
-  background-color: rgb(255, 0, 0);
+  background-color: rgb(0, 68, 255);
 }
 .discount-offer p {
   color: white;

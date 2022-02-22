@@ -7,7 +7,7 @@
     </td>
     <td v-if="item_local.status !== 'PENDING'">{{ item_local.status }}</td>
     <td
-      v-if="item_local.shouldApprove && item_local.status!='DELETED'"
+      v-if="item_local.shouldApprove && item_local.status!='DELETED' && item_local.status!='REJECTED'"
     >
       <select name="status" id="status" v-model="status" @change="changeStatus">
         <option value="ADMIN_CONFIRMED">CONFIRM</option>

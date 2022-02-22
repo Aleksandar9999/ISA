@@ -17,7 +17,13 @@
           >{{ item.title }}</router-link
         >
       </li>
-
+      <li v-for="item in adminNavigationList" :key="item.url">
+        <router-link
+          v-if="loggedIn == true && userRole == 'ADMIN'"
+          :to="item.url"
+          >{{ item.title }}</router-link
+        >
+      </li>
       <li v-if="loggedIn == true">
         <router-link to="/profile">My profile</router-link>
       </li>
@@ -68,7 +74,7 @@
       <li v-if="loggedIn == false">
         <router-link to="/login">Login</router-link>
       </li>
-      <li v-if="loggedIn == false">
+      <li v-if="loggedIn == false || (loggedIn==true && userRole=='ADMIN')">
         <router-link to="/register">Register</router-link>
       </li>
       <li v-if="loggedIn == true">
@@ -104,6 +110,7 @@ export default {
       loggedIn: true,
       userid: "",
       tutorNavigationList: {},
+      adminNavigationList:{}
     };
   },
   mounted() {},
@@ -142,9 +149,44 @@ export default {
               4: {
                 title: "Business report",
                 url: "/business/reports",
+              },5: {
+                title: "Appointments",
+                url: `/tutors/${resp.data.id}/appointments`,
               },
             };
           });
+        }else if(localStorage.getItem("roles")?.split(" ")[1] == "ROLE_ADMIN"){
+          this.userRole='ADMIN';
+          this.adminNavigationList={
+            1: {
+                title: "Home",
+                url: `/`,
+              },
+              2: {
+                title: "Users",
+                url: `/users`,
+              },
+              3: {
+                title: "Complaints",
+                url: `/complaints`,
+              },
+              4: {
+                title: "Business report",
+                url: "/business/reports",
+              },
+              5: {
+                title: "Revisions",
+                url: "/revisions",
+              },
+              6: {
+                title: "System",
+                url: "/system/settings",
+              },
+              7: {
+                title: "Appointment reports",
+                url: "/appointment-reports",
+              },
+          }
         }
       },
     },

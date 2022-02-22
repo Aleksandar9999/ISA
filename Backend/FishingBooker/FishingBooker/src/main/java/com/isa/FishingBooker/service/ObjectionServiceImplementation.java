@@ -16,6 +16,7 @@ public class ObjectionServiceImplementation extends CustomServiceAbstract<Object
 	public void sendAdminResponsEmails(Objection o,String adimnResponse,Admin admin) {
 		Objection objection=this.getById(o.getId());
 		objection.setAdminResponded(admin);
+		objection.setResponse(adimnResponse);
 		emailService.sendObjectionResponseNotification(objection.getUserEmail(), adimnResponse);
 		emailService.sendObjectionResponseNotification(objection.getAppointment().getOwner().getEmail(), adimnResponse);
 		this.update(objection);

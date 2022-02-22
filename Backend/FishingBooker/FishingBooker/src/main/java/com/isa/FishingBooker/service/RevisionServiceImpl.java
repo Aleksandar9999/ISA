@@ -1,6 +1,7 @@
 package com.isa.FishingBooker.service;
 
 import com.isa.FishingBooker.exceptions.RevisionCreatorException;
+import com.isa.FishingBooker.model.Admin;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.model.revision.BoatAppointmentRevision;
@@ -23,12 +24,12 @@ public class RevisionServiceImpl extends CustomServiceAbstract<Revision> impleme
 	@Autowired
 	private AppointmentRepository appointmentRepository;
 	@Autowired
-	private UserRepository usersRepository;
+	private UsersService usersService;
 
 	@Override
 	public void addNew(Revision item) {
 		item.setStatus(Status.PENDING);
-		item.setCreator(usersRepository.getById(item.getCreator().getId()));
+		item.setCreator(usersService.getById(item.getCreator().getId()));
 		super.addNew(item);
 	}
 
@@ -106,6 +107,13 @@ public class RevisionServiceImpl extends CustomServiceAbstract<Revision> impleme
 		// TODO Auto-generated method stub
 		super.addNew(revision);
 		return null;
+	}
+
+	@Override
+	public void updateRevisionStatus(Revision revision, int adminId) {
+		User byId = usersService.getById(adminId);
+		revision.setAdminResponded((Admin) byId);
+	    super.update(revision);
 	}
 
 }

@@ -14,7 +14,7 @@ export default {
   },
   data() {
       return {
-          headers:["ID","Appellant","Appelle","TEXT","ADMIN RESPONSE",""],
+          headers:["ID","Creator","TEXT","","ADMIN RESPONSE",""],
           data:[],
           row: ComplaintInfoRow
       }

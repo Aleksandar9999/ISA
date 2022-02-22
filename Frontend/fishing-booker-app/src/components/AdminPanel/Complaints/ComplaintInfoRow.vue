@@ -6,6 +6,7 @@
       {{ complaint_local.appointment.user.surname }}
     </td>
     <td>{{ complaint_local.objection }}</td>
+    <td v-if="complaint_local.appointment.tutorService"><a :href="getTutorServiceHref()">TutorService</a></td>
     <td v-if="!complaint_local.adminResponded">
       <input type="text" v-model="complaint_local.response" />
     </td>
@@ -31,6 +32,10 @@ export default {
     };
   },
   methods: {
+    getTutorServiceHref(){
+    
+      return `/tutors/${this.complaint_local.appointment.tutorService.tutorId}/services/${this.complaint_local.appointment.tutorService.id}`
+    },
     save() {
       this.$axios
         .put(`${config.apiStart}/api/objections/${this.complaint_local.id}`, {
