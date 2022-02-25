@@ -13,7 +13,6 @@
     <td v-if="complaint_local.adminResponded">
       <p>{{ complaint_local.response }}</p>
     </td>
-
     <td v-if="!complaint_local.adminResponded">
       <input type="button" value="SAVE" @click="save" />
     </td>

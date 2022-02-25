@@ -63,7 +63,7 @@ export default {
         .then((response) => {
           this.storageLoginData(response);
           
-          if (response.data.roles.includes("ROLE_ADMIN"))
+          /*if (response.data.roles.includes("ROLE_ADMIN"))
             this.$router.push("/profile");
           else if (response.data.roles.includes("ROLE_TUTOR")) {
             axios
@@ -71,9 +71,9 @@ export default {
               .then((resp) => {
                 this.$router.push(`/tutors/${resp.data.id}/services`);
               });
-          } else {
+          } else {*/
             localStorage.email=this.email;
-            this.$router.push("/");}
+            this.$router.push("/");//}
         }).catch((err)=>{
           console.log(err.response)
           alert(err.response.data.message)
