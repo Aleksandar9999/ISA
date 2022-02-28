@@ -53,7 +53,12 @@ public class Appointment {
 	public double getPriceCanceled() {
 		return -1;
 	}
-
+     
+	public Period getPeriod() {
+		LocalDateTime end=start.toLocalDateTime().plusDays((int) duration - 1);
+		return new Period(start,Timestamp.valueOf(end));
+	}
+	
 	public Timestamp getStart() {
 		return start;
 	}

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,10 +23,9 @@ public class SystemDataController {
 		return ResponseEntity.ok(service.getAll());
 	}
 	
-	@PutMapping("api/system-data")
+	@PostMapping("api/system-data")
 	public ResponseEntity addSystemData(@RequestBody SystemData systemData) {
-		systemData.setId(1);
-		service.update(systemData);
+		service.addNew(systemData);
 		return ResponseEntity.ok(systemData);
 	}
 	
