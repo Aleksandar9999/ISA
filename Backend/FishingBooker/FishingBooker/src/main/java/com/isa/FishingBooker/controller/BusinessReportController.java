@@ -52,7 +52,7 @@ public class BusinessReportController {
 			@RequestParam(name = "endDate", defaultValue = "") String endDate) {
 		if (!(startDate.isEmpty() && endDate.isEmpty())) {
 			List<Appointment> appointmentsInPeriod = appointmentService.getAllInPeriod(Date.valueOf(startDate), Date.valueOf(endDate));
-			return ResponseEntity.ok(new BusinessReportAppointmentsAdminDTO<Appointment>(appointmentsInPeriod,systemService.getById(1).getProcentage()));
+			return ResponseEntity.ok(new BusinessReportAppointmentsAdminDTO<Appointment>(appointmentsInPeriod,systemService.getAll()));
 		}
 		return null;
 	}	

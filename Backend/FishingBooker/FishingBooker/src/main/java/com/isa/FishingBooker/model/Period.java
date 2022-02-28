@@ -39,8 +39,10 @@ public class Period {
 	public Period() {
 		this.startDate = null;
 		this.endDate = null;
+		this.id=null;
 	}
-	
+
+	public void setId(int id) {this.id=id;}
 	@JsonCreator
 	public Period(@JsonProperty("startDate") Timestamp startDate, @JsonProperty("endDate") Timestamp endDate) {
 		this.startDate = startDate;
@@ -52,32 +54,36 @@ public class Period {
 	public Period(@JsonProperty("id") int id, @JsonProperty("startDate") Timestamp startDate,
 			@JsonProperty("endDate") Timestamp endDate) {
 		this(startDate, endDate);
-		this.id = id;
+		//this.id = id;
 	}
 
 	private void validateDates() {
-		System.out.println("Validacija perioda");
+		//System.out.println("Validacija perioda");
 		if (startDate == null || endDate == null)
 			return;
 		if (startDate.after(endDate))
 			throw new InvalidPeriodDefinitionException();
 	}
 
-	public static boolean isSameDate(Timestamp s1,Timestamp s2) {
-		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-mm-dd");
-		return  formatter.format(s1).equals(formatter.format(s2));
+	public static boolean isSameDate(Timestamp s1, Timestamp s2) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+		return formatter.format(s1).equals(formatter.format(s2));
 	}
-	
+
 	public boolean areStartEndAreSameDate() {
 		return isSameDate(startDate, endDate);
 	}
-	
+
 	public void setStartDate(Timestamp start) {
-		this.startDate=start;
+		this.startDate = start;
 	}
-	
+
 	public Integer getId() {
 		return id;
+	}
+
+	public void setEndDate(Timestamp end) {
+		this.endDate = end;
 	}
 
 	public Timestamp getStartDate() {
@@ -94,6 +100,13 @@ public class Period {
 
 		return (startLocal.isBefore(date) && end.isAfter(date)) || startLocal.toLocalDate().isEqual(date.toLocalDate())
 				|| end.isEqual(date);
+	}
+
+	public boolean inPeriod(Timestamp date) {
+		if(this.endDate==null) {
+			return this.startDate.before(date);
+		}
+		return inPeriod(date.toLocalDateTime());
 	}
 
 	public static Period createPeriod(Timestamp start, int duration) {

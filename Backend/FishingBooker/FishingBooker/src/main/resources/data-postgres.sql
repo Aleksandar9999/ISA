@@ -66,6 +66,7 @@ insert into period (start_date, end_date) values('Mon Dec 06 10:00:00 GMT 2021',
 insert into period (start_date, end_date) values('Mon Dec 13 10:00:00 GMT 2021','Sat Dec 18 15:00:00 GMT 2021');
 insert into period (start_date, end_date) values('Mon Dec 20 10:00:00 GMT 2021','Sat Dec 25 15:00:00 GMT 2021');
 insert into period (start_date, end_date) values('Mon Dec 27 10:00:00 GMT 2021','Sat Jan 01 15:00:00 GMT 2021');
+insert into period (start_date) values('Mon Dec 27 10:00:00 GMT 2021');
 
 
 insert into period (start_date, end_date) values('2022-02-01 13:00:00','2022-02-15 13:00:00');
@@ -133,5 +134,7 @@ insert into revisions (dtype, comment, rate, status, resort_appointment_id, crea
 insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Resort is good.',4, 4, 9,1);
 insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Great expirience.',5, 4, 11,1);
 
-
-insert into system_data (id, procentage, revenue) values (1,5,0);
+insert into period (start_date, end_date) values('2021-01-01 00:00:00','2021-12-31 00:00:00');
+insert into period (start_date) values('2022-01-01 00:00:00');
+insert into system_data (procentage, valid_id) values (5,15);
+insert into system_data (procentage, valid_id) values (3,16);
