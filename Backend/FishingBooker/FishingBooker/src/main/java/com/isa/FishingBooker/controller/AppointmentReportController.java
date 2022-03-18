@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.FishingBooker.dto.AppointmentReportDTO;
 import com.isa.FishingBooker.dto.ReasonDTO;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
+import com.isa.FishingBooker.model.Admin;
 import com.isa.FishingBooker.model.AppointmentReport;
 import com.isa.FishingBooker.service.AppointmentReportService;
 
@@ -54,14 +55,14 @@ public class AppointmentReportController {
 	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping(api + "/bad-comment/{id}/accept")
 	public ResponseEntity<?> acceptBadReport(@PathVariable("id") int reportId) {
-		service.acceptBadReport(reportId);
+		service.acceptBadReport(reportId,(Admin) UsersController.getLoggedInUser());
 		return ResponseEntity.ok().build();
 	};
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping(api + "/bad-comment/{id}/reject")
 	public ResponseEntity<?> rejectReportStatus(@PathVariable("id") int reportId, @RequestBody ReasonDTO reasonDto) {
-		service.rejectBadReport(reportId, reasonDto.getReason());
+		service.rejectBadReport(reportId, reasonDto.getReason(),(Admin) UsersController.getLoggedInUser());
 		return ResponseEntity.ok().build();
 	};
 

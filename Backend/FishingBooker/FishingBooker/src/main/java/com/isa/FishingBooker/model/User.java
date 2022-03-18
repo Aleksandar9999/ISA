@@ -105,10 +105,6 @@ public class User implements UserDetails {
 		this.email = email;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -208,6 +204,11 @@ public class User implements UserDetails {
 
 	public void addPenalty(int count) {
 		this.penaltyCount += count;
+	}
+
+	@Override
+	public String getPassword() {
+		return this.password;
 	}
 
 }

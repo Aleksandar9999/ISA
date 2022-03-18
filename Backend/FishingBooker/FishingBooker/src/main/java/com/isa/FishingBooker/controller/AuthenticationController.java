@@ -59,7 +59,7 @@ public class AuthenticationController {
 
 		User user = (User) authentication.getPrincipal();
 		String jwt = tokenUtils.generateToken(user);
-		return ResponseEntity.ok(new UserTokenState(jwt, user.getRoles()));
+		return ResponseEntity.ok(new UserTokenState(jwt, user.getRoles()).setId(user.getId()));
 	}
 
 	@Transactional
