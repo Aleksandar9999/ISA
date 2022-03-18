@@ -108,4 +108,8 @@ public class UsersController {
 		return ((User) ((TokenBasedAuthentication) SecurityContextHolder.getContext().getAuthentication())
 				.getPrincipal()).getId();
 	}
+	public static User getLoggedInUser() {
+		return ((User) ((TokenBasedAuthentication) SecurityContextHolder.getContext().getAuthentication())
+				.getPrincipal());
+	}
 }

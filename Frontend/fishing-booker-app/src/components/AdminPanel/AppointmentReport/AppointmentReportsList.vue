@@ -14,7 +14,7 @@ export default {
   },
   data() {
       return {
-          headers:["ID","COMMENT","TYPE","STATUS"],
+          headers:["ID","COMMENT","TYPE","STATUS",""],
           data:[],
           row: AppointmentReportInfoRow
       }

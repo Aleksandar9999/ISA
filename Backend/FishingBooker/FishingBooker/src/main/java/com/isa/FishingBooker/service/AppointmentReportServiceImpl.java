@@ -3,6 +3,7 @@ package com.isa.FishingBooker.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.isa.FishingBooker.model.Admin;
 import com.isa.FishingBooker.model.Appointment;
 import com.isa.FishingBooker.model.AppointmentReport;
 import com.isa.FishingBooker.model.AppointmentStatus;
@@ -57,8 +58,9 @@ public class AppointmentReportServiceImpl extends CustomServiceAbstract<Appointm
 	}
 
 	@Override
-	public void acceptBadReport(int reportId) {
-		AppointmentReport report = updateReportStatus(reportId, Status.ADMIN_CONFIRMED);
+	public void acceptBadReport(int reportId,Admin admin) {
+		AppointmentReport report = super.getById(reportId);
+		this.updateReportStatus(report, Status.ADMIN_CONFIRMED,admin);
 		updateClientPenaltyCountAndNotify(report);
 		emailService.sendAppointmentReportAcceptedNotification(report.getAppointment().getOwner());
 	}
@@ -76,14 +78,17 @@ public class AppointmentReportServiceImpl extends CustomServiceAbstract<Appointm
 	}
 	
 	@Override
-	public void rejectBadReport(int reportId, String reason) {
-		AppointmentReport report = updateReportStatus(reportId, Status.REJECTED);
+	public void rejectBadReport(int reportId, String reason, Admin admin) {
+		AppointmentReport report = super.getById(reportId);
+		report.setResponse(reason);
+		this.updateReportStatus(report, Status.REJECTED, admin);
 		User owner = report.getAppointment().getOwner();
 		emailService.sendAppointmentReportRejectedNotification(owner, reason);
 	}
+
 	
-	private AppointmentReport updateReportStatus(int reportId, Status status) {
-		AppointmentReport report = super.getById(reportId);
+	private AppointmentReport updateReportStatus(AppointmentReport report, Status status, Admin admin) {
+		report.setAdminResponded(admin);
 		report.setStatus(status);
 		this.update(report);
 		return report;

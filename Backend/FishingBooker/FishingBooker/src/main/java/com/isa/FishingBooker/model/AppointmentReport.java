@@ -15,7 +15,10 @@ public class AppointmentReport {
 	private String comment;
 	private ReportType type; 
 	private Status status;
-	
+	@OneToOne
+	private Admin adminResponded;
+	private String response;
+
 	public AppointmentReport() {
 	}
 	
@@ -62,6 +65,21 @@ public class AppointmentReport {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+	public Admin getAdminResponded() {
+		return adminResponded;
+	}
+
+	public void setAdminResponded(Admin adminResponded) {
+		this.adminResponded = adminResponded;
+	}
+
+	public String getResponse() {
+		return response;
+	}
+
+	public void setResponse(String response) {
+		this.response = response;
 	}
 
 	public AppointmentReport setAppointmentId(int appointmentId) {
