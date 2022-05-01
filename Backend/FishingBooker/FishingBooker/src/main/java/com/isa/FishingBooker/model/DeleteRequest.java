@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Version;
 
 @Entity
 public class DeleteRequest {
@@ -17,12 +18,13 @@ public class DeleteRequest {
 	private int id;
 	private String reason;
 	private Status requestStatus;
-
 	@OneToOne
 	private User user;
 	@OneToOne
 	@JoinColumn(nullable = true)
 	private Admin adminResponded;
+	@Version
+	private Long version;
 
 	public DeleteRequest() {
 	}
@@ -33,6 +35,14 @@ public class DeleteRequest {
 
 	public void setAdminResponded(Admin adminResponded) {
 		this.adminResponded = adminResponded;
+	}
+	
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	public int getId() {
