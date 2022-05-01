@@ -7,10 +7,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Version;
 
 @Entity
 public class Objection {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -23,24 +23,19 @@ public class Objection {
 	@OneToOne
 	private Admin adminResponded;
 	private String response;
-	public Admin getAdminResponded() {
-		return adminResponded;
-	}
-
-	public void setAdminResponded(Admin adminResponded) {
-		this.adminResponded = adminResponded;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
+	@Version
+	private Long version;
+	
 	public Appointment getAppointment() {
 		return appointment;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	public void setAppointment(Appointment appointment) {
@@ -75,4 +70,19 @@ public class Objection {
 		this.response = response;
 	}
 
+	public Admin getAdminResponded() {
+		return adminResponded;
+	}
+
+	public void setAdminResponded(Admin adminResponded) {
+		this.adminResponded = adminResponded;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 }
