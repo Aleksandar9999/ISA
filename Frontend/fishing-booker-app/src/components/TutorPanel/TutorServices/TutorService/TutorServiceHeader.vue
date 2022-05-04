@@ -4,6 +4,8 @@
       <w-form no-keyup-validation no-blur-validation>
         <div class="text-right mt6" style="margin: 0px 0px 25px 0px">
           <w-button type="submit" :bg-color="subscribeButton.bgColor" color="white" v-if="showSubscribeButtonsFunc()" @click="subscribe" >{{subscribeButton.title}}</w-button>
+          <w-button bg-color="blue" style="margin:0px 0px 0px 25px" color="white" v-if="showSubscribeButtonsFunc()" @click="showNewAppointmentDialog" >Make reservation</w-button>
+        
         </div>
         <w-flex wrap class="text-center">
           <div class="xs6 pa1">
@@ -197,7 +199,7 @@
 import axios from 'axios';
 import config from '../../../../configuration/config';
 export default {
-  props: ["service_info","tutorId"],
+  props: ["service_info","tutorId","showNewAppointmentDialog"],
   data() {
     return {
       service_form: {},
