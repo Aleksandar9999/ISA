@@ -5,7 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
-import com.isa.FishingBooker.service.TutorServicesService;
+import com.isa.FishingBooker.service.interfaces.TutorServicesService;
 
 public class TutorServicesAbstractController {
 	@Autowired

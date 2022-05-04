@@ -42,23 +42,25 @@ public interface AppointmentRepository extends JpaRepository<Appointment ,Intege
 	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.tutorService.tutor.id=?1")
 	public List<TutorServiceAppointment> getAllAppointmentsByTutor(int tutorId);
 	
-	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.tutorService.tutor.id=?1 and a.start > CURRENT_DATE")
+	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.tutorService.tutor.id=?1 and a.period.startDate > CURRENT_DATE")
 	public List<TutorServiceAppointment> getAllInCommingAppointmentsByTutor(int tutorId);
 	
 	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.user.id=?1")
 	public List<TutorServiceAppointment> getAllTutorServiceAppointmentsByUser(int userid);
 	
-	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.user.id=?1 and a.tutorService.tutor.id=?2 and a.start < CURRENT_DATE")
+	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.user.id=?1 and a.tutorService.tutor.id=?2 and a.period.startDate < CURRENT_DATE")
 	public List<TutorServiceAppointment> getAllByTutorAndUserBeforeCurrentDate(int userid, int tutorid);
 	
 	
-	@Query(value="select dtype, id,start + interval '1' day * duration as endDate,a.status, appoint_type, additional_services, duration, ts.max_person, price, start, ts.address_id, user_id, boat_id, resort_id, ts.tutor_id,ts.tutor_service_id, "
-			+ "    ts.name from Appointment a INNER JOIN tutor_service as ts on a.tutor_service_id=ts.tutor_service_id where a.dtype='TutorServiceAppointment' and ts.tutor_id=?1 and "
-			+ "(a.start, a.start + interval '1' day * a.duration) OVERLAPS (CAST(?2 as date), CAST(?3 as date))",nativeQuery = true)
+	@Query(value="select dtype, a.id, a.period_id, ps.end_date as endDate,a.status, appoint_type, additional_services, ts.max_person, price, ps.start_date, ts.address_id, user_id, boat_id, resort_id, ts.tutor_id,ts.tutor_service_id, "
+			+ "    ts.name from Appointment a INNER JOIN tutor_service as ts on a.tutor_service_id=ts.tutor_service_id "
+			+ "INNER JOIN Period ps on ps.id=a.period_id "
+			+ "where a.dtype='TutorServiceAppointment' and ts.tutor_id=?1 and "
+			+ "(ps.start_date, ps.end_date) OVERLAPS (CAST(?2 as date), CAST(?3 as date))",nativeQuery = true)
 	public List<TutorServiceAppointment> getAllByTutorAndPeriod(int tutorId, Date start,Date end);
 	
 	@Query(value="select * from Appointment where "
-			+ "(start, start + interval '1' day * duration) OVERLAPS (CAST(?1 as date), CAST(?2 as date))",nativeQuery = true)
+			+ "(period.start_date, period.end_date) OVERLAPS (CAST(?1 as date), CAST(?2 as date))",nativeQuery = true)
 	public List<Appointment> getAllInPeriod(Date start,Date end);
 	
 	

@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.isa.FishingBooker.model.Photo;
 import com.isa.FishingBooker.model.TutorService;
-import com.isa.FishingBooker.service.FirebaseStorage;
+import com.isa.FishingBooker.service.interfaces.FirebaseStorage;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController

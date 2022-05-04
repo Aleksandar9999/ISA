@@ -22,7 +22,7 @@ import com.isa.FishingBooker.model.Admin;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
-import com.isa.FishingBooker.service.UsersService;
+import com.isa.FishingBooker.service.interfaces.UsersService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController

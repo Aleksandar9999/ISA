@@ -16,6 +16,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.isa.FishingBooker.exceptions.InvalidPeriodDefinitionException;
 import com.isa.FishingBooker.exceptions.PeriodOverlapException;
@@ -33,7 +34,7 @@ public class Period {
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Column(name = "end_date")
+	@Column(name = "end_date",nullable = true)
 	private Timestamp endDate;
 
 	public Period() {
@@ -55,6 +56,11 @@ public class Period {
 			@JsonProperty("endDate") Timestamp endDate) {
 		this(startDate, endDate);
 		//this.id = id;
+	}
+
+	public Period(Date start, Date end) {
+		this.startDate=Timestamp.from(start.toInstant());
+		this.endDate=Timestamp.from(end.toInstant());
 	}
 
 	private void validateDates() {
@@ -94,6 +100,11 @@ public class Period {
 		return this.endDate;
 	}
 
+	@JsonIgnore
+	public long getDurationInDays() {
+		return java.time.Duration.between(startDate.toLocalDateTime(), endDate.toLocalDateTime()).toDays();
+	}
+	
 	public boolean inPeriod(LocalDateTime date) {
 		LocalDateTime end = endDate.toLocalDateTime();
 		LocalDateTime startLocal = startDate.toLocalDateTime();

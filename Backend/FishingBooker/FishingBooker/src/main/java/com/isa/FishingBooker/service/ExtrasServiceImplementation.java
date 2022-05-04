@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.repository.ExtrasRepository;
+import com.isa.FishingBooker.service.interfaces.ExtrasService;
 
 @Service
 public class ExtrasServiceImplementation implements ExtrasService {

@@ -24,6 +24,8 @@ import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.AppointmentRepository;
 import com.isa.FishingBooker.repository.DiscountOfferRepository;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
+import com.isa.FishingBooker.service.interfaces.AppointmentService;
+import com.isa.FishingBooker.service.interfaces.DiscountOfferService;
 
 @Service
 public class DiscountOfferServiceImplementation implements DiscountOfferService{
@@ -76,7 +78,7 @@ public class DiscountOfferServiceImplementation implements DiscountOfferService{
 					dto.setAppointmentId(a.getId());
 					dto.setNewPrice(d.getPrice());
 					dto.setPrice(a.getPrice());
-					dto.setStart(a.getStart());
+					dto.setStart(a.getPeriod().getStartDate());
 					double discount = (1 - d.getPrice()/a.getPrice()) * 100;
 					DecimalFormat df = new DecimalFormat("#.##");
 					double p = Double.parseDouble(df.format(discount));
@@ -103,7 +105,7 @@ public class DiscountOfferServiceImplementation implements DiscountOfferService{
 					dto.setAppointmentId(a.getId());
 					dto.setNewPrice(d.getPrice());
 					dto.setPrice(a.getPrice());
-					dto.setStart(a.getStart());
+					dto.setStart(a.getPeriod().getStartDate());
 					double discount = (1 - d.getPrice()/a.getPrice())*100;
 					DecimalFormat df = new DecimalFormat("#.##");
 					double p = Double.parseDouble(df.format(discount));
@@ -153,7 +155,7 @@ public class DiscountOfferServiceImplementation implements DiscountOfferService{
 
 	@Override
 	public String makeTutorServiceAppointmentOfDiscount(DiscountOffer discountOffer) {				
-		TutorServiceAppointment newAppointment = new TutorServiceAppointment();
+		/*TutorServiceAppointment newAppointment = new TutorServiceAppointment();
 		newAppointment.setTutorService(discountOffer.getTutorService());
 		newAppointment.setAddress(discountOffer.getTutorService().getAddress());
 		newAppointment.setAdditionalServices(discountOffer.getAdditionalServices());
@@ -163,7 +165,7 @@ public class DiscountOfferServiceImplementation implements DiscountOfferService{
 		newAppointment.setStart(discountOffer.getReservationPeriod().getStartDate());
 		newAppointment.setStatus(AppointmentStatus.PENDING);
 		
-		appointmentService.addNewTutorServiceAppointmentFromDiscount(newAppointment);
+		appointmentService.addNewTutorServiceAppointmentFromDiscount(newAppointment);*/
 		return "ok";
 	}
 	

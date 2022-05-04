@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.model.Resort;
 import com.isa.FishingBooker.repository.ResortRepository;
+import com.isa.FishingBooker.service.interfaces.AppointmentService;
+import com.isa.FishingBooker.service.interfaces.ResortsService;
 @Service
 public class ResortsServiceImplementation implements ResortsService {
 

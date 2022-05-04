@@ -1,6 +1,5 @@
 package com.isa.FishingBooker.service;
 
-
 import java.sql.Timestamp;
 
 import java.util.ArrayList;
@@ -27,9 +26,12 @@ import com.isa.FishingBooker.model.TutorServiceAppointment;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.AppointmentRepository;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
+import com.isa.FishingBooker.service.interfaces.AppointmentService;
+import com.isa.FishingBooker.service.interfaces.TutorServicesService;
+import com.isa.FishingBooker.service.interfaces.UsersService;
 
 @Service
-public class AppointmentServiceImplementation extends CustomServiceAbstract<Appointment> implements AppointmentService {
+public class AppointmentServiceImplementation extends CustomGenericService<Appointment> implements AppointmentService {
 
 	@Autowired
 	private TutorServicesService tutorServicesService;
@@ -55,9 +57,9 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		app.setAddress(tutorService.getAddress());
 		app.setType(AppointmentType.TUTORSERVICE);
 		try {
-			validateNewTutorServiceAppointment(app);	
-		}catch(PeriodOverlapException ex) {
-			app.setPrice(tutorService.calculatePrice((int) app.getDuration()));
+			validateNewTutorServiceAppointment(app);
+		} catch (PeriodOverlapException ex) {
+			app.setPrice(tutorService.calculatePrice((int) app.getPeriod().getDurationInDays()));
 			updateTutorServiceAvailablePeriods(tutorService, app);
 			super.addNew(app);
 			emailService.sendReservationMail(userService.getById(app.getUser().getId()));
@@ -65,7 +67,7 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		}
 		throw new TutorServiceUnavailableAtSpecifiedPeriod();
 	}
-	
+
 	public void addNewTutorServiceAppointmentFromDiscount(TutorServiceAppointment app) {
 		TutorService tutorService = tutorServicesService.getById(app.getTutorService().getId());
 		app.setTutorService(tutorService);
@@ -74,48 +76,45 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		User usr = (User) aut.getPrincipal();
 		app.setUser(usr);
 		app.setAddress(tutorService.getAddress());
-		app.setType(AppointmentType.TUTORSERVICE);		
+		app.setType(AppointmentType.TUTORSERVICE);
 		super.addNew(app);
 		emailService.sendReservationMail(userService.getById(app.getUser().getId()));
 
 	}
-
-	private void updateTutorServiceAvailablePeriods(TutorService ts,TutorServiceAppointment app) {
-		Period period=Period.createPeriod(app.getStart(), (int) app.getDuration());
-		ts.updateStandardPeriod(period);
+	@Transactional
+	private void updateTutorServiceAvailablePeriods(TutorService ts, TutorServiceAppointment app) {
+		ts.updateStandardPeriod(app.getPeriod());
 		tutorServicesService.update(ts);
 	}
-	
+
 	private void validateNewTutorServiceAppointment(TutorServiceAppointment newAppointment) {
-		Set<Period> standardPeriods=tutorServicesService.getById(newAppointment.getTutorService().getId()).getStandardPeriods();
+		Set<Period> standardPeriods = tutorServicesService.getById(newAppointment.getTutorService().getId())
+				.getStandardPeriods();
 		for (Period period : standardPeriods) {
-			period.periodBetweenPeriod(Period.createPeriod(newAppointment.getStart(), (int) newAppointment.getDuration()));
+			period.periodBetweenPeriod(newAppointment.getPeriod());
 		}
 	}
-	
+
 	@Override
 	public void addNewTutorServiceAppointmentByTutor(TutorServiceAppointment app, boolean validateUser) {
-		if (!validateUseCurrentAppointment(app.getUser().getId(),app.getTutorService().getId()))
-				throw new UserAppointmentInProgressException();
+		if (!validateUseCurrentAppointment(app.getUser().getId(), app.getTutorService().getId()))
+			throw new UserAppointmentInProgressException();
 		this.addNewTutorServiceAppointment(app);
 	}
 
 	private boolean validateUseCurrentAppointment(Integer userid, int tutorServiceId) {
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		Period currentPeriod = new Period(currentDate, currentDate);
-		TutorService tutorService=tutorServicesService.getById(tutorServiceId);
-		for (TutorServiceAppointment appointment : ((AppointmentRepository) repository).getAllByTutorAndUserBeforeCurrentDate(userid,tutorService.getTutor().getId())) {
+		TutorService tutorService = tutorServicesService.getById(tutorServiceId);
+		for (TutorServiceAppointment appointment : ((AppointmentRepository) repository)
+				.getAllByTutorAndUserBeforeCurrentDate(userid, tutorService.getTutor().getId())) {
 			try {
-				validateUserAppointmentOverlap(currentPeriod, appointment);
+				appointment.getPeriod().overlap(currentPeriod);
 			} catch (PeriodOverlapException e) {
 				return true;
 			}
 		}
 		return false;
-	}
-
-	private void validateUserAppointmentOverlap(Period currentPeriod, TutorServiceAppointment appointment) {
-		Period.createPeriod(appointment.getStart(), (int) appointment.getDuration()).overlap(currentPeriod);
 	}
 
 	// TODO:REFACTOR PLEASE
@@ -405,10 +404,10 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		ba.setId(appointment.getId());
 		ba.setAdditionalServices(appointment.getAdditionalServices());
 		ba.setAddress(appointment.getAddress());
-		ba.setDuration(appointment.getDuration());
+		ba.setDuration(appointment.getPeriod());
 		ba.setMaxPerson(appointment.getMaxPerson());
 		ba.setPrice(appointment.getPrice());
-		ba.setStart(appointment.getStart());
+		// ba.setStart(appointment.getStart());
 		ba.setType(appointment.getType());
 		return ba;
 	}
@@ -417,10 +416,10 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		ra.setId(appointment.getId());
 		ra.setAdditionalServices(appointment.getAdditionalServices());
 		ra.setAddress(appointment.getAddress());
-		ra.setDuration(appointment.getDuration());
+		ra.setDuration(appointment.getPeriod());
 		ra.setMaxPerson(appointment.getMaxPerson());
 		ra.setPrice(appointment.getPrice());
-		ra.setStart(appointment.getStart());
+		// ra.setStart(appointment.getStart());
 		ra.setType(appointment.getType());
 		return ra;
 	}
@@ -430,80 +429,81 @@ public class AppointmentServiceImplementation extends CustomServiceAbstract<Appo
 		ta.setId(appointment.getId());
 		ta.setAdditionalServices(appointment.getAdditionalServices());
 		ta.setAddress(appointment.getAddress());
-		ta.setDuration(appointment.getDuration());
+		ta.setDuration(appointment.getPeriod());
 		ta.setMaxPerson(appointment.getMaxPerson());
 		ta.setPrice(appointment.getPrice());
-		ta.setStart(appointment.getStart());
+		// ta.setStart(appointment.getStart());
 		ta.setType(appointment.getType());
 		return ta;
 	}
+
 	// non reserved appointments
-		public List<ResortAppointment> getResortApointments() {
-			List<ResortAppointment> list = ((AppointmentRepository) repository).getAllResortAppoints();
-			List<ResortAppointment> returnList = new ArrayList<ResortAppointment>();
-			TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
-					.getAuthentication();
-			User usr = (User) aut.getPrincipal();
+	public List<ResortAppointment> getResortApointments() {
+		List<ResortAppointment> list = ((AppointmentRepository) repository).getAllResortAppoints();
+		List<ResortAppointment> returnList = new ArrayList<ResortAppointment>();
+		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
+				.getAuthentication();
+		User usr = (User) aut.getPrincipal();
 
-			if (list != null) {
-				for (ResortAppointment ra : list) {
-					if (ra.getUser() == null && checkReservationList(ra.getId(), usr)) {
-						returnList.add(ra);
-					}
+		if (list != null) {
+			for (ResortAppointment ra : list) {
+				if (ra.getUser() == null && checkReservationList(ra.getId(), usr)) {
+					returnList.add(ra);
 				}
 			}
-			return returnList;
 		}
+		return returnList;
+	}
 
-		// non reserved appointments
-		public List<BoatAppointment> getBoatApointments() {
-			List<BoatAppointment> list = ((AppointmentRepository) repository).getAllBoatAppoints();
-			List<BoatAppointment> returnList = new ArrayList<BoatAppointment>();
-			TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
-					.getAuthentication();
-			User usr = (User) aut.getPrincipal();
+	// non reserved appointments
+	public List<BoatAppointment> getBoatApointments() {
+		List<BoatAppointment> list = ((AppointmentRepository) repository).getAllBoatAppoints();
+		List<BoatAppointment> returnList = new ArrayList<BoatAppointment>();
+		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
+				.getAuthentication();
+		User usr = (User) aut.getPrincipal();
 
-			if (list != null) {
-				for (BoatAppointment ba : list) {
-					if (ba.getUser() == null && checkReservationList(ba.getId(), usr)) {
-						returnList.add(ba);
-					}
+		if (list != null) {
+			for (BoatAppointment ba : list) {
+				if (ba.getUser() == null && checkReservationList(ba.getId(), usr)) {
+					returnList.add(ba);
 				}
 			}
-			return returnList;
 		}
+		return returnList;
+	}
 
-		// non reserved appointments
-		public List<TutorServiceAppointment> getTutorServiceApointments() {
-			List<TutorServiceAppointment> list = ((AppointmentRepository) repository).getAllTutorServiceAppointments();
-			List<TutorServiceAppointment> returnList = new ArrayList<TutorServiceAppointment>();
-			TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
-					.getAuthentication();
-			User usr = (User) aut.getPrincipal();
+	// non reserved appointments
+	public List<TutorServiceAppointment> getTutorServiceApointments() {
+		List<TutorServiceAppointment> list = ((AppointmentRepository) repository).getAllTutorServiceAppointments();
+		List<TutorServiceAppointment> returnList = new ArrayList<TutorServiceAppointment>();
+		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
+				.getAuthentication();
+		User usr = (User) aut.getPrincipal();
 
-			if (list != null) {
-				for (TutorServiceAppointment tsa : list) {
-					if (tsa.getUser() == null && checkReservationList(tsa.getId(), usr)) {
-						returnList.add(tsa);
-					}
+		if (list != null) {
+			for (TutorServiceAppointment tsa : list) {
+				if (tsa.getUser() == null && checkReservationList(tsa.getId(), usr)) {
+					returnList.add(tsa);
 				}
 			}
-			return returnList;
 		}
+		return returnList;
+	}
 
-		public boolean checkReservationList(Integer id, User u) {
-			if (u.getReservationsList() != null) {
-				for (Integer oldAppointIds : u.getReservationsList()) {
-					if (id == oldAppointIds) {
-						return false;
-					}
+	public boolean checkReservationList(Integer id, User u) {
+		if (u.getReservationsList() != null) {
+			for (Integer oldAppointIds : u.getReservationsList()) {
+				if (id == oldAppointIds) {
+					return false;
 				}
 			}
-			return true;
 		}
+		return true;
+	}
 
 	@Override
 	public List<Appointment> getAllInPeriod(java.sql.Date start, java.sql.Date end) {
-		return ((AppointmentRepository)repository).getAllInPeriod(start, end);
+		return ((AppointmentRepository) repository).getAllInPeriod(start, end);
 	}
 }

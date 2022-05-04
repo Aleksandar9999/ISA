@@ -17,9 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.isa.FishingBooker.repository.AppointmentRepository;
 import com.isa.FishingBooker.repository.RevisionRepository;
 import com.isa.FishingBooker.repository.UserRepository;
+import com.isa.FishingBooker.service.interfaces.RevisionService;
+import com.isa.FishingBooker.service.interfaces.UsersService;
 
 @org.springframework.stereotype.Service
-public class RevisionServiceImpl extends CustomServiceAbstract<Revision> implements RevisionService {
+public class RevisionServiceImpl extends CustomGenericService<Revision> implements RevisionService {
 
 	@Autowired
 	private AppointmentRepository appointmentRepository;

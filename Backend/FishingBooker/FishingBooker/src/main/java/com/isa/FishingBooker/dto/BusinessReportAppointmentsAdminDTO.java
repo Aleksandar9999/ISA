@@ -2,7 +2,6 @@ package com.isa.FishingBooker.dto;
 
 import java.util.List;
 
-import com.isa.FishingBooker.exceptions.PeriodOverlapException;
 import com.isa.FishingBooker.model.Appointment;
 import com.isa.FishingBooker.model.AppointmentStatus;
 import com.isa.FishingBooker.model.Period;

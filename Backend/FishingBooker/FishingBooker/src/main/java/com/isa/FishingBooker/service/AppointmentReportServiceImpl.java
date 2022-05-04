@@ -11,9 +11,12 @@ import com.isa.FishingBooker.model.ReportType;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.AppointmentReportRepository;
+import com.isa.FishingBooker.service.interfaces.AppointmentReportService;
+import com.isa.FishingBooker.service.interfaces.AppointmentService;
+import com.isa.FishingBooker.service.interfaces.UsersService;
 
 @Service
-public class AppointmentReportServiceImpl extends CustomServiceAbstract<AppointmentReport>
+public class AppointmentReportServiceImpl extends CustomGenericService<AppointmentReport>
 		implements AppointmentReportService {
 
 	@Autowired
@@ -23,8 +26,8 @@ public class AppointmentReportServiceImpl extends CustomServiceAbstract<Appointm
 	
 	@Autowired
 	private AppointmentService appointmentService;
-
 	private final int PENALTY_COUNT = 1;
+	
 	@Override
 	public void addNew(AppointmentReport item) {
 		updateAppointmentStatus(item.getAppointment().getId());
@@ -46,7 +49,7 @@ public class AppointmentReportServiceImpl extends CustomServiceAbstract<Appointm
 	@Override
 	public void addNotShopUpReport(AppointmentReport report) {
 		report.setStatusAndTypeOfReport(Status.CONFIRMED, ReportType.CLIENT_NOT_SHOW_UP);
-		report.setComment("Klijent se nije pojavio.\n"+report.getComment());
+		report.setComment(report.getComment());
 		updateClientPenaltyCountAndNotify(report);
 		this.addNew(report);
 	}

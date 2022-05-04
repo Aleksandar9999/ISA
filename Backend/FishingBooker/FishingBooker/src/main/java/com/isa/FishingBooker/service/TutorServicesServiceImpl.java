@@ -9,6 +9,8 @@ import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.TutorServiceRepository;
+import com.isa.FishingBooker.service.interfaces.TutorServicesService;
+import com.isa.FishingBooker.service.interfaces.UsersService;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -21,7 +23,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TutorServicesServiceImpl extends CustomServiceAbstract<TutorService> implements TutorServicesService {
+public class TutorServicesServiceImpl extends CustomGenericService<TutorService> implements TutorServicesService {
 
 	@Autowired
 	private UsersService usersService;

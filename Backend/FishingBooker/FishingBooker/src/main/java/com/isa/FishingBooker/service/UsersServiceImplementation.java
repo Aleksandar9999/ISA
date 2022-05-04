@@ -17,9 +17,11 @@ import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.UserRepository;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
+import com.isa.FishingBooker.service.interfaces.RoleService;
+import com.isa.FishingBooker.service.interfaces.UsersService;
 
 @Service
-public class UsersServiceImplementation extends CustomServiceAbstract<User> implements UsersService {
+public class UsersServiceImplementation extends CustomGenericService<User> implements UsersService {
 
 	@Autowired
 	private RoleService roleService;

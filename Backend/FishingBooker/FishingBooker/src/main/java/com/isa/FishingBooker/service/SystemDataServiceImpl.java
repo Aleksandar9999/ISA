@@ -9,9 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.model.SystemData;
 import com.isa.FishingBooker.repository.SystemDataRepository;
+import com.isa.FishingBooker.service.interfaces.SystemDataService;
 
 @Service
-public class SystemDataServiceImpl extends CustomServiceAbstract<SystemData> implements SystemDataService {
+public class SystemDataServiceImpl extends CustomGenericService<SystemData> implements SystemDataService {
 	@Transactional
 	@Override
 	public void addNew(SystemData item) {

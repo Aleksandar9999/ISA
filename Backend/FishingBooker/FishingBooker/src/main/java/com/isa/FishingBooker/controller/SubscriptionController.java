@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa.FishingBooker.model.Boat;
 import com.isa.FishingBooker.model.Resort;
 import com.isa.FishingBooker.model.TutorService;
-import com.isa.FishingBooker.service.SubscriptionService;
+import com.isa.FishingBooker.service.interfaces.SubscriptionService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController

@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import com.isa.FishingBooker.security.auth.RestAuthenticationEntryPoint;
 import com.isa.FishingBooker.security.auth.TokenAuthenticationFilter;
 import com.isa.FishingBooker.security.util.TokenUtils;
-import com.isa.FishingBooker.service.UsersService;
+import com.isa.FishingBooker.service.interfaces.UsersService;
 
 
 

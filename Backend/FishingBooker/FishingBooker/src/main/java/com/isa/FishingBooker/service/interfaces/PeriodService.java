@@ -1,4 +1,4 @@
-package com.isa.FishingBooker.service;
+package com.isa.FishingBooker.service.interfaces;
 
 import com.isa.FishingBooker.model.Period;
 

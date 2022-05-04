@@ -3,6 +3,7 @@ package com.isa.FishingBooker.model;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -20,8 +22,8 @@ public class Appointment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private Timestamp start;
-	private double duration;
+	@OneToOne(cascade = CascadeType.ALL)
+	private Period period;
 	private int maxPerson;
 	private String additionalServices;
 	private double price;
@@ -49,18 +51,17 @@ public class Appointment {
 		return null;
 	}
 
+	public void setDuration(Period duration) {
+		this.period = duration;
+	}
+
 	@JsonIgnore
 	public double getPriceCanceled() {
 		return -1;
 	}
-     
+
 	public Period getPeriod() {
-		LocalDateTime end=start.toLocalDateTime().plusDays((int) duration - 1);
-		return new Period(start,Timestamp.valueOf(end));
-	}
-	
-	public Timestamp getStart() {
-		return start;
+		return period;
 	}
 
 	public User getUser() {
@@ -69,18 +70,6 @@ public class Appointment {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public void setStart(Timestamp start) {
-		this.start = start;
-	}
-
-	public double getDuration() {
-		return duration;
-	}
-
-	public void setDuration(double duration) {
-		this.duration = duration;
 	}
 
 	public int getMaxPerson() {
@@ -122,10 +111,10 @@ public class Appointment {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-
+	@JsonIgnore
 	public boolean inPeriod(LocalDateTime date) {
-		LocalDateTime end = start.toLocalDateTime().plusDays((int) duration - 1);
-		LocalDateTime startLocal = start.toLocalDateTime();
+		LocalDateTime end = period.getEndDate().toLocalDateTime();
+		LocalDateTime startLocal = period.getStartDate().toLocalDateTime();
 		return (startLocal.isBefore(date) && end.isAfter(date)) || startLocal.toLocalDate().isEqual(date.toLocalDate())
 				|| end.isEqual(date);
 	}
@@ -133,11 +122,19 @@ public class Appointment {
 	public AppointmentType getType() {
 		return appointType;
 	}
+	@JsonIgnore
+	public Timestamp getStart() {
+		return this.period.getStartDate();
+	}
+	@JsonIgnore
+	public int getDuration() {
+		return (int) this.period.getDurationInDays();
+	}
 
 	public void setType(AppointmentType appointType) {
 		this.appointType = appointType;
 	}
-
+	
 	public AppointmentType getAppointType() {
 		return appointType;
 	}

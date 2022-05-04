@@ -32,7 +32,7 @@ import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.model.UserTokenState;
 import com.isa.FishingBooker.security.util.TokenUtils;
 import com.isa.FishingBooker.service.EmailService;
-import com.isa.FishingBooker.service.UsersService;
+import com.isa.FishingBooker.service.interfaces.UsersService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController

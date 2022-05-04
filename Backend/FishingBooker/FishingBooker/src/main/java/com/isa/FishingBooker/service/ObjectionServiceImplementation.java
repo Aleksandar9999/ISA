@@ -7,9 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.isa.FishingBooker.exceptions.RequestHasResponseException;
 import com.isa.FishingBooker.model.Admin;
 import com.isa.FishingBooker.model.Objection;
+import com.isa.FishingBooker.service.interfaces.ObjectionService;
 
 @Service
-public class ObjectionServiceImplementation extends CustomServiceAbstract<Objection> implements ObjectionService {
+public class ObjectionServiceImplementation extends CustomGenericService<Objection> implements ObjectionService {
 
 	@Autowired
 	private EmailService emailService;

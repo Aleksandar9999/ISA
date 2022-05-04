@@ -15,6 +15,8 @@ import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.SubscriptionRepository;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
+import com.isa.FishingBooker.service.interfaces.SubscriptionService;
+import com.isa.FishingBooker.service.interfaces.TutorServicesService;
 
 @Service
 public class SubscriptionServiceImplementation implements SubscriptionService {
