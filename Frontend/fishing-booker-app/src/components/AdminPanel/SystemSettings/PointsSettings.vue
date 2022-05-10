@@ -8,10 +8,10 @@
       </w-flex>
       <w-flex justify-space-between class="pa3">
         <div class="box">
-          <p>Points for client</p>
+          <p>Points for owner</p>
         </div>
         <div class="box">
-          <w-input type="number" v-model="pointsSettings.pointsForClients" />
+          <w-input type="number" v-model="pointsSettings.pointsForOwners" />
         </div>
         <div class="box"></div>
       </w-flex>
@@ -21,7 +21,16 @@
           <p>Points for user</p>
         </div>
         <div class="box">
-          <w-input type="number" v-model="pointsSettings.pointsForUsers" />
+          <w-input type="number" v-model="pointsSettings.pointsForClients" />
+        </div>
+        <div class="box"></div>
+      </w-flex>
+       <w-flex justify-space-between class="pa3">
+        <div class="box">
+          <p>Penalty    </p>
+        </div>
+        <div class="box">
+          <w-input type="number" v-model="pointsSettings.penalty" />
         </div>
         <div class="box"></div>
       </w-flex>
@@ -34,19 +43,31 @@
 <script>
 import config from "../../../configuration/config";
 export default {
-  date() {
+   data() {
     return {
-      pointsSettings: {},
+      pointsSettings:{}
     };
+  },
+  methods:{
+      save(){
+    this.$axios
+        .post(
+          config.apiStart + "/api/points-settings",
+          this.pointsSettings,
+          config.requestHeader
+        )
+        .then((resp) => {
+          console.log(resp.data)
+          alert("Done")
+        });
+      }
   },
   mounted() {
     this.$axios
       .get(config.apiStart + "/api/points-settings", config.requestHeader)
       .then((resp) => {
-        resp.data.forEach((element) => {
-          if (!element.valid.endDate) this.pointsSettings = element;
-        });
-        console.log(this.pointsSettings);
+          this.pointsSettings=resp.data[0]
+          console.log(this.pointsSettings);
       });
   },
 };

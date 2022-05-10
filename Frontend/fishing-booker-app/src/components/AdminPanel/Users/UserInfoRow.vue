@@ -5,7 +5,9 @@
     <td>
       {{ item_local.surname }}
     </td>
-    <td v-if="item_local.status !== 'PENDING'">{{ item_local.status }}</td>
+    <td v-if="item_local.status !== 'PENDING' && !emailConfirmed">{{ item_local.status }}</td>
+    <td v-if="item_local.status !== 'PENDING' && emailConfirmed">{{ emailConfirmed }}</td>
+    
     <td
       v-if="item_local.shouldApprove && item_local.status!='DELETED' && item_local.status!='REJECTED'"
     >
@@ -37,6 +39,7 @@ export default {
       comment: "",
       status: "",
       statusChanged: false,
+      emailConfirmed:''
     };
   },
   methods: {
@@ -59,6 +62,8 @@ export default {
           this.item_local.email +
           "\nPhone: " +
           this.item_local.phoneNumber +
+          "\nRegistration reason: " +
+          this.item_local.registrationReason +
           "\nAddress: " +
           this.item_local.address.street +
           ", " +
@@ -79,6 +84,10 @@ export default {
         )
         .then((resp) => {
           this.item_local = resp.data;
+        }).catch(err=>{
+          this.status=this.item_local.status="PENDING"
+          
+          alert(err.response.data.message)
         });
     },
   },
@@ -92,6 +101,9 @@ export default {
             ...itemFromProps,
           };
           this.status = itemFromProps.status;
+          if(itemFromProps.shouldApprove && itemFromProps.status=="CONFIRMED")
+            this.emailConfirmed="EMAIL CONFIRMED"
+          console.log(itemFromProps);
         }
       },
     },
