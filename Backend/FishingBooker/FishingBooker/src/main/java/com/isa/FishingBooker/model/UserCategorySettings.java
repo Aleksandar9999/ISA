@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class UserCategory {
+public class UserCategorySettings {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -14,10 +14,10 @@ public class UserCategory {
 	private double discountProcentage;
 	private double revenueProcentage;
 	private double pointsMargine;
-	public UserCategory() {
+	public UserCategorySettings() {
 		// TODO Auto-generated constructor stub
 	}
-	public void update(UserCategory newItem) {
+	public void update(UserCategorySettings newItem) {
 		this.discountProcentage=newItem.discountProcentage;
 		this.revenueProcentage=newItem.revenueProcentage;
 		this.pointsMargine=newItem.revenueProcentage;

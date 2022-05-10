@@ -126,7 +126,7 @@ public class Appointment {
 	public Timestamp getStart() {
 		return this.period.getStartDate();
 	}
-	@JsonIgnore
+
 	public int getDuration() {
 		return (int) this.period.getDurationInDays();
 	}
