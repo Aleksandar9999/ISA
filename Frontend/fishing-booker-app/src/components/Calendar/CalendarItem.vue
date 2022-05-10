@@ -8,8 +8,8 @@
       </div>
       <div class="hours">
         <a :href="getHref()">
-          <span
-            ><p>{{ item.duration }}</p></span>
+          <span v-if="item.duration"
+            ><p>{{ parseInt(item.duration,10) }} days reserved</p></span>
         </a>
       </div>
     </div>
