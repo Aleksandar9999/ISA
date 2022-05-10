@@ -8,17 +8,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isa.FishingBooker.model.Admin;
 import com.isa.FishingBooker.model.PointsSettings;
 import com.isa.FishingBooker.service.CustomGenericService;
+import com.isa.FishingBooker.service.interfaces.PointsSettingsService;
+
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController(value = "api/points-settings")
 public class PointsSettingsController {
 	@Autowired
-	private CustomGenericService<PointsSettings> pointsSettingsService;
+	private PointsSettingsService pointsSettingsService;
 
 	@PostMapping("/api/points-settings")
 	public ResponseEntity<?> save(@RequestBody PointsSettings ps) {
-		pointsSettingsService.addNew(ps);
+		pointsSettingsService.saveByAdmin(ps, (Admin) UsersController.getLoggedInUser());
 		return ResponseEntity.ok().build();
 	}
 

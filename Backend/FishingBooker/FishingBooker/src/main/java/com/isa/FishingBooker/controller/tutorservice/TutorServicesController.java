@@ -3,12 +3,15 @@ package com.isa.FishingBooker.controller.tutorservice;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.isa.FishingBooker.controller.UsersController;
 import com.isa.FishingBooker.dto.TutorServiceDTO;
 import com.isa.FishingBooker.exceptions.AuthorizationException;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
+import com.isa.FishingBooker.service.interfaces.TutorServicesService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,8 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-public class TutorServicesController extends TutorServicesAbstractController {
-
+public class TutorServicesController {
+	@Autowired
+	protected TutorServicesService tutorServicesService;
 	@Autowired
 	private CustomModelMapper<TutorService, TutorServiceDTO> tutorServiceMapper;
 
@@ -76,7 +80,7 @@ public class TutorServicesController extends TutorServicesAbstractController {
 			@PathVariable("idservice") int idservice) {
 		TutorService entity = tutorServiceMapper.convertToEntity(dto);
 		validateTutor(entity);
-		tutorServicesService.update(entity);
+		tutorServicesService.updateInfo(entity);
 		return ResponseEntity.ok(entity);
 	}
 
@@ -89,14 +93,12 @@ public class TutorServicesController extends TutorServicesAbstractController {
 	}
 
 	private void validateTutor(TutorService entity) {
-		User user = getLoggedinUser();
-		if (!entity.getTutor().getId().equals(user.getId()))
+		if (!entity.getTutor().getId().equals(UsersController.getLoggedInUserId()))
 			throw new AuthorizationException();
 	}
 
 	private TutorServiceDTO setLoggedinTutor(TutorServiceDTO dto) {
-		User tutor = getLoggedinUser();
-		dto.setTutorId(tutor.getId());
+		dto.setTutorId(UsersController.getLoggedInUserId());
 		return dto;
 	}
 }

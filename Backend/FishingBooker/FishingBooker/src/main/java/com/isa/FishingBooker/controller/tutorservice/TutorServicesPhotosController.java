@@ -16,14 +16,17 @@ import org.springframework.web.multipart.MultipartFile;
 import com.isa.FishingBooker.model.Photo;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.service.interfaces.FirebaseStorage;
+import com.isa.FishingBooker.service.interfaces.TutorServicesService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-public class TutorServicesPhotosController extends TutorServicesAbstractController{
+public class TutorServicesPhotosController{
 
-	@Autowired 
+	@Autowired
 	private FirebaseStorage firebaseStorage;
-	
+	@Autowired
+	protected TutorServicesService tutorServicesService;
+
 	@GetMapping("api/tutor-services/{idservice}/photos")
 	public ResponseEntity<?> getTutorServicePhotos(@PathVariable("idservice") int idservice) {
 		TutorService tutorService = tutorServicesService.getById(idservice);
@@ -32,17 +35,20 @@ public class TutorServicesPhotosController extends TutorServicesAbstractControll
 
 	@DeleteMapping("api/tutor-services/{idservice}/photos/{idphoto}")
 	@PreAuthorize("hasRole('TUTOR')")
-	public ResponseEntity<?> deleteTutorPhoto(@PathVariable("idservice") int idservice,@PathVariable("idphoto")int idphoto) {
-		this.tutorServicesService.deletePhoto(idservice,idphoto);
+	public ResponseEntity<?> deleteTutorPhoto(@PathVariable("idservice") int idservice,
+			@PathVariable("idphoto") int idphoto) {
+		this.tutorServicesService.deletePhoto(idservice, idphoto);
 		return ResponseEntity.status(200).build();
 	}
 
-	@PostMapping(value="api/tutor-services/{idservice}/photos",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+	@PostMapping(value = "api/tutor-services/{idservice}/photos", consumes = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.MULTIPART_FORM_DATA_VALUE })
 	@PreAuthorize("hasRole('TUTOR')")
-	public ResponseEntity<?> addNewPhoto(@PathVariable("idservice") int idservice, @RequestPart("title")String title, @RequestPart("file")MultipartFile file) {
-		//TODO: Validiraj tutora
+	public ResponseEntity<?> addNewPhoto(@PathVariable("idservice") int idservice, @RequestPart("title") String title,
+			@RequestPart("file") MultipartFile file) {
+		// TODO: Validiraj tutora
 		String savedImageName = firebaseStorage.save(file);
-		tutorServicesService.addPhoto(idservice,new Photo(savedImageName, title));
+		tutorServicesService.addPhoto(idservice, new Photo(savedImageName, title));
 		return ResponseEntity.status(200).build();
 	}
 

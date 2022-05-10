@@ -1,6 +1,5 @@
 package com.isa.FishingBooker.controller;
 
-import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -19,14 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.dto.LoginInfoDTO;
-import com.isa.FishingBooker.dto.LoginReturnDTO;
 import com.isa.FishingBooker.dto.RegistrationDTO;
 import com.isa.FishingBooker.dto.UserConfirmationDTO;
 import com.isa.FishingBooker.exceptions.RegistrationException;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.model.Admin;
-import com.isa.FishingBooker.model.Role;
-import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.model.UserTokenState;
@@ -105,17 +101,9 @@ public class AuthenticationController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> userConfirmation(@RequestBody UserConfirmationDTO dto, @PathVariable("id") int id) {
 		User user = userConfirmationMapper.convertToEntity(dto);
-		usersService.update(user);
-		sendNotificationEmail(dto, user);
+		usersService.updateProfileStatusByAdmin(user, id,dto.getComment());
 		return ResponseEntity.ok(user);
 	}
 
-	private void sendNotificationEmail(UserConfirmationDTO dto, User user) {
-		if(dto.getUser().getStatus().equals(Status.REJECTED)) {
-			emailService.sendRejectedConfirmationMail(user, dto.getComment());
-		}else {
-			emailService.sendConfirmConfirmationMail(user);
-		}
-	}
 	
 }
