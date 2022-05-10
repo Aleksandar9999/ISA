@@ -13,6 +13,8 @@ public class UserInfoDTO {
 	private Status status;
 	private String className;
 	private boolean shouldApprove;
+	private double points;
+	private String registrationReason;
 	public UserInfoDTO() {
 	}
 	
@@ -86,6 +88,22 @@ public class UserInfoDTO {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public double getPoints() {
+		return points;
+	}
+
+	public void setPoints(double points) {
+		this.points = points;
+	}
+
+	public String getRegistrationReason() {
+		return registrationReason;
+	}
+
+	public void setRegistrationReason(String registrationReason) {
+		this.registrationReason = registrationReason;
 	}
 	
 	
