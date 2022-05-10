@@ -34,6 +34,7 @@ export default {
         )
         .then((resp) => {
           this.prices = resp.data;
+          this.prices.sort((a,b)=> a.numberOfDays-b.numberOfDays)
         });
     },
   },

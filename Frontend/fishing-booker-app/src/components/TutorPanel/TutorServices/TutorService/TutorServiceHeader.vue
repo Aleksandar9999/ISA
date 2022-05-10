@@ -187,7 +187,7 @@
             ></w-textarea>
           </div>
         </w-flex>
-        <div v-if="showAdminButtons" class="text-right mt6">
+        <div v-if="showAdminButton" class="text-right mt6">
           <w-button type="submit" bg-color="green" color="white" @click="save">Save</w-button>
         </div>
       </w-form>
@@ -199,20 +199,15 @@
 import axios from 'axios';
 import config from '../../../../configuration/config';
 export default {
-  props: ["service_info","tutorId","showNewAppointmentDialog"],
+  props: ["service_info","tutorId","showNewAppointmentDialog","showAdminButton"],
   data() {
     return {
       service_form: {},
-      showAdminButtons:false,
       subscribeButton:{
         title:'SUBSCRIBE',
         bgColor:'red'
       }
     };
-  },
-  mounted() {
-    this.showAdminButtonsFunc();
-    
   },
   methods: {
     isSubscribed(){
@@ -224,12 +219,6 @@ export default {
         this.subscribeButton.title="SUBSCRIBE"
         this.subscribeButton.bgColor='red'
       })
-    },
-    showAdminButtonsFunc(){
-      if (localStorage.roles)
-        if (localStorage.roles.includes("ROLE_TUTOR")) {
-          this.showAdminButtons = true;
-        }
     },
     showSubscribeButtonsFunc(){
       if (localStorage.roles)

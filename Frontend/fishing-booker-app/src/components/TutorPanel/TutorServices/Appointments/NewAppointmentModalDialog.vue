@@ -13,19 +13,27 @@
         <div class="box">
           <p>Start</p>
         </div>
-        <div class="box" style="margin: 0px 5% 0px 5%;">
-          <w-input type="date" v-model="appointmentLocal.start.date" />
+        <div class="box" style="margin: 0px 5% 0px 5%">
+          <w-input
+            type="date"
+            v-model="appointmentLocal.start.date"
+            :min="minDate"
+          />
         </div>
         <div class="box">
           <w-input type="text" v-model="appointmentLocal.start.time" />
         </div>
       </w-flex>
-     <w-flex justify-space-between class="pa3">
+      <w-flex justify-space-between class="pa3">
         <div class="box">
           <p>End</p>
         </div>
-        <div class="box" style="margin: 0px 5% 0px 5%;">
-          <w-input type="date" v-model="appointmentLocal.end.date" />
+        <div class="box" style="margin: 0px 5% 0px 5%">
+          <w-input
+            type="date"
+            v-model="appointmentLocal.end.date"
+            :min="minDate"
+          />
         </div>
         <div class="box">
           <w-input type="text" v-model="appointmentLocal.end.time" />
@@ -103,6 +111,7 @@
 <script>
 import axios from "axios";
 import config from "../../../../configuration/config";
+import moment from "moment";
 export default {
   props: ["show", "idTutor", "selectService", "userId"],
   data() {
@@ -114,12 +123,13 @@ export default {
         persistentNoAnimation: false,
         width: 400,
       },
+      minDate: moment().format("YYYY-MM-DD"),
       success: false,
       clients: [],
       services: [],
       appointmentLocal: {
-        start: {date:'',time:''},
-        end: {date:'',time:''},
+        start: { date: "", time: "" },
+        end: { date: "", time: "" },
         duration: "",
         maxPerson: "",
         additionalServices: "",
@@ -157,19 +167,23 @@ export default {
       });
     },
     save() {
-      let appointmentToSave={...this.appointmentLocal}
-      appointmentToSave.start=this.appointmentLocal.start.date+" "+this.appointmentLocal.start.time+":00"
-      appointmentToSave.end=this.appointmentLocal.end.date+" "+this.appointmentLocal.end.time+":00"
-      
+      let appointmentToSave = { ...this.appointmentLocal };
+      appointmentToSave.start =
+        this.appointmentLocal.start.date +
+        " " +
+        this.appointmentLocal.start.time +
+        ":00";
+      appointmentToSave.end =
+        this.appointmentLocal.end.date +
+        " " +
+        this.appointmentLocal.end.time +
+        ":00";
+
       console.log(appointmentToSave);
       let api = "/api/appointments/tutor-service";
       if (!this.userId) api += "/tutor";
       axios
-        .post(
-          config.apiStart + api,
-          appointmentToSave,
-          config.requestHeader
-        )
+        .post(config.apiStart + api, appointmentToSave, config.requestHeader)
         .then((resp) => {
           this.success = true;
           this.hideDialog();
@@ -199,5 +213,5 @@ p {
 }
 .box {
   background-color: #ffffff;
- }
+}
 </style>
