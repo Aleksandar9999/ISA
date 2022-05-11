@@ -62,7 +62,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment ,Intege
 	@Query(value="select * from Appointment where "
 			+ "(period.start_date, period.end_date) OVERLAPS (CAST(?1 as date), CAST(?2 as date))",nativeQuery = true)
 	public List<Appointment> getAllInPeriod(Date start,Date end);
-	
+	@Query("select a from Appointment a where a.tutorService.id=?1 and a.status='PENDING'")
+	public List<Appointment> getAllPendingByTutorServiceId(int id);
 	
 	@Transactional
 	@Modifying

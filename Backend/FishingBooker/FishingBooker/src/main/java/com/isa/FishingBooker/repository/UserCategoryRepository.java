@@ -2,8 +2,8 @@ package com.isa.FishingBooker.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.isa.FishingBooker.model.UserCategory;
+import com.isa.FishingBooker.model.UserCategorySettings;
 
-public interface UserCategoryRepository extends JpaRepository<UserCategory, Integer>{
+public interface UserCategoryRepository extends JpaRepository<UserCategorySettings, Integer>{
 
 }
