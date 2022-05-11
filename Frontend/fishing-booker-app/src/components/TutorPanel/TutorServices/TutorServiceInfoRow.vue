@@ -9,7 +9,7 @@
     <td>
       <a :href="showService">Show</a>
     </td>
-    <td style="padding: 10px 0px" v-if="showDeleteButton()">
+    <td style="padding: 10px 0px" v-if="showAdminButtons">
       <w-button class="mr2" @click="deleteService" bg-color="error">
         Delete
       </w-button>
@@ -25,6 +25,7 @@ export default {
     return {
       item_local: {},
       showService: "",
+      showAdminButtons:false,
       rate:''
     };
   },
@@ -35,11 +36,9 @@ export default {
   },
   methods: {
     showDeleteButton() {
-      if (localStorage.roles)
-        if (localStorage.roles.includes("ROLE_TUTOR")) {
-          return true;
-        }
-      return false;
+      if (!localStorage.roles) return;
+      if (!localStorage.roles.includes("ROLE_TUTOR")) return;
+      if (localStorage.id == this.idtutor) this.showAdminButtons = true;
     },
     deleteService() {
       if (confirm("Do you really want to delete your service?")) {

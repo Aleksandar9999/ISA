@@ -10,23 +10,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.model.SystemData;
-import com.isa.FishingBooker.service.SystemDataService;
+import com.isa.FishingBooker.model.UserCategorySettings;
+import com.isa.FishingBooker.service.CustomGenericService;
+import com.isa.FishingBooker.service.interfaces.SystemDataService;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class SystemDataController {
 	
 	@Autowired
-	private SystemDataService service;
+	private SystemDataService systemDataService;
 	
-	@GetMapping("api/system-data")
-	public ResponseEntity getSystemData() {
-		return ResponseEntity.ok(service.getAll());
+	@GetMapping("api/system-data/procentage")
+	public ResponseEntity<?> getSystemData() {
+		return ResponseEntity.ok(systemDataService.getAll());
 	}
 	
-	@PostMapping("api/system-data")
-	public ResponseEntity addSystemData(@RequestBody SystemData systemData) {
-		service.addNew(systemData);
+	@PostMapping("api/system-data/procentage")
+	public ResponseEntity<?> addSystemData(@RequestBody SystemData systemData) {
+		systemDataService.addNew(systemData);
 		return ResponseEntity.ok(systemData);
 	}
-	
 }

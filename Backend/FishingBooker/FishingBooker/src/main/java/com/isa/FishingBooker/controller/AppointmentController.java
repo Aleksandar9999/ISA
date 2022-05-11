@@ -27,7 +27,7 @@ import com.isa.FishingBooker.model.AppointmentStatus;
 import com.isa.FishingBooker.model.BoatAppointment;
 import com.isa.FishingBooker.model.ResortAppointment;
 import com.isa.FishingBooker.model.TutorServiceAppointment;
-import com.isa.FishingBooker.service.AppointmentService;
+import com.isa.FishingBooker.service.interfaces.AppointmentService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController

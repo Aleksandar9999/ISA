@@ -1,8 +1,6 @@
 package com.isa.FishingBooker.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,15 +14,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.isa.FishingBooker.exceptions.PeriodOverlapException;
-import com.isa.FishingBooker.exceptions.PriceSameNumberOfDaysAlreadyExist;
+import com.isa.FishingBooker.exceptions.InvalidNumberOfPersonsException;
+import com.isa.FishingBooker.exceptions.ServicePriceAlreadyExistException;
 import com.isa.FishingBooker.exceptions.UndefinedServicePricesException;
 
 @Entity
@@ -57,22 +54,15 @@ public class TutorService {
 	private String tutorBio;
 	// @ManyToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	private String extrasServices;
-
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<User> subscribers = new HashSet<>();
-
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Photo> photos = new HashSet<Photo>();
-
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<DiscountOffer> disconutOffers = new HashSet<DiscountOffer>();
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Period> standardPeriods = new HashSet<Period>();
-
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<ServicePrice> prices = new HashSet<ServicePrice>();
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinColumn(name = "tutor_id")
 	private Tutor tutor;
 
@@ -107,8 +97,7 @@ public class TutorService {
 		this.tutorBio = service.getTutorBio();
 		this.extrasServices = service.getExtrasServices();
 		this.subscribers = service.getSubscribers();
-		this.standardPeriods=service.getStandardPeriods();
-		this.disconutOffers=service.getDisconutOffers();
+		this.disconutOffers = service.getDisconutOffers();
 		return this;
 	}
 
@@ -138,27 +127,7 @@ public class TutorService {
 		this.subscribers.removeIf(subs -> subs.getId().equals(user.getId()));
 		return this;
 	}
-	
-	public void updateStandardPeriod(Period takenPeriodOfAppointment) {
-		for (Period stPeriod : standardPeriods) {
-			try {
-				stPeriod.overlap(takenPeriodOfAppointment);
-			}catch(PeriodOverlapException ex) {
-				if(Period.isSameDate(stPeriod.getStartDate(), takenPeriodOfAppointment.getStartDate()))
-				{
-					stPeriod.setStartDate(takenPeriodOfAppointment.getEndDate());
-				}else {
-					Period newBeforePeriod=new Period(stPeriod.getStartDate(),takenPeriodOfAppointment.getStartDate());
-					Period newAfterPeriod = new Period(takenPeriodOfAppointment.getEndDate(),stPeriod.getEndDate());
-					standardPeriods.remove(stPeriod);
-					standardPeriods.add(newBeforePeriod);
-					standardPeriods.add(newAfterPeriod);
-				}
-				break;
-			}
-		}
-	}
-	
+
 	public double calculatePrice(int duration) {
 		double appointmentPrice = 0;
 		while (duration != 0) {
@@ -181,16 +150,6 @@ public class TutorService {
 				ret = price;
 		}
 		return ret;
-	}
-
-	public void addStandardPeriod(Period period) {
-		if (this.standardPeriods == null)
-			this.standardPeriods = new HashSet<Period>();
-		this.standardPeriods.add(period);
-	}
-
-	public Set<Period> getStandardPeriods() {
-		return this.standardPeriods;
 	}
 
 	public void setStatus(Status status) {
@@ -255,7 +214,7 @@ public class TutorService {
 
 	private void checkSameNumberOfDaysPriceExist(int numberOfDays) {
 		if (prices.stream().filter(price -> price.getNumberOfDays() == numberOfDays).count() != 0)
-			throw new PriceSameNumberOfDaysAlreadyExist();
+			throw new ServicePriceAlreadyExistException();
 	}
 
 	public void setPrices(Set<ServicePrice> prices) {
@@ -338,10 +297,6 @@ public class TutorService {
 		this.photos = photos;
 	}
 
-	public void setStandardPeriods(Set<Period> standardPeriods) {
-		this.standardPeriods = standardPeriods;
-	}
-
 	public String getExtrasServices() {
 		return extrasServices;
 	}
@@ -350,4 +305,8 @@ public class TutorService {
 		this.extrasServices = extrasServices;
 	}
 
+	public void validateMaxNumberOfPersons(int number) {
+		if (number > this.maxPerson || number <= 0)
+			throw new InvalidNumberOfPersonsException();
+	}
 }

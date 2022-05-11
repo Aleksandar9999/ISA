@@ -9,9 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.model.SystemData;
 import com.isa.FishingBooker.repository.SystemDataRepository;
+import com.isa.FishingBooker.service.interfaces.SystemDataService;
 
 @Service
-public class SystemDataServiceImpl extends CustomServiceAbstract<SystemData> implements SystemDataService {
+public class SystemDataServiceImpl extends CustomGenericService<SystemData> implements SystemDataService {
 	@Transactional
 	@Override
 	public void addNew(SystemData item) {
@@ -21,8 +22,13 @@ public class SystemDataServiceImpl extends CustomServiceAbstract<SystemData> imp
 	}
 
 	private void finishCurrentlyActiveData() {
-		SystemData currentlyActive = ((SystemDataRepository)this.repository).findCurrentlyActive();
+		SystemData currentlyActive = this.findCurrentlyActive();
 		   currentlyActive.setEndDate(Timestamp.valueOf(LocalDateTime.now()));
 		   this.update(currentlyActive);
+	}
+
+	@Override
+	public SystemData findCurrentlyActive() {
+		return ((SystemDataRepository)this.repository).findCurrentlyActive();
 	}
 }

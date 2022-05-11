@@ -10,17 +10,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.isa.FishingBooker.dto.UserConfirmationDTO;
 import com.isa.FishingBooker.exceptions.EmailExistException;
+import com.isa.FishingBooker.exceptions.EmailNotConfirmedException;
 import com.isa.FishingBooker.model.Admin;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.UserRepository;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
+import com.isa.FishingBooker.service.interfaces.RoleService;
+import com.isa.FishingBooker.service.interfaces.UsersService;
 
 @Service
-public class UsersServiceImplementation extends CustomServiceAbstract<User> implements UsersService {
-
+public class UsersServiceImpl extends CustomGenericService<User> implements UsersService {
+	@Autowired
+	private EmailService emailService;
+	
 	@Autowired
 	private RoleService roleService;
 	public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
@@ -39,18 +45,6 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 		setUserRoles(item);
 		item.setStatus(Status.PENDING);
 		super.addNew(item);
-	}
-
-	private void setUserRoles(User item) {
-		item.getRoles().forEach(role -> role.setId(roleService.findRoleIdByName(role.getName())));
-	}
-
-	private void validateEmail(String email) {
-		Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
-		if(!matcher.find()) throw new EmailExistException("Email address problem. Please check your email.");
-	
-		if (((UserRepository) repository).findByEmail(email) != null)
-			throw new EmailExistException("Email already exist");
 	}
 
 	@Override
@@ -94,7 +88,6 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 		User user = this.getById(id);
 		user.setStatus(Status.DELETED);
 		super.update(user);
-		;
 	}
 
 	@Override
@@ -117,4 +110,33 @@ public class UsersServiceImplementation extends CustomServiceAbstract<User> impl
 		repository.save(admin);
 	}
 
+	private void setUserRoles(User item) {
+		item.getRoles().forEach(role -> role.setId(roleService.findRoleIdByName(role.getName())));
+	}
+
+	private void validateEmail(String email) {
+		Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
+		if (!matcher.find())
+			throw new EmailExistException("Email address problem. Please check your email.");
+
+		if (((UserRepository) repository).findByEmail(email) != null)
+			throw new EmailExistException("Email already exist");
+	}
+
+	@Override
+	public void updateProfileStatusByAdmin(User userInfo, int userId,String comment) {
+		User user=this.getById(userId);
+		if(!user.getStatus().equals(Status.CONFIRMED)) throw new EmailNotConfirmedException();
+		this.update(userInfo);
+		this.sendNotificationEmail(userInfo.getStatus(), user,comment);
+	}
+	
+	private void sendNotificationEmail(Status status, User user,String comment) {
+		if(status.equals(Status.REJECTED)) {
+			emailService.sendRejectedConfirmationMail(user, comment);
+		}else {
+			emailService.sendConfirmConfirmationMail(user);
+		}
+	}
+	
 }

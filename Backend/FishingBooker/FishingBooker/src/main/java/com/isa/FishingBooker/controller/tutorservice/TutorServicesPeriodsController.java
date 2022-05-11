@@ -17,20 +17,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.controller.UsersController;
-import com.isa.FishingBooker.exceptions.AuthorizationException;
 import com.isa.FishingBooker.mapper.calendar.DiscountOfferCalendarMapper;
 import com.isa.FishingBooker.mapper.calendar.StandardPeriodCalendarMapper;
 import com.isa.FishingBooker.model.DiscountOffer;
 import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.TutorService;
+import com.isa.FishingBooker.service.interfaces.TutorServicesService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-public class TutorServicesPeriodsController extends TutorServicesAbstractController {
+public class TutorServicesPeriodsController {
 	@Autowired
 	private DiscountOfferCalendarMapper discountOfferCalendarMapper;
 	@Autowired
 	private StandardPeriodCalendarMapper standardPeriodCalendarMapper;
+	@Autowired
+	protected TutorServicesService tutorServicesService;
 
 	@GetMapping("api/users/tutors/{id}/standard-periods")
 	public ResponseEntity<?> getPeriodsAllTutorServices(@PathVariable("id") int idtutor) {
@@ -48,16 +50,17 @@ public class TutorServicesPeriodsController extends TutorServicesAbstractControl
 	@GetMapping("api/tutor-services/{idservice}/standard-periods")
 	public ResponseEntity<?> getTutorServiceStandardPeriod(@PathVariable("idservice") int idservice) {
 		TutorService tutorService = tutorServicesService.getById(idservice);
-		return ResponseEntity.status(200).body(tutorService.getStandardPeriods());
+		return ResponseEntity.status(200).body(tutorService.getTutor().getAvailable());
 	}
 
 	@PreAuthorize("hasRole('USER')")
 	@GetMapping("api/tutor-services/standard-periods")
 	public ResponseEntity<?> getAllTutorServiceStandardPeriod(
-			@RequestParam(name = "start",defaultValue = "") String start,
-			@RequestParam(name = "duration",defaultValue = "") int duration,
-			@RequestParam(name = "number-of-guests",defaultValue = "") int maxPersons) {
-		return ResponseEntity.status(200).body(tutorServicesService.getAllTutorServicesAvailablePeriods(new Timestamp(Date.valueOf(start).getTime()), duration, maxPersons));
+			@RequestParam(name = "start", defaultValue = "") String start,
+			@RequestParam(name = "duration", defaultValue = "") int duration,
+			@RequestParam(name = "number-of-guests", defaultValue = "") int maxPersons) {
+		return ResponseEntity.status(200).body(tutorServicesService.getAllTutorServicesAvailablePeriods(
+				new Timestamp(Date.valueOf(start).getTime()), duration, maxPersons));
 	}
 
 	@GetMapping("api/tutor-services/{idservice}/discount-offers")

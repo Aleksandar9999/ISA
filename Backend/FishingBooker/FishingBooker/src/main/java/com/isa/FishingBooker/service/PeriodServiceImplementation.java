@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.repository.PeriodsRepository;
+import com.isa.FishingBooker.service.interfaces.PeriodService;
 
 @Service
 public class PeriodServiceImplementation implements PeriodService{

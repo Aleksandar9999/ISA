@@ -1,42 +1,51 @@
 package com.isa.FishingBooker.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.model.Admin;
 import com.isa.FishingBooker.model.Appointment;
 import com.isa.FishingBooker.model.AppointmentReport;
-import com.isa.FishingBooker.model.AppointmentStatus;
 import com.isa.FishingBooker.model.ReportType;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.AppointmentReportRepository;
+import com.isa.FishingBooker.service.interfaces.AppointmentReportService;
+import com.isa.FishingBooker.service.interfaces.AppointmentService;
+import com.isa.FishingBooker.service.interfaces.PointsSettingsService;
+import com.isa.FishingBooker.service.interfaces.UsersService;
 
 @Service
-public class AppointmentReportServiceImpl extends CustomServiceAbstract<AppointmentReport>
+public class AppointmentReportServiceImpl extends CustomGenericService<AppointmentReport>
 		implements AppointmentReportService {
 
 	@Autowired
 	private EmailService emailService;
 	@Autowired
 	private UsersService userService;
-	
 	@Autowired
 	private AppointmentService appointmentService;
+	@Autowired
+	private PointsSettingsService pointsSettingsService;
 
-	private final int PENALTY_COUNT = 1;
+	@Transactional
 	@Override
 	public void addNew(AppointmentReport item) {
-		updateAppointmentStatus(item.getAppointment().getId());
+		item.setAppointment(appointmentService.getById(item.getAppointment().getId()));
+		appointmentService.finishAppointment(item.getAppointment().getId());
+		this.updateUsersPoints(item);
 		super.addNew(item);
 	}
-	
-	private void updateAppointmentStatus(Integer id) {
-		Appointment appointment=appointmentService.getById(id);
-		appointment.setStatus(AppointmentStatus.SUCCESSFUL);
-		appointmentService.update(appointment);
+
+	@Transactional
+	private void updateUsersPoints(AppointmentReport report) {
+		if (report.getType().equals(ReportType.GOOD))
+			pointsSettingsService.updateClientPoints(userService.getById(report.getClient().getId()));
+		pointsSettingsService.updateServiceOwnerPoints(userService.getById(report.getServiceOwner().getId()));
 	}
-	
+
 	@Override
 	public void addBadCommentReport(AppointmentReport report) {
 		report.setStatusAndTypeOfReport(Status.PENDING, ReportType.BAD);
@@ -46,7 +55,7 @@ public class AppointmentReportServiceImpl extends CustomServiceAbstract<Appointm
 	@Override
 	public void addNotShopUpReport(AppointmentReport report) {
 		report.setStatusAndTypeOfReport(Status.CONFIRMED, ReportType.CLIENT_NOT_SHOW_UP);
-		report.setComment("Klijent se nije pojavio.\n"+report.getComment());
+		report.setComment(report.getComment());
 		updateClientPenaltyCountAndNotify(report);
 		this.addNew(report);
 	}
@@ -58,25 +67,25 @@ public class AppointmentReportServiceImpl extends CustomServiceAbstract<Appointm
 	}
 
 	@Override
-	public void acceptBadReport(int reportId,Admin admin) {
+	public void acceptBadReport(int reportId, Admin admin) {
 		AppointmentReport report = super.getById(reportId);
-		this.updateReportStatus(report, Status.ADMIN_CONFIRMED,admin);
+		this.updateReportStatus(report, Status.ADMIN_CONFIRMED, admin);
 		updateClientPenaltyCountAndNotify(report);
 		emailService.sendAppointmentReportAcceptedNotification(report.getAppointment().getOwner());
 	}
 
 	private void updateClientPenaltyCountAndNotify(AppointmentReport report) {
-		Appointment appointment=appointmentService.getById(report.getAppointment().getId());
+		Appointment appointment = appointmentService.getById(report.getAppointment().getId());
 		User client = appointment.getUser();
 		updateClientPenaltyCount(client);
 		emailService.sendPenaltyUpdateNotification(client, report.getComment());
 	}
 
 	private void updateClientPenaltyCount(User client) {
-		client.addPenalty(PENALTY_COUNT);
+		client.addPenalty(pointsSettingsService.findActive().getPenalty());
 		userService.update(client);
 	}
-	
+
 	@Override
 	public void rejectBadReport(int reportId, String reason, Admin admin) {
 		AppointmentReport report = super.getById(reportId);
@@ -86,7 +95,6 @@ public class AppointmentReportServiceImpl extends CustomServiceAbstract<Appointm
 		emailService.sendAppointmentReportRejectedNotification(owner, reason);
 	}
 
-	
 	private AppointmentReport updateReportStatus(AppointmentReport report, Status status, Admin admin) {
 		report.setAdminResponded(admin);
 		report.setStatus(status);
@@ -96,6 +104,6 @@ public class AppointmentReportServiceImpl extends CustomServiceAbstract<Appointm
 
 	@Override
 	public AppointmentReport getByAppointmentId(int id) {
-		return ((AppointmentReportRepository)repository).getByAppointmentId(id);
+		return ((AppointmentReportRepository) repository).getByAppointmentId(id);
 	}
 }

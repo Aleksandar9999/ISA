@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class AppointmentReport {
 	@Id
@@ -13,7 +16,7 @@ public class AppointmentReport {
 	@OneToOne
 	private Appointment appointment;
 	private String comment;
-	private ReportType type; 
+	private ReportType type;
 	private Status status;
 	@OneToOne
 	private Admin adminResponded;
@@ -21,12 +24,22 @@ public class AppointmentReport {
 
 	public AppointmentReport() {
 	}
-	
+
+	@JsonIgnore
+	public User getServiceOwner() {
+		return appointment.getOwner();
+	}
+
+	@JsonIgnore
+	public User getClient() {
+		return appointment.getUser();
+	}
+
 	public void setStatusAndTypeOfReport(Status status, ReportType type) {
 		this.setStatus(status);
 		this.setType(type);
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -66,6 +79,7 @@ public class AppointmentReport {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+
 	public Admin getAdminResponded() {
 		return adminResponded;
 	}
@@ -83,7 +97,7 @@ public class AppointmentReport {
 	}
 
 	public AppointmentReport setAppointmentId(int appointmentId) {
-		this.appointment=new Appointment(appointmentId);
+		this.appointment = new Appointment(appointmentId);
 		return this;
 	}
 }

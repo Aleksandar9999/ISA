@@ -26,6 +26,6 @@ public class YearCalendarMapper<E extends Appointment>{
 
 	@SuppressWarnings("deprecation")
 	private double calculateReservedDays(Date date, List<E> entities) {
-		return entities.stream().filter(item-> item.getStart().getMonth()==date.getMonth()).mapToDouble(Appointment::getDuration).sum();
+		return entities.stream().filter(item-> item.getStart().getMonth()==date.getMonth()).mapToInt(Appointment::getDuration).sum();
 	}
 }

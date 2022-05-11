@@ -1,5 +1,6 @@
 package com.isa.FishingBooker.model;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -53,20 +54,38 @@ public class User implements UserDetails {
 	private List<Role> roles;
 	@ElementCollection(targetClass = Integer.class)
 	private Set<Integer> reservationsList;
-	private int penaltyCount;
-
+	private Double penaltyCount;
+	private Double points;
+	private Date passwordResetTimestamp;
+	private String registrationReason;
 	public User() {
 	}
 
 	public void updateUserInfo(User user) {
 		this.id = user.getId();
 		this.email = user.getEmail();
-		this.password = user.getPassword() == null ? this.password : user.getPassword();
 		this.name = user.getName();
 		this.surname = user.getSurname();
 		this.address = user.getAddress();
 		this.phoneNumber = user.getPhoneNumber();
 		this.status = user.getStatus();
+		this.points = user.getPoints();
+		this.penaltyCount = user.getPenaltyCount();
+		this.updatePassword(user.getPassword());
+	}
+
+	private void updatePassword(String newPassword) {
+		if(newPassword!=null &&!newPassword.isBlank() && !newPassword.equals(this.password)) {
+			this.password=newPassword;
+			this.passwordResetTimestamp=Date.from(Instant.now());
+		}
+	}
+
+	public User addPoints(Double points) {
+		if (this.points == null)
+			this.points = 0.0;
+		this.points += points;
+		return this;
 	}
 
 	@JsonIgnore
@@ -74,7 +93,6 @@ public class User implements UserDetails {
 		return roles;
 	}
 
-	// TODO: This methode must be overrided by every subclass user
 	public void setRolesNames() {
 		this.setRoleName(Role.USER_ROLE);
 	}
@@ -187,7 +205,7 @@ public class User implements UserDetails {
 
 	@JsonIgnore
 	public Date getLastPasswordResetDate() {
-		return null;
+		return passwordResetTimestamp;
 	}
 
 	public Set<Integer> getReservationsList() {
@@ -198,17 +216,33 @@ public class User implements UserDetails {
 		this.reservationsList = reservationsList;
 	}
 
-	public int getPenaltyCount() {
-		return penaltyCount;
+	public Double getPenaltyCount() {
+		return penaltyCount != null ? penaltyCount : 0.0;
 	}
 
-	public void addPenalty(int count) {
+	public void addPenalty(Double count) {
 		this.penaltyCount += count;
 	}
 
 	@Override
 	public String getPassword() {
 		return this.password;
+	}
+
+	public Double getPoints() {
+		return points != null ? points : 0.0;
+	}
+
+	public void setPoints(Double points) {
+		this.points = points;
+	}
+
+	public String getRegistrationReason() {
+		return registrationReason;
+	}
+
+	public void setRegistrationReason(String registrationReason) {
+		this.registrationReason = registrationReason;
 	}
 
 }

@@ -4,6 +4,8 @@
       <w-form no-keyup-validation no-blur-validation>
         <div class="text-right mt6" style="margin: 0px 0px 25px 0px">
           <w-button type="submit" :bg-color="subscribeButton.bgColor" color="white" v-if="showSubscribeButtonsFunc()" @click="subscribe" >{{subscribeButton.title}}</w-button>
+          <w-button bg-color="blue" style="margin:0px 0px 0px 25px" color="white" v-if="showSubscribeButtonsFunc()" @click="showNewAppointmentDialog" >Make reservation</w-button>
+        
         </div>
         <w-flex wrap class="text-center">
           <div class="xs6 pa1">
@@ -185,7 +187,7 @@
             ></w-textarea>
           </div>
         </w-flex>
-        <div v-if="showAdminButtons" class="text-right mt6">
+        <div v-if="showAdminButton" class="text-right mt6">
           <w-button type="submit" bg-color="green" color="white" @click="save">Save</w-button>
         </div>
       </w-form>
@@ -197,20 +199,15 @@
 import axios from 'axios';
 import config from '../../../../configuration/config';
 export default {
-  props: ["service_info","tutorId"],
+  props: ["service_info","tutorId","showNewAppointmentDialog","showAdminButton"],
   data() {
     return {
       service_form: {},
-      showAdminButtons:false,
       subscribeButton:{
         title:'SUBSCRIBE',
         bgColor:'red'
       }
     };
-  },
-  mounted() {
-    this.showAdminButtonsFunc();
-    
   },
   methods: {
     isSubscribed(){
@@ -222,12 +219,6 @@ export default {
         this.subscribeButton.title="SUBSCRIBE"
         this.subscribeButton.bgColor='red'
       })
-    },
-    showAdminButtonsFunc(){
-      if (localStorage.roles)
-        if (localStorage.roles.includes("ROLE_TUTOR")) {
-          this.showAdminButtons = true;
-        }
     },
     showSubscribeButtonsFunc(){
       if (localStorage.roles)

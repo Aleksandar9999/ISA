@@ -16,7 +16,7 @@ import com.isa.FishingBooker.dto.ReasonDTO;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.model.Admin;
 import com.isa.FishingBooker.model.AppointmentReport;
-import com.isa.FishingBooker.service.AppointmentReportService;
+import com.isa.FishingBooker.service.interfaces.AppointmentReportService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController

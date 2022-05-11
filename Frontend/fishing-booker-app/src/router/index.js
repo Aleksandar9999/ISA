@@ -28,7 +28,7 @@ import YearlyCalendar from '../components/Calendar/CalendarYear/YearlyCalendar.v
 import UsersList from '../components/AdminPanel/Users/UsersList.vue'
 import DeleteRequestsList from '../components/AdminPanel/Users/DeleteRequests/DeleteRequestsList.vue'
 
-import SystemSettings from '../components/AdminPanel/SystemSettings.vue'
+import SystemSettings from '../components/AdminPanel/SystemSettings/SystemSettings.vue'
 import ResetPasswordModalDialog from '../components/AdminPanel/ResetPasswordModalDialog.vue'
 
 import RevisionsList from "../components/AdminPanel/Revisions/RevisionsList.vue"

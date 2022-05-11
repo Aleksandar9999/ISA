@@ -19,7 +19,7 @@ import com.isa.FishingBooker.model.revision.ResortAppointmentRevision;
 import com.isa.FishingBooker.model.revision.Revision;
 import com.isa.FishingBooker.model.revision.TutorRevision;
 import com.isa.FishingBooker.model.revision.TutorServiceAppointmentRevision;
-import com.isa.FishingBooker.service.RevisionService;
+import com.isa.FishingBooker.service.interfaces.RevisionService;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class RevisionController {

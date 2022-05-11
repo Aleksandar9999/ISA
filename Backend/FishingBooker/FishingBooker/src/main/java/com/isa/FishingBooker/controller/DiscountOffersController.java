@@ -25,8 +25,8 @@ import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.TutorServiceAppointment;
 import com.isa.FishingBooker.model.User;
-import com.isa.FishingBooker.service.AppointmentService;
-import com.isa.FishingBooker.service.DiscountOfferService;
+import com.isa.FishingBooker.service.interfaces.AppointmentService;
+import com.isa.FishingBooker.service.interfaces.DiscountOfferService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController

@@ -48,6 +48,10 @@
                 <td><input type="text" v-model="regReqData.phoneNumber" /></td>
               </tr>
               <tr>
+                <td><label for="">Registration reason</label></td>
+                <td><input type="text" v-model="regReqData.registrationReason" /></td>
+              </tr>
+              <tr>
                 <td><label for="">User role:</label></td>
                 <td>
                   <select
@@ -95,6 +99,7 @@ export default {
         rpassword: "",
         name: "",
         surname: "",
+        registrationReason:'',
         address: {
           street: "",
           city: "",

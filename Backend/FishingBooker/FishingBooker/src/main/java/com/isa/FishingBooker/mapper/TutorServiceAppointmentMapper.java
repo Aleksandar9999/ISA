@@ -3,6 +3,7 @@ package com.isa.FishingBooker.mapper;
 import org.springframework.stereotype.Component;
 
 import com.isa.FishingBooker.dto.TutorServiceAppointmentDTO;
+import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.TutorServiceAppointment;
 import com.isa.FishingBooker.model.User;
@@ -22,6 +23,7 @@ public class TutorServiceAppointmentMapper extends CustomModelMapperAbstract<Tut
 	public TutorServiceAppointment convertToEntity(TutorServiceAppointmentDTO dto) {
 		TutorServiceAppointment entity= modelMapper.map(dto, TutorServiceAppointment.class);
 		entity.setUser(new User(dto.getUserId()));
+		entity.setDuration(new Period(dto.getStart(),dto.getEnd()));
 		entity.setTutorService(new TutorService(dto.getServiceId()));
 		return entity;
 	}

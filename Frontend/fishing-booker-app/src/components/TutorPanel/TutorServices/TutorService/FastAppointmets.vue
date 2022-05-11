@@ -1,7 +1,7 @@
 <template>
   <div>
     <w-card class="main-card" title="Fast appointments with discount offer" no-border text-align="left">
-      <w-flex v-if="showAdminButtons" justify-end class="pa3">
+      <w-flex v-if="showAdminButton" justify-end class="pa3">
         <w-button @click="showDialog">Add new</w-button>
       </w-flex>
       <FastAppointmentCard
@@ -17,11 +17,10 @@ import axios from "axios";
 import config from "../../../../configuration/config";
 import FastAppointmentCard from "./FastAppointmentCard.vue";
 export default {
-  props: ["idservice"],
+  props: ["idservice", "showAdminButton"],
   data() {
     return {
       fast_appoinements_local: [],
-      showAdminButtons: false,
     };
   },
   components: {
@@ -30,16 +29,9 @@ export default {
   methods: {
     showDialog() {
       this.$emit("showDiscountOfferDialog", true);
-    },
-    showAdminButtonsFunc() {
-      if (localStorage.roles)
-        if (localStorage.roles.includes("ROLE_TUTOR")) {
-          this.showAdminButtons = true;
-        }
-    },
+    }
   },
   mounted() {
-    this.showAdminButtonsFunc();
     axios
       .get(
         config.apiStart +

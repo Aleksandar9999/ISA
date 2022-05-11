@@ -33,13 +33,13 @@ export default {
 		}
 	},
 	mounted() {
-		console.log(this.item)
 		this.$axios.get(`${config.apiStart}/api/appointment-report/appointment/${this.item.id}`)
 		.then(()=>this.showReportButton=false)
 		.catch(()=>this.showReportButton=true);
+		console.log(this.item)
 	},
 	methods: {
-		getStartDate(){return moment(this.item.start).format("MMM DD, YYYY")},
+		getStartDate(){return moment(this.item.period.startDate).format("MMM DD, YYYY")},
 		createReport(){
 			this.$emit("createReportShow", this.item);
 		}

@@ -8,9 +8,11 @@ import com.isa.FishingBooker.model.Admin;
 import com.isa.FishingBooker.model.DeleteRequest;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.User;
+import com.isa.FishingBooker.service.interfaces.DeleteRequestService;
+import com.isa.FishingBooker.service.interfaces.UsersService;
 
 @org.springframework.stereotype.Service
-public class DeleteRequestServiceImpl extends CustomServiceAbstract<DeleteRequest> implements DeleteRequestService {
+public class DeleteRequestServiceImpl extends CustomGenericService<DeleteRequest> implements DeleteRequestService {
 
 	@Autowired
 	private UsersService userService;
@@ -29,7 +31,7 @@ public class DeleteRequestServiceImpl extends CustomServiceAbstract<DeleteReques
 		DeleteRequest dbRequest = getById(item.getId());
 		if(!dbRequest.getRequestStatus().equals(Status.PENDING)) throw new RequestHasResponseException();
 		if (item.getRequestStatus().equals(Status.ADMIN_CONFIRMED))
-			this.updateUserProfileStatus(item.getUser().getId());
+			this.updateUserProfileStatus(dbRequest.getUser().getId());
 		dbRequest.setRequestStatus(item.getRequestStatus());
 		dbRequest.setAdminResponded(admin);
 		this.update(dbRequest);

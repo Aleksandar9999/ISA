@@ -3,12 +3,12 @@ package com.isa.FishingBooker.controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.isa.FishingBooker.service.ObjectionService;
 import com.isa.FishingBooker.dto.ObjectionDTO;
 import com.isa.FishingBooker.dto.ObjectionResponseDTO;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.model.Admin;
 import com.isa.FishingBooker.model.Objection;
+import com.isa.FishingBooker.service.interfaces.ObjectionService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
