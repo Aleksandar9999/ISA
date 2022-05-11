@@ -4,15 +4,12 @@ import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.isa.FishingBooker.dto.LoginInfoDTO;
-import com.isa.FishingBooker.dto.LoginReturnDTO;
-import com.isa.FishingBooker.dto.RegistrationDTO;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.User;
 
 public interface UsersService extends Service<User>, UserDetailsService {
-	
+	public void updateProfileStatusByAdmin(User userInfo, int userId,String comment);
 	public List<User> getAllClients();
 	public Tutor getTutorById(int id);
 	public List<User> search(Status status);

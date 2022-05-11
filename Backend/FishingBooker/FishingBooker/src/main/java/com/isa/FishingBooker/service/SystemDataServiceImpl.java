@@ -22,8 +22,13 @@ public class SystemDataServiceImpl extends CustomGenericService<SystemData> impl
 	}
 
 	private void finishCurrentlyActiveData() {
-		SystemData currentlyActive = ((SystemDataRepository)this.repository).findCurrentlyActive();
+		SystemData currentlyActive = this.findCurrentlyActive();
 		   currentlyActive.setEndDate(Timestamp.valueOf(LocalDateTime.now()));
 		   this.update(currentlyActive);
+	}
+
+	@Override
+	public SystemData findCurrentlyActive() {
+		return ((SystemDataRepository)this.repository).findCurrentlyActive();
 	}
 }

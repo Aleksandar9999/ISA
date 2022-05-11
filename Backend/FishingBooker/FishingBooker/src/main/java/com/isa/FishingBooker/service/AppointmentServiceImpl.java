@@ -1,7 +1,7 @@
 package com.isa.FishingBooker.service;
 
 import java.sql.Timestamp;
-
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,24 +14,32 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.isa.FishingBooker.exceptions.PeriodOverlapException;
-import com.isa.FishingBooker.exceptions.TutorServiceUnavailableAtSpecifiedPeriod;
+import com.isa.FishingBooker.exceptions.TutorservicePeriodException;
 import com.isa.FishingBooker.exceptions.UserAppointmentInProgressException;
 import com.isa.FishingBooker.model.Appointment;
+import com.isa.FishingBooker.model.AppointmentStatus;
 import com.isa.FishingBooker.model.AppointmentType;
 import com.isa.FishingBooker.model.BoatAppointment;
+import com.isa.FishingBooker.model.CompletedAppointment;
 import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.ResortAppointment;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.TutorServiceAppointment;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.AppointmentRepository;
+import com.isa.FishingBooker.repository.CompleteAppointmentRepository;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
 import com.isa.FishingBooker.service.interfaces.AppointmentService;
+import com.isa.FishingBooker.service.interfaces.SystemDataService;
 import com.isa.FishingBooker.service.interfaces.TutorServicesService;
+import com.isa.FishingBooker.service.interfaces.UserCategorySettingsService;
 import com.isa.FishingBooker.service.interfaces.UsersService;
 
 @Service
-public class AppointmentServiceImplementation extends CustomGenericService<Appointment> implements AppointmentService {
+public class AppointmentServiceImpl extends CustomGenericService<Appointment> implements AppointmentService {
+
+	@Autowired
+	private CompleteAppointmentRepository completeAppointmentRepository;
 
 	@Autowired
 	private TutorServicesService tutorServicesService;
@@ -39,60 +47,61 @@ public class AppointmentServiceImplementation extends CustomGenericService<Appoi
 	private EmailService emailService;
 	@Autowired
 	private UsersService userService;
+	@Autowired
+	private UserCategorySettingsService userCategoryService;
+	@Autowired
+	private SystemDataService systemDataService;
 
 	@Override
 	public List<TutorServiceAppointment> getAllTutorServiceAppointmentsByTutor(int id) {
 		return ((AppointmentRepository) repository).getAllAppointmentsByTutor(id);
 	}
 
+	@Transactional
+	@Override
+	public void finishAppointment(Integer id) {
+		Appointment appointment = this.getById(id);
+		appointment.setStatus(AppointmentStatus.SUCCESSFUL);
+		this.update(appointment);
+		saveCompletedAppointment(appointment);
+	}
+
+	@Transactional
+	private void saveCompletedAppointment(Appointment appointment) {
+		double ownerRevenueProcentage = this.userCategoryService
+				.findOwnerRevenueProcentage(appointment.getOwner().getPoints());
+		CompletedAppointment completedAppointment = new CompletedAppointment(appointment, ownerRevenueProcentage,
+				appointment.getPrice(), systemDataService.findCurrentlyActive().getProcentage());
+		completeAppointmentRepository.save(completedAppointment);
+	}
+
 	@Override
 	@Transactional
 	public void addNewTutorServiceAppointment(TutorServiceAppointment app) {
 		TutorService tutorService = tutorServicesService.getById(app.getTutorService().getId());
+		tutorService.validateMaxNumberOfPersons(app.getMaxPerson());
 		app.setTutorService(tutorService);
-		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
-				.getAuthentication();
-		User usr = (User) aut.getPrincipal();
-		app.setUser(usr);
 		app.setAddress(tutorService.getAddress());
 		app.setType(AppointmentType.TUTORSERVICE);
 		try {
-			validateNewTutorServiceAppointment(app);
+			app.validateNewTutorServiceAppointmentPeriod(app.getPeriod());
 		} catch (PeriodOverlapException ex) {
-			app.setPrice(tutorService.calculatePrice((int) app.getPeriod().getDurationInDays()));
-			updateTutorServiceAvailablePeriods(tutorService, app);
+			double priceWithoutDiscount = tutorService.calculatePrice((int) app.getPeriod().getDurationInDays());
+			double procentageForClient = userCategoryService
+					.findDiscountProcentage(userService.getById(app.getUser().getId()).getPoints());
+			app.setPrice(priceWithoutDiscount - (priceWithoutDiscount * procentageForClient / 100));
+			updateTutorAvailablePeriods(tutorService, app);
 			super.addNew(app);
 			emailService.sendReservationMail(userService.getById(app.getUser().getId()));
 			return;
 		}
-		throw new TutorServiceUnavailableAtSpecifiedPeriod();
+		throw new TutorservicePeriodException();
 	}
 
-	public void addNewTutorServiceAppointmentFromDiscount(TutorServiceAppointment app) {
-		TutorService tutorService = tutorServicesService.getById(app.getTutorService().getId());
-		app.setTutorService(tutorService);
-		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
-				.getAuthentication();
-		User usr = (User) aut.getPrincipal();
-		app.setUser(usr);
-		app.setAddress(tutorService.getAddress());
-		app.setType(AppointmentType.TUTORSERVICE);
-		super.addNew(app);
-		emailService.sendReservationMail(userService.getById(app.getUser().getId()));
-
-	}
 	@Transactional
-	private void updateTutorServiceAvailablePeriods(TutorService ts, TutorServiceAppointment app) {
-		ts.updateStandardPeriod(app.getPeriod());
+	private void updateTutorAvailablePeriods(TutorService ts, TutorServiceAppointment app) {
+		ts.getTutor().updateStandardPeriod(app.getPeriod());
 		tutorServicesService.update(ts);
-	}
-
-	private void validateNewTutorServiceAppointment(TutorServiceAppointment newAppointment) {
-		Set<Period> standardPeriods = tutorServicesService.getById(newAppointment.getTutorService().getId())
-				.getStandardPeriods();
-		for (Period period : standardPeriods) {
-			period.periodBetweenPeriod(newAppointment.getPeriod());
-		}
 	}
 
 	@Override
@@ -117,6 +126,18 @@ public class AppointmentServiceImplementation extends CustomGenericService<Appoi
 		return false;
 	}
 
+	public void addNewTutorServiceAppointmentFromDiscount(TutorServiceAppointment app) {
+		TutorService tutorService = tutorServicesService.getById(app.getTutorService().getId());
+		app.setTutorService(tutorService);
+		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
+				.getAuthentication();
+		User usr = (User) aut.getPrincipal();
+		app.setUser(usr);
+		app.setAddress(tutorService.getAddress());
+		app.setType(AppointmentType.TUTORSERVICE);
+		super.addNew(app);
+		emailService.sendReservationMail(userService.getById(app.getUser().getId()));
+	}
 	// TODO:REFACTOR PLEASE
 	public List<Appointment> getPendingApointments() {
 		List<Appointment> appointments = new ArrayList<Appointment>();
@@ -506,4 +527,10 @@ public class AppointmentServiceImplementation extends CustomGenericService<Appoi
 	public List<Appointment> getAllInPeriod(java.sql.Date start, java.sql.Date end) {
 		return ((AppointmentRepository) repository).getAllInPeriod(start, end);
 	}
+
+	@Override
+	public List<Appointment> getAllPendingByTutorServiceId(int id) {
+		return ((AppointmentRepository) repository).getAllPendingByTutorServiceId(id);
+	}
+
 }

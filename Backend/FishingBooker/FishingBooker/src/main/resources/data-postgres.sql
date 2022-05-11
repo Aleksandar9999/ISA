@@ -73,13 +73,13 @@ insert into period (start_date, end_date) values('2022-02-01 13:00:00','2022-02-
 insert into period (start_date, end_date) values('2022-02-03 11:00:00','2022-02-17 13:00:00');
 insert into period (start_date, end_date) values('2022-02-04 13:00:00','2022-02-18 13:00:00');
 insert into period (start_date, end_date) values('2022-02-04 12:00:00','2022-02-11 13:00:00');
-insert into period (start_date, end_date) values('2022-02-15 12:00:00','2022-02-27 13:00:00');
+insert into period (start_date, end_date) values('2022-05-12 13:00:00','2022-06-01 13:00:00');
 --14
-insert into tutor_service_standard_periods (tutor_service_tutor_service_id, standard_periods_id) values (3,8);
-insert into tutor_service_standard_periods (tutor_service_tutor_service_id, standard_periods_id) values (2,10);
-insert into tutor_service_standard_periods (tutor_service_tutor_service_id, standard_periods_id) values (1,11);
-insert into tutor_service_standard_periods (tutor_service_tutor_service_id, standard_periods_id) values (4,12);
-insert into tutor_service_standard_periods (tutor_service_tutor_service_id, standard_periods_id) values (3,13);
+insert into users_available (tutor_id, available_id) values (6,14);
+insert into users_available (tutor_id, available_id) values (6,10);
+insert into users_available (tutor_id, available_id) values (6,11);
+insert into users_available (tutor_id, available_id) values (4,12);
+insert into users_available (tutor_id, available_id) values (4,13);
 
 insert into period (start_date, end_date) values('2021-02-01 13:00:00','2021-02-15 13:00:00');
 insert into period (start_date, end_date) values('2021-03-03 11:00:00','2021-03-17 13:00:00');
@@ -92,7 +92,7 @@ insert into period (start_date, end_date) values('2021-09-04 13:00:00','2021-09-
 insert into period (start_date, end_date) values('2021-10-04 12:00:00','2021-10-11 13:00:00');
 insert into period (start_date, end_date) values('2021-11-15 12:00:00','2021-11-27 13:00:00');
 insert into period (start_date, end_date) values('2021-12-01 13:00:00','2021-12-15 13:00:00');
-insert into period (start_date, end_date) values('2022-01-03 11:00:00','2022-01-17 13:00:00');
+insert into period (start_date, end_date) values('2022-05-01 11:00:00','2022-05-12 13:00:00');
 insert into period (start_date, end_date) values('2022-01-04 13:00:00','2022-01-18 13:00:00');
 insert into period (start_date, end_date) values('2022-02-04 12:00:00','2022-02-11 13:00:00');
 insert into period (start_date, end_date) values('2022-02-15 12:00:00','2022-02-27 13:00:00');
@@ -111,7 +111,7 @@ insert into appointment (dtype, period_id, max_person, additional_services, pric
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, tutor_service_id, user_id,status) values ('TutorServiceAppointment', 26, 7, 'No additional services.', 1400.00, 'TUTORSERVICE', 4, 4, 1,'SUCCESSFUL');
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,status) values ('BoatAppointment', 27, 5, 'No additional services.', 1900.00,'BOAT', 4, 1,'SUCCESSFUL');
 
---insert into objection (appointment_id, objection, creator_id) values(12,'Zalba',1);
+insert into objection (appointment_id, objection, creator_id) values(12,'Zalba',1);
 
 
 --insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Amajic, Zapadna Srbija', 1000.0, 2, 1, 5);-->
@@ -155,8 +155,8 @@ insert into period (start_date) values('2022-01-01 00:00:00');
 insert into system_data (procentage, valid_id) values (5,30);
 insert into system_data (procentage, valid_id) values (3,31);
 
-insert into user_category (name, discount_procentage, revenue_procentage, points_margine) values ('Regular',0,5,20);
-insert into user_category (name, discount_procentage, revenue_procentage, points_margine) values ('Silver',5,10,40);
-insert into user_category (name, discount_procentage, revenue_procentage, points_margine) values ('Gold',10,15,100);
+insert into user_category_settings (name, discount_procentage, revenue_procentage, points_margine) values ('Regular',0,5,0);
+insert into user_category_settings (name, discount_procentage, revenue_procentage, points_margine) values ('Silver',5,10,40);
+insert into user_category_settings (name, discount_procentage, revenue_procentage, points_margine) values ('Gold',10,15,100);
 insert into period (start_date) values('2022-01-01 00:00:00');
-insert into points_settings (points_for_clients, points_for_users, valid_id, creator_id) values (2,3,32,5); 
+insert into points_settings (points_for_clients, points_for_owners, valid_id, creator_id,penalty) values (2,3,32,5,1); 

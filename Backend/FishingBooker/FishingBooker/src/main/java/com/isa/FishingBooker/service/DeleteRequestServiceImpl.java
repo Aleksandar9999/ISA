@@ -31,7 +31,7 @@ public class DeleteRequestServiceImpl extends CustomGenericService<DeleteRequest
 		DeleteRequest dbRequest = getById(item.getId());
 		if(!dbRequest.getRequestStatus().equals(Status.PENDING)) throw new RequestHasResponseException();
 		if (item.getRequestStatus().equals(Status.ADMIN_CONFIRMED))
-			this.updateUserProfileStatus(item.getUser().getId());
+			this.updateUserProfileStatus(dbRequest.getUser().getId());
 		dbRequest.setRequestStatus(item.getRequestStatus());
 		dbRequest.setAdminResponded(admin);
 		this.update(dbRequest);

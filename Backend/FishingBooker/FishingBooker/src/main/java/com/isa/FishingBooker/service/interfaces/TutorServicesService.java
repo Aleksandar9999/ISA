@@ -23,4 +23,5 @@ public interface TutorServicesService extends Service<TutorService>{
 	public void addNewDiscountOffer(int idservice, DiscountOffer offer);
 	public List<DiscountOffer> getAllDiscountOffers(int tutorId);
 	public List<TutorService> getAllTutorServicesAvailablePeriods(Timestamp start, int duration, int maxPerson);
+	public void updateInfo(TutorService newInfo);
 }

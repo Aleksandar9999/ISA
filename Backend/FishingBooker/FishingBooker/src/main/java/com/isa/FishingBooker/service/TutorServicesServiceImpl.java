@@ -1,6 +1,7 @@
 package com.isa.FishingBooker.service;
 
 import com.isa.FishingBooker.exceptions.PeriodOverlapException;
+import com.isa.FishingBooker.model.Appointment;
 import com.isa.FishingBooker.model.DiscountOffer;
 import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.Photo;
@@ -9,6 +10,7 @@ import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.TutorServiceRepository;
+import com.isa.FishingBooker.service.interfaces.AppointmentService;
 import com.isa.FishingBooker.service.interfaces.TutorServicesService;
 import com.isa.FishingBooker.service.interfaces.UsersService;
 
@@ -28,9 +30,12 @@ public class TutorServicesServiceImpl extends CustomGenericService<TutorService>
 	@Autowired
 	private UsersService usersService;
 
-	@Autowired 
+	@Autowired
 	private EmailService emailService;
 	
+	@Autowired
+	private AppointmentService appointmentService;
+
 	@Override
 	public void addNew(TutorService item) {
 		item.setStatus(Status.CONFIRMED);
@@ -43,7 +48,7 @@ public class TutorServicesServiceImpl extends CustomGenericService<TutorService>
 		service.setStatus(Status.DELETED);
 		this.update(service);
 	}
-
+	
 	@Override
 	public void update(TutorService item) {
 		super.update(this.getById(item.getId()).updateInfo(item));
@@ -74,61 +79,74 @@ public class TutorServicesServiceImpl extends CustomGenericService<TutorService>
 	}
 
 	@Override
-	public void addNewStandardPeriod(int idservice, Period period) {
+	public void addNewStandardPeriod(int idservice, Period newPeriod) {
 		TutorService tutorService = this.getById(idservice);
-		tutorService.addStandardPeriod(period);
+		tutorService.getTutor().getAvailable().forEach(period->{
+				period.overlap(newPeriod);		
+		});
+		tutorService.getTutor().addAvailablePeriod(newPeriod);
 		this.update(tutorService);
 	}
 
 	@Override
 	public List<Period> getAllAvailablePeriodsByTutor(int idtutor) {
 		Tutor tutor = (Tutor) usersService.getById(idtutor);
-		return tutor.getServices().stream().map(TutorService::getStandardPeriods).flatMap(Set::stream)
+		return tutor.getAvailable().stream().collect(Collectors.toList());
+	}
+
+	@Override
+	public List<DiscountOffer> getAllDiscountOffers(int tutorId) {
+		List<TutorService> tutorServices = this.getAllValidByTutor(tutorId);
+		return tutorServices.stream().map(TutorService::getDisconutOffers).flatMap(Set::stream)
 				.collect(Collectors.toList());
 	}
-	@Override
-	public List<DiscountOffer> getAllDiscountOffers(int tutorId){
-		List<TutorService> tutorServices=this.getAllValidByTutor(tutorId);
-		return tutorServices.stream().map(TutorService::getDisconutOffers).flatMap(Set::stream).collect(Collectors.toList());
-	}
-	
+
 	@Override
 	public void addNewSubscriber(int serviceId, User loggedinUser) {
 		this.update(this.getById(serviceId).addNewSubscriber(loggedinUser));
 	}
-	
+
 	@Override
 	public void removeSubscriber(int serviceId, User loggedinUser) {
 		this.update(this.getById(serviceId).removeSubscriber(loggedinUser));
 	}
-	
+
 	@Override
 	public void addNewDiscountOffer(int idservice, DiscountOffer offer) {
-		TutorService tutorService=this.getById(idservice);
+		TutorService tutorService = this.getById(idservice);
 		tutorService.addDiscountOffer(offer);
 		this.update(tutorService);
 		this.notifySubscribers(tutorService);
 	}
-	
+
 	@Override
-	public List<TutorService> getAllTutorServicesAvailablePeriods(Timestamp start, int duration, int maxPerson){
-		List<TutorService>retList=new ArrayList<TutorService>();
-		Period newPeriod=Period.createPeriod(start, duration);
-		List<TutorService> services=this.getAll().stream().filter(service->service.getMaxPerson()>maxPerson).collect(Collectors.toList());
+	public List<TutorService> getAllTutorServicesAvailablePeriods(Timestamp start, int duration, int maxPerson) {
+		List<TutorService> retList = new ArrayList<TutorService>();
+		Period newPeriod = Period.createPeriod(start, duration);
+		List<TutorService> services = this.getAll().stream().filter(service -> service.getMaxPerson() > maxPerson)
+				.collect(Collectors.toList());
 		for (TutorService tutorService : services) {
-			tutorService.getStandardPeriods().forEach(period->{
-				try{
+			tutorService.getTutor().getAvailable().forEach(period -> {
+				try {
 					period.periodBetweenPeriod(newPeriod);
-				}catch (PeriodOverlapException e) {
+				} catch (PeriodOverlapException e) {
 					retList.add(tutorService);
 				}
 			});
 		}
 		return retList;
 	}
+	@Override
+	public void updateInfo(TutorService newInfo) {
+		List<Appointment> appointments=this.appointmentService.getAllPendingByTutorServiceId(newInfo.getId());
+		if(appointments.isEmpty()) {
+			this.update(newInfo);
+		}
+	}
 	
 	@Async
 	private void notifySubscribers(TutorService tutorService) {
-		tutorService.getSubscribers().forEach(subscirber-> emailService.sendDiscountNotificationEmail(subscirber, tutorService));
+		tutorService.getSubscribers()
+				.forEach(subscirber -> emailService.sendDiscountNotificationEmail(subscirber, tutorService));
 	}
 }
