@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.isa.FishingBooker.model.Role;
+import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.User;
 
 import io.jsonwebtoken.Claims;
@@ -248,7 +249,8 @@ public class TokenUtils {
 		// Token je validan kada:
 		return (username != null // korisnicko ime nije null
 			&& username.equals(userDetails.getUsername()) // korisnicko ime iz tokena se podudara sa korisnickom imenom koje pise u bazi
-			&& !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate())); // nakon kreiranja tokena korisnik nije menjao svoju lozinku 
+			&& !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate())
+			&& !user.getStatus().equals(Status.DELETED)); // nakon kreiranja tokena korisnik nije menjao svoju lozinku 
 	}
 	
 	/**
