@@ -3,7 +3,7 @@
     <td>{{ report.id }}</td>
     <td>{{ report.comment }}</td>
     <td>{{ report.type }}</td>
-    <td v-if="report.status == 'ADMIN_CONFIRMED' || report.status == 'REJECTED'">{{ report.status }}</td>
+    <td v-if="report.status == 'CONFIRMED' || report.status == 'ADMIN_CONFIRMED' || report.status == 'REJECTED'">{{ report.status }}</td>
     <td v-if="report.status == 'PENDING'">
     <input type="text" v-if="status=='reject'" v-model="adminResponse" />
       <select name="status" id="status" v-model="status" >
@@ -12,8 +12,8 @@
       </select>
     </td>
     <td>
-      <w-button style="margin: 0px 0px 0px 15px;" bg-color="info" @click="moreInfo">More info</w-button>
-      <w-button style="margin: 0px 0px 0px 15px;" bg-color="success" @click="save">Save</w-button>
+      <w-button style="margin: 0px 0px 0px 15px;" bg-color="info" @click="moreInfo" v-if="report.status!='CONFIRMED' ">More info</w-button>
+      <w-button style="margin: 0px 0px 0px 15px;" bg-color="success" @click="save" v-if="report.status!='CONFIRMED'">Save</w-button>
     </td>
   </tr>
 </template>
@@ -30,6 +30,7 @@ export default {
   },
   methods: {
       moreInfo(){
+        console.log(this.report)
         alert(`Admin responded: ${this.report.adminResponded.name} ${this.report.adminResponded.surname}\nResponse: ${this.report.response}`)
       },
       save(){

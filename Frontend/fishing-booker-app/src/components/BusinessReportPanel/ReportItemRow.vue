@@ -1,13 +1,16 @@
 <template lang="">
   <tr>
     <td>{{ getDate() }}</td>
-    <td><p>{{ report.duration }}</p></td>
-    <td><p>{{ report.price }}</p></td>
-    <td><p v-if="report.user"> {{ report.user.name }} {{ report.user.surname }}</p></td>
-    <td><p v-if="report.tutorService">{{ report.tutorService.name }}</p></td>
-    <td>{{ report.status }}</td>
-    <td ><p v-if="!showAdminProps">{{ getRevenue() }}</p></td>
-    <td ><p v-if="showAdminProps"> {{ report.type }}</p></td>
+    <td><p>{{ report.appointment.duration }} days</p></td>
+    <td><p>{{ report.payedPrice }}</p></td>
+    <td><p v-if="report.appointment.user"> {{ report.appointment.user.name }} {{ report.appointment.user.surname }}</p></td>
+    <td><p v-if="report.appointment.tutorService">{{ report.appointment.tutorService.name }}</p></td>
+    <td>{{ report.appointment.status }}</td>
+    <td v-if="report.appointment.status=='SUCCESSFUL'" ><p>{{ Math.round(report.ownerRevenue * 100) / 100 }}</p></td>
+    <td v-if="report.appointment.status=='CANCELED'" ><p  >{{ Math.round(report.canceledAppointmentOwnerRevenue * 100) / 100 }}</p></td>
+    <td ><p > {{ report.systemRevenue }}</p></td>
+    <td><p v-if="showAdminReport"> {{ report.appointment.owner.name }} {{ report.appointment.owner.surname }}</p></td>
+    
   </tr>
 </template>
 <script>
@@ -20,24 +23,19 @@ export default {
       appellant: {},
       appelle: {},
       adminResponse: {},
-      showAdminProps:false
+      showAdminReport:false
     };
   },
   mounted() {
-    this.showAdminReport()
+    this.showAdminReport=localStorage.roles.includes("ROLE_ADMIN")
+   
   },
   methods: {
-    showAdminReport(){
-      if (localStorage.roles.includes("ROLE_ADMIN")) {
-          this.showAdminProps=true;
-      }
-    },
     getDate() {
-      return moment(this.report.start).format("DD-MM-YYYY");
+      return moment(this.report.appointment.period.startDate).format("DD-MM-YYYY");
     },
     getRevenue() {
-      this.showAdminReport();
-       if(!this.showAdminProps){
+       if(!this.showAdminReport){
 
       if ((this.report.status == "PENDING")) return 0;
       if ((this.report.status == "CANCELED"))

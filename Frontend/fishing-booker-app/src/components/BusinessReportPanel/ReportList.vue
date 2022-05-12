@@ -4,7 +4,16 @@
       <div class="xs3 pa1">
         <div class="white py3">
           <p>
-            Total revenue: <b>{{ report.revenue }}</b>
+            Total revenue: <b v-if="showAdminReport">{{ report.totalSystemRevenue }}</b>
+             <b v-if="!showAdminReport">{{ report.totalOwnerRevenue }}</b>
+          </p>
+        </div>
+      </div>
+      
+      <div class="xs3 pa1">
+        <div class="white py3">
+          <p>
+            Average appointment price: <b>{{ Math.round(report.avgPriceOfAppointment * 100) / 100 }}</b>
           </p>
         </div>
       </div>
@@ -12,11 +21,18 @@
       <div class="xs3 pa1">
         <div class="white py3">
           <p>
-            Total appointments: <b>{{ report.numberOfAppointments }}</b>
+            Total number of appointments: <b>{{ report.totalNumberOfAppointments }}</b>
           </p>
         </div>
       </div>
 
+    <div class="xs3 pa1">
+        <div class="white py3">
+          <p>
+            Total number of completed appointments: <b>{{ report.completedAppointments.length }}</b>
+          </p>
+        </div>
+      </div>
       <div class="xs3 pa1">
         <div class="white py3">
           <p>
@@ -38,7 +54,7 @@
 
     <w-flex justify-end class="pa3" style="padding: 0% 20%">
       <w-input type="date" v-model="period.startDate"> </w-input>
-      <w-input type="date" v-model="period.endDate"> </w-input>
+      <w-input type="date" v-model="period.endDate" :min="period.startDate" > </w-input>
       <w-button @click="getReport">CREATE REPORT</w-button>
     </w-flex>
     <custom-table
@@ -60,13 +76,14 @@ export default {
   data() {
     return {
       headers: [
-        "DATE",
-        "DURATION",
-        "PRICE",
-        "CLIENT",
-        "SERVICE",
-        "STATUS",
-        "REVENUE",""
+       "DATE",
+            "DURATION",
+            "PRICE",
+            "CLIENT",
+            "SERVICE",
+            "STATUS",
+            "SERVICE OWNER REVENUE",
+            "SYSTEM REVENUE",
       ],
       data: [],
       row: ReportItemRow,
@@ -85,46 +102,29 @@ export default {
     };
   },
   mounted() {
-    if (localStorage.roles.includes("ROLE_ADMIN"))
-    this.headers = [
-            "DATE",
-            "DURATION",
-            "PRICE",
-            "CLIENT",
-            "SERVICE",
-            "STATUS",
-            "TYPE",""
-          ]
+    if (localStorage.roles.includes("ROLE_ADMIN")){
+      this.headers.push("Owner")
+      this.showAdminReport=true
+    }
   },
   methods: {
     getReport() {
-      if (localStorage.roles) {
-        if (localStorage.roles.includes("ROLE_TUTOR")) {
-          this.$axios
+      if (!localStorage.roles) {alert("NO ACCESS");return;}
+      let requestApi=''
+      if (localStorage.roles.includes("ROLE_TUTOR")) requestApi="api/business-report/me" 
+      if (localStorage.roles.includes("ROLE_ADMIN")) requestApi="api/business-report" 
+      this.$axios
             .get(
-              `${config.apiStart}/api/business-report/tutor/appointments/me?startDate=${this.period.startDate}&endDate=${this.period.endDate}`
+              `${config.apiStart}/${requestApi}?startDate=${this.period.startDate}&endDate=${this.period.endDate}`
             )
             .then((resp) => {
-              this.data = resp.data.appointments;
+              console.log(resp.data);
+              this.data = resp.data.completedAppointments;
               this.report = { ...this.report, ...resp.data };
               this.showReport = true;
-            });
-        } else if(localStorage.roles.includes("ROLE_ADMIN")) {
-          
-            this.$axios
-              .get(
-                `${config.apiStart}/api/business-report/appointments?startDate=${this.period.startDate}&endDate=${this.period.endDate}`
-              )
-              .then((resp) => {
-                this.data = resp.data.appointments;
-                this.report = { ...this.report, ...resp.data };
-                this.showReport = true;
-              });
-        }
-      } else {
-        alert("NO ACCESS");
-      }
-    },
-  },
+            });  
+      
+    
+  }},
 };
 </script>
