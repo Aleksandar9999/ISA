@@ -25,6 +25,10 @@ public class AppointmentReport {
 	public AppointmentReport() {
 	}
 
+	public AppointmentReport(Appointment appointment) {
+		this.appointment = appointment;
+	}
+
 	@JsonIgnore
 	public User getServiceOwner() {
 		return appointment.getOwner();
