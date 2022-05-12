@@ -4,13 +4,13 @@ import java.sql.Date;
 
 import java.util.List;
 
-import com.isa.FishingBooker.model.Appointment;
-import com.isa.FishingBooker.model.BoatAppointment;
-import com.isa.FishingBooker.model.ResortAppointment;
-import com.isa.FishingBooker.model.TutorServiceAppointment;
+import com.isa.FishingBooker.model.*;
 
 public interface AppointmentService extends Service<Appointment> {
 	public void finishAppointment(Integer id);
+	public List<CompletedAppointment> getAllCompletedAppointmentsInPeriod(Date start,Date end);
+	public List<CompletedAppointment> getAllCompletedAppointmentsInPeriodByTutorId(int tutorId,Date start,Date end);
+
 	public List<Appointment> getAllInPeriod(Date start,Date end);
 	public List<ResortAppointment> getResortApointments();
 	public List<BoatAppointment> getBoatApointments();

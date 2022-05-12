@@ -66,12 +66,24 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 		saveCompletedAppointment(appointment);
 	}
 
+	@Override
+	public List<CompletedAppointment> getAllCompletedAppointmentsInPeriod(java.sql.Date start, java.sql.Date end) {
+		return completeAppointmentRepository.getAllInPeriod(start,end);
+	}
+
+	@Override
+	public List<CompletedAppointment> getAllCompletedAppointmentsInPeriodByTutorId(int tutorId, java.sql.Date start, java.sql.Date end) {
+		return completeAppointmentRepository.getAllInPeriodByTutorId(tutorId,start,end);
+	}
+
 	@Transactional
 	private void saveCompletedAppointment(Appointment appointment) {
-		double ownerRevenueProcentage = this.userCategoryService
+		double ownerRevenuePercentage = this.userCategoryService
 				.findOwnerRevenueProcentage(appointment.getOwner().getPoints());
-		CompletedAppointment completedAppointment = new CompletedAppointment(appointment, ownerRevenueProcentage,
-				appointment.getPrice(), systemDataService.findCurrentlyActive().getProcentage());
+
+		CompletedAppointment completedAppointment = new CompletedAppointment(appointment, ownerRevenuePercentage,
+				appointment.getPrice(), systemDataService.findCurrentlyActive().getProcentage(),appointment.getCancelPercentage());
+
 		completeAppointmentRepository.save(completedAppointment);
 	}
 

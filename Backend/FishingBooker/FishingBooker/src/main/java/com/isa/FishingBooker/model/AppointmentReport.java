@@ -25,6 +25,10 @@ public class AppointmentReport {
 	public AppointmentReport() {
 	}
 
+	public AppointmentReport(Appointment appointment) {
+		this.appointment = appointment;
+	}
+
 	@JsonIgnore
 	public User getServiceOwner() {
 		return appointment.getOwner();
@@ -96,8 +100,4 @@ public class AppointmentReport {
 		this.response = response;
 	}
 
-	public AppointmentReport setAppointmentId(int appointmentId) {
-		this.appointment = new Appointment(appointmentId);
-		return this;
-	}
 }

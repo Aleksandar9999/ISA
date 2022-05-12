@@ -57,8 +57,8 @@ public class EmailService {
 	public void sendAppointmentReportRejectedNotification(User user, String reason) {
 		String mailContent = String.format(
 				"Dear %s,\nWe rejected your report.\n\nReason:%s\nBest regards,\nFishingBooker App Team",
-				user.getName());
-		this.sendCustomEmail(user.getEmail(), "Penalty count update", mailContent);
+				user.getName(),reason);
+		this.sendCustomEmail(user.getEmail(), "Appointment report rejected", mailContent);
 	}
 
 	@Async

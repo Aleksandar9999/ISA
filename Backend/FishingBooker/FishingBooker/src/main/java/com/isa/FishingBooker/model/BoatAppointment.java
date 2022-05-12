@@ -17,6 +17,11 @@ public class BoatAppointment extends Appointment {
 		super(id);
 	}
 
+	@Override
+	public double getCancelPercentage() {
+		return 0;
+	}
+
 	public Boat getBoat() {
 		return boat;
 	}
@@ -28,5 +33,10 @@ public class BoatAppointment extends Appointment {
 	public User getOwner() {
 		return boat.getBoatOwner();
 	}
-	
+
+	@Override
+	public double getPriceCanceled() {
+		return 0;
+	}
+
 }

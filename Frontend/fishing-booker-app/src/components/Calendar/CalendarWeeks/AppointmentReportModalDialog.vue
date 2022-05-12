@@ -9,16 +9,6 @@
       title-class="backgorund-color: green;"
     >
       <template #title> Appointment report </template>
-
-      <w-flex wrap class="text-center">
-        <div class="xs6 pa1">
-          <p>Comment:</p>
-        </div>
-        <div class="xs6 pa1">
-          <w-input name="comment" type="text" v-model="report.comment"> </w-input>
-        </div>
-      </w-flex>
-
       <w-flex wrap class="text-center">
         <div class="xs6 pa1">
           <p>Report type:</p>
@@ -32,6 +22,17 @@
           </select>
         </div>
       </w-flex>
+      
+      <w-flex wrap class="text-center" v-if="type=='bad-comment'">
+        <div class="xs6 pa1">
+          <p>Comment:</p>
+        </div>
+        <div class="xs6 pa1">
+          <w-input name="comment" type="text" v-model="report.comment"> </w-input>
+        </div>
+      </w-flex>
+
+     
       <template #actions>
         <div class="spacer" />
         <w-button class="mr2" @click="hideDialog(false)" bg-color="error">

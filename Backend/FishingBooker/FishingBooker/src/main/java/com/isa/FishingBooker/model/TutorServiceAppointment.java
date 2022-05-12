@@ -24,7 +24,12 @@ public class TutorServiceAppointment extends Appointment {
 	public TutorServiceAppointment(int id) {
 		super(id);
 	}
-	
+
+	@Override
+	public double getCancelPercentage() {
+		return tutorService.getCancelProcentage();
+	}
+
 	public TutorService getTutorService() {
 		return tutorService;
 	}

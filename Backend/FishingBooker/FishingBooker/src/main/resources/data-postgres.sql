@@ -37,11 +37,11 @@ insert into resort (name, description, address_id, num_of_rooms, num_of_beds, ru
 insert into service_price (number_of_days, price) values (1,1500);
 insert into service_price (number_of_days, price) values (5,5000);
 insert into service_price (number_of_days, price) values (10,15000);
-
 insert into service_price (number_of_days, price) values (1,1500);
 
 insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status,tutor_bio) values ('One-day fishing','One day tour accross lake with fishing on most active fishing localities.', 9, 'No smoking. No alcohol.', 'Clients equipment required', 0, 4, 4, 5,'CONFIRMED','Tutor with 20 years of expirience. Great knower of Danube Backa coast and fish.');
 insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status,tutor_bio) values ('Three-day fishing','Three day tour accross lake with camping and fishing on most active fishing localities.', 5, 'No smoking. No alcohol.', 'Clients equipment for camping and fishing required', 0, 4, 4, 4,'CONFIRMED','Tutor with 20 years of expirience. Great knower of Danube Backa coast and fish.');
+--abrkljac9
 insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status,tutor_bio) values ('Danube fishing','One day tour accross Danube with fishing on most active fishing spots.', 7, 'No smoking. No alcohol.', 'Clients equipment required', 0, 6, 6, 5,'CONFIRMED','Tutor with 20 years of expirience. Great knower of Danube Backa coast and fish.');
 insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status,tutor_bio) values ('Danube camping','Three day tour accross Novi Sad Danube coast with camping and fishing on most active fishing spots.', 3, 'No smoking. No alcohol.', 'Clients equipment for camping and fishing required', 0, 6, 6, 4,'CONFIRMED','Tutor with 20 years of expirience. Great knower of Danube Backa coast and fish.');
 
@@ -91,14 +91,14 @@ insert into period (start_date, end_date) values('2021-08-03 11:00:00','2021-08-
 insert into period (start_date, end_date) values('2021-09-04 13:00:00','2021-09-18 13:00:00');
 insert into period (start_date, end_date) values('2021-10-04 12:00:00','2021-10-11 13:00:00');
 insert into period (start_date, end_date) values('2021-11-15 12:00:00','2021-11-27 13:00:00');
-insert into period (start_date, end_date) values('2021-12-01 13:00:00','2021-12-15 13:00:00');
-insert into period (start_date, end_date) values('2022-05-01 11:00:00','2022-05-12 13:00:00');
+insert into period (start_date, end_date) values('2022-04-05 13:00:00','2022-04-15 13:00:00');
+insert into period (start_date, end_date) values('2022-05-01 11:00:00','2022-05-12 13:00:00'); --26
 insert into period (start_date, end_date) values('2022-01-04 13:00:00','2022-01-18 13:00:00');
 insert into period (start_date, end_date) values('2022-02-04 12:00:00','2022-02-11 13:00:00');
 insert into period (start_date, end_date) values('2022-02-15 12:00:00','2022-02-27 13:00:00');
 
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, resort_id,status) values ('ResortAppointment', 15, 7, 'No additional services.', 500.00, 'RESORT', 4, 1,'SUCCESSFUL');
-insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, tutor_service_id,status) values ('TutorServiceAppointment', 16, 7, 'No additional services.', 900.00, 'TUTORSERVICE', 5, 1,'SUCCESSFUL');
+insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, tutor_service_id,user_id,status) values ('TutorServiceAppointment', 25, 7, 'No additional services.', 2000.00, 'TUTORSERVICE', 5, 4,1,'SUCCESSFUL');
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,status) values ('BoatAppointment', 17, 5, 'No additional services.', 1500.00,'BOAT', 4, 1,'SUCCESSFUL');
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id, user_id,status) values ('BoatAppointment', 18, 8, 'No additional services.', 1200.00, 'BOAT', 5, 2,1,'CANCELED');
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, resort_id,status) values ('ResortAppointment', 19, 7, 'No additional services.', 400.00, 'RESORT', 4, 2,'SUCCESSFUL');
@@ -108,12 +108,13 @@ insert into appointment (dtype, period_id, max_person, additional_services, pric
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, resort_id, user_id,status) values ('ResortAppointment', 23, 7, 'No additional services.', 500.00, 'RESORT', 4, 1, 2,'SUCCESSFUL');
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, tutor_service_id, user_id,status) values ('TutorServiceAppointment', 24, 7, 'No additional services.', 900.00, 'TUTORSERVICE', 4, 1, 1,'CANCELED');
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, resort_id, user_id,status) values ('ResortAppointment', 25, 7, 'No additional services.', 1500.00, 'RESORT', 4, 2, 1,'SUCCESSFUL');
-insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, tutor_service_id, user_id,status) values ('TutorServiceAppointment', 26, 7, 'No additional services.', 1400.00, 'TUTORSERVICE', 4, 4, 1,'SUCCESSFUL');
+insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, tutor_service_id, user_id,status) values ('TutorServiceAppointment', 26, 7, 'No additional services.', 1400.00, 'TUTORSERVICE', 4, 4, 1,'CANCELED');
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,status) values ('BoatAppointment', 27, 5, 'No additional services.', 1900.00,'BOAT', 4, 1,'SUCCESSFUL');
 
 insert into objection (appointment_id, objection, creator_id) values(12,'Zalba',1);
 
-
+INSERT INTO completed_appointment(canceled_percentage, owner_percentage, payed_price, system_percentage, appointment_id) VALUES (10.0, 70.0, 2000, 30, 2);
+INSERT INTO completed_appointment(canceled_percentage, owner_percentage, payed_price, system_percentage, appointment_id) VALUES (10.0, 70.0, 1400, 30, 12);
 --insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Amajic, Zapadna Srbija', 1000.0, 2, 1, 5);-->
 --insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Vrhpolje, Zapadna Srbija', 1200.0, 1, 2, 6);
 --insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Mali Zvornik, Zapadna Srbija', 800.0, 2, 3, 7);

@@ -14,18 +14,18 @@
         </div>
         <header-days ></header-days>
       </div>
-      <TasksTable :date="date" @createReportShow=createReportShow />
+      <AppointmentsTable :date="date" @createReportShow=createReportShow />
     </section>
     <AppointmentReportModalDialog :show=appointmentReportModalDialog.show :idAppointment=appointmentReportModalDialog.appointmentId @hideDialog=hideDialogReport />
   </div>
 </template>
 <script>
 import HeaderDays from "./HeaderDays.vue";
-import TasksTable from "./TasksTable.vue";
+import AppointmentsTable from "./AppointmentsTable.vue";
 import moment from 'moment'
 import AppointmentReportModalDialog from './AppointmentReportModalDialog.vue'
 export default {
-  components: { HeaderDays, TasksTable,AppointmentReportModalDialog },
+  components: { HeaderDays, AppointmentsTable,AppointmentReportModalDialog },
   data() {
     return {
       appointmentReportModalDialog:{

@@ -12,28 +12,31 @@ public class CompletedAppointment {
 	private Integer id;
 	@OneToOne
 	private Appointment appointment;
-	private double ownerProcentage;
+	private double ownerPercentage;
 	private double payedPrice;
-	private double systemProcentage;
-
+	private double systemPercentage;
+	private double canceledPercentage;
 	public CompletedAppointment() {
 	}
 
-	public CompletedAppointment(Appointment appointment, double ownerProcentage, double payedPrice,
-			double systemProcentage) {
+	public CompletedAppointment(Appointment appointment, double ownerPercentage, double payedPrice,
+								double systemPercentage,double canceledPercentage) {
 		super();
 		this.setAppointment(appointment);
-		this.ownerProcentage = ownerProcentage;
+		this.ownerPercentage = ownerPercentage;
 		this.payedPrice = payedPrice;
-		this.systemProcentage = systemProcentage;
+		this.systemPercentage = systemPercentage;
 	}
 
+	public double getCanceledAppointmentOwnerRevenue(){return this.payedPrice*(canceledPercentage / 100);}
+
 	public double getOwnerRevenue() {
-		return this.payedPrice * (ownerProcentage / 100);
+		return this.payedPrice * (ownerPercentage / 100);
 	}
 
 	public double getSystemRevenue() {
-		return this.payedPrice * (systemProcentage / 100);
+		if(appointment.getStatus().equals(AppointmentStatus.CANCELED)) return 0;
+		return this.payedPrice * (systemPercentage / 100);
 	}
 
 	public double getPayedPrice() {
