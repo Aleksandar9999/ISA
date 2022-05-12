@@ -24,7 +24,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment ,Intege
 	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.id=?1")
 	public TutorServiceAppointment getResortAppointmentById(Integer id);
 	
-	@Query("select a from Appointment a where TYPE(a)=ResortAppointment and a.id=?1")
+	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.id=?1")
 	public ResortAppointment getTutorServiceAppointmentById(Integer id);
 	
 	@Query("select a from Appointment a where TYPE(a)=BoatAppointment and a.id=?1")
@@ -62,8 +62,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment ,Intege
 	@Query(value="select * from Appointment where "
 			+ "(period.start_date, period.end_date) OVERLAPS (CAST(?1 as date), CAST(?2 as date))",nativeQuery = true)
 	public List<Appointment> getAllInPeriod(Date start,Date end);
-	@Query("select a from Appointment a where a.tutorService.id=?1 and a.status='PENDING'")
-	public List<Appointment> getAllPendingByTutorServiceId(int id);
+	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.tutorService.id=?1 and a.status='PENDING'")
+	public List<TutorServiceAppointment> getAllPendingByTutorServiceId(int id);
 	
 	@Transactional
 	@Modifying

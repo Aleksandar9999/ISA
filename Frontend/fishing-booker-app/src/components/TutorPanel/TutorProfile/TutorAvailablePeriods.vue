@@ -1,37 +1,18 @@
 <template>
   <div style="padding-top: 5%">
     <w-flex justify-end class="pa3" style="padding: 0% 20%">
-      <w-input type="date" v-model="newPeriod.startDate"> </w-input>
+      <w-input type="date" v-model="newPeriod.startDate" > </w-input>
       <w-input
         type="text"
         placeholder="12:00"
         v-model="newPeriod.startTime"
       ></w-input>
-      <w-input type="date" v-model="newPeriod.endDate"> </w-input>
+      <w-input type="date" v-model="newPeriod.endDate" :min="newPeriod.startDate" > </w-input>
       <w-input
         type="text"
         placeholder="12:00"
         v-model="newPeriod.endTime"
       ></w-input>
-      <w-flex wrap class="text-right">
-        <div class="xs6 pa1">
-          <select
-            name="services"
-            id="services"
-            v-model="selectedService"
-            @change="selectedServiceChange"
-          >
-            <option value="">Select service</option>
-            <option
-              v-for="service in services"
-              :key="service.id"
-              :value="service.id"
-            >
-              {{ service.name }}
-            </option>
-          </select>
-        </div>
-      </w-flex>
       <w-button @click="addNewPeriod">Add new</w-button>
     </w-flex>
     <CustomTable :dataList="data" :headerList="headers" :itemRow="itemRow" />
@@ -103,7 +84,7 @@ export default {
       });
       this.$axios
         .post(
-          `${config.apiStart}/api/tutor-services/${this.selectedService}/standard-periods`,
+          `${config.apiStart}/api/users/tutors/standard-periods`,
           {
             startDate: `${this.newPeriod.startDate} ${this.newPeriod.startTime}:00`,
             endDate: `${this.newPeriod.endDate} ${this.newPeriod.endTime}:00`,
@@ -116,7 +97,10 @@ export default {
           this.newPeriod.endTime = "";
           this.selectedService = "";
           this.fetchData();
-        });
+        })
+        .catch((err)=>{
+        alert(err.response.data.message)
+       });
     },
   },
 };

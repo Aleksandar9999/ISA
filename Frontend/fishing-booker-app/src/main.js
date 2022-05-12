@@ -9,6 +9,7 @@ import config from "./configuration/config"
 const app =createApp(App)
 app.use(router)
 axios.defaults.headers['Authorization']=config.requestHeader.headers.Authorization
+
 app.config.globalProperties.$axios=axios
 app.config.globalProperties.$firebaseStorage=storage
 new WaveUI(app, {})

@@ -17,4 +17,5 @@ public interface UsersService extends Service<User>, UserDetailsService {
 	public User EditUser(User user);
 	public User getUserProfileData();
 	public void resetAdminPassword(User user);
+	public void updateUserInfo(User item);
 }

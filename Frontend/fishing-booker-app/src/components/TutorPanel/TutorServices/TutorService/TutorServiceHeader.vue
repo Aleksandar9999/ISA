@@ -196,7 +196,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import config from '../../../../configuration/config';
 export default {
   props: ["service_info","tutorId","showNewAppointmentDialog","showAdminButton"],
@@ -233,11 +232,11 @@ export default {
     },
     save() {
       console.log(this.service_form);
-      axios.put(config.apiStart+"/api/tutor-services/"+this.service_form.id,this.service_form,config.requestHeader).then(resp=>
-      {this.service_form=resp.data;
-      alert("Updated");
-      }
-      )
+      this.$axios.put(config.apiStart+"/api/tutor-services/"+this.service_form.id,this.service_form,config.requestHeader)
+      .then(resp=>{this.service_form=resp.data; alert("Updated");})
+      .catch((err)=>{
+        alert(err.response.data.message)
+       })
     },
     nameChanged($event) {
       this.service_form.name = $event.data;

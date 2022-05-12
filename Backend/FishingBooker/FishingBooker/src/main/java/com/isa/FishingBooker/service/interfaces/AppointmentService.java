@@ -33,5 +33,5 @@ public interface AppointmentService extends Service<Appointment> {
 	public List<String> getAdditionalServicesForBoat(Integer boatId);
 	public List<java.util.Date> getBoatPeriods(Integer boatId);
 	public void addNewTutorServiceAppointmentFromDiscount(TutorServiceAppointment app);
-	public List<Appointment> getAllPendingByTutorServiceId(int id);
+	public List<TutorServiceAppointment> getAllPendingByTutorServiceId(int id);
 }

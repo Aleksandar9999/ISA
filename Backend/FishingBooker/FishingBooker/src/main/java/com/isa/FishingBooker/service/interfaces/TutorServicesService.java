@@ -16,7 +16,7 @@ public interface TutorServicesService extends Service<TutorService>{
 	public List<TutorService> getAllValidByTutor(int tutorId);
 	public void addPhoto(int idservice, Photo photo);
 	public void deletePhoto(int idservice, int idphoto);
-	public void addNewStandardPeriod(int idservice, Period period);
+	public void addNewStandardPeriod(int idTutor, Period period);
 	public List<Period> getAllAvailablePeriodsByTutor(int idtutor);
 	public void addNewSubscriber(int serviceId, User loggedinUser);
 	public void removeSubscriber(int serviceId, User loggedinUser);

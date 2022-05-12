@@ -20,7 +20,7 @@
 import axios from "axios";
 import config from "../../../configuration/config";
 export default {
-  props: ["item"],
+  props: ["item", "showAdminButton"],
   data() {
     return {
       item_local: {},
@@ -30,6 +30,7 @@ export default {
     };
   },
   mounted() {
+    this.showDeleteButton();
     this.$axios.get(`${config.apiStart}/api/revision/tutor-service/${this.item.id}/rate`).then((resp)=>
       this.rate=resp.data
     );
@@ -38,7 +39,7 @@ export default {
     showDeleteButton() {
       if (!localStorage.roles) return;
       if (!localStorage.roles.includes("ROLE_TUTOR")) return;
-      if (localStorage.id == this.idtutor) this.showAdminButtons = true;
+      if (localStorage.id == this.$route.params.idtutor) this.showAdminButtons = true;
     },
     deleteService() {
       if (confirm("Do you really want to delete your service?")) {
@@ -50,6 +51,9 @@ export default {
           .then(() => {
             alert(this.item_local.name + " deleted");
             this.$emit("tutorServiceDeleted", true);
+          })
+          .catch((err)=>{
+            alert(err.response.data.message)
           });
       }
     },

@@ -1,14 +1,8 @@
 package com.isa.FishingBooker.service;
 
+import com.isa.FishingBooker.exceptions.PendingAppointmentExistException;
 import com.isa.FishingBooker.exceptions.PeriodOverlapException;
-import com.isa.FishingBooker.model.Appointment;
-import com.isa.FishingBooker.model.DiscountOffer;
-import com.isa.FishingBooker.model.Period;
-import com.isa.FishingBooker.model.Photo;
-import com.isa.FishingBooker.model.Status;
-import com.isa.FishingBooker.model.Tutor;
-import com.isa.FishingBooker.model.TutorService;
-import com.isa.FishingBooker.model.User;
+import com.isa.FishingBooker.model.*;
 import com.isa.FishingBooker.repository.TutorServiceRepository;
 import com.isa.FishingBooker.service.interfaces.AppointmentService;
 import com.isa.FishingBooker.service.interfaces.TutorServicesService;
@@ -24,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class TutorServicesServiceImpl extends CustomGenericService<TutorService> implements TutorServicesService {
 
@@ -32,7 +28,7 @@ public class TutorServicesServiceImpl extends CustomGenericService<TutorService>
 
 	@Autowired
 	private EmailService emailService;
-	
+
 	@Autowired
 	private AppointmentService appointmentService;
 
@@ -46,7 +42,7 @@ public class TutorServicesServiceImpl extends CustomGenericService<TutorService>
 	public void delete(int id) {
 		TutorService service = this.getById(id);
 		service.setStatus(Status.DELETED);
-		this.update(service);
+		this.updateInfo(service);
 	}
 	
 	@Override
@@ -78,14 +74,15 @@ public class TutorServicesServiceImpl extends CustomGenericService<TutorService>
 		this.update(tutorService);
 	}
 
+	@Transactional
 	@Override
-	public void addNewStandardPeriod(int idservice, Period newPeriod) {
-		TutorService tutorService = this.getById(idservice);
-		tutorService.getTutor().getAvailable().forEach(period->{
+	public void addNewStandardPeriod(int idTutor, Period newPeriod) {
+		Tutor tutor=usersService.getTutorById(idTutor);
+		tutor.getAvailable().forEach(period->{
 				period.overlap(newPeriod);		
 		});
-		tutorService.getTutor().addAvailablePeriod(newPeriod);
-		this.update(tutorService);
+		tutor.addAvailablePeriod(newPeriod);
+		usersService.update(tutor);
 	}
 
 	@Override
@@ -138,10 +135,9 @@ public class TutorServicesServiceImpl extends CustomGenericService<TutorService>
 	}
 	@Override
 	public void updateInfo(TutorService newInfo) {
-		List<Appointment> appointments=this.appointmentService.getAllPendingByTutorServiceId(newInfo.getId());
-		if(appointments.isEmpty()) {
-			this.update(newInfo);
-		}
+		List<TutorServiceAppointment> appointments=this.appointmentService.getAllPendingByTutorServiceId(newInfo.getId());
+		if(!appointments.isEmpty()) throw new PendingAppointmentExistException();
+		this.update(newInfo);
 	}
 	
 	@Async

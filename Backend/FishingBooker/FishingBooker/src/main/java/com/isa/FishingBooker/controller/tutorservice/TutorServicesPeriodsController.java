@@ -39,11 +39,10 @@ public class TutorServicesPeriodsController {
 		return ResponseEntity.status(200).body(tutorServicesService.getAllAvailablePeriodsByTutor(idtutor));
 	}
 
-	@PostMapping("api/tutor-services/{idservice}/standard-periods")
 	@PreAuthorize("hasRole('TUTOR')")
-	public ResponseEntity<?> addTutorServiceStandardPeriod(@RequestBody Period period,
-			@PathVariable("idservice") int idservice) {
-		tutorServicesService.addNewStandardPeriod(idservice, period);
+	@PostMapping("api/users/tutors/standard-periods")
+	public ResponseEntity<?> addTutortandardPeriod(@RequestBody Period period) {
+		tutorServicesService.addNewStandardPeriod(UsersController.getLoggedInUserId(), period);
 		return ResponseEntity.ok(period);
 	}
 

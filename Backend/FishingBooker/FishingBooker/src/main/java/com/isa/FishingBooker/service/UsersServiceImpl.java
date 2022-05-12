@@ -4,39 +4,44 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.isa.FishingBooker.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.isa.FishingBooker.dto.UserConfirmationDTO;
 import com.isa.FishingBooker.exceptions.EmailExistException;
 import com.isa.FishingBooker.exceptions.EmailNotConfirmedException;
-import com.isa.FishingBooker.model.Admin;
-import com.isa.FishingBooker.model.Status;
-import com.isa.FishingBooker.model.Tutor;
-import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.UserRepository;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
 import com.isa.FishingBooker.service.interfaces.RoleService;
 import com.isa.FishingBooker.service.interfaces.UsersService;
 
+import javax.transaction.Transactional;
+
 @Service
 public class UsersServiceImpl extends CustomGenericService<User> implements UsersService {
-	@Autowired
-	private EmailService emailService;
-	
+
 	@Autowired
 	private RoleService roleService;
-	public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
+
+	@Autowired
+	private EmailService emailService;
+
+	public final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
 			Pattern.CASE_INSENSITIVE);
 
 	@Override
 	public void update(User item) {
+		super.update(item);
+	}
+
+	@Override
+	public void updateUserInfo(User item){
 		User user = this.getById(item.getId());
 		user.updateUserInfo(item);
-		super.update(user);
+		this.update(user);
 	}
 
 	@Override
@@ -82,12 +87,20 @@ public class UsersServiceImpl extends CustomGenericService<User> implements User
 			return user;
 		}
 	}
-
+	@Transactional
 	@Override
 	public void delete(Integer id) {
 		User user = this.getById(id);
+		deleteServices(user);
 		user.setStatus(Status.DELETED);
 		super.update(user);
+	}
+
+	@Transactional
+	private void deleteServices(User user) {
+		if(user instanceof Tutor){
+			((Tutor)user).getServices().forEach(ts->{ts.setStatus(Status.DELETED);});
+		}
 	}
 
 	@Override
@@ -107,7 +120,7 @@ public class UsersServiceImpl extends CustomGenericService<User> implements User
 	public void resetAdminPassword(User user) {
 		Admin admin = (Admin) this.getById(user.getId());
 		admin.resetPassword(user.getPassword());
-		repository.save(admin);
+		this.update(admin);
 	}
 
 	private void setUserRoles(User item) {

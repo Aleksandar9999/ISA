@@ -353,7 +353,7 @@ export default {
           )
         } else if(this.tabType==='tutors'){
           this.dataList=[];
-          axios.get('http://localhost:8080/api/users/tutors/services').then(response =>
+          axios.get('http://localhost:8080/api/tutor-services/valid ').then(response =>
           this.fillDataLists(response)
           )
           

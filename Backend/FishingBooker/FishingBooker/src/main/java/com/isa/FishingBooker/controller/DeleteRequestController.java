@@ -1,6 +1,8 @@
 package com.isa.FishingBooker.controller;
 
+import com.isa.FishingBooker.exceptions.DeleteRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,9 +39,12 @@ public class DeleteRequestController {
 	@PostMapping("api/delete-request")
 	public ResponseEntity<?> createDeleteProfileRequest(@RequestBody DeleteRequestDTO dto) {
 		DeleteRequest request = mapper.convertToEntity(dto);
-		User user = userService.getById(getLoggedInUserId());
-		request.setUser(user);
-		service.addNew(request);
+		request.setUser(new User(getLoggedInUserId()));
+		try{
+			service.addNew(request);
+		}catch (DeleteRequestException ex){
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+		}
 		return ResponseEntity.ok(mapper.convertToDto(request));
 	}
 	

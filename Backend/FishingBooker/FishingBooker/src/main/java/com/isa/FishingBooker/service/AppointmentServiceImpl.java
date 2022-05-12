@@ -529,7 +529,7 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 	}
 
 	@Override
-	public List<Appointment> getAllPendingByTutorServiceId(int id) {
+	public List<TutorServiceAppointment> getAllPendingByTutorServiceId(int id) {
 		return ((AppointmentRepository) repository).getAllPendingByTutorServiceId(id);
 	}
 
