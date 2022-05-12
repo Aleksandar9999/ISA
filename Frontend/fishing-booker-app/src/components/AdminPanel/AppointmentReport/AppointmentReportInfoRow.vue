@@ -12,7 +12,7 @@
       </select>
     </td>
     <td>
-      <w-button style="margin: 0px 0px 0px 15px;" bg-color="info" @click="moreInfo" v-if="report.status!='CONFIRMED' ">More info</w-button>
+      <w-button style="margin: 0px 0px 0px 15px;" bg-color="info" @click="moreInfo" v-if="report.adminResponded.name">More info</w-button>
       <w-button style="margin: 0px 0px 0px 15px;" bg-color="success" @click="save" v-if="report.status!='CONFIRMED'">Save</w-button>
     </td>
   </tr>
@@ -30,8 +30,8 @@ export default {
   },
   methods: {
       moreInfo(){
-        console.log(this.report)
-        alert(`Admin responded: ${this.report.adminResponded.name} ${this.report.adminResponded.surname}\nResponse: ${this.report.response}`)
+        if(this.report.adminResponded.name)
+          alert(`Admin responded: ${this.report.adminResponded.name} ${this.report.adminResponded.surname}\nResponse: ${this.report.response}`)
       },
       save(){
           this.$axios.put(`${config.apiStart}/api/appointment-report/bad-comment/${this.report.id}/${this.status}`,{reason:this.adminResponse}).then(()=>{

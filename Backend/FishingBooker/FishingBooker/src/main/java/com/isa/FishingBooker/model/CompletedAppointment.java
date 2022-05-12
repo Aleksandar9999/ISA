@@ -28,13 +28,14 @@ public class CompletedAppointment {
 		this.systemPercentage = systemPercentage;
 	}
 
-	public double getCanceledAppointmentOwnerRevenue(){return this.getPayedPrice()*this.canceledPercentage;}
+	public double getCanceledAppointmentOwnerRevenue(){return this.payedPrice*(canceledPercentage / 100);}
 
 	public double getOwnerRevenue() {
 		return this.payedPrice * (ownerPercentage / 100);
 	}
 
 	public double getSystemRevenue() {
+		if(appointment.getStatus().equals(AppointmentStatus.CANCELED)) return 0;
 		return this.payedPrice * (systemPercentage / 100);
 	}
 
