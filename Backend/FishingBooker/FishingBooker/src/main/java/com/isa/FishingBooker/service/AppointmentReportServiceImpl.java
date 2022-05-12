@@ -19,91 +19,96 @@ import com.isa.FishingBooker.service.interfaces.UsersService;
 
 @Service
 public class AppointmentReportServiceImpl extends CustomGenericService<AppointmentReport>
-		implements AppointmentReportService {
+        implements AppointmentReportService {
 
-	@Autowired
-	private EmailService emailService;
-	@Autowired
-	private UsersService userService;
-	@Autowired
-	private AppointmentService appointmentService;
-	@Autowired
-	private PointsSettingsService pointsSettingsService;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private UsersService userService;
+    @Autowired
+    private AppointmentService appointmentService;
+    @Autowired
+    private PointsSettingsService pointsSettingsService;
 
-	@Transactional
-	@Override
-	public void addNew(AppointmentReport item) {
-		item.setAppointment(appointmentService.getById(item.getAppointment().getId()));
-		appointmentService.finishAppointment(item.getAppointment().getId());
-		this.updateUsersPoints(item);
-		super.addNew(item);
-	}
+    @Transactional
+    @Override
+    public void addNew(AppointmentReport item) {
+        appointmentService.finishAppointment(item.getAppointment().getId());
+        this.updateUsersPoints(item);
+        super.addNew(item);
+    }
 
-	@Transactional
-	private void updateUsersPoints(AppointmentReport report) {
-		if (report.getType().equals(ReportType.GOOD))
-			pointsSettingsService.updateClientPoints(userService.getById(report.getClient().getId()));
-		pointsSettingsService.updateServiceOwnerPoints(userService.getById(report.getServiceOwner().getId()));
-	}
+    @Transactional
+    private void updateUsersPoints(AppointmentReport report) {
+        if (report.getType().equals(ReportType.GOOD))
+            pointsSettingsService.updateClientPoints(userService.getById(report.getClient().getId()));
+        pointsSettingsService.updateServiceOwnerPoints(userService.getById(report.getServiceOwner().getId()));
+    }
 
-	@Override
-	public void addBadCommentReport(AppointmentReport report) {
-		report.setStatusAndTypeOfReport(Status.PENDING, ReportType.BAD);
-		this.addNew(report);
-	}
+    @Override
+    public void addBadCommentReport(AppointmentReport report, int appointmentId) {
+        report.setStatusAndTypeOfReport(Status.PENDING, ReportType.BAD);
+        this.addNew(report);
+    }
 
-	@Override
-	public void addNotShopUpReport(AppointmentReport report) {
-		report.setStatusAndTypeOfReport(Status.CONFIRMED, ReportType.CLIENT_NOT_SHOW_UP);
-		report.setComment(report.getComment());
-		updateClientPenaltyCountAndNotify(report);
-		this.addNew(report);
-	}
+    @Override
+    public void addNotShopUpReport(AppointmentReport report, int appointmentId) {
+        report.setStatusAndTypeOfReport(Status.CONFIRMED, ReportType.CLIENT_NOT_SHOW_UP);
+        report.setComment(report.getComment());
+        updateClientPenaltyCountAndNotify(report);
+        this.addNew(report);
+    }
 
-	@Override
-	public void addOkCommentReport(AppointmentReport report) {
-		report.setStatusAndTypeOfReport(Status.CONFIRMED, ReportType.GOOD);
-		this.addNew(report);
-	}
+    @Override
+    public void addOkCommentReport(AppointmentReport report, int appointmentId) {
+        report.setStatusAndTypeOfReport(Status.CONFIRMED, ReportType.GOOD);
+        this.addNew(report);
+    }
 
-	@Override
-	public void acceptBadReport(int reportId, Admin admin) {
-		AppointmentReport report = super.getById(reportId);
-		this.updateReportStatus(report, Status.ADMIN_CONFIRMED, admin);
-		updateClientPenaltyCountAndNotify(report);
-		emailService.sendAppointmentReportAcceptedNotification(report.getAppointment().getOwner());
-	}
+    @Override
+    public void addNew(AppointmentReport report, int appointmentId) {
+        report.setAppointment(appointmentService.getById(appointmentId));
+        this.addNew(report);
+    }
 
-	private void updateClientPenaltyCountAndNotify(AppointmentReport report) {
-		Appointment appointment = appointmentService.getById(report.getAppointment().getId());
-		User client = appointment.getUser();
-		updateClientPenaltyCount(client);
-		emailService.sendPenaltyUpdateNotification(client, report.getComment());
-	}
+    @Override
+    public void acceptBadReport(int reportId, Admin admin) {
+        AppointmentReport report = super.getById(reportId);
+        this.updateReportStatus(report, Status.ADMIN_CONFIRMED, admin);
+        updateClientPenaltyCountAndNotify(report);
+        emailService.sendAppointmentReportAcceptedNotification(report.getAppointment().getOwner());
+    }
 
-	private void updateClientPenaltyCount(User client) {
-		client.addPenalty(pointsSettingsService.findActive().getPenalty());
-		userService.update(client);
-	}
+    private void updateClientPenaltyCountAndNotify(AppointmentReport report) {
+        Appointment appointment = appointmentService.getById(report.getAppointment().getId());
+        User client = appointment.getUser();
+        updateClientPenaltyCount(client);
+        emailService.sendPenaltyUpdateNotification(client, report.getComment());
+    }
 
-	@Override
-	public void rejectBadReport(int reportId, String reason, Admin admin) {
-		AppointmentReport report = super.getById(reportId);
-		report.setResponse(reason);
-		this.updateReportStatus(report, Status.REJECTED, admin);
-		User owner = report.getAppointment().getOwner();
-		emailService.sendAppointmentReportRejectedNotification(owner, reason);
-	}
+    private void updateClientPenaltyCount(User client) {
+        client.addPenalty(pointsSettingsService.findActive().getPenalty());
+        userService.update(client);
+    }
 
-	private AppointmentReport updateReportStatus(AppointmentReport report, Status status, Admin admin) {
-		report.setAdminResponded(admin);
-		report.setStatus(status);
-		this.update(report);
-		return report;
-	}
+    @Override
+    public void rejectBadReport(int reportId, String reason, Admin admin) {
+        AppointmentReport report = super.getById(reportId);
+        report.setResponse(reason);
+        this.updateReportStatus(report, Status.REJECTED, admin);
+        User owner = report.getAppointment().getOwner();
+        emailService.sendAppointmentReportRejectedNotification(owner, reason);
+    }
 
-	@Override
-	public AppointmentReport getByAppointmentId(int id) {
-		return ((AppointmentReportRepository) repository).getByAppointmentId(id);
-	}
+    private AppointmentReport updateReportStatus(AppointmentReport report, Status status, Admin admin) {
+        report.setAdminResponded(admin);
+        report.setStatus(status);
+        this.update(report);
+        return report;
+    }
+
+    @Override
+    public AppointmentReport getByAppointmentId(int id) {
+        return ((AppointmentReportRepository) repository).getByAppointmentId(id);
+    }
 }

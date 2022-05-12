@@ -58,9 +58,10 @@ public interface AppointmentRepository extends JpaRepository<Appointment ,Intege
 			+ "where a.dtype='TutorServiceAppointment' and ts.tutor_id=?1 and "
 			+ "(ps.start_date, ps.end_date) OVERLAPS (CAST(?2 as date), CAST(?3 as date))",nativeQuery = true)
 	public List<TutorServiceAppointment> getAllByTutorAndPeriod(int tutorId, Date start,Date end);
-	
-	@Query(value="select * from Appointment where "
-			+ "(period.start_date, period.end_date) OVERLAPS (CAST(?1 as date), CAST(?2 as date))",nativeQuery = true)
+
+	@Query(value="select * from appointment app "
+			+ "INNER JOIN period pe on app.period_id=pe.id  "
+			+ "where (pe.start_date, pe.end_date) OVERLAPS (CAST(?1 as date), CAST(?2 as date))",nativeQuery = true)
 	public List<Appointment> getAllInPeriod(Date start,Date end);
 	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment and a.tutorService.id=?1 and a.status='PENDING'")
 	public List<TutorServiceAppointment> getAllPendingByTutorServiceId(int id);

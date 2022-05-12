@@ -96,8 +96,4 @@ public class AppointmentReport {
 		this.response = response;
 	}
 
-	public AppointmentReport setAppointmentId(int appointmentId) {
-		this.appointment = new Appointment(appointmentId);
-		return this;
-	}
 }

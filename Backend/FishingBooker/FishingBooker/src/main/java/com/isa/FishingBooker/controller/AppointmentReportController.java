@@ -32,7 +32,7 @@ public class AppointmentReportController {
 	@PreAuthorize("hasRole('TUTOR')")
 	@PostMapping(api + "/bad-comment")
 	public ResponseEntity<?> addBadCommentReport(@RequestBody AppointmentReportDTO report) {
-		service.addBadCommentReport(mapper.convertToEntity(report));
+		service.addBadCommentReport(mapper.convertToEntity(report),report.getAppointmentId());
 		return ResponseEntity.ok().build();
 	}
 
@@ -40,7 +40,7 @@ public class AppointmentReportController {
 	@PreAuthorize("hasRole('TUTOR')")
 	@PostMapping(api + "/not-show-up")
 	public ResponseEntity<?> addNotShopUpReport(@RequestBody AppointmentReportDTO report) {
-		service.addNotShopUpReport(mapper.convertToEntity(report));
+		service.addNotShopUpReport(mapper.convertToEntity(report),report.getAppointmentId());
 		return ResponseEntity.ok().build();
 	}
 
@@ -48,7 +48,7 @@ public class AppointmentReportController {
 	@PreAuthorize("hasRole('TUTOR')")
 	@PostMapping(api + "/ok-comment")
 	public ResponseEntity<?> addOkCommentReport(@RequestBody AppointmentReportDTO report) {
-		service.addOkCommentReport(mapper.convertToEntity(report));
+		service.addOkCommentReport(mapper.convertToEntity(report),report.getAppointmentId());
 		return ResponseEntity.ok().build();
 	};
 

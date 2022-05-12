@@ -18,136 +18,130 @@ import javax.persistence.OneToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Appointment {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	@OneToOne(cascade = CascadeType.ALL)
-	private Period period;
-	private int maxPerson;
-	private String additionalServices;
-	private double price;
-	@Enumerated(EnumType.STRING)
-	private AppointmentType appointType;
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "address_id")
-	private Address address;
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
-	@Enumerated(EnumType.STRING)
-	private AppointmentStatus status;
+public abstract class Appointment{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Period period;
+    private int maxPerson;
+    private String additionalServices;
+    private double price;
+    @Enumerated(EnumType.STRING)
+    private AppointmentType appointType;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "address_id")
+    private Address address;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @Enumerated(EnumType.STRING)
+    private AppointmentStatus status;
 
-	public Appointment() {
-		this.status = AppointmentStatus.PENDING;
-	}
+    public Appointment() {
+        this.status = AppointmentStatus.PENDING;
+    }
 
-	public Appointment(int id) {
-		this.id = id;
-	}
+    public Appointment(int id) {
+        this.id = id;
+    }
 
-	@JsonIgnore
-	public User getOwner() {
-		return null;
-	}
+    public void setDuration(Period duration) {
+        this.period = duration;
+    }
+    public abstract double getCancelPercentage();
+    public abstract User getOwner();
+    public abstract double getPriceCanceled();
+    public Period getPeriod() {
+        return period;
+    }
 
-	public void setDuration(Period duration) {
-		this.period = duration;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	@JsonIgnore
-	public double getPriceCanceled() {
-		return -1;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public Period getPeriod() {
-		return period;
-	}
+    public int getMaxPerson() {
+        return maxPerson;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public void setMaxPerson(int maxPerson) {
+        this.maxPerson = maxPerson;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public String getAdditionalServices() {
+        return additionalServices;
+    }
 
-	public int getMaxPerson() {
-		return maxPerson;
-	}
+    public void setAdditionalServices(String additionalServices) {
+        this.additionalServices = additionalServices;
+    }
 
-	public void setMaxPerson(int maxPerson) {
-		this.maxPerson = maxPerson;
-	}
+    public double getPrice() {
+        return price;
+    }
 
-	public String getAdditionalServices() {
-		return additionalServices;
-	}
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
-	public void setAdditionalServices(String additionalServices) {
-		this.additionalServices = additionalServices;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public double getPrice() {
-		return price;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
+    public Address getAddress() {
+        return address;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @JsonIgnore
+    public boolean inPeriod(LocalDateTime date) {
+        LocalDateTime end = period.getEndDate().toLocalDateTime();
+        LocalDateTime startLocal = period.getStartDate().toLocalDateTime();
+        return (startLocal.isBefore(date) && end.isAfter(date)) || startLocal.toLocalDate().isEqual(date.toLocalDate())
+                || end.isEqual(date);
+    }
 
-	public Address getAddress() {
-		return address;
-	}
+    public AppointmentType getType() {
+        return appointType;
+    }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-	@JsonIgnore
-	public boolean inPeriod(LocalDateTime date) {
-		LocalDateTime end = period.getEndDate().toLocalDateTime();
-		LocalDateTime startLocal = period.getStartDate().toLocalDateTime();
-		return (startLocal.isBefore(date) && end.isAfter(date)) || startLocal.toLocalDate().isEqual(date.toLocalDate())
-				|| end.isEqual(date);
-	}
+    @JsonIgnore
+    public Timestamp getStart() {
+        return this.period.getStartDate();
+    }
 
-	public AppointmentType getType() {
-		return appointType;
-	}
-	@JsonIgnore
-	public Timestamp getStart() {
-		return this.period.getStartDate();
-	}
+    public int getDuration() {
+        return (int) this.period.getDurationInDays();
+    }
 
-	public int getDuration() {
-		return (int) this.period.getDurationInDays();
-	}
+    public void setType(AppointmentType appointType) {
+        this.appointType = appointType;
+    }
 
-	public void setType(AppointmentType appointType) {
-		this.appointType = appointType;
-	}
-	
-	public AppointmentType getAppointType() {
-		return appointType;
-	}
+    public AppointmentType getAppointType() {
+        return appointType;
+    }
 
-	public void setAppointType(AppointmentType appointType) {
-		this.appointType = appointType;
-	}
+    public void setAppointType(AppointmentType appointType) {
+        this.appointType = appointType;
+    }
 
-	public AppointmentStatus getStatus() {
-		return status;
-	}
+    public AppointmentStatus getStatus() {
+        return status;
+    }
 
-	public void setStatus(AppointmentStatus status) {
-		this.status = status;
-	}
+    public void setStatus(AppointmentStatus status) {
+        this.status = status;
+    }
 }

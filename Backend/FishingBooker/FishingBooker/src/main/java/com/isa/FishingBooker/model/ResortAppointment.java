@@ -22,6 +22,11 @@ public class ResortAppointment extends Appointment {
 		super(id);
 	}
 
+	@Override
+	public double getCancelPercentage() {
+		return 0;
+	}
+
 	public Resort getResort() {
 		return resort;
 	}
@@ -33,6 +38,11 @@ public class ResortAppointment extends Appointment {
 	@Override
 	public User getOwner() {
 		return resort.getResortOwner();
+	}
+
+	@Override
+	public double getPriceCanceled() {
+		return 0;
 	}
 
 }

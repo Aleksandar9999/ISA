@@ -8,6 +8,6 @@ import com.isa.FishingBooker.model.AppointmentReport;
 public class AppointmentReportMapper extends CustomModelMapperAbstract<AppointmentReport, AppointmentReportDTO>{
 	@Override
 	public AppointmentReport convertToEntity(AppointmentReportDTO dto) {
-		return super.convertToEntity(dto).setAppointmentId(dto.getAppointmentId());
+		return super.convertToEntity(dto);
 	}
 }
