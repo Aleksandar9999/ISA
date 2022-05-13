@@ -2,11 +2,13 @@
   <tr>
     <td>{{ item_local.id }}</td>
     <td>{{ item_local.rate }}</td>
+    <td>{{ item_local.creatorInfo }}</td>
+    <td>{{ item_local.ownerEmail }}</td>    
     <td>
       {{ item_local.comment }}
     </td>
     <td>
-      {{ item_local.className }}
+      {{ item_local.className.split(".")[item_local.className.split(".").length -1] }}
     </td>
     <td v-if="item_local.status == 'ADMIN_CONFIRMED' || item_local.status == 'REJECTED'">{{ item_local.status }}</td>
     <td
@@ -45,6 +47,7 @@ export default {
     item: {
       immediate: true,
       handler(itemFromProps) {
+        console.log(itemFromProps);
         if (itemFromProps) {
           this.item_local = {
             ...itemFromProps,
