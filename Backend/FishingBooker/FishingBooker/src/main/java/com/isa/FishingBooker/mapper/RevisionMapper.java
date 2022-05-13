@@ -4,21 +4,21 @@ import org.springframework.stereotype.Component;
 
 import com.isa.FishingBooker.dto.RevisionDTO;
 import com.isa.FishingBooker.model.revision.Revision;
+
 @Component
-public class RevisionMapper<E extends Revision> extends CustomModelMapperAbstract<E, RevisionDTO> {
+public class RevisionMapper extends CustomModelMapperAbstract<Revision,RevisionDTO> {
 
-	@Override
-	public E convertToEntity(RevisionDTO dto, Class<? extends E> retClass) {
-		E entity = modelMapper.map(dto, retClass);
-		entity.setRelatedId(dto.getRelatedId());
-		return entity;
-	}
-
-	@Override
-	public RevisionDTO convertToDto(E entity) {
-		RevisionDTO dto = modelMapper.map(entity, RevisionDTO.class);
-		dto.setRelatedId(entity.getRelatedId());
-		dto.setClassName(entity.getClass().toString());
-		return dto;
-	}
+    @Override
+    public RevisionDTO convertToDto(Revision entity) {
+        RevisionDTO dto = modelMapper.map(entity, RevisionDTO.class);
+        dto.setRelatedId(entity.getRelatedId());
+        dto.setClassName(entity.getClass().toString());
+        try{
+            dto.setCreatorInfo(entity.getCreator().getName()+" " + entity.getCreator().getSurname());
+            dto.setOwnerEmail(entity.getOwnerEmail());
+            return dto;
+        }catch (Exception ex){
+            return dto;
+        }
+    }
 }

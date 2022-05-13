@@ -27,7 +27,8 @@ public class RevisionServiceImpl extends CustomGenericService<Revision> implemen
 	private AppointmentRepository appointmentRepository;
 	@Autowired
 	private UsersService usersService;
-
+	@Autowired
+	private EmailService emailService;
 	@Override
 	public void addNew(Revision item) {
 		item.setStatus(Status.PENDING);
@@ -45,6 +46,18 @@ public class RevisionServiceImpl extends CustomGenericService<Revision> implemen
 		if (appointmentRepository.getAllByTutorAndUserBeforeCurrentDate(creatorId, tutorId).size() == 0) {
 			throw new RevisionCreatorException();
 		}
+	}
+
+	@Override
+	public void updateRevisionStatus(int revisionId, Status revisionStatus, int adminId) {
+		Revision dbRevision=this.getById(revisionId);
+		User byId = usersService.getById(adminId);
+		dbRevision.setAdminResponded((Admin) byId);
+		dbRevision.setStatus(revisionStatus);
+		super.update(dbRevision);
+		if(dbRevision.getStatus().equals(Status.ADMIN_CONFIRMED))
+			emailService.sendCustomEmail(dbRevision.getOwnerEmail(),"New revision approved", "New revision approved:\n"+dbRevision.getComment()+"\nFishing booker team");
+
 	}
 
 	@Override
@@ -92,30 +105,20 @@ public class RevisionServiceImpl extends CustomGenericService<Revision> implemen
 
 	@Override
 	public String makeTutorServiceRevision(TutorServiceAppointmentRevision revision) {
-		// TODO Auto-generated method stub
 		super.addNew(revision);
 		return null;
 	}
 
 	@Override
 	public String makeBoatRevision(BoatAppointmentRevision revision) {
-		// TODO Auto-generated method stub
 		super.addNew(revision);
 		return null;
 	}
 
 	@Override
 	public String makeResortRevision(ResortAppointmentRevision revision) {
-		// TODO Auto-generated method stub
 		super.addNew(revision);
 		return null;
-	}
-
-	@Override
-	public void updateRevisionStatus(Revision revision, int adminId) {
-		User byId = usersService.getById(adminId);
-		revision.setAdminResponded((Admin) byId);
-	    super.update(revision);
 	}
 
 }

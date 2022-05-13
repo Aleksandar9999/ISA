@@ -14,7 +14,12 @@ public class BoatAppointmentRevision extends Revision {
 	private BoatAppointment boatAppointment;
 	
 	public BoatAppointmentRevision() {}
-	
+
+	@Override
+	public String getOwnerEmail() {
+		return boatAppointment.getOwner().getEmail();
+	}
+
 	@Override
 	public void setRelatedId(int id) {
 		boatAppointment=new BoatAppointment(id);
