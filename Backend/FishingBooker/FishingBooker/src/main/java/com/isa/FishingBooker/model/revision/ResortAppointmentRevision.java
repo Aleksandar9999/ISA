@@ -16,6 +16,11 @@ public class ResortAppointmentRevision extends Revision {
 	public ResortAppointmentRevision() {}
 
 	@Override
+	public String getOwnerEmail() {
+		return resortAppointment.getOwner().getEmail();
+	}
+
+	@Override
 	public void setRelatedId(int id) {
 		resortAppointment=new ResortAppointment(id);
 	}

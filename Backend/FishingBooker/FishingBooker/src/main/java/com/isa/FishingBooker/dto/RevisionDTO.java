@@ -1,6 +1,5 @@
 package com.isa.FishingBooker.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.isa.FishingBooker.model.Status;
 
 public class RevisionDTO {
@@ -9,10 +8,28 @@ public class RevisionDTO {
 	private String comment;
 	private int relatedId;
 	private int creatorId;
+	private String creatorInfo;
+	private String ownerEmail;
 	private Status status;
 	private String className;
 
 	public RevisionDTO() {
+	}
+
+	public String getCreatorInfo() {
+		return creatorInfo;
+	}
+
+	public void setCreatorInfo(String creatorInfo) {
+		this.creatorInfo = creatorInfo;
+	}
+
+	public String getOwnerEmail() {
+		return ownerEmail;
+	}
+
+	public void setOwnerEmail(String ownerEmail) {
+		this.ownerEmail = ownerEmail;
 	}
 
 	public Status getStatus() {

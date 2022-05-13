@@ -42,6 +42,8 @@ public abstract class Revision {
 		this.status = status;
 	}
 
+	public abstract String getOwnerEmail();
+
 	public abstract void setRelatedId(int id);
 
 	public abstract int getRelatedId();

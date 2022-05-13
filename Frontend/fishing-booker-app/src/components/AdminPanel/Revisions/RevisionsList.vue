@@ -14,7 +14,7 @@ export default {
   },
   data() {
     return {
-      headers: ["ID", "RATE", "COMMENT", "CLASS", "STATUS", ""],
+      headers: ["ID", "RATE", "Creator name and surname","owner email","COMMENT", "CLASS", "STATUS", ""],
       data: [],
       row: RevisionInfoRow
     };

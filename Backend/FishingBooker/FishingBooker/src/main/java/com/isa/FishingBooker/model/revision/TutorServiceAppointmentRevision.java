@@ -16,14 +16,17 @@ public class TutorServiceAppointmentRevision extends Revision {
 	public TutorServiceAppointmentRevision() {}
 
 	@Override
+	public String getOwnerEmail() {
+		return tutorServiceAppointment.getOwner().getEmail();
+	}
+
+	@Override
 	public void setRelatedId(int id) {
-		// TODO Auto-generated method stub
 		tutorServiceAppointment =new TutorServiceAppointment(id);
 	}
 
 	@Override
 	public int getRelatedId() {
-		// TODO Auto-generated method stub
 		return tutorServiceAppointment.getId();
 	}
 

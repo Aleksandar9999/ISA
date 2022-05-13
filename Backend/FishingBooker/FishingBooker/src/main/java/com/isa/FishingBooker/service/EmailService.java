@@ -108,7 +108,7 @@ public class EmailService {
 	}
 
 	@Async
-	private void sendCustomEmail(String email, String subject, String text) {
+	public void sendCustomEmail(String email, String subject, String text) {
 		this.sendEmail(this.createMail(email, subject, text));
 	}
 
