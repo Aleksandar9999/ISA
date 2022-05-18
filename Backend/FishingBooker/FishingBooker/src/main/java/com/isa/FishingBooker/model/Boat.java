@@ -300,7 +300,7 @@ public class Boat {
 	}
 	
 	@JsonIgnore
-	public BoatOwner getBoatowner() {
+	public BoatOwner getBoatOwner() {
 		return boatowner;
 	}
 
