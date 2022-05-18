@@ -108,7 +108,7 @@ export default {
 }
 
 .r-table tbody tr {
-  height: 75px;
+  height: 0px;
 }
 
 .searchBox {

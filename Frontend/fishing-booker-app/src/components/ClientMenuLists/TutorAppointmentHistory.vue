@@ -1,4 +1,7 @@
 <template>
+<div v-if="revisionBox">
+<button @click="makeRevision()">Send Revision</button>
+</div>
 <div>
     <div class="searchBox">
   <select name="sort" id="sort">
@@ -11,6 +14,11 @@
   </select>
   <button @click="sort()">Sort</button>
 </div>
+<div v-if="revisionBox" class="searchBox">
+<label for="">Opinion: <input type="text" v-model="revisionText"></label>
+<label for="">Rate: <input type="number" v-model="rate"></label>
+<button @click="makeRevision()">Send Revision</button>
+</div>
  <div class="grid-container" id="tabela">
       <div>        
       <table  class="r-table" cellspacing="0" cellpadding="0" border="0">
@@ -22,7 +30,7 @@
             </tr>  
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.date}}</td><td>{{item.price}}</td><td>{{item.duration}}</td></tr>
+                <tr><td>{{item.id}}</td><td>{{item.start}}</td><td>{{item.price}}</td><td>{{item.duration}}</td><td><button @click="giveRate(item)">Rate</button></td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -36,8 +44,15 @@ import axios from 'axios'
 export default {
     data(){
         return{
-            headerList:['ID','Date','Price','Duration'],
-            dataList:[]
+            headerList:['ID','Date','Price','Duration','Give a rate'],
+            dataList:[],
+            originalAppointments:[],
+            revision:{},
+            revisionBox: false,
+            appointmentForRevision:{},
+            revisionText:'',
+            rate:0,
+
         }
     },
     methods:{
@@ -49,29 +64,78 @@ export default {
                 return;
             }
             if (criteria === 'date_asc'){
-                this.dataList.sort((a,b)=> (a.name>b.name) ? 1 :(b.name>a.name) ? -1 :0);
+                this.dataList.sort((a,b)=> (a.dateSort>b.dateSort) ? 1 :(b.dateSort>a.dateSort) ? -1 :0);
             } else
             if(criteria === 'date'){
-                this.dataList.sort((a,b)=> (a.name<b.name) ? 1 :(b.name<a.name) ? -1 :0);
+                this.dataList.sort((a,b)=> (a.dateSort<b.dateSort) ? 1 :(b.dateSort<a.dateSort) ? -1 :0);
             } else
             if (criteria === 'duration_asc'){
-                this.dataList.sort((a,b)=> (a.boatAddress.city>b.boatAddress.city) ? 1 :(b.boatAddress.city>a.boatAddress.city) ? -1 :0);
+                this.dataList.sort((a,b)=> (a.duration>b.duration) ? 1 :(b.duration>a.duration) ? -1 :0);
             } else
             if(criteria === 'duration'){
-                this.dataList.sort((a,b)=> (a.boatAddress.city<b.boatAddress.city) ? 1 :(b.boatAddress.city<a.boatAddress.city) ? -1 :0);
+                this.dataList.sort((a,b)=> (a.duration<b.duration) ? 1 :(b.duration<a.duration) ? -1 :0);
             }else
             if (criteria === 'price_asc'){
-                this.dataList.sort((a,b)=> (a.rate>b.rate) ? 1 :(b.rate>a.rate) ? -1 :0);
+                this.dataList.sort((a,b)=> (a.price>b.price) ? 1 :(b.price>a.price) ? -1 :0);
             } else
             if(criteria === 'price'){
-                this.dataList.sort((a,b)=> (a.rate<b.rate) ? 1 :(b.rate<a.rate) ? -1 :0);
+                this.dataList.sort((a,b)=> (a.price<b.price) ? 1 :(b.price<a.price) ? -1 :0);
             }
-        }
+        },
+        arrangeData(response){
+          this.dataList=[]
+          let brojac=0
+          for(let i = 0; i<response.length; i++){
+            if(response[i].type==='TUTORSERVICE'){
+              this.dataList[brojac]=response[i]
+              this.dataList[brojac].dateSort=this.formatDate(response[i].start)
+              this.originalAppointments[brojac]=response[i]
+              brojac++
+            }
+          }
+        },
+        giveRate(appointment){
+          for(let i = 0; i<this.originalAppointments.length; i++){
+            if(this.originalAppointments[i].id===appointment.id)
+            {
+              this.appointmentForRevision=this.originalAppointments[i];
+            }
+            }
+          this.revisionBox=true;
+        },
+        collectData(){
+          if(this.validate()){
+            this.revision.comment=this.revisionText;
+            this.revision.rate=this.rate;
+            this.revision.tutorServiceAppointment=this.appointmentForRevision;
+            this.revision.status='PENDING'
+          }
+          else return;
+        },
+        makeRevision(){
+          this.collectData();
+          axios.post('http://localhost:8080/api/revision/makeTutorServiceRevision',this.revision).then(response=>this.foo(response) )
+        },
+        foo(response){
+          console.log(response.data)
+          this.revisionBox=false;
+        },
+        formatDate(javaDate){
+          let splitDate=javaDate.split("T")[0]
+          let date= Date.parse(splitDate)
+          return date
+        },
+        validate(){
+          if(this.rate>5 || this.rate<1){
+            alert('You must enter rate inbetween 1 and 5');
+            return false;
+          }
+          return true;
+        },
     },
     mounted(){
-        this.dataList=[]
-        axios.get('http://localhost:8080/tutorServiceAppointments').then(response =>
-        this.dataList=response.data)
+        axios.get('http://localhost:8080/getAppointmentHistory').then(response =>
+        this.arrangeData(response.data))
     }
 }
 </script>

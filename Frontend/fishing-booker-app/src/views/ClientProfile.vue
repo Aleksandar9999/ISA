@@ -77,13 +77,13 @@
       </div>
       <div class="points">
         <div class="points-row">
-          <label for="">Points:</label><input type="text" /><br />
+          <p>Points: {{profileData.points}}</p>
         </div>
         <div class="points-row">
-          <label for="">Cathegory:</label><input type="text" /><br />
+          <p>Category: {{userCategory.name}}</p>
         </div>
         <div class="points-row">
-          <label for="">Benefits:</label><input type="text" /><br />
+          <p>{{userCategory.benefits}}</p>
         </div>
       </div>
     </div>
@@ -102,7 +102,7 @@ export default {
   data() {
     return {
       deleteReqComment: "",
-
+      userCategory:{},
       profileData: {},
       togglePass: false,
       newPass: "",
@@ -210,6 +210,7 @@ export default {
       this.city = this.profileData.address.city;
       this.state = this.profileData.address.country;
       this.phoneNum = this.profileData.phoneNumber;
+      
     },
 
     collectData() {
@@ -235,7 +236,8 @@ export default {
             { userId: this.id, reason: this.deleteReqComment },
             config.requestHeader
           )
-          .then((response) => console.log(response.data));
+          .then(() => alert("Delete request successfully created. Our adim team will review your request soon."))
+          .catch((error)=>alert(error.response.data));
       }
     },
   },
@@ -243,9 +245,26 @@ export default {
     this.jwtToken = localStorage.jwtToken;
     console.log(localStorage.jwtToken)
     console.log(config)
+    this.$axios.get(`${config.apiStart}/api/system-data/user-categories/me`).then(resp=>this.userCategory=resp.data)
+
     axios
-      .get(config.apiStart + "/api/userProfile", config.requestHeader)
-      .then((response) => this.populateProfileData(response));
+      .get(config.apiStart + "/api/users/me", config.requestHeader)
+      .then((response) => {
+        this.populateProfileData(response)
+          this.$axios.get(`${config.apiStart}/api/system-data/user-categories/me`).then(resp=>{
+            this.userCategory=resp.data;
+            console.log(this.userCategory);
+            if(this.profileData.className.includes("User")){
+              this.userCategory.benefits="Discount procentage: " + this.userCategory.discountProcentage
+            }else{
+              this.userCategory.benefits="Revenue procentage: " + this.userCategory.revenueProcentage
+            }
+            
+            })
+
+        });
+
+
     if (localStorage.roles.includes("ROLE_ADMIN")) {
       axios
         .get(`${config.apiStart}/api/admins/reset-password`, config.requestHeader)

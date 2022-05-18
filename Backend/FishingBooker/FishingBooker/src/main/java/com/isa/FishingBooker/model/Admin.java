@@ -10,6 +10,9 @@ public class Admin extends User {
 	public Admin() {
 		super();
 	}
+	public Admin(int loggedInUserId) {
+		super(loggedInUserId);
+	}
 	@Override
 	public void setRolesNames() {
 		super.setRolesNames();
@@ -23,5 +26,9 @@ public class Admin extends User {
 	public void resetPassword(String newPassword) {
 		this.setPassword(newPassword);
 		this.passwordChanged=true;
+	}
+	@Override
+	public boolean isEnabled() {
+		return this.getStatus().equals(Status.ADMIN_CONFIRMED);
 	}
 }

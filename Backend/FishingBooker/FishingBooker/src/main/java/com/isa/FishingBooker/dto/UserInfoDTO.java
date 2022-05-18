@@ -11,11 +11,13 @@ public class UserInfoDTO {
 	private Address address;
 	private String phoneNumber;
 	private Status status;
-
+	private String className;
+	private boolean shouldApprove;
+	private double points;
+	private String registrationReason;
 	public UserInfoDTO() {
-		// TODO Auto-generated constructor stub
 	}
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -60,6 +62,22 @@ public class UserInfoDTO {
 		return phoneNumber;
 	}
 
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
+	}
+
+	public boolean isShouldApprove() {
+		return shouldApprove;
+	}
+
+	public void setShouldApprove(boolean shouldApprove) {
+		this.shouldApprove = shouldApprove;
+	}
+
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
@@ -71,4 +89,22 @@ public class UserInfoDTO {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+
+	public double getPoints() {
+		return points;
+	}
+
+	public void setPoints(double points) {
+		this.points = points;
+	}
+
+	public String getRegistrationReason() {
+		return registrationReason;
+	}
+
+	public void setRegistrationReason(String registrationReason) {
+		this.registrationReason = registrationReason;
+	}
+	
+	
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.model.Resort;
-import com.isa.FishingBooker.service.ResortsService;
+import com.isa.FishingBooker.service.interfaces.ResortsService;
 
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")

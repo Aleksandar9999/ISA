@@ -46,10 +46,13 @@ export default {
   },
   methods: {
     storageLoginData(response) {
+      console.log(response)
       if (response.data) {
         localStorage.logedIn = true;
         localStorage.jwtToken = response.data.jwt;
         localStorage.roles = response.data.roles;
+        localStorage.id=response.data.id;
+        
         config.requestHeader.headers = {
           Authorization: "Bearer "+localStorage.jwtToken,
         };
@@ -62,7 +65,7 @@ export default {
         .post("http://localhost:8080/api/login", this.regReqData)
         .then((response) => {
           this.storageLoginData(response);
-          if (response.data.roles.includes("ROLE_ADMIN"))
+          /*if (response.data.roles.includes("ROLE_ADMIN"))
             this.$router.push("/profile");
           else if (response.data.roles.includes("ROLE_TUTOR")) {
             axios
@@ -70,8 +73,15 @@ export default {
               .then((resp) => {
                 this.$router.push(`/tutors/${resp.data.id}/services`);
               });
-          } else this.$router.push("/");
+          } else {*/
+            localStorage.email=this.email;
+            this.$router.push("/");
+            //}
+        }).catch((err)=>{
+          console.log(err.response)
+          alert(err.response.data.message)
         });
+      this.$emit("login", true);
     },
     collectData() {
       this.regReqData.email = this.email;

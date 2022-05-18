@@ -22,7 +22,7 @@ import com.isa.FishingBooker.model.Admin;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
-import com.isa.FishingBooker.service.UsersService;
+import com.isa.FishingBooker.service.interfaces.UsersService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -37,17 +37,8 @@ public class UsersController {
 	@GetMapping("api/users")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> getAll() {
-		return ResponseEntity.ok(usersService.getAll());
+		return ResponseEntity.ok(userInfoMapper.convertToDtos(usersService.getAll()));
 	}
-
-/*	@PostMapping("api/users/tutors/{id}/available-periods")
-	@PreAuthorize("hasRole('TUTOR')")
-	public ResponseEntity<?> addPeriod(@RequestBody Period period, @PathVariable("id") int id) {
-		Tutor tutor = usersService.getTutorById(id);// TODO:FIX HARDCODE
-		tutor.addPeriod(period);
-		usersService.update(tutor);
-		return ResponseEntity.ok(period);
-	}*/
 
 	@GetMapping("api/users/search")
 	public ResponseEntity<?> getAllUsersByStatus(@RequestParam(value = "status", defaultValue = "") Status s) {
@@ -56,14 +47,14 @@ public class UsersController {
 
 	@PutMapping("api/users/{id}")
 	public ResponseEntity<?> update(@RequestBody User user, @PathVariable("id") int id) {
-		usersService.update(user);
+		usersService.updateUserInfo(user);
 		return ResponseEntity.ok(user);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("api/admins/reset-password")
 	public ResponseEntity<?> isAdminPasswordReset() {
-		Admin admin=(Admin) usersService.getById(this.getLoggedInUserId());
+		Admin admin=(Admin) usersService.getById(getLoggedInUserId());
 		return ResponseEntity.ok(admin.isPasswordChanged());
 	}
 	
@@ -113,8 +104,12 @@ public class UsersController {
 			return Integer.parseInt(param);
 	}
 
-	private Integer getLoggedInUserId() {
+	public static Integer getLoggedInUserId() {
 		return ((User) ((TokenBasedAuthentication) SecurityContextHolder.getContext().getAuthentication())
 				.getPrincipal()).getId();
+	}
+	public static User getLoggedInUser() {
+		return ((User) ((TokenBasedAuthentication) SecurityContextHolder.getContext().getAuthentication())
+				.getPrincipal());
 	}
 }

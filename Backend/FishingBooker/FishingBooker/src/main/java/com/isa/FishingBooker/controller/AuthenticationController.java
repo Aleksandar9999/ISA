@@ -1,6 +1,7 @@
 package com.isa.FishingBooker.controller;
 
-import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,20 +18,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.dto.LoginInfoDTO;
-import com.isa.FishingBooker.dto.LoginReturnDTO;
 import com.isa.FishingBooker.dto.RegistrationDTO;
 import com.isa.FishingBooker.dto.UserConfirmationDTO;
 import com.isa.FishingBooker.exceptions.RegistrationException;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.model.Admin;
-import com.isa.FishingBooker.model.Role;
-import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.model.UserTokenState;
 import com.isa.FishingBooker.security.util.TokenUtils;
 import com.isa.FishingBooker.service.EmailService;
-import com.isa.FishingBooker.service.UsersService;
+import com.isa.FishingBooker.service.interfaces.UsersService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -57,17 +55,19 @@ public class AuthenticationController {
 
 		User user = (User) authentication.getPrincipal();
 		String jwt = tokenUtils.generateToken(user);
-		return ResponseEntity.ok(new UserTokenState(jwt, user.getRoles()));
+		return ResponseEntity.ok(new UserTokenState(jwt, user.getRoles()).setId(user.getId()));
 	}
 
+	@Transactional
 	@PostMapping("api/registration/user")
 	public ResponseEntity<?> register(@RequestBody RegistrationDTO dto) {
 		try {
-			User user = userRegistrationMapper.convertToEntity(dto);
+			User user = userRegistrationMapper.convertToEntity(dto,User.class);
 			usersService.addNew(user);
 			emailService.sendRegisterConfirmationMail(user);
 			return ResponseEntity.ok(user);
 		} catch (RegistrationException ex) {
+			System.out.println(ex.getMessage());
 			return ResponseEntity.status(400).body(ex.getMessage());
 		}
 	}
@@ -83,7 +83,7 @@ public class AuthenticationController {
 			return ResponseEntity.status(400).body(ex.getMessage());
 		}
 	}
-	//TODO: Provjeriti ispravnost email adrese prije registracije
+	
 	@PostMapping("api/registration/admin")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> registerAdmin(@RequestBody RegistrationDTO dto) {
@@ -101,17 +101,9 @@ public class AuthenticationController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> userConfirmation(@RequestBody UserConfirmationDTO dto, @PathVariable("id") int id) {
 		User user = userConfirmationMapper.convertToEntity(dto);
-		usersService.update(user);
-		sendNotificationEmail(dto, user);
+		usersService.updateProfileStatusByAdmin(user, id,dto.getComment());
 		return ResponseEntity.ok(user);
 	}
 
-	private void sendNotificationEmail(UserConfirmationDTO dto, User user) {
-		if(dto.getUser().getStatus().equals(Status.REJECTED)) {
-			emailService.sendRejectedConfirmationMail(user, dto.getComment());
-		}else {
-			emailService.sendConfirmConfirmationMail(user);
-		}
-	}
 	
 }

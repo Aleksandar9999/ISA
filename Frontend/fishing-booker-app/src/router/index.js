@@ -19,12 +19,25 @@ import TutorAppointmentHistory from '../components/ClientMenuLists/TutorAppointm
 import FrontPage from '../components/FrontPage.vue'
 import Confirmation from '../components/Confirm.vue'
 import BoatProfilePage from '../components/BoatProfile/BoatProfilePage.vue'
+import ReservationPage from '../components/ReservationClientPage.vue'
+
+import MonthlyCalendar from '../components/Calendar/CalendarMonths/MonthlyCalendar.vue'
+import WeeklyCalendar from '../components/Calendar/CalendarWeeks/WeeklyCalendar.vue'
+import YearlyCalendar from '../components/Calendar/CalendarYear/YearlyCalendar.vue'
+
 
 import UsersList from '../components/AdminPanel/Users/UsersList.vue'
-import SystemSettings from '../components/AdminPanel/SystemSettings.vue'
+import DeleteRequestsList from '../components/AdminPanel/Users/DeleteRequests/DeleteRequestsList.vue'
+
+import SystemSettings from '../components/AdminPanel/SystemSettings/SystemSettings.vue'
 import ResetPasswordModalDialog from '../components/AdminPanel/ResetPasswordModalDialog.vue'
+
 import RevisionsList from "../components/AdminPanel/Revisions/RevisionsList.vue"
 import ComplaintsList from "../components/AdminPanel/Complaints/ComplaintsList.vue"
+import AppointmentReportsList from '../components/AdminPanel/AppointmentReport/AppointmentReportsList.vue'
+
+import ReportList from '../components/BusinessReportPanel/ReportList.vue'
+
 import TutorServicesList from '../components/TutorPanel/TutorServices/TutorServicesList.vue'
 import TutorAvailablePeriods from '../components/TutorPanel/TutorProfile/TutorAvailablePeriods.vue'
 import AppointmentsList from '../components/TutorPanel/TutorServices/Appointments/AppointmentsList.vue'
@@ -32,6 +45,7 @@ import AppointmentsList from '../components/TutorPanel/TutorServices/Appointment
 import AppointmentsBoat from '../components/BoatProfile/AppointmentsBoat.vue'
 import BoatsList from '../components/BoatProfile/BoatsList.vue'
 import BoatOwnerAvailablePeriods from '../components/BoatProfile/BoatOwnerAvailablePeriods.vue'
+import DiscountOffer from '../components/DiscountOffers.vue'
 
 const routes = [
   {
@@ -44,14 +58,23 @@ const routes = [
   {path: "/register", name: "Register",component: Register},
   {path: "/profile", name: "Profile", component: Profile},
 
+  {path: "/calendar/year/:year", name: "YearlyCalendar", component: YearlyCalendar},
+  {path: "/calendar/year/:year/month/:month", name: "MonthlyCalendar", component: MonthlyCalendar},
+  {path: "/calendar/week/:date", name: "WeeklyCalendar", component: WeeklyCalendar},
+
   {path: "/tutors/:idtutor/services", name: "TutorServices", component: TutorServicesList},
   {path: "/tutors/:idtutor/available-periods", name: "TutorAvailablePeriods", component: TutorAvailablePeriods},
   {path: "/tutors/:idtutor/appointments", name: "TutorServicesAppointments", component: AppointmentsList},
   {path: "/tutors/:idtutor/services/:idservice", name: "TutorService", component: TutorServicePage},
-  
+
+  {path: "/business/reports",name:"ReportList",component: ReportList},
   {path: "/revisions",name:"RevisionsList",component: RevisionsList},
   {path: "/complaints",name:"ComplaintsList",component: ComplaintsList},
+  {path: "/appointment-reports",name:"AppointmentReportsList",component: AppointmentReportsList},
+  
   {path: "/users",name:"UsersList",component: UsersList},
+  {path: "/users/delete-requests",name:"DeleteRequestsList",component: DeleteRequestsList},
+  
   {path: "/system/settings",name: "SystemSettings", component:SystemSettings},
   {path: "/admin/reset-password",name: "ResetPassword", component:ResetPasswordModalDialog},
   
@@ -144,6 +167,18 @@ const routes = [
     name:'Confirmation',
     component:Confirmation,
     props:true
+  },
+  {
+    path: '/reservation',
+    name:'ReservationPage',
+    component: ReservationPage,
+    props:true
+  },
+  {
+    path:'/discountOffers',
+    name: 'DiscountOffers',
+    component: DiscountOffer,
+    props: true
   }
 ]
 

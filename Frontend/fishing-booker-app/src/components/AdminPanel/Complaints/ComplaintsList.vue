@@ -14,13 +14,13 @@ export default {
   },
   data() {
       return {
-          headers:["ID","Appellant","Appelle","Type","TEXT","ADMIN RESPONSE",""],
+          headers:["ID","Creator","TEXT","","ADMIN RESPONSE",""],
           data:[],
           row: ComplaintInfoRow
       }
   },
   mounted() {
-      this.$axios.get(`${config.apiStart}/api/complaints`).then(resp=>{
+      this.$axios.get(`${config.apiStart}/objections`).then(resp=>{
           this.data=resp.data
           console.log("ISPIS COMPLAINT");
           console.log(this.data)

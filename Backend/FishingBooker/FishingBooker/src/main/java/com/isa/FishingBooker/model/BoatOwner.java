@@ -9,7 +9,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class BoatOwner  extends User {
 
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany
 	private Set<Boat> boats;
 	
 
@@ -23,5 +23,9 @@ public class BoatOwner  extends User {
 
 	public BoatOwner(){
 		boats=new HashSet<>();
+	}
+	@Override
+	public boolean isEnabled() {
+		return this.getStatus().equals(Status.ADMIN_CONFIRMED);
 	}
 }

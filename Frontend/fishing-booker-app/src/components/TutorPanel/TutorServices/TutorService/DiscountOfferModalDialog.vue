@@ -19,7 +19,14 @@
           <p>Start date:</p>
         </div>
         <div class="xs6 pa1">
-          <w-input type="date" v-model="discountOfferLocal.validityPeriod.startDate"> </w-input>
+          <w-flex wrap class="text-center">
+            <div class="xs6 pa1">
+              <w-input type="date" v-model="discountOfferLocal.validityPeriod.startDate"/>
+            </div>
+            <div class="xs6 pa1">
+              <w-input type="text" v-model="discountOfferLocalTime.validityPeriod.startTime" placeholder="12:00" />
+            </div>
+          </w-flex>
         </div>
       </w-flex>
       <w-flex wrap class="text-center">
@@ -27,7 +34,14 @@
           <p>End date:</p>
         </div>
         <div class="xs6 pa1">
-          <w-input type="date" v-model="discountOfferLocal.validityPeriod.endDate"> </w-input>
+          <w-flex wrap class="text-center">
+            <div class="xs6 pa1">
+              <w-input type="date" v-model="discountOfferLocal.validityPeriod.endDate"/>
+            </div>
+            <div class="xs6 pa1">
+              <w-input type="text" v-model="discountOfferLocalTime.validityPeriod.endTime" placeholder="12:00" />
+            </div>
+          </w-flex>
         </div>
       </w-flex>
 
@@ -41,7 +55,15 @@
           <p>Start date:</p>
         </div>
         <div class="xs6 pa1">
-          <w-input type="date" v-model="discountOfferLocal.reservationPeriod.startDate"> </w-input>
+          
+          <w-flex wrap class="text-center">
+            <div class="xs6 pa1">
+              <w-input type="date" v-model="discountOfferLocal.reservationPeriod.startDate"/>
+            </div>
+            <div class="xs6 pa1">
+              <w-input type="text" v-model="discountOfferLocalTime.reservationPeriod.startTime" placeholder="12:00" />
+            </div>
+          </w-flex>
         </div>
       </w-flex>
       <w-flex wrap class="text-center">
@@ -49,7 +71,15 @@
           <p>End date:</p>
         </div>
         <div class="xs6 pa1">
-          <w-input type="date" v-model="discountOfferLocal.reservationPeriod.endDate"> </w-input>
+          
+          <w-flex wrap class="text-center">
+            <div class="xs6 pa1">
+              <w-input type="date" v-model="discountOfferLocal.reservationPeriod.endDate"/>
+            </div>
+            <div class="xs6 pa1">
+              <w-input type="text" v-model="discountOfferLocalTime.reservationPeriod.endTime" placeholder="12:00" />
+            </div>
+          </w-flex>
         </div>
       </w-flex>
 
@@ -58,7 +88,7 @@
           <p>Max num of persons:</p>
         </div>
         <div class="xs6 pa1">
-          <input type="number" v-model="discountOfferLocal.maxPerson" />
+          <w-input type="number" v-model="discountOfferLocal.maxPerson" />
         </div>
       </w-flex>
 
@@ -67,7 +97,7 @@
           <p>Additional services</p>
         </div>
         <div class="xs6 pa1">
-          <input type="text" v-model="discountOfferLocal.additionalServices" />
+          <w-input type="text" v-model="discountOfferLocal.additionalServices" />
         </div>
       </w-flex>
 
@@ -76,7 +106,7 @@
           <p>Price:</p>
         </div>
         <div class="xs6 pa1">
-          <input type="number" v-model="discountOfferLocal.price" />
+          <w-input type="number" v-model="discountOfferLocal.price" />
         </div>
       </w-flex>
 
@@ -102,28 +132,38 @@ export default {
         fullscreen: false,
         persistent: true,
         persistentNoAnimation: false,
-        width: 400,
+        width: 800,
       },
       success: false,
       clients: [],
       services: [],
-      discountOfferLocal:{
-        validityPeriod:{
-          startDate:'',
-          endDate:''
+      discountOfferLocalTime:{
+        validityPeriod: {
+          startTime: "",
+          endTime: "",
         },
-        reservationPeriod:{
-          startDate:'',
-          endDate:''
+        reservationPeriod: {
+          startTime: "",
+          endTime: "",
         },
-        maxPerson:'',
-        additionalServices:'',
-        price:''
-      }
+        
+      },
+      discountOfferLocal: {
+        validityPeriod: {
+          startDate: "",
+          endDate: "",
+        },
+        reservationPeriod: {
+          startDate: "",
+          endDate: "",
+        },
+        maxPerson: "",
+        additionalServices: "",
+        price: "",
+      },
     };
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     hideDialog() {
       this.dialog.show = false;
@@ -133,8 +173,21 @@ export default {
       });
     },
     save() {
-      axios.post(config.apiStart+"/api/tutor-services/"+this.idservice+"/discount-offers",this.discountOfferLocal,config.requestHeader).then(console.log("CREATED"))
-      console.log(this.discountOfferLocal)
+      this.discountOfferLocal.validityPeriod.startDate+=` ${this.discountOfferLocalTime.validityPeriod.startTime}:00`
+      this.discountOfferLocal.validityPeriod.endDate+=` ${this.discountOfferLocalTime.validityPeriod.endTime}:00`
+      this.discountOfferLocal.reservationPeriod.startDate+=` ${this.discountOfferLocalTime.reservationPeriod.startTime}:00`
+      this.discountOfferLocal.reservationPeriod.endDate+=` ${this.discountOfferLocalTime.reservationPeriod.endTime}:00`
+      axios
+        .post(
+          config.apiStart +
+            "/api/tutor-services/" +
+            this.idservice +
+            "/discount-offers",
+          this.discountOfferLocal,
+          config.requestHeader
+        )
+        .then(()=>alert("done"));
+      console.log(this.discountOfferLocal);
     },
   },
   watch: {

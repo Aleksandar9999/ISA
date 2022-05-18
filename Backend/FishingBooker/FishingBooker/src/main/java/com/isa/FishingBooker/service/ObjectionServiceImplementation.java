@@ -1,52 +1,30 @@
 package com.isa.FishingBooker.service;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.isa.FishingBooker.exceptions.RequestHasResponseException;
+import com.isa.FishingBooker.model.Admin;
 import com.isa.FishingBooker.model.Objection;
-import com.isa.FishingBooker.repository.ObjectionRepository;
+import com.isa.FishingBooker.service.interfaces.ObjectionService;
 
 @Service
-public class ObjectionServiceImplementation implements ObjectionService {
+public class ObjectionServiceImplementation extends CustomGenericService<Objection> implements ObjectionService {
 
 	@Autowired
-	private ObjectionRepository repository;
-	
-	@Override
-	public void addNew(Objection item) {
-		// TODO Auto-generated method stub
-		
-	}
+	private EmailService emailService;
 
 	@Override
-	public List<Objection> getAll() {
-		// TODO Auto-generated method stub
-		return repository.findAll();
+	@Transactional
+	public void addAdminResponse(Objection o,String adimnResponse,Admin admin) {
+		Objection objection=this.getById(o.getId());
+		if(objection.getAdminResponded()!=null) throw new RequestHasResponseException();
+		objection.setAdminResponded(admin);
+		objection.setResponse(adimnResponse);
+		emailService.sendObjectionResponseNotification(objection.getUserEmail(), adimnResponse);
+		emailService.sendObjectionResponseNotification(objection.getAppointment().getOwner().getEmail(), adimnResponse);
+		this.update(objection);
 	}
-
-	@Override
-	public Objection getById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void update(Objection item) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void delete(Integer id) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public Objection addObjection(Objection o) {
-		return repository.save(o);
-	}
-
-	
 
 }

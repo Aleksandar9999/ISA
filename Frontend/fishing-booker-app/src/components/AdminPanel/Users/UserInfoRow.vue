@@ -5,9 +5,11 @@
     <td>
       {{ item_local.surname }}
     </td>
-    <td v-if="item_local.status !== 'PENDING'">{{ item_local.status }}</td>
+    <td v-if="item_local.status !== 'PENDING' && !emailConfirmed">{{ item_local.status }}</td>
+    <td v-if="item_local.status !== 'PENDING' && emailConfirmed">{{ emailConfirmed }}</td>
+    
     <td
-      v-if="item_local.status == 'PENDING' || item_local.status == 'CONFIRMED'"
+      v-if="item_local.shouldApprove && item_local.status!='DELETED' && item_local.status!='REJECTED'"
     >
       <select name="status" id="status" v-model="status" @change="changeStatus">
         <option value="ADMIN_CONFIRMED">CONFIRM</option>
@@ -28,7 +30,7 @@
   </tr>
 </template>
 <script>
-import config from "../../../configuration/config";
+import config from '../../../configuration/config';
 export default {
   props: ["item"],
   data() {
@@ -37,6 +39,7 @@ export default {
       comment: "",
       status: "",
       statusChanged: false,
+      emailConfirmed:''
     };
   },
   methods: {
@@ -44,11 +47,13 @@ export default {
       this.statusChanged = true;
     },
     deleteUser(){
+      this.item_local.status="DELETED"
       this.$axios.delete(`${config.apiStart}/api/users/${this.item_local.id}`).then(()=>{
         alert("DONE")
       })
     },
     showDialog() {
+      console.log(this.item_local);
       alert(
         this.item_local.name +
           " " +
@@ -57,12 +62,15 @@ export default {
           this.item_local.email +
           "\nPhone: " +
           this.item_local.phoneNumber +
+          "\nRegistration reason: " +
+          this.item_local.registrationReason +
           "\nAddress: " +
           this.item_local.address.street +
           ", " +
           this.item_local.address.city +
           ", " +
-          this.item_local.address.country
+          this.item_local.address.country+
+          "\nType: "+ this.item_local.className.split(".").at(-1)
       );
     },
     save() {
@@ -76,6 +84,10 @@ export default {
         )
         .then((resp) => {
           this.item_local = resp.data;
+        }).catch(err=>{
+          this.status=this.item_local.status="PENDING"
+          
+          alert(err.response.data.message)
         });
     },
   },
@@ -89,6 +101,9 @@ export default {
             ...itemFromProps,
           };
           this.status = itemFromProps.status;
+          if(itemFromProps.shouldApprove && itemFromProps.status=="CONFIRMED")
+            this.emailConfirmed="EMAIL CONFIRMED"
+          console.log(itemFromProps);
         }
       },
     },

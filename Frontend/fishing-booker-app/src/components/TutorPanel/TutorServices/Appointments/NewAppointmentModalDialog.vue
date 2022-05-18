@@ -9,50 +9,66 @@
       title-class="backgorund-color: green;"
     >
       <template #title> Appointment </template>
-
-      <w-flex wrap class="text-center">
-        <div class="xs6 pa1">
-          <p>Start date:</p>
+      <w-flex justify-space-between class="pa3">
+        <div class="box">
+          <p>Start</p>
         </div>
-        <div class="xs6 pa1">
-          <w-input type="date" v-model="appointmentLocal.start"> </w-input>
+        <div class="box" style="margin: 0px 5% 0px 5%">
+          <w-input
+            type="date"
+            v-model="appointmentLocal.start.date"
+            :min="minDate"
+          />
+        </div>
+        <div class="box">
+          <w-input type="text" v-model="appointmentLocal.start.time" />
+        </div>
+      </w-flex>
+      <w-flex justify-space-between class="pa3">
+        <div class="box">
+          <p>End</p>
+        </div>
+        <div class="box" style="margin: 0px 5% 0px 5%">
+          <w-input
+            type="date"
+            v-model="appointmentLocal.end.date"
+            :min="minDate"
+          />
+        </div>
+        <div class="box">
+          <w-input type="text" v-model="appointmentLocal.end.time" />
         </div>
       </w-flex>
 
-      <w-flex wrap class="text-center">
-        <div class="xs6 pa1">
-          <p>Duraition</p>
-        </div>
-        <div class="xs6 pa1">
-          <input type="number" v-model="appointmentLocal.duration" />
-        </div>
-      </w-flex>
-
-      <w-flex wrap class="text-center">
-        <div class="xs6 pa1">
+      <w-flex justify-space-between class="pa3">
+        <div class="box">
           <p>Max num of persons:</p>
         </div>
-        <div class="xs6 pa1">
-          <input type="number" v-model="appointmentLocal.maxPerson" />
+        <div class="box">
+          <w-input type="number" v-model="appointmentLocal.maxPerson" />
         </div>
       </w-flex>
 
-      <w-flex wrap class="text-center">
-        <div class="xs6 pa1">
+      <w-flex justify-space-between class="pa3">
+        <div class="box">
           <p>Additional services</p>
         </div>
-        <div class="xs6 pa1">
-          <input type="text" v-model="appointmentLocal.additionalServices" />
+        <div class="box">
+          <w-input type="text" v-model="appointmentLocal.additionalServices" />
         </div>
       </w-flex>
 
-      <w-flex wrap class="text-center">
-        <div class="xs6 pa1">
+      <w-flex justify-space-between class="pa3">
+        <div class="box">
           <p>Service:</p>
         </div>
-        <div class="xs6 pa1">
-          <select name="services" id="services" v-model="appointmentLocal.serviceId">
-              <option value=""></option>
+        <div class="box">
+          <select
+            name="services"
+            id="services"
+            v-model="appointmentLocal.serviceId"
+          >
+            <option value=""></option>
             <option
               v-for="service in services"
               :key="service.id"
@@ -64,19 +80,19 @@
         </div>
       </w-flex>
 
-      <w-flex wrap class="text-center">
-        <div class="xs6 pa1">
+      <w-flex wrap class="text-center" v-if="!userId">
+        <div class="box">
           <p>Clients:</p>
         </div>
-        <div class="xs6 pa1">
+        <div class="box">
           <select name="clients" id="clients" v-model="appointmentLocal.userId">
-              <option value=""></option>
+            <option value=""></option>
             <option
               v-for="client in clients"
               :key="client.id"
               :value="client.id"
             >
-              {{ client.name }} {{client.surname}}
+              {{ client.name }} {{ client.surname }}
             </option>
           </select>
         </div>
@@ -95,8 +111,9 @@
 <script>
 import axios from "axios";
 import config from "../../../../configuration/config";
+import moment from "moment";
 export default {
-  props: ["show", "idTutor"],
+  props: ["show", "idTutor", "selectService", "userId"],
   data() {
     return {
       dialog: {
@@ -106,30 +123,42 @@ export default {
         persistentNoAnimation: false,
         width: 400,
       },
+      minDate: moment().format("YYYY-MM-DD"),
       success: false,
       clients: [],
       services: [],
       appointmentLocal: {
-        start: "",
+        start: { date: "", time: "" },
+        end: { date: "", time: "" },
         duration: "",
         maxPerson: "",
         additionalServices: "",
         price: "",
         serviceId: "",
         userId: "",
-        validateUser: true
+        validateUser: true,
       },
     };
   },
   mounted() {
     axios
-      .get(`${config.apiStart}/api/users/tutors/${this.idTutor}/services`,config.requestHeader)
+      .get(
+        `${config.apiStart}/api/users/tutors/${this.idTutor}/services`,
+        config.requestHeader
+      )
       .then((resp) => (this.services = resp.data));
     axios
-      .get(config.apiStart + "/api/users/clients",config.requestHeader)
+      .get(config.apiStart + "/api/users/clients", config.requestHeader)
       .then((resp) => (this.clients = resp.data));
+
+    if (this.selectService)
+      this.appointmentLocal.serviceId = this.selectService;
+    if (this.userId) this.appointmentLocal.userId = this.userId;
   },
   methods: {
+    mounted() {
+      console.log(this.userId);
+    },
     hideDialog() {
       this.dialog.show = false;
       this.$emit("hideDialog", {
@@ -138,21 +167,33 @@ export default {
       });
     },
     save() {
-      this.appointmentLocal.start+=" 12:00:00";
+      let appointmentToSave = { ...this.appointmentLocal };
+      appointmentToSave.start =
+        this.appointmentLocal.start.date +
+        " " +
+        this.appointmentLocal.start.time +
+        ":00";
+      appointmentToSave.end =
+        this.appointmentLocal.end.date +
+        " " +
+        this.appointmentLocal.end.time +
+        ":00";
+
+      console.log(appointmentToSave);
+      let api = "/api/appointments/tutor-service";
+      if (!this.userId) api += "/tutor";
       axios
-        .post(
-          config.apiStart + "/api/appointments/tutor-service",
-          this.appointmentLocal,
-          config.requestHeader
-        )
+        .post(config.apiStart + api, appointmentToSave, config.requestHeader)
         .then((resp) => {
           this.success = true;
           this.hideDialog();
           console.log(resp);
-        }).catch((error)=>{
-          alert(`${error.response.data.error}\n\n${error.response.data.message}`)
+        })
+        .catch((error) => {
+          alert(
+            `${error.response.data.error}\n\n${error.response.data.message}`
+          );
         });
-        console.log(this.appointmentLocal)
     },
   },
   watch: {
@@ -167,7 +208,10 @@ export default {
 };
 </script>
 <style>
-p{
+p {
   color: black;
+}
+.box {
+  background-color: #ffffff;
 }
 </style>

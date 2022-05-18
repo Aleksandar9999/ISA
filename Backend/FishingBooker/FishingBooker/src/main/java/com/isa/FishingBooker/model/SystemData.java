@@ -1,9 +1,14 @@
 package com.isa.FishingBooker.model;
 
+import java.sql.Timestamp;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class SystemData {
@@ -11,8 +16,18 @@ public class SystemData {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private double procentage;
-	private double revenue;
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Period valid;
 
+	public void setEndDate(Timestamp end) {
+		this.valid.setEndDate(end);
+	}
+	public void setStartDate(Timestamp start) {
+		this.valid.setStartDate(start);
+	}
+	public SystemData() {
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -21,8 +36,12 @@ public class SystemData {
 		this.id = id;
 	}
 
-	public SystemData() {
-		// TODO Auto-generated constructor stub
+	public Period getValid() {
+		return valid;
+	}
+
+	public void setValid(Period valid) {
+		this.valid = valid;
 	}
 
 	public double getProcentage() {
@@ -31,14 +50,6 @@ public class SystemData {
 
 	public void setProcentage(double procentage) {
 		this.procentage = procentage;
-	}
-
-	public double getRevenue() {
-		return revenue;
-	}
-
-	public void setRevenue(double revenue) {
-		this.revenue = revenue;
 	}
 
 }

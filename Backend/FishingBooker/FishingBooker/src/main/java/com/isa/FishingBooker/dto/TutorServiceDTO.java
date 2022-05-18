@@ -1,18 +1,6 @@
 package com.isa.FishingBooker.dto;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.isa.FishingBooker.model.Address;
-import com.isa.FishingBooker.model.Extras;
-import com.isa.FishingBooker.model.Photo;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.Tutor;
 
@@ -25,10 +13,13 @@ public class TutorServiceDTO {
 	private String fishingEquipment;
 	private double cancelProcentage;
 	private Address address;
-	private String tutorBio;
-	private int tutorId;
+	private String tutorBio;	
 	private String extrasServices;
 	private Status status;
+	private int tutorId;
+	public TutorServiceDTO() {
+		// TODO Auto-generated constructor stub
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -80,14 +71,8 @@ public class TutorServiceDTO {
 	public String getTutorBio() {
 		return tutorBio;
 	}
-	public void setTutorBio(String tutorbio) {
-		this.tutorBio = tutorbio;
-	}
-	public int getTutorId() {
-		return tutorId;
-	}
-	public void setTutorId(int tutorId) {
-		this.tutorId = tutorId;
+	public void setTutorBio(String tutorBio) {
+		this.tutorBio = tutorBio;
 	}
 	public String getExtrasServices() {
 		return extrasServices;
@@ -101,5 +86,11 @@ public class TutorServiceDTO {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-
+	public int getTutorId() {
+		return tutorId;
+	}
+	public void setTutorId(int tutorId) {
+		this.tutorId = tutorId;
+	}
+	
 }

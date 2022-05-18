@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.model.Extras;
-import com.isa.FishingBooker.service.ExtrasService;
+import com.isa.FishingBooker.service.interfaces.ExtrasService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController

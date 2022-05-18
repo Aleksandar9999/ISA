@@ -2,22 +2,23 @@
   <tr>
     <td>{{ item_local.id }}</td>
     <td>{{ item_local.rate }}</td>
+    <td>{{ item_local.creatorInfo }}</td>
+    <td>{{ item_local.ownerEmail }}</td>    
     <td>
       {{ item_local.comment }}
     </td>
     <td>
-      {{ item_local.className }}
+      {{ item_local.className.split(".")[item_local.className.split(".").length -1] }}
     </td>
-    <td v-if="item_local.status !== 'PENDING'">{{ item_local.status }}</td>
+    <td v-if="item_local.status == 'ADMIN_CONFIRMED' || item_local.status == 'REJECTED'">{{ item_local.status }}</td>
     <td
       v-if="item_local.status == 'PENDING' || item_local.status == 'CONFIRMED'"
     >
       <select name="status" id="status" v-model="status" @change="changeStatus">
         <option value="ADMIN_CONFIRMED">CONFIRM</option>
-        <option value="PENDING">PENDING</option>
         <option value="REJECTED">REJECT</option>
       </select>
-      <button @click="save">Save</button>
+      <w-button style="margin: 0px 0px 0px 15px;" bg-color="success" @click="save">Save</w-button>
     </td>
   </tr>
 </template>
@@ -46,6 +47,7 @@ export default {
     item: {
       immediate: true,
       handler(itemFromProps) {
+        console.log(itemFromProps);
         if (itemFromProps) {
           this.item_local = {
             ...itemFromProps,

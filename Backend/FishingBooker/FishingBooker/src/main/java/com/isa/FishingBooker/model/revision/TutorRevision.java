@@ -15,6 +15,11 @@ public class TutorRevision extends Revision {
 	}
 
 	@Override
+	public String getOwnerEmail() {
+		return tutor.getEmail();
+	}
+
+	@Override
 	public void setRelatedId(int id) {
 		this.tutor = new Tutor(id);
 	}

@@ -48,6 +48,10 @@
                 <td><input type="text" v-model="regReqData.phoneNumber" /></td>
               </tr>
               <tr>
+                <td><label for="">Registration reason</label></td>
+                <td><input type="text" v-model="regReqData.registrationReason" /></td>
+              </tr>
+              <tr>
                 <td><label for="">User role:</label></td>
                 <td>
                   <select
@@ -58,7 +62,7 @@
                     <option value="">--Please choose an option--</option>
                     <option value="user">User</option>
                     <option value="tutor">Tutor</option>
-                    <option value="admin">Administrator</option>
+                    <option v-if="showAdminRole()" value="admin">Administrator</option>
                   </select>
                 </td>
               </tr>
@@ -95,6 +99,7 @@ export default {
         rpassword: "",
         name: "",
         surname: "",
+        registrationReason:'',
         address: {
           street: "",
           city: "",
@@ -115,6 +120,11 @@ export default {
         this.warning = true;
         return false;
       }
+      if(this.email===''||this.name===''||this.surname===''){
+        this.warningMessage = "You must fill all fields.";
+        this.warning = true;
+        return false;
+      }
       this.warning = false;
       return true;
     },
@@ -132,6 +142,9 @@ export default {
         )
         .then(() => {
           alert("SUCCESS");
+        }).catch((err)=>{
+          console.log(err)
+          alert(err.response.data)
         });
       /*axios
         .post("http://localhost:8080/register", this.regReqData)
@@ -147,6 +160,12 @@ export default {
       this.regReqData.city = this.city;
       this.regReqData.country = this.state;
       this.regReqData.phoneNumber = this.phoneNum;
+    },
+    showAdminRole(){
+      if (localStorage.roles)
+        if (localStorage.roles.includes("ROLE_ADMIN")) {
+          return true;
+        }return false;
     },
   },
 };

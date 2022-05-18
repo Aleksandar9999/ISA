@@ -8,11 +8,11 @@
       :persistent-no-animation="dialog.persistentNoAnimation"
       title-class="backgorund-color: green;"
     >
-      <template #title> Price </template>
+      <template #title> New photo </template>
 
       <w-flex wrap class="text-center">
         <div class="xs6 pa1">
-          <p>Number of days:</p>
+          <p>Title</p>
         </div>
         <div class="xs6 pa1">
           <w-input type="text" v-model="title"> </w-input>
@@ -21,7 +21,7 @@
 
       <w-flex wrap class="text-center">
         <div class="xs6 pa1">
-          <p>Price</p>
+          <p>Choose photo</p>
         </div>
         <div class="xs6 pa1">
           <w-input type="file" @change="selectedFile" />

@@ -21,10 +21,9 @@
                 <option value="4">4</option>
                 <option value="5">5</option>
               </select> <br/>
-              <button class="advanced-btn" v-on:click="advancedSearchBoats()">Search</button>
+              <button class="advanced-btn" v-on:click="combinedSearch()">Search</button>
           </div>
           <div class="adv-div" v-if="tutorsAdv">            
-            <label for="">Name of adventure:</label><input style="width:150px" type="text" v-model="advName"><br/>
             <label for="">Maximal number of persons on adventure:</label><input type="text" v-model="maxPersons">
             <br/>
               <label for="">Select tutors rate:</label>
@@ -35,7 +34,7 @@
                 <option value="4">4</option>
                 <option value="5">5</option>
               </select> <br/>
-              <button class="advanced-btn" v-on:click="advancedSearchAdventures()">Search</button>
+              <button class="advanced-btn" v-on:click="combinedSearch()">Search</button>
           </div>
           <div class="adv-div" v-if="resortsAdv">
             <label for="">Minimal number of rooms:</label><input type="text" v-model="minRooms">
@@ -52,7 +51,7 @@
                 <option value="4">4</option>
                 <option value="5">5</option>
               </select> <br/>
-              <button class="advanced-btn" v-on:click="advancedSearchResorts()">Search</button>
+              <button class="advanced-btn" v-on:click="combinedSearch()">Search</button>
           </div>     
     </div>
     </div>
@@ -108,7 +107,8 @@
             </tr>  
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPerson}}</td><td>{{item.rules}}</td><td><router-link :to="{name:profileName, params: {id:item.id} }">Page</router-link></td></tr>
+                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPerson}}</td><td>{{item.rules}}</td>
+                <td><a :href=getTutorServicePageHref(item)>Page</a></td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -150,6 +150,11 @@ export default {
     }
     } ,
     methods:{
+      getTutorServicePageHref(item){
+        console.log("Ovo je za hrefTutorService")
+        console.log(item);
+        return `/tutors/${item.tutorId}/services/${item.id}`
+      },
       changeTab(type){
         this.tabType=type;
         if(type==='boats'){
@@ -175,6 +180,23 @@ export default {
           this.getData()
         }
         
+      },
+      combinedSearch(){
+        this.resetLists()
+        var crit = this.searchWord  
+        for(let i = 0; i<this.searchData.length;i++){
+              if(!this.searchData[i].name.toLowerCase().includes(crit)){
+                this.searchData.splice(i,1);
+                i--
+            }
+          }
+          if(this.tabType==='boats'){
+            this.advancedSearchBoats();
+          }else if(this.tabType==='tutors'){
+            this.advancedSearchAdventures();
+          }else{
+            this.advancedSearchResorts();
+          }
       },      
       search(){
         this.resetLists()
@@ -211,7 +233,7 @@ export default {
       },
       
       advancedSearchResorts(){
-         this.resetLists() 
+         //this.resetLists() 
          if(this.minRooms>0 || this.maxRooms>0 || this.minBeds>0 || this.maxBeds>0 || this.rate>0){   
            
           for(let i = 0; i<this.searchData.length;i++){
@@ -241,7 +263,7 @@ export default {
         this.getData()
       },
       advancedSearchBoats(){
-         this.resetLists()  
+          //this.resetLists()  
           if(this.maxSpeed>0 || this.navigationType || this.maxPersons>0 || this.rate>0){
           for(let i = 0; i<this.searchData.length;i++){
           if(this.maxSpeed>0){
@@ -277,14 +299,11 @@ export default {
         this.getData()
       },
       advancedSearchAdventures(){
-        this.resetLists()
+          //this.resetLists()
           let criteria = this.advName      
           if(criteria){
           for(let i = 0; i<this.searchData.length;i++){
-          if(!this.searchData[i].name.toLowerCase().includes(criteria)){
-            this.searchData.splice(i,1);
-            i--
-          }
+          
           if(this.maxPersons>0){
             if(this.searchData[i].maxPerson>this.maxPersons){
               this.searchData.splice(i,1);
@@ -334,7 +353,7 @@ export default {
           )
         } else if(this.tabType==='tutors'){
           this.dataList=[];
-          axios.get('http://localhost:8080/api/users/tutors/services').then(response =>
+          axios.get('http://localhost:8080/api/tutor-services/valid ').then(response =>
           this.fillDataLists(response)
           )
           
@@ -366,7 +385,7 @@ export default {
     mounted(){
       this.changeTab('resort');
       this.getData();    
-      if(!localStorage.initialFlag){
+      if(!localStorage.jwtToken){
         localStorage.logedIn=false;
       }
     }

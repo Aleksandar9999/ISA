@@ -1,22 +1,15 @@
 <template>
-  <div>
-    <table id="searchtabe" border="0" cellspacing="0">
-      <tr>
-        <td>
-          <div class="field">
-            <input type="text" placeholder="Name" name="name" v-model=search.name />
-          </div>
-        </td>
-        <td>
-          <div class="field">
-            <input type="number" placeholder="Max number of perosons" name="username" v-model=search.maxPerson />
-          </div>
-        </td>
-      </tr>
-    </table>
-    <w-flex justify-end class="pa3" style="padding-right: 20%">
-      <w-button @click="showModalDialog">Add new</w-button>
+  <div style="margin-top: 3%">
+    <w-flex justify-end class="pa3" style="padding-right: 20%; padding-left: 20%" >
+      <span style="padding-right: 5%">
+          <w-input type="text" placeholder="Name" name="name" v-model=search.name />
+      </span>
+      <span style="padding-right: 5%">
+          <w-input type="number" placeholder="Max number of perosons" name="username" v-model=search.maxPerson />
+      </span>    
+      <w-button @click="showModalDialog"  v-if="showTutorButtonsFunc()" >Add new</w-button> 
     </w-flex>
+    
     <CustomTable
       :dataList=searchList
       :headerList="headers"
@@ -57,6 +50,7 @@ export default {
         "Max number of persons",
         "Rules",
         "Status",
+        "RATE",
         "More info",
         "",
       ],
@@ -88,6 +82,7 @@ export default {
         )
         .then((resp) => {
           this.data = resp.data;
+          console.log(resp.data)
         });
     },
     showModalDialog() {
@@ -99,6 +94,12 @@ export default {
       if (value.success) {
         this.fetchData();
       }
+    },
+    showTutorButtonsFunc(){
+      if (localStorage.roles)
+        if (localStorage.roles.includes("ROLE_TUTOR") && localStorage.id == this.$route.params.idtutor) {
+          return true;
+        }return false;
     },
   },
 };

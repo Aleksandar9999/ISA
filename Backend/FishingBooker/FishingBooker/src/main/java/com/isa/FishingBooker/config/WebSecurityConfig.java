@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import com.isa.FishingBooker.security.auth.RestAuthenticationEntryPoint;
 import com.isa.FishingBooker.security.auth.TokenAuthenticationFilter;
 import com.isa.FishingBooker.security.util.TokenUtils;
-import com.isa.FishingBooker.service.UsersService;
+import com.isa.FishingBooker.service.interfaces.UsersService;
 
 
 
@@ -89,17 +89,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 								.antMatchers("/api/users/tutors/services").permitAll()
 								.antMatchers("/api/users/tutors/{id}/available-periods").permitAll()
 								.antMatchers("/api/users/tutors/services/{id}").permitAll()
-								.antMatchers("/api/tutor-services/{idservice}").permitAll()	//IZMIJENIO SAM OVU ADRESU
-								.antMatchers("/api/tutor-services/{idservice}/photos").permitAll()	//IZMIJENIO SAM OVU ADRESU
-								.antMatchers("/api/tutor-services/{idservice}/discount-offers").permitAll()	//IZMIJENIO SAM OVU ADRESU
-								.antMatchers("/api/tutor-services/{idservice}/prices").permitAll()	//IZMIJENIO SAM OVU ADRESU
-								
+								.antMatchers("/api/tutor-services/{idservice}").permitAll()	
+								.antMatchers("/api/tutor-services/{idservice}/photos").permitAll()	
+								.antMatchers("/api/tutor-services/{idservice}/discount-offers").permitAll()	
+								.antMatchers("/api/tutor-services/{idservice}/prices").permitAll()
+								.antMatchers("/api/revision/tutor-service/{id}/rate").permitAll()
 								
 								.antMatchers("/boats/{id}").permitAll()
 								.antMatchers("/extras").permitAll()
 								.antMatchers("/periods").permitAll()
 								.antMatchers("/resorts/{id}").permitAll()
 								.antMatchers("/confirm/{id}").permitAll()
+								.antMatchers("/appointments/additionalServices/{boatId}").permitAll()
+								.antMatchers("/appointments/getBoatPeriods/{boatId}").permitAll()
 			// ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
 			// koji tip korisnika moze da pristupi odgovarajucoj ruti. Npr. ukoliko zelimo da definisemo da ruti 'admin' moze da pristupi
 			// samo korisnik koji ima rolu 'ADMIN', navodimo na sledeci nacin: 

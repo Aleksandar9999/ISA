@@ -64,17 +64,17 @@ export default {
           };
         this.discountOfferLocal.validityPeriod.startDate = moment(
           this.discountOfferLocal.validityPeriod.startDate
-        ).format("DD-MM-YYYY");
+        ).format("MMM DD, YYYY HH:MM");
 
         this.discountOfferLocal.validityPeriod.endDate = moment(
           this.discountOfferLocal.validityPeriod.endDate
-        ).format("DD-MM-YYYY");
+        ).format("MMM DD, YYYY HH:MM");
         this.discountOfferLocal.reservationPeriod.startDate = moment(
           this.discountOfferLocal.reservationPeriod.startDate
-        ).format("DD-MM-YYYY");
+        ).format("MMM DD, YYYY HH:MM");
         this.discountOfferLocal.reservationPeriod.endDate = moment(
           this.discountOfferLocal.reservationPeriod.endDate
-        ).format("DD-MM-YYYY");
+        ).format("MMM DD, YYYY HH:MM");
       },
     },
   },

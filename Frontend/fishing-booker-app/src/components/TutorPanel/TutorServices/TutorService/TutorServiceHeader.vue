@@ -2,12 +2,17 @@
   <div>
     <w-card class="info-card" no-border>
       <w-form no-keyup-validation no-blur-validation>
+        <div class="text-right mt6" style="margin: 0px 0px 25px 0px">
+          <w-button type="submit" :bg-color="subscribeButton.bgColor" color="white" v-if="showSubscribeButtonsFunc()" @click="subscribe" >{{subscribeButton.title}}</w-button>
+          <w-button bg-color="blue" style="margin:0px 0px 0px 25px" color="white" v-if="showSubscribeButtonsFunc()" @click="showNewAppointmentDialog" >Make reservation</w-button>
+        
+        </div>
         <w-flex wrap class="text-center">
           <div class="xs6 pa1">
             <p>Service name:</p>
           </div>
           <div class="xs6 pa1">
-            <w-input
+            <w-input 
               class="mb3"
               style="color: black"
               v-model="service_form.name"
@@ -165,7 +170,24 @@
           </div>
         </w-flex>
 
-        <div v-if="showAdminButtons" class="text-right mt6">
+<w-flex wrap class="text-center">
+          <div class="xs6 pa1">
+            <p style="margin-top: 3%">Tutor bio:</p>
+          </div>
+          <div class="xs6 pa1">
+            <w-textarea
+              class="mb3"
+              style="text-alignment:center"
+              color: black
+              v-model="service_form.tutorBio"
+              bg-color="white"
+              border
+              placeholder="Tutor bio"
+              outline
+            ></w-textarea>
+          </div>
+        </w-flex>
+        <div v-if="showAdminButton" class="text-right mt6">
           <w-button type="submit" bg-color="green" color="white" @click="save">Save</w-button>
         </div>
       </w-form>
@@ -174,33 +196,47 @@
 </template>
 
 <script>
-import axios from 'axios';
 import config from '../../../../configuration/config';
 export default {
-  props: ["service_info","tutorId"],
+  props: ["service_info","tutorId","showNewAppointmentDialog","showAdminButton"],
   data() {
     return {
       service_form: {},
-      showAdminButtons:false,
+      subscribeButton:{
+        title:'SUBSCRIBE',
+        bgColor:'red'
+      }
     };
   },
-  mounted() {
-    this.showAdminButtonsFunc()
-  },
   methods: {
-    showAdminButtonsFunc(){
+    isSubscribed(){
+      this.$axios.get(`${config.apiStart}/api/subscriptions/tutor-service/${this.service_info.id}`).then(resp=>{
+        this.subscribeButton.title="UNSUBSCRIBE"
+        this.subscribeButton.bgColor=''
+        console.log(resp)
+      }).catch(()=>{
+        this.subscribeButton.title="SUBSCRIBE"
+        this.subscribeButton.bgColor='red'
+      })
+    },
+    showSubscribeButtonsFunc(){
       if (localStorage.roles)
-        if (localStorage.roles.includes("ROLE_TUTOR")) {
-          this.showAdminButtons = true;
-        }
+        return localStorage.roles.trim() === "ROLE_USER";
+    },
+    subscribe(){
+      if(this.subscribeButton.title=='SUBSCRIBE')
+        this.$axios.post(`${config.apiStart}/subscripeTutorService`,this.service_form).then(()=>this.isSubscribed()
+        );
+      else this.$axios.post(`${config.apiStart}/cancelTutorServiceSubscription`,this.service_form).then(()=>this.isSubscribed()); 
+      
     },
     save() {
       console.log(this.service_form);
-      axios.put(config.apiStart+"/api/tutor-services/"+this.service_form.id,this.service_form,config.requestHeader).then(resp=>
-      {this.service_form=resp.data;
-      alert("Updated");
-      }
-      )
+      this.$axios.put(config.apiStart+"/api/tutor-services/"+this.service_form.id,this.service_form,config.requestHeader)
+      .then(resp=>{this.service_form=resp.data; alert("Updated");})
+      .catch((err)=>{
+        alert(err.response.data.message)
+       })
     },
     nameChanged($event) {
       this.service_form.name = $event.data;
@@ -216,6 +252,7 @@ export default {
             ...this.service_form,
             ...serviceFromProps,
           };
+          this.isSubscribed()
         }
       },
     },
@@ -226,6 +263,7 @@ export default {
 p {
   text-align: start;
   color: white;
+  font-size: 15px;
 }
 .flex-container {
   display: flex;

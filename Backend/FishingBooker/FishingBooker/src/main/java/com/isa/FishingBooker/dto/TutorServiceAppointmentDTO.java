@@ -2,13 +2,6 @@ package com.isa.FishingBooker.dto;
 
 import java.util.Date;
 
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -18,6 +11,9 @@ public class TutorServiceAppointmentDTO {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date start;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date end;
 	private double duration;
 	private int maxPerson;
 	private String additionalServices;
@@ -37,6 +33,13 @@ public class TutorServiceAppointmentDTO {
 
 	public void setStart(Date start) {
 		this.start = start;
+	}
+	public Date getEnd() {
+		return end;
+	}
+
+	public void setEnd(Date end) {
+		this.end = end;
 	}
 
 	public double getDuration() {

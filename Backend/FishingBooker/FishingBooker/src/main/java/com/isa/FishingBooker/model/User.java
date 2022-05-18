@@ -1,12 +1,15 @@
 package com.isa.FishingBooker.model;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -29,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Table(name = "clients")
+@Table(name = "users")
 public class User implements UserDetails {
 
 	@Id
@@ -49,33 +52,57 @@ public class User implements UserDetails {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private List<Role> roles;
-
+	@ElementCollection(targetClass = Integer.class)
+	private Set<Integer> reservationsList;
+	private Double penaltyCount;
+	private Double points;
+	private Date passwordResetTimestamp;
+	private String registrationReason;
 	public User() {
 	}
-	
+
 	public void updateUserInfo(User user) {
 		this.id = user.getId();
 		this.email = user.getEmail();
-		this.password = user.getPassword()==null?this.password:user.getPassword();
 		this.name = user.getName();
 		this.surname = user.getSurname();
 		this.address = user.getAddress();
 		this.phoneNumber = user.getPhoneNumber();
 		this.status = user.getStatus();
+		this.points = user.getPoints();
+		this.penaltyCount = user.getPenaltyCount();
+		this.updatePassword(user.getPassword());
+	}
+
+	private void updatePassword(String newPassword) {
+		if(newPassword!=null &&!newPassword.isBlank() && !newPassword.equals(this.password)) {
+			this.password=newPassword;
+			this.passwordResetTimestamp=Date.from(Instant.now());
+		}
+	}
+
+	public User addPoints(Double points) {
+		if (this.points == null)
+			this.points = 0.0;
+		this.points += points;
+		return this;
 	}
 
 	@JsonIgnore
 	public List<Role> getRoles() {
 		return roles;
 	}
-	//TODO: This methode must be overrided by every subclass of this
+
 	public void setRolesNames() {
 		this.setRoleName(Role.USER_ROLE);
 	}
+
 	protected void setRoleName(String name) {
-		if(this.roles==null) this.roles=new ArrayList<Role>();
+		if (this.roles == null)
+			this.roles = new ArrayList<Role>();
 		this.roles.add(new Role(name));
 	}
+
 	public User(int id) {
 		this.id = id;
 	}
@@ -94,10 +121,6 @@ public class User implements UserDetails {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
 	}
 
 	public void setPassword(String password) {
@@ -150,7 +173,6 @@ public class User implements UserDetails {
 		return this.roles;
 	}
 
-
 	@JsonIgnore
 	@Override
 	public String getUsername() {
@@ -178,12 +200,49 @@ public class User implements UserDetails {
 	@JsonIgnore
 	@Override
 	public boolean isEnabled() {
-		return this.status.equals(Status.ADMIN_CONFIRMED);
+		return this.status.equals(Status.CONFIRMED);
 	}
 
 	@JsonIgnore
 	public Date getLastPasswordResetDate() {
-		return null;
+		return passwordResetTimestamp;
+	}
+
+	public Set<Integer> getReservationsList() {
+		return reservationsList;
+	}
+
+	public void setReservationsList(Set<Integer> reservationsList) {
+		this.reservationsList = reservationsList;
+	}
+
+	public Double getPenaltyCount() {
+		return penaltyCount != null ? penaltyCount : 0.0;
+	}
+
+	public void addPenalty(Double count) {
+		this.penaltyCount += count;
+	}
+
+	@Override
+	public String getPassword() {
+		return this.password;
+	}
+
+	public Double getPoints() {
+		return points != null ? points : 0.0;
+	}
+
+	public void setPoints(Double points) {
+		this.points = points;
+	}
+
+	public String getRegistrationReason() {
+		return registrationReason;
+	}
+
+	public void setRegistrationReason(String registrationReason) {
+		this.registrationReason = registrationReason;
 	}
 
 }

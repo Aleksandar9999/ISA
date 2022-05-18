@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.model.Boat;
-import com.isa.FishingBooker.service.BoatsService;
+import com.isa.FishingBooker.service.interfaces.BoatsService;
 
 
 
@@ -60,4 +60,6 @@ public class BoatsController {
 		boatsService.delete(id);
 		return ResponseEntity.ok().build();
 	}
+	
+	
 }
