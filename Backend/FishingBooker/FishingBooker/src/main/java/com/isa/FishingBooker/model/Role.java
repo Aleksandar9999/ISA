@@ -20,6 +20,8 @@ public class Role implements GrantedAuthority {
 	public static final String USER_ROLE="ROLE_USER";
 	public static final String TUTOR_ROLE="ROLE_TUTOR";
 	public static final String ADMIN_ROLE="ROLE_ADMIN";
+	public static final String BOATOWNER_ROLE="ROLE_BOATOWNER";
+	public static final String RESORTOWNER_ROLE="ROLE_RESORTOWNER";
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
