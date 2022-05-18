@@ -304,7 +304,7 @@ public class Boat {
 		return boatowner;
 	}
 
-	public void setBoatowner(BoatOwner boatowner) {
+	public void setBoatOwner(BoatOwner boatowner) {
 		this.boatowner = boatowner;
 	}
 	
