@@ -50,6 +50,7 @@ public class Subscription {
 		this.user = user;
 	}
 	public Set<Boat> getBoats() {
+		if(boats==null) return new HashSet<Boat>();
 		return boats;
 	}
 	public void setBoats(Set<Boat> boats) {
@@ -72,5 +73,10 @@ public class Subscription {
 	public void addTutorService(TutorService tutorService) {
 		if(this.tutorServices==null) this.tutorServices=new HashSet<TutorService>();
 		this.tutorServices.add(tutorService);
+	}
+	
+	public void addBoat(Boat boat) {
+		if(this.boats==null) this.boats=new HashSet<Boat>();
+		this.boats.add(boat);
 	}
 }
