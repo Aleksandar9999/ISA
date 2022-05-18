@@ -9,6 +9,8 @@ insert into address (street, country, city, lat, lng) values ('Ledinci', 'Srbija
 INSERT INTO ROLE (name) VALUES ('ROLE_USER');
 INSERT INTO ROLE (name) VALUES ('ROLE_ADMIN');
 INSERT INTO ROLE (name) VALUES ('ROLE_TUTOR');
+INSERT INTO ROLE (name) VALUES ('ROLE_BOATOWNER');
+INSERT INTO ROLE (name) VALUES ('ROLE_RESORTOWNER');
 
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('User','abrkljac052@gmail.com', 'bojan', 'Blagoje', 'Adzic', '021334563','CONFIRMED',1,0);
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('BoatOwner','badzaa@gmail.com', 'bojan', 'Bosko', 'Adzic', '021554263','ADMIN_CONFIRMED',1,0);
@@ -19,7 +21,9 @@ insert into users (dtype, email, password, name, surname, phone_number, status, 
 
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (1, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (2, 1); 
+INSERT INTO USER_ROLE (user_id, role_id) VALUES (2, 4); 
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (3, 1);
+INSERT INTO USER_ROLE (user_id, role_id) VALUES (3, 5);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (4, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (4, 3);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (5, 1);

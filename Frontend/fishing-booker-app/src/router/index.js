@@ -42,6 +42,8 @@ import TutorAvailablePeriods from '../components/TutorPanel/TutorProfile/TutorAv
 import AppointmentsList from '../components/TutorPanel/TutorServices/Appointments/AppointmentsList.vue'
 import DiscountOffer from '../components/DiscountOffers.vue'
 
+import BoatsList from '../components/BoatsPanel/Boats/BoatsList.vue'
+
 const routes = [
   {
     path: "/about",
@@ -74,6 +76,9 @@ const routes = [
   {path: "/admin/reset-password",name: "ResetPassword", component:ResetPasswordModalDialog},
   
   {path:"", name:"FrontPage", component: FrontPage},
+
+  {path: "/boatowners/:idboatowner/boats", name: "Boats", component: BoatsList},
+
 {
     path: '/resortProfile',
     name: 'ResortProfile',
