@@ -545,4 +545,36 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 		return ((AppointmentRepository) repository).getAllPendingByTutorServiceId(id);
 	}
 
+	@Override
+	public List<BoatAppointment> getAllBoatAppointmentsByBoatOwner(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	@Transactional
+	public void addNewBoatAppointment(BoatAppointment app) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addNewBoatAppointmentByBoatOwner(BoatAppointment app, boolean validateUser) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addNewBoatAppointmentFromDiscount(BoatAppointment app) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<BoatAppointment> getAllPendingByBoatId(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+
 }

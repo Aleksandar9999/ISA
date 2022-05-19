@@ -31,8 +31,8 @@ INSERT INTO USER_ROLE (user_id, role_id) VALUES (5, 2);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (6, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (6, 3);
 
-insert into boat (name, type_of_boat, length, engine_id, engine_power, max_speed, navigation_equipment, address_id, description, max_person, rules, fishing_equipment, cancel_percentage, boat_owner_id, rate) values ('Vesna','Fishing boat','5 meter','1','15 HP', 80, 'GPS', 3,'Middle size fishing boat.', 7,'No alcohol. No smoking.', '7 fishing rods and decoys.',0 , 2, 5);
-insert into boat (name, type_of_boat, length, engine_id, engine_power, max_speed, navigation_equipment, address_id, description, max_person, rules, fishing_equipment, cancel_percentage, boat_owner_id, rate) values ('Orkan','Fishing boat','4.5 meter','1','13 HP', 70, 'GPS', 3,'Middle size fishing boat.', 5,'No alcohol. No smoking.', '4 fishing rods and decoys.',0 , 2, 4);
+insert into boat (name, type_of_boat, length, engine_id, engine_power, max_speed, navigation_equipment, boat_address_id, description, max_person, rules, fishing_equipment, cancel_percentage, boat_owner_id, rate) values ('Vesna','Fishing boat','5 meter','1','15 HP', 80, 'GPS', 3,'Middle size fishing boat.', 7,'No alcohol. No smoking.', '7 fishing rods and decoys.',0 , 2, 5);
+insert into boat (name, type_of_boat, length, engine_id, engine_power, max_speed, navigation_equipment, boat_address_id, description, max_person, rules, fishing_equipment, cancel_percentage, boat_owner_id, rate) values ('Orkan','Fishing boat','4.5 meter','1','13 HP', 70, 'GPS', 3,'Middle size fishing boat.', 5,'No alcohol. No smoking.', '4 fishing rods and decoys.',0 , 2, 4);
 
 insert into resort (name, description, address_id, num_of_rooms, num_of_beds, rules, resort_owner_id, rate) values ('Drinski raj','Resort on coast of Zvornik lake with dock and beach.', 4, 2, 4, 'Forbiden entrance to non checked and authorised persons to resort objects.', 3, 3);
 insert into resort (name, description, address_id, num_of_rooms, num_of_beds, rules, resort_owner_id, rate) values ('Vila Podrinja','Resort on coast of middle stream of river Drina with dock and beach. Confortable apartments and good service.', 5, 3, 7, 'Forbiden entrance to non checked and authorised persons to resort objects.', 3, 5);
@@ -79,11 +79,13 @@ insert into period (start_date, end_date) values('2022-02-04 13:00:00','2022-02-
 insert into period (start_date, end_date) values('2022-02-04 12:00:00','2022-02-11 13:00:00');
 insert into period (start_date, end_date) values('2022-05-12 13:00:00','2022-06-01 13:00:00');
 --14
+
 insert into users_available (tutor_id, available_id) values (6,14);
 insert into users_available (tutor_id, available_id) values (6,10);
 insert into users_available (tutor_id, available_id) values (6,11);
 insert into users_available (tutor_id, available_id) values (4,12);
 insert into users_available (tutor_id, available_id) values (4,13);
+
 
 insert into period (start_date, end_date) values('2021-02-01 13:00:00','2021-02-15 13:00:00');
 insert into period (start_date, end_date) values('2021-03-03 11:00:00','2021-03-17 13:00:00');

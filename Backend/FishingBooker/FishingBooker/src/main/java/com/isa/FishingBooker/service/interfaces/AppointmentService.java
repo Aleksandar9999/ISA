@@ -13,7 +13,9 @@ public interface AppointmentService extends Service<Appointment> {
 
 	public List<Appointment> getAllInPeriod(Date start,Date end);
 	public List<ResortAppointment> getResortApointments();
-	public List<BoatAppointment> getBoatApointments();
+	
+
+	
 	public List<TutorServiceAppointment> getTutorServiceApointments();
 	public List<TutorServiceAppointment> getAllTutorServiceAppointmentsByTutor(int id);
 	public void addNewTutorServiceAppointment(TutorServiceAppointment app);
@@ -21,7 +23,17 @@ public interface AppointmentService extends Service<Appointment> {
 	public List<Appointment>getPendingApointments();
 	public void deleteResortAppointments(int resortId);
 	public List<TutorServiceAppointment> getAllByTutorAndPeriod(int tutorId, Date start, Date end);
+	
+	public List<BoatAppointment> getBoatApointments();
+	public List<BoatAppointment> getAllBoatAppointmentsByBoatOwner(int id);
+	
 	public String makeBoatReservation(BoatAppointment appointment);
+	public void addNewBoatAppointment(BoatAppointment app);
+	public void addNewBoatAppointmentByBoatOwner(BoatAppointment app,boolean validateUser);
+	public void addNewBoatAppointmentFromDiscount(BoatAppointment app);
+	public List<BoatAppointment> getAllPendingByBoatId(int id);
+	
+	
 	public String makeResortReservation(ResortAppointment appointment);
 	public String makeTutorServiceReservation(TutorServiceAppointment appointment);
 	public String cancelReservation(Integer id);

@@ -78,8 +78,9 @@ public class Boat {
 	private Set<BoatRentPrice> prices = new HashSet<BoatRentPrice>();
 	
 	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-	@JoinColumn(name = "boatowner_id")
+	@JoinColumn(name = "boat_owner_id")
 	private BoatOwner boatowner;
+
 
 	public Boat() {
 

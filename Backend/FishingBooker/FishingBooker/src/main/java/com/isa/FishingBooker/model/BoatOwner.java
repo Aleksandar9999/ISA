@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import com.isa.FishingBooker.exceptions.PeriodOverlapException;
@@ -21,7 +22,7 @@ public class BoatOwner  extends User {
 	private Set<Boat> boats = new HashSet<Boat>();
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Period> available;
+	private Set<Period> boatAvailable;
 
 	public BoatOwner() {
 		super();
@@ -49,7 +50,7 @@ public class BoatOwner  extends User {
 	}
 
 	public void updateStandardPeriod(Period takenPeriodOfAppointment) {
-		for (Period boatOwnerPeriod : available) {
+		for (Period boatOwnerPeriod : boatAvailable) {
 			try {
 				boatOwnerPeriod.overlap(takenPeriodOfAppointment);
 			} catch (PeriodOverlapException ex) {
@@ -59,9 +60,9 @@ public class BoatOwner  extends User {
 					Period newBeforePeriod = new Period(boatOwnerPeriod.getStartDate(),
 							takenPeriodOfAppointment.getStartDate());
 					Period newAfterPeriod = new Period(takenPeriodOfAppointment.getEndDate(), boatOwnerPeriod.getEndDate());
-					available.remove(boatOwnerPeriod);
-					available.add(newBeforePeriod);
-					available.add(newAfterPeriod);
+					boatAvailable.remove(boatOwnerPeriod);
+					boatAvailable.add(newBeforePeriod);
+					boatAvailable.add(newAfterPeriod);
 				}
 				break;
 			}
@@ -81,17 +82,17 @@ public class BoatOwner  extends User {
 	}
 
 	public Set<Period> getAvailable() {
-		return available;
+		return boatAvailable;
 	}
 
 	public void setAvailable(Set<Period> available) {
-		this.available = available;
+		this.boatAvailable = available;
 	}
 
 	public void addAvailablePeriod(Period period) {
-		if (this.available == null)
-			this.available = new HashSet<Period>();
-		this.available.add(period);
+		if (this.boatAvailable == null)
+			this.boatAvailable = new HashSet<Period>();
+		this.boatAvailable.add(period);
 	}
 	
 	
