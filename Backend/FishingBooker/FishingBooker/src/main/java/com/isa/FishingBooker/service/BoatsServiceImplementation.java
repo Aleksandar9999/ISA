@@ -1,35 +1,53 @@
 package com.isa.FishingBooker.service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import com.isa.FishingBooker.exceptions.PendingAppointmentExistException;
+import com.isa.FishingBooker.exceptions.PeriodOverlapException;
 import com.isa.FishingBooker.model.Boat;
+import com.isa.FishingBooker.model.BoatAppointment;
 import com.isa.FishingBooker.model.DiscountOffer;
 import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.Photo;
+import com.isa.FishingBooker.model.Status;
+import com.isa.FishingBooker.model.TutorService;
+import com.isa.FishingBooker.model.TutorServiceAppointment;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.BoatRepository;
+import com.isa.FishingBooker.repository.TutorServiceRepository;
+import com.isa.FishingBooker.service.interfaces.AppointmentService;
 import com.isa.FishingBooker.service.interfaces.BoatsService;
+import com.isa.FishingBooker.service.interfaces.TutorServicesService;
+import com.isa.FishingBooker.service.interfaces.UsersService;
 
 @Service
-public class BoatsServiceImplementation implements BoatsService {
+public class BoatsServiceImplementation extends CustomGenericService<Boat> implements BoatsService {
 
+	@Autowired
+	private UsersService usersService;
+
+	@Autowired
+	private EmailService emailService;
+
+	@Autowired
+	private AppointmentService appointmentService;
+	
 	@Override
 	public void addNew(Boat item) {
-		// TODO Auto-generated method stub
+		item.setStatus(Status.CONFIRMED);
+		super.addNew(item);
 		
 	}
 
-	@Override
-	public List<Boat> getAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Boat getById(Integer id) {
@@ -39,32 +57,27 @@ public class BoatsServiceImplementation implements BoatsService {
 
 	@Override
 	public void update(Boat item) {
-		// TODO Auto-generated method stub
+		super.update(this.getById(item.getId()).updateInfo(item));
 		
 	}
 
-	@Override
-	public void delete(Integer id) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 	@Override
 	public void delete(int id) {
-		// TODO Auto-generated method stub
-		
+		Boat boat = this.getById(id);
+		boat.setStatus(Status.DELETED);
+		this.updateInfo(boat);
 	}
 
 	@Override
 	public List<Boat> getAllValid() {
-		// TODO Auto-generated method stub
-		return null;
+		return ((BoatRepository) repository).findAllValid();
 	}
 
 	@Override
 	public List<Boat> getAllValidByBoatOwner(int boatownerId) {
-		// TODO Auto-generated method stub
-		return null;
+		return ((BoatRepository) repository).findAllValidByBoatOwner(boatownerId);
 	}
 
 	@Override
@@ -93,19 +106,22 @@ public class BoatsServiceImplementation implements BoatsService {
 
 	@Override
 	public void addNewCustomer(int boatId, User loggedinUser) {
-		// TODO Auto-generated method stub
+		this.update(this.getById(boatId).addNewCustomer(loggedinUser));
 		
 	}
 
 	@Override
 	public void removeCustomer(int boatId, User loggedinUser) {
-		// TODO Auto-generated method stub
+		this.update(this.getById(boatId).removeCustomer(loggedinUser));
 		
 	}
 
 	@Override
 	public void addNewDiscountOffer(int idboat, DiscountOffer offer) {
-		// TODO Auto-generated method stub
+		Boat boat = this.getById(idboat);
+		boat.addDiscountOffer(offer);
+		this.update(boat);
+		this.notifyCustomers(boat);
 		
 	}
 
@@ -117,15 +133,38 @@ public class BoatsServiceImplementation implements BoatsService {
 
 	@Override
 	public List<Boat> getAllBoatsAvailablePeriods(Timestamp start, int duration, int maxPerson) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Boat> retList = new ArrayList<Boat>();
+		Period newPeriod = Period.createPeriod(start, duration);
+		List<Boat> boats = this.getAll().stream().filter(boat -> boat.getMaxPerson() > maxPerson)
+				.collect(Collectors.toList());
+		for (Boat boat : boats) {
+			boat.getBoatOwner().getAvailable().forEach(period -> {
+				try {
+					period.periodBetweenPeriod(newPeriod);
+				} catch (PeriodOverlapException e) {
+					retList.add(boat);
+				}
+			});
+		}
+		return retList;
 	}
 
 	@Override
 	public void updateInfo(Boat newInfo) {
-		// TODO Auto-generated method stub
+		List<BoatAppointment> appointments=this.appointmentService.getAllPendingByBoatId(newInfo.getId());
+		if(!appointments.isEmpty()) throw new PendingAppointmentExistException();
+		this.update(newInfo);
 		
 	}
+	
+	@Async
+	private void notifyCustomers(Boat boat) {
+		boat.getCustomers()
+				.forEach(customer -> emailService.sendDiscountNotificationEmailBoats(customer, boat));
+	}
+
+	
+	
 	
 
 

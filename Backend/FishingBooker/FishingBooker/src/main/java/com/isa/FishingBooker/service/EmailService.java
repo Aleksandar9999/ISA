@@ -7,6 +7,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import com.isa.FishingBooker.model.Boat;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.User;
@@ -74,6 +75,13 @@ public class EmailService {
 		String subject = "NEW DISCOUNT OFFER";
 		String text = String.format("Dear %s,\nNew discount offer has been created for %s.", user.getName(),
 				service.getName());
+		this.sendEmail(this.createMail(user.getEmail(), subject, text));
+	}
+	@Async
+	public void sendDiscountNotificationEmailBoats(User user, Boat boat) {
+		String subject = "NEW DISCOUNT OFFER";
+		String text = String.format("Dear %s,\nNew discount offer has been created for %s.", user.getName(),
+				boat.getName());
 		this.sendEmail(this.createMail(user.getEmail(), subject, text));
 	}
 

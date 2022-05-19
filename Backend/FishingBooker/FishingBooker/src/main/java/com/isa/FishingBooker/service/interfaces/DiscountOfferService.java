@@ -11,4 +11,5 @@ public interface DiscountOfferService extends Service<DiscountOffer> {
 	public List<DiscountOfferDTO> getAllResortDiscountOffers();
 	public List<DiscountOffer> getAllTutorServiceDiscountOffers();
 	public String makeTutorServiceAppointmentOfDiscount(DiscountOffer discountOffer);
+	
 }
