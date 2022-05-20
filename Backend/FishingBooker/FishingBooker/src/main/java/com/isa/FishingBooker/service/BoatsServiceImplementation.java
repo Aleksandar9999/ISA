@@ -134,7 +134,7 @@ public class BoatsServiceImplementation extends CustomGenericService<Boat> imple
 		List<Boat> boats = this.getAll().stream().filter(boat -> boat.getMaxPerson() > maxPerson)
 				.collect(Collectors.toList());
 		for (Boat boat : boats) {
-			boat.getBoatOwner().getAvailable().forEach(period -> {
+			boat.getAvailable().forEach(period -> {
 				try {
 					period.periodBetweenPeriod(newPeriod);
 				} catch (PeriodOverlapException e) {

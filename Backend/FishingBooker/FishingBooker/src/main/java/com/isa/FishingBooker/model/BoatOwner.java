@@ -21,8 +21,7 @@ public class BoatOwner  extends User {
 	@OneToMany(mappedBy = "boatowner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Boat> boats = new HashSet<Boat>();
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Period> boatAvailable;
+	
 
 	public BoatOwner() {
 		super();
@@ -49,25 +48,7 @@ public class BoatOwner  extends User {
 		this.setId(idboatowner);
 	}
 
-	public void updateStandardPeriod(Period takenPeriodOfAppointment) {
-		for (Period boatOwnerPeriod : boatAvailable) {
-			try {
-				boatOwnerPeriod.overlap(takenPeriodOfAppointment);
-			} catch (PeriodOverlapException ex) {
-				if (Period.isSameDate(boatOwnerPeriod.getStartDate(), takenPeriodOfAppointment.getStartDate())) {
-					boatOwnerPeriod.setStartDate(takenPeriodOfAppointment.getEndDate());
-				} else {
-					Period newBeforePeriod = new Period(boatOwnerPeriod.getStartDate(),
-							takenPeriodOfAppointment.getStartDate());
-					Period newAfterPeriod = new Period(takenPeriodOfAppointment.getEndDate(), boatOwnerPeriod.getEndDate());
-					boatAvailable.remove(boatOwnerPeriod);
-					boatAvailable.add(newBeforePeriod);
-					boatAvailable.add(newAfterPeriod);
-				}
-				break;
-			}
-		}
-	}
+	
 
 	public void setBoats(Set<Boat> boats) {
 		this.boats = boats;
@@ -81,19 +62,7 @@ public class BoatOwner  extends User {
 		return boats;
 	}
 
-	public Set<Period> getAvailable() {
-		return boatAvailable;
-	}
 
-	public void setAvailable(Set<Period> available) {
-		this.boatAvailable = available;
-	}
-
-	public void addAvailablePeriod(Period period) {
-		if (this.boatAvailable == null)
-			this.boatAvailable = new HashSet<Period>();
-		this.boatAvailable.add(period);
-	}
 	
 	
 	

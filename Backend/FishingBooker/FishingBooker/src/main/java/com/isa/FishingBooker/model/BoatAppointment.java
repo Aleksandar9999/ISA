@@ -55,7 +55,7 @@ public class BoatAppointment extends Appointment {
 		if (this.getPeriod().getStartDate().before(Timestamp.from(Instant.now()))
 				|| this.getPeriod().getEndDate().before(Timestamp.from(Instant.now())))
 			throw new TutorservicePeriodException();
-		Set<Period> standardPeriods = this.getBoat().getBoatOwner().getAvailable();
+		Set<Period> standardPeriods = this.getBoat().getAvailable();
 		for (Period period : standardPeriods) {
 			period.periodBetweenPeriod(newPeriod);
 		}

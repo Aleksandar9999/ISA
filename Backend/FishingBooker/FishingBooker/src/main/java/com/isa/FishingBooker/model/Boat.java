@@ -21,6 +21,7 @@ import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.isa.FishingBooker.exceptions.InvalidNumberOfPersonsException;
+import com.isa.FishingBooker.exceptions.PeriodOverlapException;
 import com.isa.FishingBooker.exceptions.ServicePriceAlreadyExistException;
 import com.isa.FishingBooker.exceptions.UndefinedServicePricesException;
 
@@ -76,6 +77,9 @@ public class Boat {
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<BoatRentPrice> prices = new HashSet<BoatRentPrice>();
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Period> boatAvailable;
 	
 	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinColumn(name = "boat_owner_id")
@@ -378,6 +382,40 @@ public class Boat {
 	public void validateMaxNumberOfPersons(int number) {
 		if (number > this.maxPerson || number <= 0)
 			throw new InvalidNumberOfPersonsException();
+	}
+	
+	public void updateStandardPeriod(Period takenPeriodOfAppointment) {
+		for (Period boatOwnerPeriod : boatAvailable) {
+			try {
+				boatOwnerPeriod.overlap(takenPeriodOfAppointment);
+			} catch (PeriodOverlapException ex) {
+				if (Period.isSameDate(boatOwnerPeriod.getStartDate(), takenPeriodOfAppointment.getStartDate())) {
+					boatOwnerPeriod.setStartDate(takenPeriodOfAppointment.getEndDate());
+				} else {
+					Period newBeforePeriod = new Period(boatOwnerPeriod.getStartDate(),
+							takenPeriodOfAppointment.getStartDate());
+					Period newAfterPeriod = new Period(takenPeriodOfAppointment.getEndDate(), boatOwnerPeriod.getEndDate());
+					boatAvailable.remove(boatOwnerPeriod);
+					boatAvailable.add(newBeforePeriod);
+					boatAvailable.add(newAfterPeriod);
+				}
+				break;
+			}
+		}
+	}
+	
+	public Set<Period> getAvailable() {
+		return boatAvailable;
+	}
+
+	public void setAvailable(Set<Period> available) {
+		this.boatAvailable = available;
+	}
+
+	public void addAvailablePeriod(Period period) {
+		if (this.boatAvailable == null)
+			this.boatAvailable = new HashSet<Period>();
+		this.boatAvailable.add(period);
 	}
 
 
