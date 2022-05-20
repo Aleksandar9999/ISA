@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.isa.FishingBooker.model.BoatOwner;
 import com.isa.FishingBooker.model.Status;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.User;
@@ -22,6 +23,9 @@ public interface UserRepository extends JpaRepository<User ,Integer> {
 	
 	@Query("select tutor from Tutor tutor join fetch tutor.services services where tutor.id=?1")
 	public Tutor findTutorWithServices(int tutorId);
+	
+	@Query("select boatowner from BoatOwner boatowner join fetch boatowner.boats boats where boatowner.id=?1")
+	public BoatOwner findBoatOwnerWithBoats(int boatownerId);
 	
 	@Query("select u from User u where u.status=?1")
 	public List<User> findUsersByProfileStatus(Status status);

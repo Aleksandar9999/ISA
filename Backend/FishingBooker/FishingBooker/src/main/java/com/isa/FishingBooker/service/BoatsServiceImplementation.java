@@ -44,6 +44,7 @@ public class BoatsServiceImplementation extends CustomGenericService<Boat> imple
 	@Override
 	public void addNew(Boat item) {
 		item.setStatus(Status.CONFIRMED);
+		item.setBoatOwner(usersService.getBoatOwnerById(item.getBoatOwnerId()));
 		super.addNew(item);
 		
 	}

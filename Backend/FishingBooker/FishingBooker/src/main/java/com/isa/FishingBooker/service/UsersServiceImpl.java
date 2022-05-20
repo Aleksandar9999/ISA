@@ -151,5 +151,10 @@ public class UsersServiceImpl extends CustomGenericService<User> implements User
 			emailService.sendConfirmConfirmationMail(user);
 		}
 	}
+
+	@Override
+	public BoatOwner getBoatOwnerById(int id) {
+		return (BoatOwner) ((UserRepository) repository).findBoatOwnerWithBoats(id);
+	}
 	
 }

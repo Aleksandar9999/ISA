@@ -304,6 +304,10 @@ public class Boat {
 	public BoatOwner getBoatOwner() {
 		return boatowner;
 	}
+	
+	public int getBoatOwnerId() {
+		return boatowner.getId();
+	}
 
 	public void setBoatOwner(BoatOwner boatowner) {
 		this.boatowner = boatowner;
