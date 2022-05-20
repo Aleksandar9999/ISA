@@ -40,7 +40,7 @@ public class BoatsController {
 	}
 
 	@GetMapping("api/users/boatowners/boats") // za sve brodove korisnika
-	public ResponseEntity<List<Boat>> getAllServices() {
+	public ResponseEntity<List<Boat>> getAllBoats() {
 		return ResponseEntity.ok(boatsService.getAll());
 	}
 
@@ -61,7 +61,7 @@ public class BoatsController {
 	}
 
 	@GetMapping("api/boats/{idboat}")
-	public ResponseEntity<?> getBoat(@PathVariable("idboat") int idboat) {
+	public ResponseEntity<?> getBoatOwnerBoat(@PathVariable("idboat") int idboat) {
 		return ResponseEntity
 				.ok(boatMapper.convertToDto((Boat) boatsService.getById(idboat)));
 	}

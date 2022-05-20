@@ -49,11 +49,6 @@ public class BoatsServiceImplementation extends CustomGenericService<Boat> imple
 	}
 
 
-	@Override
-	public Boat getById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void update(Boat item) {
