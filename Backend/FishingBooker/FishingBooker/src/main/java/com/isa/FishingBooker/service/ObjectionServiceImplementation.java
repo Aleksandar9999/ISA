@@ -9,6 +9,9 @@ import com.isa.FishingBooker.model.Admin;
 import com.isa.FishingBooker.model.Objection;
 import com.isa.FishingBooker.service.interfaces.ObjectionService;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+
 @Service
 public class ObjectionServiceImplementation extends CustomGenericService<Objection> implements ObjectionService {
 
@@ -17,14 +20,16 @@ public class ObjectionServiceImplementation extends CustomGenericService<Objecti
 
 	@Override
 	@Transactional
-	public void addAdminResponse(Objection o,String adimnResponse,Admin admin) {
-		Objection objection=this.getById(o.getId());
+	public void addAdminResponse(int objectionId,String adminResponse,Admin admin) {
+		Objection objection=this.getById(objectionId);
 		if(objection.getAdminResponded()!=null) throw new RequestHasResponseException();
 		objection.setAdminResponded(admin);
-		objection.setResponse(adimnResponse);
-		emailService.sendObjectionResponseNotification(objection.getUserEmail(), adimnResponse);
-		emailService.sendObjectionResponseNotification(objection.getAppointment().getOwner().getEmail(), adimnResponse);
+		objection.setResponse(adminResponse);
+		//objection.setVersion(Timestamp.from(Instant.now()));
 		this.update(objection);
+		//emailService.sendObjectionResponseNotification(objection.getUserEmail(), adminResponse);
+		//emailService.sendObjectionResponseNotification(objection.getAppointment().getOwner().getEmail(), adminResponse);
+
 	}
 
 }
