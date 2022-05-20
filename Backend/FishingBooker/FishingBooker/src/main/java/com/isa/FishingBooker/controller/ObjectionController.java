@@ -46,7 +46,7 @@ public class ObjectionController {
 	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/api/objections/{id}")
 	public ResponseEntity<?> updateObjection(@RequestBody ObjectionResponseDTO dto) {
-		service.addAdminResponse(mapper.convertToEntity(dto), dto.getResponse(), new Admin(UsersController.getLoggedInUserId()));
+		service.addAdminResponse(dto.getId(), dto.getResponse(), new Admin(UsersController.getLoggedInUserId()));
 		return ResponseEntity.ok().build();
 	}
 }
