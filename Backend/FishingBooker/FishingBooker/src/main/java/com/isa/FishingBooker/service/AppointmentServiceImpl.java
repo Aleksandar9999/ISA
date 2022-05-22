@@ -19,6 +19,7 @@ import com.isa.FishingBooker.exceptions.UserAppointmentInProgressException;
 import com.isa.FishingBooker.model.Appointment;
 import com.isa.FishingBooker.model.AppointmentStatus;
 import com.isa.FishingBooker.model.AppointmentType;
+import com.isa.FishingBooker.model.Boat;
 import com.isa.FishingBooker.model.BoatAppointment;
 import com.isa.FishingBooker.model.CompletedAppointment;
 import com.isa.FishingBooker.model.Period;
@@ -119,6 +120,7 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 		ts.getTutor().updateStandardPeriod(app.getPeriod());
 		tutorServicesService.update(ts);
 	}
+	
 
 	@Override
 	public void addNewTutorServiceAppointmentByTutor(TutorServiceAppointment app, boolean validateUser) {
@@ -549,18 +551,43 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 		return ((AppointmentRepository) repository).getAllPendingByTutorServiceId(id);
 	}
 
+
 	@Override
 	public List<BoatAppointment> getAllBoatAppointmentsByBoatOwner(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+
 	@Override
-	@Transactional
 	public void addNewBoatAppointment(BoatAppointment app) {
-		// TODO Auto-generated method stub
+		Boat boat = boatsService.getById(app.getBoat().getId());
+		boat.validateMaxNumberOfPersons(app.getMaxPerson());
+		app.setBoat(boat);
+		app.setAddress(boat.getBoatAddress());
+		app.setType(AppointmentType.BOAT);
+		try {
+			app.validateNewBoatAppointmentPeriod(app.getPeriod());
+		} catch (PeriodOverlapException ex) {
+			double priceWithoutDiscount = boat.calculatePrice((int) app.getPeriod().getDurationInDays());
+			double procentageForClient = userCategoryService
+					.findDiscountProcentage(userService.getById(app.getUser().getId()).getPoints());
+			app.setPrice(priceWithoutDiscount - (priceWithoutDiscount * procentageForClient / 100));
+			updateBoatAvailablePeriods(boat, app);
+			super.addNew(app);
+			emailService.sendReservationMail(userService.getById(app.getUser().getId()));
+			return;
+		}
+		throw new TutorservicePeriodException();
 		
 	}
+	
+	@Transactional
+	private void updateBoatAvailablePeriods(Boat b, BoatAppointment app) {
+		b.updateStandardPeriod(app.getPeriod());
+		boatsService.update(b);
+	}
+
 
 	@Override
 	public void addNewBoatAppointmentByBoatOwner(BoatAppointment app, boolean validateUser) {
@@ -568,17 +595,27 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 		
 	}
 
+
 	@Override
 	public void addNewBoatAppointmentFromDiscount(BoatAppointment app) {
 		// TODO Auto-generated method stub
 		
 	}
 
+
+	@Override
+	public List<BoatAppointment> getAllByBoatOwnerAndPeriod(int boatOwnerId, java.sql.Date start, java.sql.Date end) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 	@Override
 	public List<BoatAppointment> getAllPendingByBoatId(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	
 
 }

@@ -385,17 +385,17 @@ public class Boat {
 	}
 	
 	public void updateStandardPeriod(Period takenPeriodOfAppointment) {
-		for (Period boatOwnerPeriod : boatAvailable) {
+		for (Period boatPeriod : boatAvailable) {
 			try {
-				boatOwnerPeriod.overlap(takenPeriodOfAppointment);
+				boatPeriod.overlap(takenPeriodOfAppointment);
 			} catch (PeriodOverlapException ex) {
-				if (Period.isSameDate(boatOwnerPeriod.getStartDate(), takenPeriodOfAppointment.getStartDate())) {
-					boatOwnerPeriod.setStartDate(takenPeriodOfAppointment.getEndDate());
+				if (Period.isSameDate(boatPeriod.getStartDate(), takenPeriodOfAppointment.getStartDate())) {
+					boatPeriod.setStartDate(takenPeriodOfAppointment.getEndDate());
 				} else {
-					Period newBeforePeriod = new Period(boatOwnerPeriod.getStartDate(),
+					Period newBeforePeriod = new Period(boatPeriod.getStartDate(),
 							takenPeriodOfAppointment.getStartDate());
-					Period newAfterPeriod = new Period(takenPeriodOfAppointment.getEndDate(), boatOwnerPeriod.getEndDate());
-					boatAvailable.remove(boatOwnerPeriod);
+					Period newAfterPeriod = new Period(takenPeriodOfAppointment.getEndDate(), boatPeriod.getEndDate());
+					boatAvailable.remove(boatPeriod);
 					boatAvailable.add(newBeforePeriod);
 					boatAvailable.add(newAfterPeriod);
 				}
