@@ -15,7 +15,7 @@ public interface BoatsService extends Service<Boat> {
 	public List<Boat> getAllValidByBoatOwner(int boatownerId);
 	public void addPhoto(int idboat, Photo photo);
 	public void deletePhoto(int idboat, int idphoto);
-	public void addNewStandardPeriod(int idBoatOwner, Period period);
+	public void addNewStandardPeriod(int idBoat, Period period);
 	public List<Period> getAllAvailablePeriodsByBoat(int idboat);
 	public void addNewCustomer(int boatId, User loggedinUser);
 	public void removeCustomer(int boatId, User loggedinUser);
