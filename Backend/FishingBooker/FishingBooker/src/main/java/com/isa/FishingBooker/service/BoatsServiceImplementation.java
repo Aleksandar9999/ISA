@@ -98,7 +98,7 @@ public class BoatsServiceImplementation extends CustomGenericService<Boat> imple
 	@Transactional
 	@Override
 	public void addNewStandardPeriod(int idBoat, Period newPeriod) {
-		Boat boat=(Boat) getBoatById(idBoat);
+		Boat boat=(Boat) getById(idBoat);
 		boat.getAvailable().forEach(period->{
 				period.overlap(newPeriod);		
 		});
@@ -109,7 +109,7 @@ public class BoatsServiceImplementation extends CustomGenericService<Boat> imple
 
 	@Override
 	public List<Period> getAllAvailablePeriodsByBoat(int idBoat) {
-		Boat boat = (Boat) getBoatById(idBoat);
+		Boat boat = (Boat) getById(idBoat);
 		return boat.getAvailable().stream().collect(Collectors.toList());
 	}
 
