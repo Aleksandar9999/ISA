@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.isa.FishingBooker.model.Boat;
+import com.isa.FishingBooker.model.Tutor;
 @Repository
 public interface BoatRepository extends JpaRepository<Boat ,Integer>{
 
@@ -24,4 +25,7 @@ public interface BoatRepository extends JpaRepository<Boat ,Integer>{
 	
 	@Query("select boat from Boat boat join fetch boat.disconutOffers disconutOffers where boat.id=?1")
 	public Boat findBoatWithDiscountOffers(int boatId);
+	
+	@Query("select boat from Boat boat where boat.id=?1")
+	public Boat findBoatById(int boatId);
 }

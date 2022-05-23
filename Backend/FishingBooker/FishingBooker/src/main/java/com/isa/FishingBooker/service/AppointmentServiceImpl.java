@@ -554,8 +554,7 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 
 	@Override
 	public List<BoatAppointment> getAllBoatAppointmentsByBoatOwner(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return ((AppointmentRepository) repository).getAllAppointmentsByBoatOwner(id);
 	}
 
 
@@ -591,29 +590,37 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 
 	@Override
 	public void addNewBoatAppointmentByBoatOwner(BoatAppointment app, boolean validateUser) {
-		// TODO Auto-generated method stub
+		if (!validateUseCurrentAppointment(app.getUser().getId(), app.getBoat().getId()))
+			throw new UserAppointmentInProgressException();
+		this.addNewBoatAppointment(app);
 		
 	}
 
 
 	@Override
 	public void addNewBoatAppointmentFromDiscount(BoatAppointment app) {
-		// TODO Auto-generated method stub
-		
+		Boat boat = boatsService.getById(app.getBoat().getId());
+		app.setBoat(boat);
+		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
+				.getAuthentication();
+		User usr = (User) aut.getPrincipal();
+		app.setUser(usr);
+		app.setAddress(boat.getBoatAddress());
+		app.setType(AppointmentType.TUTORSERVICE);
+		super.addNew(app);
+		emailService.sendReservationMail(userService.getById(app.getUser().getId()));		
 	}
 
 
 	@Override
 	public List<BoatAppointment> getAllByBoatOwnerAndPeriod(int boatOwnerId, java.sql.Date start, java.sql.Date end) {
-		// TODO Auto-generated method stub
-		return null;
+		return ((AppointmentRepository) repository).getAllByBoatOwnerAndPeriod(boatOwnerId, start, end);
 	}
 
 
 	@Override
 	public List<BoatAppointment> getAllPendingByBoatId(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return ((AppointmentRepository) repository).getAllPendingByBoatId(id);
 	}
 
 	

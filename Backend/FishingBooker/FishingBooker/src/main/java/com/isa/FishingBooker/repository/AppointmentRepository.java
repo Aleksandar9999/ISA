@@ -36,6 +36,29 @@ public interface AppointmentRepository extends JpaRepository<Appointment ,Intege
 	@Query("select a from Appointment a where TYPE(a)=BoatAppointment")
 	public List<BoatAppointment> getAllBoatAppoints();
 	
+	@Query("select a from Appointment a where TYPE(a)=BoatAppointment and a.boat.boatowner.id=?1")
+	public List<BoatAppointment> getAllAppointmentsByBoatOwner(int boatownerId);
+	
+	@Query("select a from Appointment a where TYPE(a)=BoatAppointment and a.boat.boatowner.id=?1 and a.period.startDate > CURRENT_DATE")
+	public List<BoatAppointment> getAllInCommingAppointmentsByBoatOwner(int boatownerId);
+	
+	@Query("select a from Appointment a where TYPE(a)=BoatAppointment and a.user.id=?1")
+	public List<BoatAppointment> getAllBoatAppointmentsByUser(int userid);
+	
+	@Query("select a from Appointment a where TYPE(a)=BoatAppointment and a.user.id=?1 and a.boat.boatowner.id=?2 and a.period.startDate < CURRENT_DATE")
+	public List<BoatAppointment> getAllByBoatOwnerAndUserBeforeCurrentDate(int userid, int boatownerId);
+	
+	@Query("select a from Appointment a where TYPE(a)=BoatAppointment and a.boat.id=?1 and a.status='PENDING'")
+	public List<BoatAppointment> getAllPendingByBoatId(int id);
+	
+	@Query(value="select dtype, a.id, a.period_id, ps.end_date as endDate,a.status, appoint_type, additional_services, b.max_person, price, ps.start_date, b.address_id, user_id, boat_id, resort_id, b.boat_owner_id,b.boat_id, "
+			+ "    b.name from Appointment a INNER JOIN boat as b on a.boat_id=b.boat_id "
+			+ "INNER JOIN Period ps on ps.id=a.period_id "
+			+ "where a.dtype='BoatAppointment' and b.boat_owner_id=?1 and "
+			+ "(ps.start_date, ps.end_date) OVERLAPS (CAST(?2 as date), CAST(?3 as date))",nativeQuery = true)
+	public List<BoatAppointment> getAllByBoatOwnerAndPeriod(int boatownerId, Date start,Date end);
+	
+	
 	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment")
 	public List<TutorServiceAppointment> getAllTutorServiceAppointments();
 	

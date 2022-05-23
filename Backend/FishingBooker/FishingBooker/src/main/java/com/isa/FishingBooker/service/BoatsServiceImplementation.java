@@ -3,6 +3,7 @@ package com.isa.FishingBooker.service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -19,11 +20,13 @@ import com.isa.FishingBooker.model.DiscountOffer;
 import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.Photo;
 import com.isa.FishingBooker.model.Status;
+import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.TutorServiceAppointment;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.BoatRepository;
 import com.isa.FishingBooker.repository.TutorServiceRepository;
+import com.isa.FishingBooker.repository.UserRepository;
 import com.isa.FishingBooker.service.interfaces.AppointmentService;
 import com.isa.FishingBooker.service.interfaces.BoatsService;
 import com.isa.FishingBooker.service.interfaces.TutorServicesService;
@@ -78,26 +81,36 @@ public class BoatsServiceImplementation extends CustomGenericService<Boat> imple
 
 	@Override
 	public void addPhoto(int idboat, Photo photo) {
-		// TODO Auto-generated method stub
+		Boat boat = this.getById(idboat);
+		boat.addPhoto(photo);
+		this.update(boat);
 		
 	}
 
 	@Override
 	public void deletePhoto(int idboat, int idphoto) {
-		// TODO Auto-generated method stub
+		Boat boat = this.getById(idboat);
+		boat.deletePhoto(idphoto);
+		this.update(boat);
+		
+	}
+	
+	@Transactional
+	@Override
+	public void addNewStandardPeriod(int idBoat, Period newPeriod) {
+		Boat boat=(Boat) getBoatById(idBoat);
+		boat.getAvailable().forEach(period->{
+				period.overlap(newPeriod);		
+		});
+		boat.addAvailablePeriod(newPeriod);
+		update(boat);
 		
 	}
 
 	@Override
-	public void addNewStandardPeriod(int idBoatOwner, Period period) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<Period> getAllAvailablePeriodsByBoatOwner(int idboatowner) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Period> getAllAvailablePeriodsByBoat(int idBoat) {
+		Boat boat = (Boat) getBoatById(idBoat);
+		return boat.getAvailable().stream().collect(Collectors.toList());
 	}
 
 	@Override
@@ -123,8 +136,9 @@ public class BoatsServiceImplementation extends CustomGenericService<Boat> imple
 
 	@Override
 	public List<DiscountOffer> getAllDiscountOffers(int boatownerId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Boat> boats = this.getAllValidByBoatOwner(boatownerId);
+		return boats.stream().map(Boat::getDisconutOffers).flatMap(Set::stream)
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -157,6 +171,11 @@ public class BoatsServiceImplementation extends CustomGenericService<Boat> imple
 	private void notifyCustomers(Boat boat) {
 		boat.getCustomers()
 				.forEach(customer -> emailService.sendDiscountNotificationEmailBoats(customer, boat));
+	}
+	
+	@Override
+	public Boat getBoatById(int id) {
+		return (Boat) ((BoatRepository) repository).findBoatById(id);
 	}
 
 	
