@@ -43,6 +43,20 @@ insert into service_price (number_of_days, price) values (5,5000);
 insert into service_price (number_of_days, price) values (10,15000);
 insert into service_price (number_of_days, price) values (1,1500);
 
+insert into boat_rent_price (number_of_days, price) values (1,1500);
+insert into boat_rent_price (number_of_days, price) values (5,5000);
+insert into boat_rent_price (number_of_days, price) values (10,15000);
+insert into boat_rent_price (number_of_days, price) values (1,1500);
+
+--badzaa
+insert into boat_prices (boat_boat_id, prices_boatrent_price_id) values (1,1);
+insert into boat_prices (boat_boat_id, prices_boatrent_price_id) values (1,2);
+insert into boat_prices (boat_boat_id, prices_boatrent_price_id) values (1,3);
+
+insert into boat_prices (boat_boat_id, prices_boatrent_price_id) values (2,4);
+
+
+
 insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status,tutor_bio) values ('One-day fishing','One day tour accross lake with fishing on most active fishing localities.', 9, 'No smoking. No alcohol.', 'Clients equipment required', 0, 4, 4, 5,'CONFIRMED','Tutor with 20 years of expirience. Great knower of Danube Backa coast and fish.');
 insert into tutor_service (name, description, max_person, rules, fishing_equipment, cancel_procentage, address_id, tutor_id, rate,status,tutor_bio) values ('Three-day fishing','Three day tour accross lake with camping and fishing on most active fishing localities.', 5, 'No smoking. No alcohol.', 'Clients equipment for camping and fishing required', 0, 4, 4, 4,'CONFIRMED','Tutor with 20 years of expirience. Great knower of Danube Backa coast and fish.');
 --abrkljac9
@@ -87,6 +101,11 @@ insert into users_available (tutor_id, available_id) values (4,12);
 insert into users_available (tutor_id, available_id) values (4,13);
 
 
+insert into boat_boat_available(boat_boat_id,boat_available_id) values (1,3);
+insert into boat_boat_available(boat_boat_id,boat_available_id) values (1,4);
+insert into boat_boat_available(boat_boat_id,boat_available_id) values (2,5);
+
+
 insert into period (start_date, end_date) values('2021-02-01 13:00:00','2021-02-15 13:00:00');
 insert into period (start_date, end_date) values('2021-03-03 11:00:00','2021-03-17 13:00:00');
 insert into period (start_date, end_date) values('2021-04-04 13:00:00','2021-04-18 13:00:00');
@@ -125,6 +144,9 @@ INSERT INTO completed_appointment(canceled_percentage, owner_percentage, payed_p
 --insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Vrhpolje, Zapadna Srbija', 1200.0, 1, 2, 6);
 --insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Mali Zvornik, Zapadna Srbija', 800.0, 2, 3, 7);
 --insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Perucac, Zapadna Srbija', 800.0, 1, 4, 8);
+
+insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Amajic, Zapadna Srbija', 1000.0, 1, 9, 12);
+insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Vrhpolje, Zapadna Srbija', 700.0, 2, 10, 12);
 
 insert into discount_offer (additional_services, entity_type, max_person, place, price, tutor_service_id, reservation_per_id, validity_per_id) values ('None', 'TUTORSERVICE', 7, 'Amajic, Zapadna Srbija', 1000.0, 2, 9, 12);
 insert into discount_offer (additional_services, entity_type, max_person, place, price, tutor_service_id, reservation_per_id, validity_per_id) values ('None', 'TUTORSERVICE', 7, 'Vrhpolje, Zapadna Srbija', 700.0, 1, 10, 12);
