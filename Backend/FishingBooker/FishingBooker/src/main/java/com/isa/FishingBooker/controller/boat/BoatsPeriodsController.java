@@ -56,6 +56,32 @@ public class BoatsPeriodsController {
 		Boat boat = boatsService.getById(idboat);
 		return ResponseEntity.status(200).body(boat.getAvailable());
 	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@GetMapping("api/boats/standard-periods")
+	public ResponseEntity<?> getAllBoatsStandardPeriod(
+			@RequestParam(name = "start", defaultValue = "") String start,
+			@RequestParam(name = "duration", defaultValue = "") int duration,
+			@RequestParam(name = "number-of-guests", defaultValue = "") int maxPersons) {
+		return ResponseEntity.status(200).body(boatsService.getAllBoatsAvailablePeriods(
+				new Timestamp(Date.valueOf(start).getTime()), duration, maxPersons));
+	}
+
+	@GetMapping("api/boats/{idboat}/discount-offers")
+	public ResponseEntity<?> getBoatDiscountOffers(@PathVariable("idboat") int idboat) {
+		Boat boat = boatsService.getById(idboat);
+		return ResponseEntity.status(200).body(boat.getDisconutOffers());
+	}
+
+	@PostMapping("api/boats/{idboat}/discount-offers")
+	@PreAuthorize("hasRole('BOATOWNER')")
+	public ResponseEntity<?> addBoatDiscountOffers(@RequestBody DiscountOffer offer,
+			@PathVariable("idboat") int idboat) {
+		// validacija za boatownera
+		boatsService.addNewDiscountOffer(idboat, offer);
+		return ResponseEntity.ok(offer);
+	}
+
 
 
 
