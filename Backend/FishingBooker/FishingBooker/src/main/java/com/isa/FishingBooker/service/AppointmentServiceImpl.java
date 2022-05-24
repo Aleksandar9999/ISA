@@ -553,8 +553,8 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 
 
 	@Override
-	public List<BoatAppointment> getAllBoatAppointmentsByBoatOwner(int id) {
-		return ((AppointmentRepository) repository).getAllAppointmentsByBoatOwner(id);
+	public List<BoatAppointment> getAllBoatAppointmentsByBoat(int id) {
+		return ((AppointmentRepository) repository).getAllAppointmentsByBoat(id);
 	}
 
 
@@ -613,8 +613,8 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 
 
 	@Override
-	public List<BoatAppointment> getAllByBoatOwnerAndPeriod(int boatOwnerId, java.sql.Date start, java.sql.Date end) {
-		return ((AppointmentRepository) repository).getAllByBoatOwnerAndPeriod(boatOwnerId, start, end);
+	public List<BoatAppointment> getAllByBoatAndPeriod(int boatId, java.sql.Date start, java.sql.Date end) {
+		return ((AppointmentRepository) repository).getAllByBoatAndPeriod(boatId, start, end);
 	}
 
 

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isa.FishingBooker.dto.BoatAppointmentDTO;
 import com.isa.FishingBooker.dto.TutorServiceAppointmentDTO;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.mapper.calendar.MonthCalendarMapper;
@@ -37,6 +38,9 @@ public class AppointmentController {
 	private AppointmentService service;
 	@Autowired
 	private CustomModelMapper<TutorServiceAppointment, TutorServiceAppointmentDTO> tutorServiceAppointmentModelMapper;
+	
+	@Autowired
+	private CustomModelMapper<BoatAppointment, BoatAppointmentDTO> boatAppointmentModelMapper;
 
 	@SuppressWarnings("rawtypes")
 	@Autowired
@@ -83,6 +87,75 @@ public class AppointmentController {
 		}
 		return ResponseEntity.ok(service.getAllTutorServiceAppointmentsByTutor(loggedinUserId));
 	}
+	
+	
+	//ZA BRODOVE CONTROLLER
+	
+	@GetMapping("api/appointments/boat/{id}/calendar/week")
+	public ResponseEntity<?> getAllBoatCalendarWeek(@RequestParam(name = "startDate", defaultValue = "") String startDate,
+			@RequestParam(name = "endDate", defaultValue = "") String endDate, @PathVariable("id") int idboat) {
+		if (!(startDate.isEmpty() && endDate.isEmpty())) {
+				LocalDate endDateLocal = Date.valueOf(startDate).toLocalDate().plusDays(7);
+				return ResponseEntity.ok(service.getAllByBoatAndPeriod(idboat, Date.valueOf(startDate),
+						Date.valueOf(endDateLocal)));
+		}
+		return ResponseEntity.ok(service.getAllBoatAppointmentsByBoat(idboat));
+	}
+
+	@SuppressWarnings("unchecked")
+	@GetMapping("api/appointments/boat/{id}/calendar/month")
+	public ResponseEntity<?> getAllBoatCalendarMonth(@RequestParam(name = "startDate", defaultValue = "") String startDate,
+			@RequestParam(name = "endDate", defaultValue = "") String endDate, @PathVariable("id") int idboat) {
+		
+		if (!(startDate.isEmpty() && endDate.isEmpty())) {
+				return ResponseEntity.ok(monthCalendarMapper.convertToDtos(
+						service.getAllByBoatAndPeriod(idboat, Date.valueOf(startDate), Date.valueOf(endDate)),
+						LocalDate.parse(startDate), LocalDate.parse(endDate)));
+		}
+		return ResponseEntity.ok(service.getAllBoatAppointmentsByBoat(idboat));
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@GetMapping("api/appointments/boat/{id}/calendar/year")
+	public ResponseEntity<?> getAllBoatCalendarYear(@RequestParam(name = "startDate", defaultValue = "") String startDate,
+			@RequestParam(name = "endDate", defaultValue = "") String endDate, @PathVariable("id") int idboat) {
+		if (!(startDate.isEmpty() && endDate.isEmpty())) {
+			return ResponseEntity.ok(yearCalendarMapper.convertToDtos(
+					service.getAllByBoatAndPeriod(idboat, Date.valueOf(startDate), Date.valueOf(endDate))));
+		}
+		return ResponseEntity.ok(service.getAllBoatAppointmentsByBoat(idboat));
+	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@GetMapping("api/appointments/boat")
+	public ResponseEntity<ArrayList<BoatAppointment>> getAllBoatAppointments() {
+		return ResponseEntity.ok((ArrayList<BoatAppointment>) service.getBoatApointments());
+	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@PostMapping("api/appointments/boat")
+	public ResponseEntity<?> addBoatAppointment(@RequestBody BoatAppointmentDTO dto) {
+		BoatAppointment appointment = boatAppointmentModelMapper.convertToEntity(dto);
+		service.addNewBoatAppointment(appointment);
+		return ResponseEntity.ok(boatAppointmentModelMapper.convertToDto(appointment));
+	}
+
+	@PreAuthorize("hasRole('TUTOR')")
+	@PostMapping("api/appointments/boat/boatowner")
+	public ResponseEntity<?> addBoatAppointmentByBoatOwner(@RequestBody BoatAppointmentDTO dto) {
+		BoatAppointment appointment = boatAppointmentModelMapper.convertToEntity(dto);
+		service.addNewBoatAppointmentByBoatOwner(appointment, true);
+		return ResponseEntity.ok(boatAppointmentModelMapper.convertToDto(appointment));
+	}
+
+	@GetMapping("api/boat/{id}/appointments")
+	public ResponseEntity<?> getAllAppointmentsByBoat(@PathVariable("idboat") Integer idboat) {
+		return ResponseEntity.ok(boatAppointmentModelMapper
+				.convertToDtos(service.getAllBoatAppointmentsByBoat(idboat)));
+	}
+	
+	//KRAJ ZA BRODOVE
 
 	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/resortAppointments")

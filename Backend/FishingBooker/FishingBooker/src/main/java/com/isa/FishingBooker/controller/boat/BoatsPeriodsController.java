@@ -81,6 +81,10 @@ public class BoatsPeriodsController {
 		boatsService.addNewDiscountOffer(idboat, offer);
 		return ResponseEntity.ok(offer);
 	}
+	
+	
+
+	
 
 
 

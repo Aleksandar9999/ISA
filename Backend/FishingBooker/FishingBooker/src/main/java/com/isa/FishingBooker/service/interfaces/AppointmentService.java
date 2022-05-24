@@ -29,11 +29,11 @@ public interface AppointmentService extends Service<Appointment> {
 	public List<TutorServiceAppointment> getAllPendingByTutorServiceId(int id);
 	
 	public List<BoatAppointment> getBoatApointments();
-	public List<BoatAppointment> getAllBoatAppointmentsByBoatOwner(int id);
+	public List<BoatAppointment> getAllBoatAppointmentsByBoat(int id);
 	public void addNewBoatAppointment(BoatAppointment app);
 	public void addNewBoatAppointmentByBoatOwner(BoatAppointment app,boolean validateUser);
 	public void addNewBoatAppointmentFromDiscount(BoatAppointment app);
-	public List<BoatAppointment> getAllByBoatOwnerAndPeriod(int boatOwnerId,Date start,Date end);
+	public List<BoatAppointment> getAllByBoatAndPeriod(int boatId,Date start,Date end);
 	public String makeBoatReservation(BoatAppointment appointment);
 	public List<BoatAppointment> getAllBoatAppoints();
 	public List<BoatAppointment> getAllPendingByBoatId(int id);
