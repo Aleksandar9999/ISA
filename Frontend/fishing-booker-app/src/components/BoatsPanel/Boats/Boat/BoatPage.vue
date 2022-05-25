@@ -46,6 +46,8 @@
       @hideDialog="hideNewAppointmentDialog"
     />
   </div>
+
+  
 </template>
 
 <script>
@@ -60,6 +62,7 @@ import BoatPriceModalDialog from "./BoatPriceModalDialog.vue";
 import BoatPhotoDialog from "./BoatPhotoDialog.vue";
 import NewReservationDialog from "../Reservations/NewReservationDialog.vue";
 import "firebase/storage";
+
 export default {
   components: {
     BoatHeader,

@@ -91,7 +91,7 @@
             </tr>  
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPerson}}</td><td>{{item.navigationEquipment}}</td><td><router-link :to="{name:profileName, params: {id:item.id}}">Page </router-link></td></tr>
+                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.maxPerson}}</td><td>{{item.navigationEquipment}}</td><td><a :href=getBoatPageHref(item)>Page</a></td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -154,6 +154,11 @@ export default {
         console.log("Ovo je za hrefTutorService")
         console.log(item);
         return `/tutors/${item.tutorId}/services/${item.id}`
+      },
+       getBoatPageHref(item){
+        console.log("Ovo je za hrefBoatPage")
+        console.log(item);
+        return `/boatowners/${item.boatOwnerId}/boats/${item.id}`
       },
       changeTab(type){
         this.tabType=type;
@@ -348,7 +353,7 @@ export default {
       getData(){
         if(this.tabType==='boats'){
           this.dataList=[];
-          axios.get('http://localhost:8080/boats').then(response =>
+          axios.get('http://localhost:8080/api/boats/valid').then(response =>
             this.fillDataLists(response)
           )
         } else if(this.tabType==='tutors'){
@@ -366,7 +371,7 @@ export default {
       },
       resetLists(){
         if(this.tabType==='boats'){
-          axios.get('http://localhost:8080/boats').then(response =>
+          axios.get('http://localhost:8080/api/users/boatowners/boats').then(response =>
             this.searchData=response.data
           )
         } else if(this.tabType==='tutors'){

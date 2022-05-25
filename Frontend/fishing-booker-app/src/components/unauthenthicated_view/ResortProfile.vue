@@ -74,7 +74,7 @@ export default {
             this.map.addLayer(this.layer);
             },
         getCoordinates(address){
-            axios.get('http://api.positionstack.com/v1/forward', { params:{access_key:'03cbb05a85b189850d248751c1e630a6',query:address}}).then(
+            axios.get('http://api.positionstack.com/v1/forward', { params:{access_key:'45de5b2b92f8621fa59de13c67664029',query:address}}).then(
             response=>this.drawMap(response.data.data[0].latitude,response.data.data[0].longitude)                           
             ).catch(error => console.log(error))
         },
