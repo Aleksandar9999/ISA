@@ -67,6 +67,11 @@ public class RevisionController {
 		return ResponseEntity.ok(revisionService.getTutorServiceAppointmentRevisionsRate(id));
 	}
 	
+	@GetMapping("api/revision/boat/{id}/rate")
+	public ResponseEntity<?> getRevisionsForBoatAppointments(@PathVariable("id") Integer id){
+		return ResponseEntity.ok(revisionService.getBoatAppointmentRevisionsRate(id));
+	}
+	
 	@PreAuthorize("hasRole('USER')")
 	@PostMapping("api/revision/makeTutorServiceRevision")
 	public ResponseEntity<?> makeTutorServiceRevision(@RequestBody TutorServiceAppointmentRevision revision){

@@ -61,19 +61,12 @@ public class RevisionServiceImpl extends CustomGenericService<Revision> implemen
 	}
 
 	@Override
-	public int getBoatAppointmentRevisionsRate(Integer id) {
-		// TODO Auto-generated method stub
-		List<BoatAppointmentRevision> revisions = ((RevisionRepository) repository).getBoatAppointmentRevisionById(id);
-		int result = 0;
-		for (BoatAppointmentRevision r : revisions) {
-			result += r.getRate();
-		}
-		if (revisions.size() != 0) {
-			result = result / revisions.size();
-		} else {
-			result = 0;
-		}
-		return result;
+	public double getBoatAppointmentRevisionsRate(Integer id) {
+		List<BoatAppointmentRevision> revisions = ((RevisionRepository) repository)
+				.getBoatAppointmentRevisionById(id);
+		if (revisions.size() == 0)
+			return 0;
+		return revisions.stream().mapToDouble(BoatAppointmentRevision::getRate).sum() / revisions.size();
 	}
 
 	@Override

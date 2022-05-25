@@ -10,13 +10,13 @@
       <w-button @click="showModalDialog"  v-if="showBoatOwnerButtonsFunc()" >Add new</w-button> 
     </w-flex>
     
-    <CustomTable
+    <BoatsTable
       :dataList=searchList
       :headerList="headers"
       :itemRow="itemRow"
-      @tutorServiceDeleted="deletedService"
+      @boatDeleted="deletedBoat"
     />
-    <TutorServiceDialog
+    <BoatDialog
       :show="showDialog"
       @hideDialog="hideDialogFromDialog"
       :idBoatOwner="this.$route.params.idboatowner"
@@ -25,13 +25,13 @@
 </template>
 <script>
 import axios from "axios";
-import CustomTable from "../../CustomTable.vue";
+import BoatsTable from "../../BoatsTable.vue";
 import BoatInfo from "./BoatInfo.vue";
 import config from "../../../configuration/config";
 import BoatDialog from "./BoatDialog.vue";
 export default {
   components: {
-    CustomTable,
+    BoatsTable,
     BoatInfo,
     BoatDialog,
   },
@@ -69,7 +69,7 @@ export default {
 		},
   },
   methods: {
-    deletedService() {
+    deletedBoat() {
       this.fetchData();
       this.$forceUpdate();
     },

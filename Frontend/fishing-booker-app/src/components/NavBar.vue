@@ -10,9 +10,19 @@
       <li v-if="loggedIn == true && userRole == 'TUTOR'">
         <router-link to="/">Home</router-link>
       </li>
+         <li v-if="loggedIn == true && userRole == 'BOATOWNER'">
+        <router-link to="/">Home</router-link>
+      </li>
       <li v-for="item in tutorNavigationList" :key="item.url">
         <router-link
           v-if="loggedIn == true && userRole == 'TUTOR'"
+          :to="item.url"
+          >{{ item.title }}</router-link
+        >
+      </li>
+       <li v-for="item in boatOwnerNavigationList" :key="item.url">
+        <router-link
+          v-if="loggedIn == true && userRole == 'BOATOWNER'"
           :to="item.url"
           >{{ item.title }}</router-link
         >
@@ -110,7 +120,8 @@ export default {
       loggedIn: true,
       userid: "",
       tutorNavigationList: {},
-      adminNavigationList:{}
+      adminNavigationList:{},
+      boatOwnerNavigationList:{}
     };
   },
   mounted() {},
@@ -187,6 +198,17 @@ export default {
                 url: "/appointment-reports",
               },
           }
+        }
+        else if(localStorage.getItem("roles")?.split(" ")[1] == "ROLE_BOATOWNER"){
+          this.userRole='BOATOWNER';
+          this.$axios.get(`${config.apiStart}/api/users/me`,config.requestHeader).then((resp) => {         
+            this.boatOwnerNavigationList = {
+              1: {
+                title: "My Boats",
+                url: `/boatowners/${resp.data.id}/boats`,
+              },
+            };
+          });
         }
       },
     },

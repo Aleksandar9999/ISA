@@ -55,7 +55,7 @@ public class BoatsController {
 		return ResponseEntity.ok(boatMapper.convertToDtos(boatsService.getAllValid()));
 	}
 
-	@GetMapping("api/users/boatowners/{idboatowner}/boats")
+	@GetMapping("api/users/boatowners/{idboatowner}/boats") // za spisak brodova na frontu
 	public ResponseEntity<?> getBoatsBoatOwnerById(@PathVariable("idboatowner") int id) {
 		return ResponseEntity.ok(boatMapper.convertToDtos(boatsService.getAllValidByBoatOwner(id)));
 	}

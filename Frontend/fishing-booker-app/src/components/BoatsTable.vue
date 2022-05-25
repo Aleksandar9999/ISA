@@ -11,7 +11,7 @@
             </tr>
           </thead>
           <tbody class="tbl-content" v-for="item in data_local" :key="item">
-            <itemComp :item=item @tutorServiceDeleted=tutorServiceDeleted />
+            <itemComp :item=item @boatDeleted=boatDeleted />
               
           </tbody>
         </table>
@@ -39,8 +39,8 @@ export default {
     this.$forceUpdate(); 
   },
   methods: {
-    tutorServiceDeleted(){
-      this.$emit("tutorServiceDeleted", true);
+    boatDeleted(){
+      this.$emit("boatDeleted", true);
     },
  
   },

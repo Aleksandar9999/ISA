@@ -15,7 +15,7 @@
           <p>Name</p>
         </div>
         <div class="xs6 pa1">
-          <input type="text" v-model="tutorServiceLocal.name" />
+          <input type="text" v-model="boatLocal.name" />
         </div>
       </w-flex>
 
@@ -24,7 +24,7 @@
           <p>Description</p>
         </div>
         <div class="xs6 pa1">
-          <input type="text" v-model="tutorServiceLocal.description" />
+          <input type="text" v-model="boatLocal.description" />
         </div>
       </w-flex>
 
@@ -33,7 +33,7 @@
           <p>Max num of persons:</p>
         </div>
         <div class="xs6 pa1">
-          <input type="number" v-model="tutorServiceLocal.maxPerson" />
+          <input type="number" v-model="boatLocal.maxPerson" />
         </div>
       </w-flex>
 
@@ -42,7 +42,7 @@
           <p>Rules</p>
         </div>
         <div class="xs6 pa1">
-          <input type="text" v-model="tutorServiceLocal.rules" />
+          <input type="text" v-model="boatLocal.rules" />
         </div>
       </w-flex>
 
@@ -51,16 +51,16 @@
           <p>Fishing equipment</p>
         </div>
         <div class="xs6 pa1">
-          <input type="text" v-model="tutorServiceLocal.fishingEquipment" />
+          <input type="text" v-model="boatLocal.fishingEquipment" />
         </div>
       </w-flex>
 
       <w-flex wrap class="text-center">
         <div class="xs6 pa1">
-          <p>Cancel procentage</p>
+          <p>Cancel percentage</p>
         </div>
         <div class="xs6 pa1">
-          <input type="number" v-model="tutorServiceLocal.cancelProcentage" />
+          <input type="number" v-model="boatLocal.cancelPercentage" />
         </div>
       </w-flex>
 
@@ -70,7 +70,7 @@
           <p>Street</p>
         </div>
         <div class="xs6 pa1">
-          <input type="text" v-model="tutorServiceLocal.address.street" />
+          <input type="text" v-model="boatLocal.address.street" />
         </div>
       </w-flex>
 
@@ -79,7 +79,7 @@
           <p>Country</p>
         </div>
         <div class="xs6 pa1">
-          <input type="text" v-model="tutorServiceLocal.address.country" />
+          <input type="text" v-model="boatLocal.address.country" />
         </div>
       </w-flex>
 
@@ -88,7 +88,7 @@
           <p>City</p>
         </div>
         <div class="xs6 pa1">
-          <input type="text" v-model="tutorServiceLocal.address.city" />
+          <input type="text" v-model="boatLocal.address.city" />
         </div>
       </w-flex>
       <template #actions>
@@ -102,65 +102,66 @@
   </div>
 </template>
 <script>
-// import axios from "axios";
-// import config from "../../../configuration/config";
-// export default {
-//   props: ["show", "idTutor"],
-//   data() {
-//     return {
-//       dialog: {
-//         show: false,
-//         fullscreen: false,
-//         persistent: true,
-//         persistentNoAnimation: false,
-//         width: 400,
-//       },
-//       success: false,
-//       tutorServiceLocal: {
-//         name: "",
-//         description: "",
-//         maxPerson: "",
-//         rules: "",
-//         fishingEquipment: "",
-//         cancelProcentage: "",
-//         address: {
-//           street: "",
-//           country: "",
-//           city: "",
-//         },
-//       },
-//     };
-//   },
-//   methods: {
-//     hideDialog() {
-//       this.dialog.show = false;
-//       this.$emit("hideDialog", {
-//         dialog: this.dialog.show,
-//         success: this.success,
-//       });
-//     },
-//     save() {
-//       axios
-//         .post(
-//           config.apiStart + `/api/tutor-services`,
-//           this.tutorServiceLocal,
-//           config.requestHeader
-//         )
-//         .then((resp) => {
-//           this.success = true;
-//           this.hideDialog();
-//           console.log(resp);
-//         });
-//     },
-//   },
-//   watch: {
-//     show: {
-//       immediate: true,
-//       handler(fromProp) {
-//         if (fromProp) this.dialog.show = fromProp;
-//       },
-//     },
-//   },
-// };
+import axios from "axios";
+import config from "../../../configuration/config";
+export default {
+  props: ["show", "idBoatOwner"],
+  data() {
+    return {
+      dialog: {
+        show: false,
+        fullscreen: false,
+        persistent: true,
+        persistentNoAnimation: false,
+        width: 400,
+      },
+      success: false,
+      boatLocal: {
+        name: "",
+        description: "",
+        maxPerson: "",
+        rules: "",
+        fishingEquipment: "",
+        cancelPercentage: "",
+        address: {
+          street: "",
+          country: "",
+          city: "",
+        },
+      },
+    };
+  },
+  methods: {
+    hideDialog() {
+      this.dialog.show = false;
+      this.$emit("hideDialog", {
+        dialog: this.dialog.show,
+        success: this.success,
+      });
+    },
+    save() {
+      axios
+        .post(
+          config.apiStart + `/api/boats`,
+          this.boatLocal,
+          config.requestHeader
+        )
+        .then((resp) => {
+          this.success = true;
+          this.hideDialog();
+          console.log(resp);
+        });
+    },
+  },
+  watch: {
+    show: {
+      immediate: true,
+      handler(fromProp) {
+        if (fromProp) this.dialog.show = fromProp;
+      },
+    },
+  },
+};
+
 </script>
 <style></style>
