@@ -43,6 +43,7 @@ import AppointmentsList from '../components/TutorPanel/TutorServices/Appointment
 import DiscountOffer from '../components/DiscountOffers.vue'
 
 import BoatsList from '../components/BoatsPanel/Boats/BoatsList.vue'
+import BoatPage from '../components/BoatsPanel/Boats/Boat/BoatPage.vue'
 
 const routes = [
   {
@@ -78,6 +79,7 @@ const routes = [
   {path:"", name:"FrontPage", component: FrontPage},
 
   {path: "/boatowners/:idboatowner/boats", name: "Boats", component: BoatsList},
+  {path: "/boatowners/:idboatowner/boats/:idboat", name: "Boat", component: BoatPage},
 
 {
     path: '/resortProfile',
