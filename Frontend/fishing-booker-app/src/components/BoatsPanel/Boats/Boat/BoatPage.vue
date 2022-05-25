@@ -54,7 +54,7 @@ import Gallery from "../../../TutorPanel/TutorServices/TutorService/Gallery.vue"
 import BoatExtrasServices from "./BoatExtrasServices.vue";
 import BoatFastAppointments from "./BoatFastAppointments.vue";
 import config from "../../../../configuration/config";
-import BoatDiscountOfferModalDialog from "../../../TutorPanel/TutorServices/TutorService/DiscountOfferModalDialog.vue";
+import BoatDiscountOfferModalDialog from "./BoatDiscountOfferModalDialog.vue";
 import BoatPricesList from "./BoatPricesList.vue";
 import BoatPriceModalDialog from "./BoatPriceModalDialog.vue";
 import BoatPhotoDialog from "./BoatPhotoDialog.vue";

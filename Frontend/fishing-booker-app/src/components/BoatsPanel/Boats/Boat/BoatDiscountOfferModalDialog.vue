@@ -115,7 +115,7 @@
         <w-button class="mr2" @click="hideDialog" bg-color="error">
           Discard
         </w-button>
-        <w-button @click="save" bg-color="success"> Save </w-button>
+        <w-button @click="save"  bg-color="success"> Save </w-button>
       </template>
     </w-dialog>
   </div>
@@ -188,6 +188,7 @@ export default {
         )
         .then(()=>alert("done"));
       console.log(this.discountOfferLocal);
+       window.location.reload();
     },
   },
   watch: {
