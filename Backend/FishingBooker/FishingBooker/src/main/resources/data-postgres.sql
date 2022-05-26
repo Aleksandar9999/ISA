@@ -12,7 +12,7 @@ INSERT INTO ROLE (name) VALUES ('ROLE_TUTOR');
 INSERT INTO ROLE (name) VALUES ('ROLE_BOATOWNER');
 INSERT INTO ROLE (name) VALUES ('ROLE_RESORTOWNER');
 
-insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('User','abrkljac052@gmail.com', 'bojan', 'Blagoje', 'Adzic', '021334563','CONFIRMED',1,0);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('User','marko.trifunovic135@gmail.com', 'bojan', 'Blagoje', 'Adzic', '021334563','CONFIRMED',1,0);
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('BoatOwner','badzaa@gmail.com', 'bojan', 'Bosko', 'Adzic', '021554263','ADMIN_CONFIRMED',1,0);
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('ResortOwner','radomBoj@gmail.com', 'bojan', 'Radomir', 'Bojanic', '015553363','ADMIN_CONFIRMED',2,0);
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('Tutor','dragoOrasanin@gmail.com', 'bojan', 'Drago', 'Orasanin','015252161','ADMIN_CONFIRMED',2,0);
