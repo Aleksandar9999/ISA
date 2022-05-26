@@ -54,7 +54,7 @@ public class TutorService {
 	private String tutorBio;
 	// @ManyToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	private String extrasServices;
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY)
 	private Set<User> subscribers = new HashSet<>();
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Photo> photos = new HashSet<Photo>();
@@ -85,6 +85,7 @@ public class TutorService {
 	}
 
 	public TutorService updateInfo(TutorService service) {
+		this.id=service.getId();
 		this.name = service.getName();
 		this.description = service.getDescription();
 		this.maxPerson = service.getMaxPerson();

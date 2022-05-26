@@ -101,7 +101,9 @@ public class TutorServicesServiceImpl extends CustomGenericService<TutorService>
 
 	@Override
 	public void addNewSubscriber(int serviceId, User loggedinUser) {
-		this.update(this.getById(serviceId).addNewSubscriber(loggedinUser));
+		TutorService tutorService=this.getById(serviceId);
+		tutorService.addNewSubscriber(usersService.getById(loggedinUser.getId()));
+		this.update(tutorService);
 	}
 
 	@Override
