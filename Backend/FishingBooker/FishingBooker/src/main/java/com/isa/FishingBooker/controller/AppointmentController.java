@@ -141,7 +141,7 @@ public class AppointmentController {
 		return ResponseEntity.ok(boatAppointmentModelMapper.convertToDto(appointment));
 	}
 
-	@PreAuthorize("hasRole('TUTOR')")
+	@PreAuthorize("hasRole('BOATOWNER')")
 	@PostMapping("api/appointments/boat/boatowner")
 	public ResponseEntity<?> addBoatAppointmentByBoatOwner(@RequestBody BoatAppointmentDTO dto) {
 		BoatAppointment appointment = boatAppointmentModelMapper.convertToEntity(dto);
@@ -149,7 +149,7 @@ public class AppointmentController {
 		return ResponseEntity.ok(boatAppointmentModelMapper.convertToDto(appointment));
 	}
 
-	@GetMapping("api/boat/{id}/appointments")
+	@GetMapping("api/boat/{idboat}/appointments")
 	public ResponseEntity<?> getAllAppointmentsByBoat(@PathVariable("idboat") Integer idboat) {
 		return ResponseEntity.ok(boatAppointmentModelMapper
 				.convertToDtos(service.getAllBoatAppointmentsByBoat(idboat)));

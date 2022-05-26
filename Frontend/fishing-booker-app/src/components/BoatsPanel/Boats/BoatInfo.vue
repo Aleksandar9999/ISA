@@ -12,6 +12,9 @@
        <td>
       <a :href="showPeriods">Periods</a>
     </td>
+       <td>
+      <a :href="showAppointments">Appointments</a>
+    </td>
     <td style="padding: 10px 0px" v-if="showAdminButtons">
       <w-button class="mr2" @click="deleteBoat" bg-color="error">
         Delete
@@ -29,6 +32,7 @@
        item_local: {},
        showBoat: "",
        showPeriods:"",
+       showAppointments:"",
        showAdminButtons:false,
        rate:''
      };
@@ -80,6 +84,8 @@
              this.item_local.id;
             this.showPeriods= 
              "/boats/" + this.item_local.id +"/all-standard-periods";
+               this.showAppointments= 
+             "/boat/" + this.item_local.id +"/appointments";
 
          }
        },

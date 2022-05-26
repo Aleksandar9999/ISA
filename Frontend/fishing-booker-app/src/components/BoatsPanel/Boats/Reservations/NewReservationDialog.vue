@@ -58,27 +58,6 @@
         </div>
       </w-flex>
 
-      <w-flex justify-space-between class="pa3">
-        <div class="box">
-          <p>Boat:</p>
-        </div>
-        <div class="box">
-          <select
-            name="boats"
-            id="boats"
-            v-model="appointmentLocal.boatId"
-          >
-            <option value=""></option>
-            <option
-              v-for="boat in boats"
-              :key="boat.id"
-              :value="boat.id"
-            >
-              {{ boat.name }}
-            </option>
-          </select>
-        </div>
-      </w-flex>
 
       <w-flex wrap class="text-center" v-if="!userId">
         <div class="box">
@@ -134,19 +113,14 @@ export default {
         maxPerson: "",
         additionalServices: "",
         price: "",
-        boatId: "",
+        boatId: this.$route.params.idboat,
         userId: "",
         validateUser: true,
       },
     };
   },
   mounted() {
-    axios
-      .get(
-        `${config.apiStart}/api/users/boatowners/${this.idBoatOwner}/boats`,
-        config.requestHeader
-      )
-      .then((resp) => (this.services = resp.data));
+  
     axios
       .get(config.apiStart + "/api/users/clients", config.requestHeader)
       .then((resp) => (this.clients = resp.data));
@@ -181,7 +155,6 @@ export default {
 
       console.log(appointmentToSave);
       let api = "/api/appointments/boat";
-      if (!this.userId) api += "/boatowner";
       axios
         .post(config.apiStart + api, appointmentToSave, config.requestHeader)
         .then((resp) => {

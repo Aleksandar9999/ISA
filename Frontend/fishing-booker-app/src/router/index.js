@@ -45,6 +45,7 @@ import DiscountOffer from '../components/DiscountOffers.vue'
 import BoatsList from '../components/BoatsPanel/Boats/BoatsList.vue'
 import BoatPage from '../components/BoatsPanel/Boats/Boat/BoatPage.vue'
 import BoatAvailablePeriods from '../components/BoatsPanel/Boats/Reservations/BoatAvailablePeriods.vue';
+import ReservationsList from '../components/BoatsPanel/Boats/Reservations/ReservationsList.vue';
 
 const routes = [
   {
@@ -83,6 +84,7 @@ const routes = [
   {path: "/boatowners/:idboatowner/boats", name: "Boats", component: BoatsList},
   {path: "/boatowners/:idboatowner/boats/:idboat", name: "Boat", component: BoatPage},
   {path: "/boats/:idboat/all-standard-periods", name: "BoatPeriodsPage", component: BoatAvailablePeriods},
+  {path: "/boat/:idboat/appointments", name: "BoatAppointmentsPage", component: ReservationsList},
 
 {
     path: '/resortProfile',

@@ -124,17 +124,17 @@ insert into period (start_date, end_date) values('2022-02-15 12:00:00','2022-02-
 
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, resort_id,status) values ('ResortAppointment', 15, 7, 'No additional services.', 500.00, 'RESORT', 4, 1,'SUCCESSFUL');
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, tutor_service_id,user_id,status) values ('TutorServiceAppointment', 25, 7, 'No additional services.', 2000.00, 'TUTORSERVICE', 5, 4,1,'SUCCESSFUL');
-insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,status) values ('BoatAppointment', 17, 5, 'No additional services.', 1500.00,'BOAT', 4, 1,'SUCCESSFUL');
+insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,user_id,status) values ('BoatAppointment', 17, 5, 'No additional services.', 21000.00,'BOAT', 4,1, 1,'SUCCESSFUL');
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id, user_id,status) values ('BoatAppointment', 18, 8, 'No additional services.', 1200.00, 'BOAT', 5, 2,1,'CANCELED');
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, resort_id,status) values ('ResortAppointment', 19, 7, 'No additional services.', 400.00, 'RESORT', 4, 2,'SUCCESSFUL');
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, tutor_service_id,status) values ('TutorServiceAppointment', 20, 7, 'No additional services.', 1900.00, 'TUTORSERVICE', 4, 1,'CANCELED');
-insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,status) values ('BoatAppointment', 21, 5, 'No additional services.', 1700.00,'BOAT', 5, 2,'SUCCESSFUL');
-insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id, user_id,status) values ('BoatAppointment', 22, 8, 'No additional services.', 800.00, 'BOAT', 5, 2,2,'SUCCESSFUL');
+insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,user_id,status) values ('BoatAppointment', 21, 5, 'No additional services.', 1700.00,'BOAT', 5,2, 1,'CANCELED');
+insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id, user_id,status) values ('BoatAppointment', 22, 8, 'No additional services.', 800.00, 'BOAT', 5, 2,1,'CANCELED');
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, resort_id, user_id,status) values ('ResortAppointment', 23, 7, 'No additional services.', 500.00, 'RESORT', 4, 1, 2,'SUCCESSFUL');
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, tutor_service_id, user_id,status) values ('TutorServiceAppointment', 24, 7, 'No additional services.', 900.00, 'TUTORSERVICE', 4, 1, 1,'CANCELED');
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, resort_id, user_id,status) values ('ResortAppointment', 25, 7, 'No additional services.', 1500.00, 'RESORT', 4, 2, 1,'SUCCESSFUL');
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, tutor_service_id, user_id,status) values ('TutorServiceAppointment', 26, 7, 'No additional services.', 1400.00, 'TUTORSERVICE', 4, 4, 1,'CANCELED');
-insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,status) values ('BoatAppointment', 27, 5, 'No additional services.', 1900.00,'BOAT', 4, 1,'SUCCESSFUL');
+insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,user_id,status) values ('BoatAppointment', 14, 5, 'No additional services.', 26000.00,'BOAT', 4, 1,1,'SUCCESSFUL');
 
 insert into objection (appointment_id, objection, creator_id, version) values(12,'Zalba',1,1);
 
