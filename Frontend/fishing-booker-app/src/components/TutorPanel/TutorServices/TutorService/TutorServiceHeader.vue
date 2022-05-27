@@ -227,7 +227,7 @@ export default {
       if(this.subscribeButton.title=='SUBSCRIBE')
         this.$axios.post(`${config.apiStart}/api/tutor-services/${this.service_info.id}/subscribers`,this.service_form).then(()=>this.isSubscribed()
         );
-      else this.$axios.post(`${config.apiStart}/cancelTutorServiceSubscription`,this.service_form).then(()=>this.isSubscribed()); 
+      else this.$axios.delete(`${config.apiStart}/api/tutor-services/${this.service_info.id}/subscribers`,this.service_form).then(()=>this.isSubscribed()); 
       
     },
     save() {

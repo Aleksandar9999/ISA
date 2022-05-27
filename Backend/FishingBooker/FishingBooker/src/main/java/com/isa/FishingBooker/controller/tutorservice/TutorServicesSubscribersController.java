@@ -1,5 +1,6 @@
 package com.isa.FishingBooker.controller.tutorservice;
 
+import com.isa.FishingBooker.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.controller.UsersController;
 import com.isa.FishingBooker.service.interfaces.TutorServicesService;
+
+import java.util.List;
+import java.util.Set;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -37,8 +41,10 @@ public class TutorServicesSubscribersController {
 
 	@GetMapping("api/tutor-services/{id}/subscribers/me")
 	public ResponseEntity<?> isLoggedinUserSubscribe(@PathVariable("id") int id) {
-		return ResponseEntity.ok(this.tutorServicesService.getById(id).getSubscribers().stream()
-				.anyMatch(el -> el.getId().equals(UsersController.getLoggedInUserId())));
+		Set<User> subscribers=this.tutorServicesService.getById(id).getSubscribers();
+		boolean subscribed =subscribers.stream()
+				.anyMatch(el -> el.getId().equals(UsersController.getLoggedInUserId()));
+		return subscribed?ResponseEntity.ok().build():ResponseEntity.notFound().build();
 	}
 
 }
