@@ -303,7 +303,7 @@ export default {
   },
   methods: {
     isSubscribed(){
-      this.$axios.get(`${config.apiStart}/api/subscriptions/boat/${this.boat_info.id}`).then(resp=>{
+      this.$axios.get(`${config.apiStart}/api/boats/${this.boat_info.id}/customers/me`).then(resp=>{
         this.subscribeButton.title="UNSUBSCRIBE"
         this.subscribeButton.bgColor=''
         console.log(resp)
@@ -318,7 +318,7 @@ export default {
     },
     subscribe(){
       if(this.subscribeButton.title=='SUBSCRIBE')
-        this.$axios.post(`${config.apiStart}/subscripeBoat`,this.boat_form).then(()=>this.isSubscribed()
+        this.$axios.post(`${config.apiStart}/api/boats/${this.boat_info.id}/customers`,this.boat_form).then(()=>this.isSubscribed()
         );
       else this.$axios.post(`${config.apiStart}/cancelBoatSubscription`,this.boat_form).then(()=>this.isSubscribed()); 
       

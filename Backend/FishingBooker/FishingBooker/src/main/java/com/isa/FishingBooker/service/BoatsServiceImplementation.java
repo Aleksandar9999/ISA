@@ -115,7 +115,9 @@ public class BoatsServiceImplementation extends CustomGenericService<Boat> imple
 
 	@Override
 	public void addNewCustomer(int boatId, User loggedinUser) {
-		this.update(this.getById(boatId).addNewCustomer(loggedinUser));
+		Boat boat=this.getById(boatId);
+		boat.addNewCustomer(usersService.getById(loggedinUser.getId()));
+		this.update(boat);
 		
 	}
 

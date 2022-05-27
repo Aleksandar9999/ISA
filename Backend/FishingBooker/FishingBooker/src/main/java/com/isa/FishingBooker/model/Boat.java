@@ -66,7 +66,7 @@ public class Boat {
 	
 	private String extrasServices;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY)
 	private Set<User> customers = new HashSet<>();
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -115,6 +115,7 @@ public class Boat {
 	}
 	
 	public Boat updateInfo(Boat boat) {
+		this.id=boat.getId();
 		this.name = boat.getName();
 		this.typeOfBoat = boat.getTypeOfBoat();
 		this.length = boat.getLength();
