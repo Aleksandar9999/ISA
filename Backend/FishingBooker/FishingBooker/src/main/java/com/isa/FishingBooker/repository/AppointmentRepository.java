@@ -51,12 +51,12 @@ public interface AppointmentRepository extends JpaRepository<Appointment ,Intege
 	@Query("select a from Appointment a where TYPE(a)=BoatAppointment and a.boat.id=?1 and a.status='PENDING'")
 	public List<BoatAppointment> getAllPendingByBoatId(int id);
 	
-	@Query(value="select dtype, a.id, a.period_id, ps.end_date as endDate,a.status, appoint_type, additional_services, b.max_person, price, ps.start_date, b.address_id, user_id, boat_id, resort_id, b.boat_owner_id,b.boat_id, "
+	@Query(value="select dtype, a.id, a.period_id, ps.end_date as endDate,a.status, appoint_type, additional_services, b.max_person, price, ps.start_date, a.address_id, user_id, tutor_service_id, resort_id, b.boat_owner_id,b.boat_id, "
 			+ "    b.name from Appointment a INNER JOIN boat as b on a.boat_id=b.boat_id "
 			+ "INNER JOIN Period ps on ps.id=a.period_id "
 			+ "where a.dtype='BoatAppointment' and b.boat_id=?1 and "
 			+ "(ps.start_date, ps.end_date) OVERLAPS (CAST(?2 as date), CAST(?3 as date))",nativeQuery = true)
-	public List<BoatAppointment> getAllByBoatAndPeriod(int boatownerId, Date start,Date end);
+	public List<BoatAppointment> getAllByBoatAndPeriod(int boatId, Date start,Date end);
 	
 	
 	@Query("select a from Appointment a where TYPE(a)=TutorServiceAppointment")

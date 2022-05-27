@@ -28,7 +28,11 @@
 <script>
  import axios from "axios";
  import config from "../../../configuration/config";
+ import YearlyCalendarBoat from "./BoatCalendar/BoatCalendarYear/YearlyCalendarBoat.vue";
  export default {
+   components: {
+  YearlyCalendarBoat,
+  },
    props: ["item", "showAdminButton"],
    data() {
      return {
@@ -38,6 +42,7 @@
        showAppointments:"",
         showCalendar:"",
        showAdminButtons:false,
+       year: YearlyCalendarBoat.year,
        rate:''
      };
    },
@@ -90,7 +95,7 @@
              "/boats/" + this.item_local.id +"/all-standard-periods";
                this.showAppointments= 
              "/boat/" + this.item_local.id +"/appointments";
-              this.showCalendar="/boat/" + this.item_local.id + "/calendar/year/:year";
+              this.showCalendar="/boat/" + this.item_local.id + "/calendar/year/" + this.year;
 
          }
        },

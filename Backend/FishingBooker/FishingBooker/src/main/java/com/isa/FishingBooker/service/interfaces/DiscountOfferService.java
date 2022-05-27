@@ -7,9 +7,10 @@ import java.util.List;
 import com.isa.FishingBooker.dto.*;
 
 public interface DiscountOfferService extends Service<DiscountOffer> {
-	public List<DiscountOfferDTO> getAllBoatDiscountOffers();
+	public List<DiscountOffer> getAllBoatDiscountOffers();
 	public List<DiscountOfferDTO> getAllResortDiscountOffers();
 	public List<DiscountOffer> getAllTutorServiceDiscountOffers();
 	public String makeTutorServiceAppointmentOfDiscount(DiscountOffer discountOffer);
+	public String makeBoatAppointmentOfDiscount(DiscountOffer discountOffer);
 	
 }

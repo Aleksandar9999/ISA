@@ -66,30 +66,14 @@ public class DiscountOfferServiceImplementation implements DiscountOfferService{
 	}
 
 	@Override
-	public List<DiscountOfferDTO> getAllBoatDiscountOffers() {
-		// TODO Auto-generated method stub
-		List<DiscountOfferDTO> retList = new ArrayList<DiscountOfferDTO>();
+	public List<DiscountOffer> getAllBoatDiscountOffers() {
+		List<DiscountOffer> retLista = new ArrayList<DiscountOffer>();
 		for(DiscountOffer d : repository.findAll()) {
 			if(d.getEntityType()==AppointmentType.BOAT) {
-			for(BoatAppointment a : appointmentService.getAllBoatAppoints()) {
-				if(a.getBoat().getId()==d.getBoat().getId()) {
-					DiscountOfferDTO dto = new DiscountOfferDTO();
-					dto.setAddress(a.getAddress());
-					dto.setAppointmentId(a.getId());
-					dto.setNewPrice(d.getPrice());
-					dto.setPrice(a.getPrice());
-					dto.setStart(a.getPeriod().getStartDate());
-					double discount = (1 - d.getPrice()/a.getPrice()) * 100;
-					DecimalFormat df = new DecimalFormat("#.##");
-					double p = Double.parseDouble(df.format(discount));
-					dto.setDiscount(p);
-					retList.add(dto);
-				}
-			}
+				retLista.add(d);
 			}
 		}
-		
-		return retList;
+		return retLista;
 	}
 
 	@Override
@@ -178,6 +162,11 @@ public class DiscountOfferServiceImplementation implements DiscountOfferService{
         long razlika = dani.convert(brMS,TimeUnit.MILLISECONDS);
 		
 		return (int)razlika;
+	}
+
+	@Override
+	public String makeBoatAppointmentOfDiscount(DiscountOffer discountOffer) {
+		return "ok";
 	}
 
 

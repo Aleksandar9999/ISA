@@ -1,5 +1,7 @@
 package com.isa.FishingBooker.controller.boat;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.controller.UsersController;
+import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.service.interfaces.BoatsService;
 
 
@@ -38,7 +41,9 @@ public class BoatsCustomersController {
 
 	@GetMapping("api/boats/{id}/customers/me")
 	public ResponseEntity<?> isLoggedinUserCustomer(@PathVariable("id") int id) {
-		return ResponseEntity.ok(this.boatsService.getById(id).getCustomers().stream()
-				.anyMatch(el -> el.getId().equals(UsersController.getLoggedInUserId())));
+		Set<User> customers=this.boatsService.getById(id).getCustomers();
+		boolean subscribed =customers.stream()
+				.anyMatch(el -> el.getId().equals(UsersController.getLoggedInUserId()));
+		return subscribed?ResponseEntity.ok().build():ResponseEntity.notFound().build();
 	}
 }

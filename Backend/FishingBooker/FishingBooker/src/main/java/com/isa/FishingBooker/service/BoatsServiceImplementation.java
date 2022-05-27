@@ -123,7 +123,7 @@ public class BoatsServiceImplementation extends CustomGenericService<Boat> imple
 
 	@Override
 	public void removeCustomer(int boatId, User loggedinUser) {
-		this.update(this.getById(boatId).removeCustomer(loggedinUser));
+		this.update(this.getById(boatId).removeCustomer(usersService.getById(loggedinUser.getId())));
 		
 	}
 

@@ -320,7 +320,7 @@ export default {
       if(this.subscribeButton.title=='SUBSCRIBE')
         this.$axios.post(`${config.apiStart}/api/boats/${this.boat_info.id}/customers`,this.boat_form).then(()=>this.isSubscribed()
         );
-      else this.$axios.post(`${config.apiStart}/cancelBoatSubscription`,this.boat_form).then(()=>this.isSubscribed()); 
+      else this.$axios.delete(`${config.apiStart}/api/boats/${this.boat_info.id}/customers`,this.boat_form).then(()=>this.isSubscribed()); 
       
     },
     save() {
