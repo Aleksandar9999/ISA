@@ -62,6 +62,7 @@
                     <option value="">--Please choose an option--</option>
                     <option value="user">User</option>
                     <option value="tutor">Tutor</option>
+                    <option value="boatowner">Boat owner</option>
                     <option v-if="showAdminRole()" value="admin">Administrator</option>
                   </select>
                 </td>

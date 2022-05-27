@@ -23,6 +23,7 @@ import com.isa.FishingBooker.dto.UserConfirmationDTO;
 import com.isa.FishingBooker.exceptions.RegistrationException;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.model.Admin;
+import com.isa.FishingBooker.model.BoatOwner;
 import com.isa.FishingBooker.model.Tutor;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.model.UserTokenState;
@@ -83,6 +84,19 @@ public class AuthenticationController {
 			return ResponseEntity.status(400).body(ex.getMessage());
 		}
 	}
+	
+	@PostMapping("api/registration/boatowner")
+	public ResponseEntity<?> registerBoatOwner(@RequestBody RegistrationDTO dto) {
+		try {
+			BoatOwner user = (BoatOwner) userRegistrationMapper.convertToEntity(dto, BoatOwner.class);
+			usersService.addNew(user);
+			emailService.sendRegisterConfirmationMail(user);
+			return ResponseEntity.ok(user);
+		} catch (RegistrationException ex) {
+			return ResponseEntity.status(400).body(ex.getMessage());
+		}
+	}
+	
 	
 	@PostMapping("api/registration/admin")
 	@PreAuthorize("hasRole('ADMIN')")
