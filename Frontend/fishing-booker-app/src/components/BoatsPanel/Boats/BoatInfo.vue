@@ -15,6 +15,9 @@
        <td>
       <a :href="showAppointments">Appointments</a>
     </td>
+         <td>
+      <a :href="showCalendar">Calendar</a>
+    </td>
     <td style="padding: 10px 0px" v-if="showAdminButtons">
       <w-button class="mr2" @click="deleteBoat" bg-color="error">
         Delete
@@ -33,6 +36,7 @@
        showBoat: "",
        showPeriods:"",
        showAppointments:"",
+        showCalendar:"",
        showAdminButtons:false,
        rate:''
      };
@@ -86,6 +90,7 @@
              "/boats/" + this.item_local.id +"/all-standard-periods";
                this.showAppointments= 
              "/boat/" + this.item_local.id +"/appointments";
+              this.showCalendar="/boat/" + this.item_local.id + "/calendar/year/:year";
 
          }
        },

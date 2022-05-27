@@ -24,6 +24,10 @@ import MonthlyCalendar from '../components/Calendar/CalendarMonths/MonthlyCalend
 import WeeklyCalendar from '../components/Calendar/CalendarWeeks/WeeklyCalendar.vue'
 import YearlyCalendar from '../components/Calendar/CalendarYear/YearlyCalendar.vue'
 
+import MonthlyCalendarBoat from '../components/BoatsPanel/Boats/BoatCalendar/BoatCalendarMonths/MonthlyCalendarBoat.vue'
+import WeeklyCalendarBoat from '../components/BoatsPanel/Boats/BoatCalendar/BoatCalendarWeeks/WeeklyCalendarBoat.vue'
+import YearlyCalendarBoat from '../components/BoatsPanel/Boats/BoatCalendar/BoatCalendarYear/YearlyCalendarBoat.vue'
+
 
 import UsersList from '../components/AdminPanel/Users/UsersList.vue'
 import DeleteRequestsList from '../components/AdminPanel/Users/DeleteRequests/DeleteRequestsList.vue'
@@ -61,6 +65,10 @@ const routes = [
   {path: "/calendar/year/:year", name: "YearlyCalendar", component: YearlyCalendar},
   {path: "/calendar/year/:year/month/:month", name: "MonthlyCalendar", component: MonthlyCalendar},
   {path: "/calendar/week/:date", name: "WeeklyCalendar", component: WeeklyCalendar},
+
+  {path: "/boat/:idboat/calendar/year/:year", name: "YearlyCalendarBoat", component: YearlyCalendarBoat},
+  {path: "/boat/:idboat/calendar/year/:year/month/:month", name: "MonthlyCalendarBoat", component: MonthlyCalendarBoat},
+  {path: "/boat/:idboat/calendar/week/:date", name: "WeeklyCalendarBoat", component: WeeklyCalendarBoat},
 
   {path: "/tutors/:idtutor/services", name: "TutorServices", component: TutorServicesList},
   {path: "/tutors/:idtutor/available-periods", name: "TutorAvailablePeriods", component: TutorAvailablePeriods},

@@ -27,6 +27,7 @@ public class AppointmentReportController {
 	@Autowired
 	private CustomModelMapper<AppointmentReport, AppointmentReportDTO> mapper;
 	private final String api = "api/appointment-report";
+	private final String apiboat = "api/boat/appointment-report";
 
 
 	@PreAuthorize("hasRole('TUTOR')")
@@ -51,6 +52,39 @@ public class AppointmentReportController {
 		service.addOkCommentReport(report.getAppointmentId());
 		return ResponseEntity.ok().build();
 	};
+	
+	
+	//boat
+	@PreAuthorize("hasRole('BOATOWNER')")
+	@PostMapping(apiboat + "/bad-comment")
+	public ResponseEntity<?> addBadCommentReportBoat(@RequestBody AppointmentReportDTO report) {
+		service.addBadCommentReport(mapper.convertToEntity(report),report.getAppointmentId());
+		return ResponseEntity.ok().build();
+	}
+
+
+	@PreAuthorize("hasRole('BOATOWNER')")
+	@PostMapping(apiboat + "/not-show-up")
+	public ResponseEntity<?> addNotShopUpReportBoat(@RequestBody AppointmentReportDTO report) {
+		service.addNotShopUpReport(report.getAppointmentId());
+		return ResponseEntity.ok().build();
+	}
+
+
+	@PreAuthorize("hasRole('BOATOWNER')")
+	@PostMapping(apiboat + "/ok-comment")
+	public ResponseEntity<?> addOkCommentReportBoat(@RequestBody AppointmentReportDTO report) {
+		service.addOkCommentReport(report.getAppointmentId());
+		return ResponseEntity.ok().build();
+	};
+	
+	@PreAuthorize("hasRole('BOATOWNER')")
+	@GetMapping(apiboat + "/appointment/{id}")
+	public ResponseEntity<?> isReportCreatedBoat(@PathVariable("id") int id) {
+		if (service.getByAppointmentId(id) == null)
+			return ResponseEntity.notFound().build();
+		return ResponseEntity.ok().build();
+	}
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping(api + "/bad-comment/{id}/accept")
@@ -66,7 +100,7 @@ public class AppointmentReportController {
 		return ResponseEntity.ok().build();
 	};
 
-	@PreAuthorize("hasAnyRole('TUTOR', 'ADMIN')")
+	@PreAuthorize("hasAnyRole('TUTOR', 'ADMIN','BOATOWNER')")
 	@GetMapping(api)
 	public ResponseEntity<?> getAll() {
 		return ResponseEntity.ok(service.getAll());
