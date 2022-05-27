@@ -210,7 +210,7 @@ export default {
   },
   methods: {
     isSubscribed(){
-      this.$axios.get(`${config.apiStart}/api/subscriptions/tutor-service/${this.service_info.id}`).then(resp=>{
+      this.$axios.get(`${config.apiStart}/api/tutor-services/${this.service_info.id}/subscribers/me`).then(resp=>{
         this.subscribeButton.title="UNSUBSCRIBE"
         this.subscribeButton.bgColor=''
         console.log(resp)
@@ -225,7 +225,7 @@ export default {
     },
     subscribe(){
       if(this.subscribeButton.title=='SUBSCRIBE')
-        this.$axios.post(`${config.apiStart}/subscripeTutorService`,this.service_form).then(()=>this.isSubscribed()
+        this.$axios.post(`${config.apiStart}/api/tutor-services/${this.service_info.id}/subscribers`,this.service_form).then(()=>this.isSubscribed()
         );
       else this.$axios.post(`${config.apiStart}/cancelTutorServiceSubscription`,this.service_form).then(()=>this.isSubscribed()); 
       
