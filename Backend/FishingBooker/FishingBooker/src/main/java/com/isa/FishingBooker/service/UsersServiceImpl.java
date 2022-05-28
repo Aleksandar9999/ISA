@@ -18,6 +18,7 @@ import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
 import com.isa.FishingBooker.service.interfaces.RoleService;
 import com.isa.FishingBooker.service.interfaces.UsersService;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 @Service
@@ -64,13 +65,11 @@ public class UsersServiceImpl extends CustomGenericService<User> implements User
 
 	@Override
 	public String confirmAccount(Integer id) {
-		if (repository.getById(id) != null) {
-			User u = repository.getById(id);
-			u.setStatus(Status.CONFIRMED);
-			repository.save(u);
-			return "Success";
-		}
-		return "Bad id";
+		User u = this.getById(id);
+		if(u.getStatus().equals(Status.ADMIN_CONFIRMED)) return "Success";
+		u.setStatus(Status.CONFIRMED);
+		repository.save(u);
+		return "Success";
 	}
 
 	@Override
