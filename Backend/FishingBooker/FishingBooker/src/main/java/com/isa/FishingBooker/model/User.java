@@ -25,6 +25,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.isa.FishingBooker.exceptions.UnexpectedUserStatusExcpetion;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -62,15 +63,10 @@ public class User implements UserDetails {
 	}
 
 	public void updateUserInfo(User user) {
-		this.id = user.getId();
-		this.email = user.getEmail();
 		this.name = user.getName();
 		this.surname = user.getSurname();
 		this.address = user.getAddress();
 		this.phoneNumber = user.getPhoneNumber();
-		this.status = user.getStatus();
-		this.points = user.getPoints();
-		this.penaltyCount = user.getPenaltyCount();
 		this.updatePassword(user.getPassword());
 	}
 
@@ -156,7 +152,14 @@ public class User implements UserDetails {
 	}
 
 	public void setStatus(Status status) {
-		this.status = status;
+		validateNewStatus(status);
+		this.status=status;
+	}
+
+	private void validateNewStatus(Status status) {
+		if (this.status==null) return;
+		if (this.status.equals(Status.ADMIN_CONFIRMED) && status.equals(Status.DELETED)) return;
+		throw new UnexpectedUserStatusExcpetion();
 	}
 
 	public Address getAddress() {
