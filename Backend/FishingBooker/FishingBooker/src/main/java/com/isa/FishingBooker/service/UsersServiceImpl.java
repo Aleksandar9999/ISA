@@ -140,8 +140,9 @@ public class UsersServiceImpl extends CustomGenericService<User> implements User
 	public void updateProfileStatusByAdmin(User userInfo, int userId,String comment) {
 		User user=this.getById(userId);
 		if(!user.getStatus().equals(Status.CONFIRMED)) throw new EmailNotConfirmedException();
-		this.update(userInfo);
-		this.sendNotificationEmail(userInfo.getStatus(), user,comment);
+		user.setStatus(userInfo.getStatus());
+		this.update(user);
+		this.sendNotificationEmail(user.getStatus(), user,comment);
 	}
 	
 	private void sendNotificationEmail(Status status, User user,String comment) {
