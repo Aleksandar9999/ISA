@@ -80,6 +80,9 @@
           <p>Points: {{profileData.points}}</p>
         </div>
         <div class="points-row">
+          <p>Penalties count: {{profileData.penaltyCount}}</p>
+        </div>
+        <div class="points-row">
           <p>Category: {{userCategory.name}}</p>
         </div>
         <div class="points-row">
@@ -211,6 +214,7 @@ export default {
       this.state = this.profileData.address.country;
       this.phoneNum = this.profileData.phoneNumber;
       
+      
     },
 
     collectData() {
@@ -250,6 +254,7 @@ export default {
     axios
       .get(config.apiStart + "/api/users/me", config.requestHeader)
       .then((response) => {
+        console.log(response.data)
         this.populateProfileData(response)
           this.$axios.get(`${config.apiStart}/api/system-data/user-categories/me`).then(resp=>{
             this.userCategory=resp.data;

@@ -113,8 +113,8 @@ insert into appointment (dtype, period_id, max_person, additional_services, pric
 
 insert into objection (appointment_id, objection, creator_id, version) values(12,'Zalba',1,1);
 
-INSERT INTO completed_appointment(canceled_percentage, owner_percentage, payed_price, system_percentage, appointment_id) VALUES (10.0, 70.0, 2000, 30, 2);
-INSERT INTO completed_appointment(canceled_percentage, owner_percentage, payed_price, system_percentage, appointment_id) VALUES (10.0, 70.0, 1400, 30, 12);
+--INSERT INTO completed_appointment(canceled_percentage, owner_percentage, payed_price, system_percentage, appointment_id) VALUES (10.0, 70.0, 2000, 30, 2);
+--INSERT INTO completed_appointment(canceled_percentage, owner_percentage, payed_price, system_percentage, appointment_id) VALUES (10.0, 70.0, 1400, 30, 12);
 --insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Amajic, Zapadna Srbija', 1000.0, 2, 1, 5);-->
 --insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Vrhpolje, Zapadna Srbija', 1200.0, 1, 2, 6);
 --insert into discount_offer (additional_services, entity_type, max_person, place, price, boat_id, reservation_per_id, validity_per_id) values ('None', 'BOAT', 7, 'Mali Zvornik, Zapadna Srbija', 800.0, 2, 3, 7);
@@ -145,8 +145,8 @@ insert into period (start_date) values('2022-01-01 00:00:00');
 insert into system_data (procentage, valid_id) values (5,30);
 insert into system_data (procentage, valid_id) values (3,31);
 
-insert into user_category_settings (name, discount_procentage, revenue_procentage, points_margine) values ('Regular',0,5,0);
-insert into user_category_settings (name, discount_procentage, revenue_procentage, points_margine) values ('Silver',5,10,40);
-insert into user_category_settings (name, discount_procentage, revenue_procentage, points_margine) values ('Gold',10,15,100);
+insert into user_category_settings (name, discount_procentage, revenue_procentage, points_margine) values ('Regular',0,50,0);
+insert into user_category_settings (name, discount_procentage, revenue_procentage, points_margine) values ('Silver',5,65,40);
+insert into user_category_settings (name, discount_procentage, revenue_procentage, points_margine) values ('Gold',10,90,100);
 insert into period (start_date) values('2022-01-01 00:00:00');
 insert into points_settings (points_for_clients, points_for_owners, valid_id, creator_id,penalty) values (2,3,32,5,1); 

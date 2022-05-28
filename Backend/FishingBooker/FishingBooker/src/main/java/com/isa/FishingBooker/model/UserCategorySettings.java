@@ -22,7 +22,11 @@ public class UserCategorySettings {
 		this.revenueProcentage=newItem.revenueProcentage;
 		this.pointsMargine=newItem.revenueProcentage;
 	}
-	
+
+	public double getSystemRevenueProcentage() {
+		return 100-revenueProcentage;
+	}
+
 	public double getPointsMargine() {
 		return pointsMargine;
 	}
