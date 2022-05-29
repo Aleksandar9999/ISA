@@ -27,8 +27,8 @@ public class ObjectionServiceImplementation extends CustomGenericService<Objecti
 		objection.setResponse(adminResponse);
 		//objection.setVersion(Timestamp.from(Instant.now()));
 		this.update(objection);
-		//emailService.sendObjectionResponseNotification(objection.getUserEmail(), adminResponse);
-		//emailService.sendObjectionResponseNotification(objection.getAppointment().getOwner().getEmail(), adminResponse);
+		emailService.sendObjectionResponseNotification(objection.getUserEmail(), objection.getObjection(),adminResponse);
+		emailService.sendObjectionResponseNotification(objection.getAppointment().getOwner().getEmail(),objection.getObjection(), adminResponse);
 
 	}
 

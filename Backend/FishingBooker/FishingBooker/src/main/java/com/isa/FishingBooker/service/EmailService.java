@@ -1,5 +1,6 @@
 package com.isa.FishingBooker.service;
 
+import com.isa.FishingBooker.model.Objection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
@@ -32,9 +33,9 @@ public class EmailService {
 			mailContent += "\nAdmin response: " + additionalResponse;
 		this.sendCustomEmail(user.getEmail(), "Delete request review", mailContent);
 	}
-
-	public void sendObjectionResponseNotification(String email, String response) {
-		String mailContent = String.format("Admin response: ", response);
+@Async
+	public void sendObjectionResponseNotification(String email, String objection, String response) {
+		String mailContent = String.format("Objection: %s\nAdmin response: %s", objection, response);
 		this.sendCustomEmail(email, "Objection response", mailContent);
 	}
 
