@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div id="main-form" style="margin: 5% 20% 5% 20%;">
+  <!-- <div id="main-form" style="margin: 5% 20% 5% 20%;">
     <w-form>
       <w-flex justify-space-between class="pa3">
         <div class="box">
@@ -17,8 +17,8 @@
         <w-button type="submit" @click="save"> Save </w-button>
       </div>
     </w-form>
-  </div>
-  <user-category-settings />
+  </div> -->
+  <user-category-settings style="margin: 5% 20% 5% 20%;" />
   <points-settings />
 </div>
 </template>
