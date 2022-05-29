@@ -35,7 +35,7 @@ public class TutorServicesServiceImpl extends CustomGenericService<TutorService>
 	@Override
 	public void addNew(TutorService item) {
 		item.setStatus(Status.CONFIRMED);
-		item.setTutor(usersService.getTutorById(item.getTutorId()));
+		item.setTutor((Tutor)usersService.getById(item.getTutorId()));
 		super.addNew(item);
 	}
 

@@ -51,13 +51,11 @@ public class RevisionServiceImpl extends CustomGenericService<Revision> implemen
 	@Override
 	public void updateRevisionStatus(int revisionId, Status revisionStatus, int adminId) {
 		Revision dbRevision=this.getById(revisionId);
-		User byId = usersService.getById(adminId);
-		dbRevision.setAdminResponded((Admin) byId);
+		dbRevision.setAdminResponded((Admin) usersService.getById(adminId));
 		dbRevision.setStatus(revisionStatus);
 		super.update(dbRevision);
 		if(dbRevision.getStatus().equals(Status.ADMIN_CONFIRMED))
 			emailService.sendCustomEmail(dbRevision.getOwnerEmail(),"New revision approved", "New revision approved:\n"+dbRevision.getComment()+"\nFishing booker team");
-
 	}
 
 	@Override

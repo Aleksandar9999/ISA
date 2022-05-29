@@ -25,6 +25,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.isa.FishingBooker.exceptions.UnexpectedUserStatusExcpetion;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -35,214 +36,219 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "users")
 public class User implements UserDetails {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	@Column(nullable = false)
-	private String email;
-	@Column(nullable = false)
-	private String password;
-	private String name;
-	private String surname;
-	@OneToOne(cascade = CascadeType.ALL)
-	private Address address;
-	private String phoneNumber;
-	@Enumerated(EnumType.STRING)
-	private Status status;
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-	private List<Role> roles;
-	@ElementCollection(targetClass = Integer.class)
-	private Set<Integer> reservationsList;
-	private Double penaltyCount;
-	private Double points;
-	private Date passwordResetTimestamp;
-	private String registrationReason;
-	public User() {
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @Column(nullable = false)
+    private String email;
+    @Column(nullable = false)
+    private String password;
+    private String name;
+    private String surname;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
+    private String phoneNumber;
+    @Enumerated(EnumType.STRING)
+    private Status status;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles;
+    @ElementCollection(targetClass = Integer.class)
+    private Set<Integer> reservationsList;
+    private Double penaltyCount;
+    private Double points;
+    private Date passwordResetTimestamp;
+    private String registrationReason;
 
-	public void updateUserInfo(User user) {
-		this.id = user.getId();
-		this.email = user.getEmail();
-		this.name = user.getName();
-		this.surname = user.getSurname();
-		this.address = user.getAddress();
-		this.phoneNumber = user.getPhoneNumber();
-		this.status = user.getStatus();
-		this.points = user.getPoints();
-		this.penaltyCount = user.getPenaltyCount();
-		this.updatePassword(user.getPassword());
-	}
+    public User() {
+    }
 
-	private void updatePassword(String newPassword) {
-		if(newPassword!=null &&!newPassword.isBlank() && !newPassword.equals(this.password)) {
-			this.password=newPassword;
-			this.passwordResetTimestamp=Date.from(Instant.now());
-		}
-	}
+    public void updateUserInfo(User user) {
+        this.name = user.getName();
+        this.surname = user.getSurname();
+        this.address = user.getAddress();
+        this.phoneNumber = user.getPhoneNumber();
+        this.updatePassword(user.getPassword());
+    }
 
-	public User addPoints(Double points) {
-		if (this.points == null)
-			this.points = 0.0;
-		this.points += points;
-		return this;
-	}
+    private void updatePassword(String newPassword) {
+        if (newPassword != null && !newPassword.isBlank() && !newPassword.equals(this.password)) {
+            this.password = newPassword;
+            this.passwordResetTimestamp = Date.from(Instant.now());
+        }
+    }
 
-	@JsonIgnore
-	public List<Role> getRoles() {
-		return roles;
-	}
+    public User addPoints(Double points) {
+        if (this.points == null)
+            this.points = 0.0;
+        this.points += points;
+        return this;
+    }
 
-	public void setRolesNames() {
-		this.setRoleName(Role.USER_ROLE);
-	}
+    @JsonIgnore
+    public List<Role> getRoles() {
+        return roles;
+    }
 
-	protected void setRoleName(String name) {
-		if (this.roles == null)
-			this.roles = new ArrayList<Role>();
-		this.roles.add(new Role(name));
-	}
+    public void setRolesNames() {
+        this.setRoleName(Role.USER_ROLE);
+    }
 
-	public User(int id) {
-		this.id = id;
-	}
+    protected void setRoleName(String name) {
+        if (this.roles == null)
+            this.roles = new ArrayList<Role>();
+        this.roles.add(new Role(name));
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public User(int id) {
+        this.id = id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getSurname() {
-		return surname;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
+    public String getSurname() {
+        return surname;
+    }
 
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-	public Status getStatus() {
-		return status;
-	}
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-	public void setStatus(Status status) {
-		this.status = status;
-	}
+    public Status getStatus() {
+        return status;
+    }
 
-	public Address getAddress() {
-		return address;
-	}
+    public void setStatus(Status status) {
+        validateNewStatus(status);
+        this.status = status;
+    }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+    private void validateNewStatus(Status status) {
+        if (this.status == null) return;
+        if (status.equals(Status.DELETED)) return;
+        if (this.status.equals(Status.ADMIN_CONFIRMED)) return;
+        if (this.status.equals(Status.PENDING) && status.equals(Status.CONFIRMED)) return;
+        throw new UnexpectedUserStatusExcpetion();
+    }
 
-	@JsonIgnore
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return this.roles;
-	}
+    public Address getAddress() {
+        return address;
+    }
 
-	@JsonIgnore
-	@Override
-	public String getUsername() {
-		return this.getEmail();
-	}
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
-	@JsonIgnore
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
+    @JsonIgnore
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles;
+    }
 
-	@JsonIgnore
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
+    @JsonIgnore
+    @Override
+    public String getUsername() {
+        return this.getEmail();
+    }
 
-	@JsonIgnore
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-	@JsonIgnore
-	@Override
-	public boolean isEnabled() {
-		return this.status.equals(Status.CONFIRMED);
-	}
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
-	@JsonIgnore
-	public Date getLastPasswordResetDate() {
-		return passwordResetTimestamp;
-	}
+    @JsonIgnore
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
-	public Set<Integer> getReservationsList() {
-		return reservationsList;
-	}
+    @JsonIgnore
+    @Override
+    public boolean isEnabled() {
+        return this.status.equals(Status.CONFIRMED);
+    }
 
-	public void setReservationsList(Set<Integer> reservationsList) {
-		this.reservationsList = reservationsList;
-	}
+    @JsonIgnore
+    public Date getLastPasswordResetDate() {
+        return passwordResetTimestamp;
+    }
 
-	public Double getPenaltyCount() {
-		return penaltyCount != null ? penaltyCount : 0.0;
-	}
+    public Set<Integer> getReservationsList() {
+        return reservationsList;
+    }
 
-	public void addPenalty(Double count) {
-		this.penaltyCount += count;
-	}
+    public void setReservationsList(Set<Integer> reservationsList) {
+        this.reservationsList = reservationsList;
+    }
 
-	@Override
-	public String getPassword() {
-		return this.password;
-	}
+    public Double getPenaltyCount() {
+        return penaltyCount != null ? penaltyCount : 0.0;
+    }
 
-	public Double getPoints() {
-		return points != null ? points : 0.0;
-	}
+    public void addPenalty(Double count) {
+        this.penaltyCount += count;
+    }
 
-	public void setPoints(Double points) {
-		this.points = points;
-	}
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
 
-	public String getRegistrationReason() {
-		return registrationReason;
-	}
+    public Double getPoints() {
+        return points != null ? points : 0.0;
+    }
 
-	public void setRegistrationReason(String registrationReason) {
-		this.registrationReason = registrationReason;
-	}
+    public void setPoints(Double points) {
+        this.points = points;
+    }
+
+    public String getRegistrationReason() {
+        return registrationReason;
+    }
+
+    public void setRegistrationReason(String registrationReason) {
+        this.registrationReason = registrationReason;
+    }
 
 }

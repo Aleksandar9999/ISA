@@ -12,8 +12,8 @@
         v-for="(photo, i) in photos_local"
         :key="i"
       >
-        <img :src="photo.url" :alt="photo.title" style="margin: 0px; padding: 0px"/>
-        <w-button
+        <img :src="photo.url" :alt="photo.title" style="margin: 0px; padding: 0px" />
+        <w-button v-if="showAddButton"
           type="submit"
           bg-color="red"
           color="white"

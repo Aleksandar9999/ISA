@@ -27,8 +27,9 @@ public class Admin extends User {
 		this.setPassword(newPassword);
 		this.passwordChanged=true;
 	}
+
 	@Override
 	public boolean isEnabled() {
-		return this.getStatus().equals(Status.ADMIN_CONFIRMED);
+		return true;
 	}
 }

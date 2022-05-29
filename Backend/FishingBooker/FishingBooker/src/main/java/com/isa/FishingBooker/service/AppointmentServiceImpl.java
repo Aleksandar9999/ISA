@@ -1,7 +1,6 @@
 package com.isa.FishingBooker.service;
 
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +8,7 @@ import javax.transaction.Transactional;
 
 import java.util.*;
 
+import com.isa.FishingBooker.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -16,21 +16,10 @@ import org.springframework.stereotype.Service;
 import com.isa.FishingBooker.exceptions.PeriodOverlapException;
 import com.isa.FishingBooker.exceptions.TutorservicePeriodException;
 import com.isa.FishingBooker.exceptions.UserAppointmentInProgressException;
-import com.isa.FishingBooker.model.Appointment;
-import com.isa.FishingBooker.model.AppointmentStatus;
-import com.isa.FishingBooker.model.AppointmentType;
-import com.isa.FishingBooker.model.BoatAppointment;
-import com.isa.FishingBooker.model.CompletedAppointment;
-import com.isa.FishingBooker.model.Period;
-import com.isa.FishingBooker.model.ResortAppointment;
-import com.isa.FishingBooker.model.TutorService;
-import com.isa.FishingBooker.model.TutorServiceAppointment;
-import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.AppointmentRepository;
 import com.isa.FishingBooker.repository.CompleteAppointmentRepository;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
 import com.isa.FishingBooker.service.interfaces.AppointmentService;
-import com.isa.FishingBooker.service.interfaces.SystemDataService;
 import com.isa.FishingBooker.service.interfaces.TutorServicesService;
 import com.isa.FishingBooker.service.interfaces.UserCategorySettingsService;
 import com.isa.FishingBooker.service.interfaces.UsersService;
@@ -49,8 +38,6 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 	private UsersService userService;
 	@Autowired
 	private UserCategorySettingsService userCategoryService;
-	@Autowired
-	private SystemDataService systemDataService;
 
 	@Override
 	public List<TutorServiceAppointment> getAllTutorServiceAppointmentsByTutor(int id) {
@@ -78,11 +65,11 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 
 	@Transactional
 	private void saveCompletedAppointment(Appointment appointment) {
-		double ownerRevenuePercentage = this.userCategoryService
-				.findOwnerRevenueProcentage(appointment.getOwner().getPoints());
+		UserCategorySettings userCategorySettings = this.userCategoryService
+				.findByUserPoints(appointment.getOwner().getPoints());
 
-		CompletedAppointment completedAppointment = new CompletedAppointment(appointment, ownerRevenuePercentage,
-				appointment.getPrice(), systemDataService.findCurrentlyActive().getProcentage(),appointment.getCancelPercentage());
+		CompletedAppointment completedAppointment = new CompletedAppointment(appointment, userCategorySettings.getRevenueProcentage(),
+				appointment.getPrice(), userCategorySettings.getSystemRevenueProcentage(),appointment.getCancelPercentage());
 
 		completeAppointmentRepository.save(completedAppointment);
 	}
