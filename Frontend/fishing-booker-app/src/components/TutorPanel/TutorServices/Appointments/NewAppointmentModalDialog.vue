@@ -32,7 +32,7 @@
           <w-input
             type="date"
             v-model="appointmentLocal.end.date"
-            :min="minDate"
+            :min="appointmentLocal.start.date"
           />
         </div>
         <div class="box">

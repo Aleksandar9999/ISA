@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.service.interfaces.AppointmentService;
-import com.isa.FishingBooker.service.interfaces.SystemDataService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController

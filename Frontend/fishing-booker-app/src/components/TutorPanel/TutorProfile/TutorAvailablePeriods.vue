@@ -6,12 +6,14 @@
         type="text"
         placeholder="12:00"
         v-model="newPeriod.startTime"
+        :min="minDate"
       ></w-input>
       <w-input type="date" v-model="newPeriod.endDate" :min="newPeriod.startDate" > </w-input>
       <w-input
         type="text"
         placeholder="12:00"
         v-model="newPeriod.endTime"
+        :min="newPeriod.startTime"
       ></w-input>
       <w-button @click="addNewPeriod">Add new</w-button>
     </w-flex>
@@ -22,6 +24,7 @@
 import CustomTable from "../../CustomTable.vue";
 import AvailablePeriodInfoRow from "./AvailablePeriodInfoRow.vue";
 import config from "../../../configuration/config";
+import moment from 'moment'
 export default {
   components: {
     CustomTable,
@@ -30,6 +33,7 @@ export default {
   data() {
     return {
       data: [],
+      minDate: moment().format("YYYY-MM-DD"),
       headers: ["START DATE", "END DATE", ""],
       itemRow: AvailablePeriodInfoRow,
       services: [],

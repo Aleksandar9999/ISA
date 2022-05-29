@@ -14,6 +14,16 @@ public class UserInfoDTO {
 	private String className;
 	private boolean shouldApprove;
 	private double points;
+	private Double penaltyCount;
+
+	public Double getPenaltyCount() {
+		return penaltyCount;
+	}
+
+	public void setPenaltyCount(Double penaltyCount) {
+		this.penaltyCount = penaltyCount;
+	}
+
 	private String registrationReason;
 	public UserInfoDTO() {
 	}

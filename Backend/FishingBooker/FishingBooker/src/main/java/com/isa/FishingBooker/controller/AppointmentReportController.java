@@ -49,7 +49,7 @@ public class AppointmentReportController {
 	@PreAuthorize("hasRole('TUTOR')")
 	@PostMapping(api + "/ok-comment")
 	public ResponseEntity<?> addOkCommentReport(@RequestBody AppointmentReportDTO report) {
-		service.addOkCommentReport(report.getAppointmentId());
+		service.addOkCommentReport(report.getAppointmentId(),report.getComment());
 		return ResponseEntity.ok().build();
 	};
 	

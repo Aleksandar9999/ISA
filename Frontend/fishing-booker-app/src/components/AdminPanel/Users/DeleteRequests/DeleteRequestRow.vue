@@ -10,7 +10,6 @@
     <td v-if="item_local.requestStatus == 'PENDING'">
       <select name="status" id="status" v-model="status" @change="changeStatus">
         <option value="ADMIN_CONFIRMED">CONFIRM</option>
-        <option value="PENDING">PENDING</option>
         <option value="REJECTED">REJECT</option>
       </select>
       <button @click="save">Save</button>
@@ -65,7 +64,7 @@ export default {
     save() {
       this.item_local.status = this.status;
       console.log(this.item_local);
-      this.$axios.put(`${config.apiStart}/api/delete-request`,{ id: this.item_local.id, reason: this.comment,requestStatus:this.item_local.status,userId:this.item_local.userId})
+      this.$axios.put(`${config.apiStart}/api/delete-request`,{ id: this.item_local.id, response: this.comment,requestStatus:this.item_local.status,userId:this.item_local.userId})
         .then((resp) => {
           this.item_local = resp.data;
         });

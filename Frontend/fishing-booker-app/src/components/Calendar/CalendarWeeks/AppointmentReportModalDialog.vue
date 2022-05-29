@@ -23,7 +23,7 @@
         </div>
       </w-flex>
       
-      <w-flex wrap class="text-center" v-if="type=='bad-comment'">
+      <w-flex wrap class="text-center" v-if="type!='not-show-up'">
         <div class="xs6 pa1">
           <p>Comment:</p>
         </div>

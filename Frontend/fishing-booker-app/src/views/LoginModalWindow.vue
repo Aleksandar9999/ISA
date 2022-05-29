@@ -65,18 +65,11 @@ export default {
         .post("http://localhost:8080/api/login", this.regReqData)
         .then((response) => {
           this.storageLoginData(response);
-          /*if (response.data.roles.includes("ROLE_ADMIN"))
+          localStorage.email=this.email;
+          if (response.data.roles.includes("ROLE_ADMIN"))
             this.$router.push("/profile");
-          else if (response.data.roles.includes("ROLE_TUTOR")) {
-            axios
-              .get(`${config.apiStart}/api/users/me`, config.requestHeader)
-              .then((resp) => {
-                this.$router.push(`/tutors/${resp.data.id}/services`);
-              });
-          } else {*/
-            localStorage.email=this.email;
-            this.$router.push("/");
-            //}
+          else this.$router.push("/");
+          
         }).catch((err)=>{
           console.log(err.response)
           alert(err.response.data.message)

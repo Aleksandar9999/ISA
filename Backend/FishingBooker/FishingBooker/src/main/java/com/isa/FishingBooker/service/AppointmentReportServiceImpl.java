@@ -57,13 +57,15 @@ public class AppointmentReportServiceImpl extends CustomGenericService<Appointme
         AppointmentReport report=new AppointmentReport(appointmentService.getById(appointmentId));
         report.setStatusAndTypeOfReport(Status.CONFIRMED, ReportType.CLIENT_NOT_SHOW_UP);
         this.addNew(report);
+        report.setComment("Not show up.");
         updateClientPenaltyCountAndNotify(report);
     }
 
     @Override
-    public void addOkCommentReport(int appointmentId) {
+    public void addOkCommentReport(int appointmentId,String comment) {
         AppointmentReport report=new AppointmentReport(appointmentService.getById(appointmentId));
         report.setStatusAndTypeOfReport(Status.CONFIRMED, ReportType.GOOD);
+        report.setComment(comment);
         this.addNew(report);
     }
 

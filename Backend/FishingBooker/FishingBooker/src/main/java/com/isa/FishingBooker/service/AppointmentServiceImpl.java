@@ -1,7 +1,6 @@
 package com.isa.FishingBooker.service;
 
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +8,7 @@ import javax.transaction.Transactional;
 
 import java.util.*;
 
+import com.isa.FishingBooker.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -83,11 +83,11 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 
 	@Transactional
 	private void saveCompletedAppointment(Appointment appointment) {
-		double ownerRevenuePercentage = this.userCategoryService
-				.findOwnerRevenueProcentage(appointment.getOwner().getPoints());
+		UserCategorySettings userCategorySettings = this.userCategoryService
+				.findByUserPoints(appointment.getOwner().getPoints());
 
-		CompletedAppointment completedAppointment = new CompletedAppointment(appointment, ownerRevenuePercentage,
-				appointment.getPrice(), systemDataService.findCurrentlyActive().getProcentage(),appointment.getCancelPercentage());
+		CompletedAppointment completedAppointment = new CompletedAppointment(appointment, userCategorySettings.getRevenueProcentage(),
+				appointment.getPrice(), userCategorySettings.getSystemRevenueProcentage(),appointment.getCancelPercentage());
 
 		completeAppointmentRepository.save(completedAppointment);
 	}
