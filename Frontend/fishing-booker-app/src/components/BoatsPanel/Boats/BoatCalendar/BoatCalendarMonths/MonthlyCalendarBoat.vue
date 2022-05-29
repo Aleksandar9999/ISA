@@ -53,17 +53,16 @@ export default {
       console.log("KREIRAJ ZAHTIJEV");
       console.log(this.startDate.format("YYYY-MM-DD"));
       let role = "boat";
-      let boats="boats";
       let startDateQuery=this.startDate.format("YYYY-MM-DD");
       let endDateQuery=this.startDate.add(35, "d").format("YYYY-MM-DD");
       this.$axios.get(`${config.apiStart}/api/appointments/${role}/${this.$route.params.idboat}/calendar/month?startDate=${startDateQuery}&endDate=${endDateQuery}`).then(resp=>{
           this.calendarDays=resp.data
         });
 
-      this.$axios.get(`${config.apiStart}/api/${boats}/discount-offers?startDate=${startDateQuery}&endDate=${endDateQuery}`).then(resp=>{
+      this.$axios.get(`${config.apiStart}/api/${role}/${this.$route.params.idboat}/discount-offers?startDate=${startDateQuery}&endDate=${endDateQuery}`).then(resp=>{
           this.calendarDaysDiscountOffers=resp.data;
         });
-        this.$axios.get(`${config.apiStart}/api/${boats}/standard-periods/me?startDate=${startDateQuery}&endDate=${endDateQuery}`).then(resp=>{
+        this.$axios.get(`${config.apiStart}/api/${role}/${this.$route.params.idboat}/standard-periods?startDate=${startDateQuery}&endDate=${endDateQuery}`).then(resp=>{
           this.calendarDaysStandardPeriods=resp.data;
         });
         

@@ -80,7 +80,7 @@ export default {
     },
     save() {
       this.report.appointmentId=this.idAppointment;
-      this.$axios.post(`${config.apiStart}/api/appointment-report/${this.type}`,this.report).then(()=>{
+      this.$axios.post(`${config.apiStart}/api/boat/appointment-report/${this.type}`,this.report).then(()=>{
         alert("Done!");
         this.hideDialog(true)
       })

@@ -82,6 +82,35 @@ public class BoatsPeriodsController {
 		return ResponseEntity.ok(offer);
 	}
 	
+	@PreAuthorize("hasRole('BOATOWNER')")
+	@GetMapping("api/boat/{idboat}/discount-offers")
+	public ResponseEntity<?> getAllBoatsDiscountOffers(
+			@RequestParam(name = "startDate", defaultValue = "") String startDate,
+			@RequestParam(name = "endDate", defaultValue = "") String endDate,
+			@PathVariable("idboat") int idboat) {
+		List<DiscountOffer> allDiscountOffers = boatsService
+				.getAllDiscountOffers(idboat);
+		if (!(startDate.isEmpty() && endDate.isEmpty()))
+			return ResponseEntity.status(200).body(discountOfferCalendarMapper.convertToDtos(allDiscountOffers,
+					LocalDate.parse(startDate), LocalDate.parse(endDate)));
+		return ResponseEntity.ok(allDiscountOffers);
+	}
+
+	@PreAuthorize("hasRole('BOATOWNER')")
+	@GetMapping("api/boat/{idboat}/standard-periods")
+	public ResponseEntity<?> getAllBoatStandardPeriod(
+			@RequestParam(name = "startDate", defaultValue = "") String startDate,
+			@RequestParam(name = "endDate", defaultValue = "") String endDate,
+			@PathVariable("idboat") int idboat) {
+		List<Period> allAvailablePeriodsByBoat = boatsService
+				.getAllAvailablePeriodsByBoat(idboat);
+		if (!(startDate.isEmpty() && endDate.isEmpty())) {
+			return ResponseEntity.status(200).body(standardPeriodCalendarMapper
+					.convertToDtos(allAvailablePeriodsByBoat, LocalDate.parse(startDate), LocalDate.parse(endDate)));
+		}
+		return ResponseEntity.ok(allAvailablePeriodsByBoat);
+	}
+	
 	
 
 	
