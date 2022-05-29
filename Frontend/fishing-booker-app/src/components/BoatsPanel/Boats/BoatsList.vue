@@ -52,6 +52,9 @@ export default {
         "Status",
         "RATE",
         "More info",
+        "Periods",
+        "Appointments",
+        "Calendar",
         "",
       ],
     };

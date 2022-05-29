@@ -37,6 +37,9 @@ public interface AppointmentService extends Service<Appointment> {
 	public String makeBoatReservation(BoatAppointment appointment);
 	public List<BoatAppointment> getAllBoatAppoints();
 	public List<BoatAppointment> getAllPendingByBoatId(int id);
+	public List<BoatAppointment> getAllByBoatOwnerAndPeriod(int boatOwnerId, Date start, Date end);
+	public List<BoatAppointment> getAllBoatAppointmentsByBoatOwner(int id);
+	public List<CompletedAppointment> getAllCompletedAppointmentsInPeriodByBoatOwnerId(int boatOwnerId,Date start,Date end);
 	
 	
 	public String makeResortReservation(ResortAppointment appointment);

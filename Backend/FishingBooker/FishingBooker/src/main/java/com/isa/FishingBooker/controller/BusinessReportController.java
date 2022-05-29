@@ -42,6 +42,28 @@ public class BusinessReportController {
 			@RequestParam(name = "endDate", defaultValue = "") String endDate) {
 		return getTutorReport(UsersController.getLoggedInUserId(), startDate, endDate);
 	}
+	
+	@PreAuthorize("hasAnyRole('BOATOWNER', 'ADMIN')")
+	@GetMapping("api/business-report/boatowner/{id}/appointments")
+	public ResponseEntity<?> getBoatOwnerReport(@PathVariable("id") int boatOwnerId,
+			@RequestParam(name = "startDate", defaultValue = "") String startDate,
+			@RequestParam(name = "endDate", defaultValue = "") String endDate) {
+		if (!(startDate.isEmpty() && endDate.isEmpty())) {
+			List appointmentsInPeriod = appointmentService
+					.getAllByBoatOwnerAndPeriod(boatOwnerId, Date.valueOf(startDate), Date.valueOf(endDate));
+			List<CompletedAppointment> completedAppointments=appointmentService.getAllCompletedAppointmentsInPeriodByBoatOwnerId(boatOwnerId,Date.valueOf(startDate), Date.valueOf(endDate));
+			return ResponseEntity.ok(new BusinessReportDTO(completedAppointments,appointmentsInPeriod));
+		}
+		return ResponseEntity.ok(appointmentService.getAllBoatAppointmentsByBoatOwner(boatOwnerId));
+	}
+	
+	@PreAuthorize("hasAnyRole('BOATOWNER')")
+	@GetMapping("api/business-report/boats/me")
+	public ResponseEntity<?> getReportForLoggedinBoatOwner(@RequestParam(name = "startDate", defaultValue = "") String startDate,
+			@RequestParam(name = "endDate", defaultValue = "") String endDate) {
+		return getBoatOwnerReport(UsersController.getLoggedInUserId(), startDate, endDate);
+	}
+	
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping("api/business-report")
 	public ResponseEntity<?> getAdminBusinessReport(@RequestParam(name = "startDate", defaultValue = "") String startDate,

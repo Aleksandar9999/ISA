@@ -588,11 +588,28 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 
 	@Override
 	public void addNewBoatAppointmentByBoatOwner(BoatAppointment app, boolean validateUser) {
-		if (!validateUseCurrentAppointment(app.getUser().getId(), app.getBoat().getId()))
+		if (!validateUseCurrentAppointmentBoat(app.getUser().getId(), app.getBoat().getId()))
 			throw new UserAppointmentInProgressException();
 		this.addNewBoatAppointment(app);
 		
 	}
+	
+	private boolean validateUseCurrentAppointmentBoat(Integer userid, int boatId) {
+		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+		Period currentPeriod = new Period(currentDate, currentDate);
+		Boat boat = boatsService.getById(boatId);
+		for (BoatAppointment appointment : ((AppointmentRepository) repository)
+				.getAllByBoatOwnerAndUserBeforeCurrentDate(userid, boat.getBoatOwner().getId())) {
+			try {
+				appointment.getPeriod().overlap(currentPeriod);
+			} catch (PeriodOverlapException e) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 
 
 	@Override
@@ -604,7 +621,7 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 		User usr = (User) aut.getPrincipal();
 		app.setUser(usr);
 		app.setAddress(boat.getBoatAddress());
-		app.setType(AppointmentType.TUTORSERVICE);
+		app.setType(AppointmentType.BOAT);
 		super.addNew(app);
 		emailService.sendReservationMail(userService.getById(app.getUser().getId()));		
 	}
@@ -619,6 +636,25 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 	@Override
 	public List<BoatAppointment> getAllPendingByBoatId(int id) {
 		return ((AppointmentRepository) repository).getAllPendingByBoatId(id);
+	}
+
+
+	@Override
+	public List<BoatAppointment> getAllByBoatOwnerAndPeriod(int boatOwnerId, java.sql.Date start, java.sql.Date end) {
+		return ((AppointmentRepository) repository).getAllByBoatOwnerAndPeriod(boatOwnerId, start, end);
+	}
+
+
+	@Override
+	public List<BoatAppointment> getAllBoatAppointmentsByBoatOwner(int id) {
+		return ((AppointmentRepository) repository).getAllBoatAppointmentsByBoatOwner(id);
+	}
+
+
+	@Override
+	public List<CompletedAppointment> getAllCompletedAppointmentsInPeriodByBoatOwnerId(int boatOwnerId,
+			java.sql.Date start, java.sql.Date end) {
+		return completeAppointmentRepository.getAllInPeriodByBoatOwnerId(boatOwnerId,start,end);
 	}
 
 	

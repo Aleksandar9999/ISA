@@ -21,6 +21,15 @@ public interface CompleteAppointmentRepository extends JpaRepository<CompletedAp
             + "WHERE app.dtype='TutorServiceAppointment' and ts.tutor_id=?1 and "
             + "(pe.start_date, pe.end_date) OVERLAPS (CAST(?2 as date), CAST(?3 as date))",nativeQuery = true)
     public List<CompletedAppointment> getAllInPeriodByTutorId(int tutorId, Date start, Date end);
+    
+    @Query(value="select * from completed_appointment ca "
+            + "INNER JOIN appointment app on ca.appointment_id=app.id "
+            + "INNER JOIN boat b on app.boat_id=b.boat_id "
+            + "INNER JOIN period pe on app.period_id=pe.id "
+            + "WHERE app.dtype='BoatAppointment' and b.boat_owner_id=?1 and "
+            + "(pe.start_date, pe.end_date) OVERLAPS (CAST(?2 as date), CAST(?3 as date))",nativeQuery = true)
+    public List<CompletedAppointment> getAllInPeriodByBoatOwnerId(int tutorId, Date start, Date end);
+
 
 
     @Query(value="select * from completed_appointment ca "

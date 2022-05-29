@@ -207,6 +207,10 @@ export default {
                 title: "My Boats",
                 url: `/boatowners/${resp.data.id}/boats`,
               },
+               2: {
+                title: "Business report boats",
+                url: "/business/reports/boats",
+              },
             };
           });
         }
