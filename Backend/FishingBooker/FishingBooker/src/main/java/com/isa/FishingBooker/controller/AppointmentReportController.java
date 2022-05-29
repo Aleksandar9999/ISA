@@ -74,7 +74,7 @@ public class AppointmentReportController {
 	@PreAuthorize("hasRole('BOATOWNER')")
 	@PostMapping(apiboat + "/ok-comment")
 	public ResponseEntity<?> addOkCommentReportBoat(@RequestBody AppointmentReportDTO report) {
-		service.addOkCommentReport(report.getAppointmentId());
+		service.addOkCommentReport(report.getAppointmentId(),report.getComment());
 		return ResponseEntity.ok().build();
 	};
 	

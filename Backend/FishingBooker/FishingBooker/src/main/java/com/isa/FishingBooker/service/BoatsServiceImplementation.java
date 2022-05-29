@@ -16,6 +16,7 @@ import com.isa.FishingBooker.exceptions.PendingAppointmentExistException;
 import com.isa.FishingBooker.exceptions.PeriodOverlapException;
 import com.isa.FishingBooker.model.Boat;
 import com.isa.FishingBooker.model.BoatAppointment;
+import com.isa.FishingBooker.model.BoatOwner;
 import com.isa.FishingBooker.model.DiscountOffer;
 import com.isa.FishingBooker.model.Period;
 import com.isa.FishingBooker.model.Photo;
@@ -47,7 +48,7 @@ public class BoatsServiceImplementation extends CustomGenericService<Boat> imple
 	@Override
 	public void addNew(Boat item) {
 		item.setStatus(Status.CONFIRMED);
-		item.setBoatOwner(usersService.getBoatOwnerById(item.getBoatOwnerId()));
+		item.setBoatOwner((BoatOwner)usersService.getById(item.getBoatOwnerId()));
 		super.addNew(item);
 		
 	}

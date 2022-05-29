@@ -21,7 +21,7 @@
         <div class="xs6 pa1">
           <w-flex wrap class="text-center">
             <div class="xs6 pa1">
-              <w-input type="date" v-model="discountOfferLocal.validityPeriod.startDate"/>
+              <w-input type="date" v-model="discountOfferLocal.validityPeriod.startDate" :min="minDate"/>
             </div>
             <div class="xs6 pa1">
               <w-input type="text" v-model="discountOfferLocalTime.validityPeriod.startTime" placeholder="12:00" />
@@ -36,7 +36,7 @@
         <div class="xs6 pa1">
           <w-flex wrap class="text-center">
             <div class="xs6 pa1">
-              <w-input type="date" v-model="discountOfferLocal.validityPeriod.endDate"/>
+              <w-input type="date" v-model="discountOfferLocal.validityPeriod.endDate"  :min="discountOfferLocal.validityPeriod.startDate"/>
             </div>
             <div class="xs6 pa1">
               <w-input type="text" v-model="discountOfferLocalTime.validityPeriod.endTime" placeholder="12:00" />
@@ -58,7 +58,7 @@
           
           <w-flex wrap class="text-center">
             <div class="xs6 pa1">
-              <w-input type="date" v-model="discountOfferLocal.reservationPeriod.startDate"/>
+              <w-input type="date" v-model="discountOfferLocal.reservationPeriod.startDate"  :min="discountOfferLocal.validityPeriod.endDate"/>
             </div>
             <div class="xs6 pa1">
               <w-input type="text" v-model="discountOfferLocalTime.reservationPeriod.startTime" placeholder="12:00" />
@@ -74,7 +74,7 @@
           
           <w-flex wrap class="text-center">
             <div class="xs6 pa1">
-              <w-input type="date" v-model="discountOfferLocal.reservationPeriod.endDate"/>
+              <w-input type="date" v-model="discountOfferLocal.reservationPeriod.endDate"  :min="discountOfferLocal.reservationPeriod.startDate"/>
             </div>
             <div class="xs6 pa1">
               <w-input type="text" v-model="discountOfferLocalTime.reservationPeriod.endTime" placeholder="12:00" />
@@ -123,6 +123,7 @@
 <script>
 import axios from "axios";
 import config from "../../../../configuration/config";
+import moment from 'moment';
 export default {
   props: ["show", "idboat"],
   data() {
@@ -134,6 +135,7 @@ export default {
         persistentNoAnimation: false,
         width: 800,
       },
+      minDate: moment().format("YYYY-MM-DD"),
       success: false,
       clients: [],
       boats: [],

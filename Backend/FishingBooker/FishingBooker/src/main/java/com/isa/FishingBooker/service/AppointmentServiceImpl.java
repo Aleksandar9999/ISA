@@ -32,7 +32,6 @@ import com.isa.FishingBooker.repository.CompleteAppointmentRepository;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
 import com.isa.FishingBooker.service.interfaces.AppointmentService;
 import com.isa.FishingBooker.service.interfaces.BoatsService;
-import com.isa.FishingBooker.service.interfaces.SystemDataService;
 import com.isa.FishingBooker.service.interfaces.TutorServicesService;
 import com.isa.FishingBooker.service.interfaces.UserCategorySettingsService;
 import com.isa.FishingBooker.service.interfaces.UsersService;
@@ -51,8 +50,7 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 	private UsersService userService;
 	@Autowired
 	private UserCategorySettingsService userCategoryService;
-	@Autowired
-	private SystemDataService systemDataService;
+	
 	@Autowired
 	private BoatsService boatsService;
 
