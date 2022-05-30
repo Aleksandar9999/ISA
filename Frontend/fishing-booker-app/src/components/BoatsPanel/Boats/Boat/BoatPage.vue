@@ -155,9 +155,10 @@ export default {
             axios.get('http://api.positionstack.com/v1/forward', { params:{access_key:'45de5b2b92f8621fa59de13c67664029',query:boatAddress}}).then(
             response=>this.drawMap(response.data.data[0].latitude,response.data.data[0].longitude)                           
             ).catch(error => console.log(error))
+            console.log(boatAddress);
         },
         createMap(){
-            this.getCoordinates(this.boat_info.boatAddress.street + ' '+ this.boat_info.boatAddress.city + ' '+this.boat_info.boatAddress.country )
+            this.getCoordinates( this.boat_info.boatAddress.street + ' ' +  this.boat_info.boatAddress.city + ' ' + this.boat_info.boatAddress.country  )
         },
         showMapEvent(){
             document.getElementById("map-box").classList.toggle("map-show")

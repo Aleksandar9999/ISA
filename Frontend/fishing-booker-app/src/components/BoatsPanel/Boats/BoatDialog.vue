@@ -70,7 +70,7 @@
           <p>Street</p>
         </div>
         <div class="xs6 pa1">
-          <input type="text" v-model="boatLocal.address.street" />
+          <input type="text" v-model="boatLocal.boatAddress.street" />
         </div>
       </w-flex>
 
@@ -79,7 +79,7 @@
           <p>Country</p>
         </div>
         <div class="xs6 pa1">
-          <input type="text" v-model="boatLocal.address.country" />
+          <input type="text" v-model="boatLocal.boatAddress.country" />
         </div>
       </w-flex>
 
@@ -88,7 +88,7 @@
           <p>City</p>
         </div>
         <div class="xs6 pa1">
-          <input type="text" v-model="boatLocal.address.city" />
+          <input type="text" v-model="boatLocal.boatAddress.city" />
         </div>
       </w-flex>
       <template #actions>
@@ -123,7 +123,7 @@ export default {
         rules: "",
         fishingEquipment: "",
         cancelPercentage: "",
-        address: {
+        boatAddress: {
           street: "",
           country: "",
           city: "",
