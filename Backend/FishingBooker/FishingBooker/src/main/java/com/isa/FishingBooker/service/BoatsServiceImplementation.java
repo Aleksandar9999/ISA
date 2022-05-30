@@ -138,10 +138,9 @@ public class BoatsServiceImplementation extends CustomGenericService<Boat> imple
 	}
 
 	@Override
-	public List<DiscountOffer> getAllDiscountOffers(int boatownerId) {
-		List<Boat> boats = this.getAllValidByBoatOwner(boatownerId);
-		return boats.stream().map(Boat::getDisconutOffers).flatMap(Set::stream)
-				.collect(Collectors.toList());
+	public List<DiscountOffer> getAllDiscountOffers(int idBoat) {
+		Boat boat =  getById(idBoat);
+		return boat.getDisconutOffers().stream().collect(Collectors.toList());
 	}
 
 	@Override

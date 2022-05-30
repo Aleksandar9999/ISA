@@ -158,7 +158,7 @@ export default {
             console.log(boatAddress);
         },
         createMap(){
-            this.getCoordinates( this.boat_info.boatAddress.street + ' ' +  this.boat_info.boatAddress.city + ' ' + this.boat_info.boatAddress.country  )
+            this.getCoordinates( this.boat_info.boatAddress.street +',' +  this.boat_info.boatAddress.city + ',' + this.boat_info.boatAddress.country  )
         },
         showMapEvent(){
             document.getElementById("map-box").classList.toggle("map-show")
