@@ -12,12 +12,12 @@ INSERT INTO ROLE (name) VALUES ('ROLE_TUTOR');
 INSERT INTO ROLE (name) VALUES ('ROLE_BOATOWNER');
 INSERT INTO ROLE (name) VALUES ('ROLE_RESORTOWNER');
 
-insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('User','marko.trifunovic135@gmail.com', 'bojan', 'Blagoje', 'Adzic', '021334563','CONFIRMED',1,0);
-insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('BoatOwner','badzaa@gmail.com', 'bojan', 'Bosko', 'Adzic', '021554263','ADMIN_CONFIRMED',1,0);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count,points) values ('User','marko.trifunovic135@gmail.com', 'bojan', 'Blagoje', 'Adzic', '021334563','CONFIRMED',1,0,45);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count,points) values ('BoatOwner','badzaa@gmail.com', 'bojan', 'Bosko', 'Adzic', '021554263','ADMIN_CONFIRMED',1,0,40);
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('ResortOwner','radomBoj@gmail.com', 'bojan', 'Radomir', 'Bojanic', '015553363','ADMIN_CONFIRMED',2,0);
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('Tutor','dragoOrasanin@gmail.com', 'bojan', 'Drago', 'Orasanin','015252161','ADMIN_CONFIRMED',2,0);
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,password_changed,penalty_count) values ('Admin','admin@gmail.com', 'admin', 'admin', 'admin','015252161','ADMIN_CONFIRMED',3,'true',0);
-insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('Tutor','abrkljac9@gmail.com', 'bojan', 'Mihailo', 'Radic','015235561','ADMIN_CONFIRMED',1,0);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count,points) values ('Tutor','abrkljac9@gmail.com', 'bojan', 'Mihailo', 'Radic','015235561','ADMIN_CONFIRMED',1,0,40);
 
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (1, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (2, 1); 
