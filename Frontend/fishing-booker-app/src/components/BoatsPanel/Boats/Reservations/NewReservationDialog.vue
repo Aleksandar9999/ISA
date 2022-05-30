@@ -120,7 +120,12 @@ export default {
     };
   },
   mounted() {
-  
+     axios
+      .get(
+        `${config.apiStart}/api/users/boatowners/${this.id}/boats`,
+        config.requestHeader
+      )
+      .then((resp) => (this.boats = resp.data));
     axios
       .get(config.apiStart + "/api/users/clients", config.requestHeader)
       .then((resp) => (this.clients = resp.data));
@@ -155,6 +160,7 @@ export default {
 
       console.log(appointmentToSave);
       let api = "/api/appointments/boat";
+       if (!this.userId) api += "/boatowner";
       axios
         .post(config.apiStart + api, appointmentToSave, config.requestHeader)
         .then((resp) => {
@@ -167,6 +173,7 @@ export default {
             `${error.response.data.error}\n\n${error.response.data.message}`
           );
         });
+         window.location.reload();
     },
   },
   watch: {

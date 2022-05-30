@@ -18,6 +18,7 @@ insert into users (dtype, email, password, name, surname, phone_number, status, 
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('Tutor','dragoOrasanin@gmail.com', 'bojan', 'Drago', 'Orasanin','015252161','ADMIN_CONFIRMED',2,0);
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,password_changed,penalty_count) values ('Admin','admin@gmail.com', 'admin', 'admin', 'admin','015252161','ADMIN_CONFIRMED',3,'true',0);
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count,points) values ('Tutor','abrkljac9@gmail.com', 'bojan', 'Mihailo', 'Radic','015235561','ADMIN_CONFIRMED',1,0,40);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count,points) values ('BoatOwner','fresh.trifunovic@gmail.com', 'bojan', 'Marko', 'Trifunovic', '02166654263','ADMIN_CONFIRMED',1,0,45);
 
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (1, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (2, 1); 
@@ -30,6 +31,8 @@ INSERT INTO USER_ROLE (user_id, role_id) VALUES (5, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (5, 2);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (6, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (6, 3);
+INSERT INTO USER_ROLE (user_id, role_id) VALUES (7, 1);
+INSERT INTO USER_ROLE (user_id, role_id) VALUES (7, 4);
 
 insert into boat (name, type_of_boat, length, engine_id, engine_power, max_speed, navigation_equipment, boat_address_id, description, max_person, rules, fishing_equipment, cancel_percentage, boat_owner_id, rate,status) values ('Vesna','Fishing boat','5 meter','1','15 HP', 80, 'GPS', 1,'Middle size fishing boat.', 7,'No alcohol. No smoking.', '7 fishing rods and decoys.',0 , 2, 5,'CONFIRMED');
 insert into boat (name, type_of_boat, length, engine_id, engine_power, max_speed, navigation_equipment, boat_address_id, description, max_person, rules, fishing_equipment, cancel_percentage, boat_owner_id, rate,status) values ('Orkan','Fishing boat','4.5 meter','1','13 HP', 70, 'GPS', 3,'Middle size fishing boat.', 5,'No alcohol. No smoking.', '4 fishing rods and decoys.',0 , 2, 4,'CONFIRMED');
@@ -178,13 +181,13 @@ insert into user_category_settings (name, discount_procentage, revenue_procentag
 insert into period (start_date) values('2022-01-01 00:00:00');
 insert into points_settings (points_for_clients, points_for_owners, valid_id, creator_id,penalty) values (2,3,32,5,1); 
 
-insert into period (start_date, end_date) values('2022-05-13 13:00:00','2022-06-01 13:00:00'); --33
+insert into period (start_date, end_date) values('2022-05-13 13:00:00','2022-06-20 13:00:00'); --33
 insert into period (start_date, end_date) values('2022-02-01 13:00:00','2022-02-15 13:00:00');
 insert into period (start_date, end_date) values('2022-02-03 11:00:00','2022-02-17 13:00:00');
 insert into period (start_date, end_date) values('2022-05-01 11:00:00','2022-05-12 13:00:00'); --36
 
-insert into boat_boat_available(boat_boat_id,boat_available_id) values (1,33);
+insert into boat_boat_available(boat_boat_id,boat_available_id) values (1,36);
 insert into boat_boat_available(boat_boat_id,boat_available_id) values (1,34);
 insert into boat_boat_available(boat_boat_id,boat_available_id) values (2,35);
 
-insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,user_id,status) values ('BoatAppointment', 36, 5, 'No additional services.', 26000.00,'BOAT', 4, 1,1,'SUCCESSFUL');
+insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,user_id,status) values ('BoatAppointment', 33, 5, 'No additional services.', 26000.00,'BOAT', 4, 1,1,'SUCCESSFUL');
