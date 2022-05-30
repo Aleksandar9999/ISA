@@ -159,9 +159,10 @@ public class User implements UserDetails {
 
     private void validateNewStatus(Status status) {
         if (this.status == null) return;
-        if (status.equals(Status.DELETED)) return;
-        if (this.status.equals(Status.ADMIN_CONFIRMED)) return;
         if (this.status.equals(Status.PENDING) && status.equals(Status.CONFIRMED)) return;
+        if (this.status.equals(Status.CONFIRMED) && status.equals(Status.ADMIN_CONFIRMED)) return;
+        if (this.status.equals(Status.CONFIRMED) && status.equals(Status.REJECTED)) return;
+        if (this.status.equals(Status.ADMIN_CONFIRMED) && status.equals(Status.DELETED)) return;
         throw new UnexpectedUserStatusExcpetion();
     }
 
