@@ -79,7 +79,7 @@ export default {
             ).catch(error => console.log(error))
         },
         createMap(){
-            this.getCoordinates(this.resort.resortAddress.street + ' '+this.resort.resortAddress.country + '1')
+            this.getCoordinates(this.resort.resortAddress.street + ' '+ this.resort.resortAddress.city + ' '+this.resort.resortAddress.country + '1')
         },
         showMapEvent(){
             document.getElementById("map-box").classList.toggle("map-show")

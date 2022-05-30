@@ -16,6 +16,7 @@
     "ol": "^6.9.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
+    "vue3-openlayers": "^0.1.67",
     "wave-ui": "^2.26.0"
   },
   "devDependencies": {
