@@ -57,6 +57,7 @@ public class Subscription {
 		this.boats = boats;
 	}
 	public Set<Resort> getResorts() {
+		if(resorts==null) return new HashSet<Resort>();
 		return resorts;
 	}
 	public void setResorts(Set<Resort> resorts) {
@@ -78,5 +79,9 @@ public class Subscription {
 	public void addBoat(Boat boat) {
 		if(this.boats==null) this.boats=new HashSet<Boat>();
 		this.boats.add(boat);
+	}
+	public void addResort(Resort resort) {
+		if(this.resorts==null) this.resorts=new HashSet<Resort>();
+		this.resorts.add(resort);
 	}
 }

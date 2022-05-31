@@ -211,6 +211,10 @@ export default {
                 title: "Business report boats",
                 url: "/business/reports/boats",
               },
+              //   3: {
+              //   title: "Boat owner charts",
+              //   url: "/boatowner/charts",
+              // },
             };
           });
         }
