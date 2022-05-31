@@ -200,3 +200,4 @@ insert into boat_boat_available(boat_boat_id,boat_available_id) values (1,34);
 insert into boat_boat_available(boat_boat_id,boat_available_id) values (2,35);
 
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,user_id,status) values ('BoatAppointment', 33, 5, 'No additional services.', 26000.00,'BOAT', 4, 1,1,'SUCCESSFUL');
+insert into resort_resort_available (resort_resort_id, resort_available_id) values (1,13);

@@ -89,8 +89,8 @@
              this.item_local.resortOwnerId +
              "/resorts/" +
              this.item_local.id;
-            // this.showPeriods= 
-            //  "/boats/" + this.item_local.id +"/all-standard-periods";
+             this.showPeriods= 
+              "/resorts/" + this.item_local.id +"/all-standard-periods";
             //    this.showAppointments= 
             //  "/boat/" + this.item_local.id +"/appointments";
             //   this.showCalendar="/boat/" + this.item_local.id + "/calendar/year/" + this.year;

@@ -55,6 +55,7 @@ import BoatReportList from '../components/BoatsPanel/Boats/BoatBusinessReport/Bo
 
 import ResortsList from '../components/ResortsPanel/Resorts/ResortsList.vue'
 import ResortPage from '../components/ResortsPanel/Resorts/Resort/ResortPage.vue'
+import ResortAvailablePeriods from '../components/ResortsPanel/Resorts/Reservations/ResortAvailablePeriods.vue'
 
 
 
@@ -106,6 +107,7 @@ const routes = [
 
  {path: "/resortowners/:idresortowner/resorts", name: "Resorts", component: ResortsList},
  {path: "/resortowners/:idresortowner/resorts/:idresort", name: "Resort", component: ResortPage},
+ {path: "/resorts/:idresort/all-standard-periods", name: "ResortPeriodsPage", component: ResortAvailablePeriods},
 
 
 
