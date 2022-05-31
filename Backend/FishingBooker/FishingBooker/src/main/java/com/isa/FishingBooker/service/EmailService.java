@@ -1,6 +1,8 @@
 package com.isa.FishingBooker.service;
 
 import com.isa.FishingBooker.model.Objection;
+import com.isa.FishingBooker.model.Resort;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
@@ -83,6 +85,14 @@ public class EmailService {
 		String subject = "NEW DISCOUNT OFFER";
 		String text = String.format("Dear %s,\nNew discount offer has been created for %s.", user.getName(),
 				boat.getName());
+		this.sendEmail(this.createMail(user.getEmail(), subject, text));
+	}
+	
+	@Async
+	public void sendDiscountNotificationEmailResorts(User user, Resort resort) {
+		String subject = "NEW DISCOUNT OFFER";
+		String text = String.format("Dear %s,\nNew discount offer has been created for %s.", user.getName(),
+				resort.getName());
 		this.sendEmail(this.createMail(user.getEmail(), subject, text));
 	}
 

@@ -12,7 +12,6 @@ public interface AppointmentService extends Service<Appointment> {
 	public List<CompletedAppointment> getAllCompletedAppointmentsInPeriodByTutorId(int tutorId,Date start,Date end);
 
 	public List<Appointment> getAllInPeriod(Date start,Date end);
-	public List<ResortAppointment> getResortApointments();
 	public List<Appointment>getPendingApointments();
 	public void deleteResortAppointments(int resortId);
 	
@@ -42,9 +41,22 @@ public interface AppointmentService extends Service<Appointment> {
 	public List<CompletedAppointment> getAllCompletedAppointmentsInPeriodByBoatOwnerId(int boatOwnerId,Date start,Date end);
 	
 	
+	
+	public List<ResortAppointment> getResortApointments();
+	public List<ResortAppointment> getAllResortAppointmentsByResort(int id);
+	public void addNewResortAppointment(ResortAppointment app);
+	public void addNewResortAppointmentByResortOwner(ResortAppointment app,boolean validateUser);
+	public void addNewResortAppointmentFromDiscount(ResortAppointment app);
+	public List<ResortAppointment> getAllByResortAndPeriod(int resortId,Date start,Date end);
 	public String makeResortReservation(ResortAppointment appointment);
-	public String cancelReservation(Integer id);
 	public List<ResortAppointment> getAllResortAppoints();
+	public List<ResortAppointment> getAllPendingByResortId(int id);
+	public List<ResortAppointment> getAllByResortOwnerAndPeriod(int resortOwnerId, Date start, Date end);
+	public List<ResortAppointment> getAllResortAppointmentsByResortOwner(int id);
+	public List<CompletedAppointment> getAllCompletedAppointmentsInPeriodByResortOwnerId(int resortOwnerId,Date start,Date end);
+	
+	
+	public String cancelReservation(Integer id);
 
 	public String makeQuickReservation(Integer id);
 	public List<Appointment> getOldAppointments();

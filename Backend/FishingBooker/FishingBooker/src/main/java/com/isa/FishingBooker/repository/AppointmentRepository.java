@@ -30,9 +30,47 @@ public interface AppointmentRepository extends JpaRepository<Appointment ,Intege
 	@Query("select a from Appointment a where TYPE(a)=BoatAppointment and a.id=?1")
 	public BoatAppointment getBoatAppointmentById(Integer id);
 	
+	//Resorts
+	
 	@Query("select a from Appointment a where TYPE(a)=ResortAppointment")
 	public List<ResortAppointment> getAllResortAppoints();
 	
+	@Query("select a from Appointment a where TYPE(a)=ResortAppointment and a.resort.id=?1")
+	public List<ResortAppointment> getAllAppointmentsByResort(int resortId);
+	
+	@Query("select a from Appointment a where TYPE(a)=ResortAppointment and a.resort.resortowner.id=?1 and a.period.startDate > CURRENT_DATE")
+	public List<ResortAppointment> getAllInCommingAppointmentsByResortOwner(int resortownerId);
+	
+	@Query("select a from Appointment a where TYPE(a)=ResortAppointment and a.user.id=?1")
+	public List<ResortAppointment> getAllResortAppointmentsByUser(int userid);
+	
+	@Query("select a from Appointment a where TYPE(a)=ResortAppointment and a.user.id=?1 and a.resort.resortowner.id=?2 and a.period.startDate < CURRENT_DATE")
+	public List<ResortAppointment> getAllByResortOwnerAndUserBeforeCurrentDate(int userid, int resortownerId);
+	
+	@Query("select a from Appointment a where TYPE(a)=ResortAppointment and a.resort.id=?1 and a.status='PENDING'")
+	public List<ResortAppointment> getAllPendingByResortId(int id);
+	
+	@Query(value="select dtype, a.id, a.period_id, ps.end_date as endDate,a.status, appoint_type, additional_services, price, ps.start_date, a.address_id, user_id, tutor_service_id, boat_id, r.resort_owner_id,r.resort_id, "
+			+ "    r.name from Appointment a INNER JOIN resort as r on a.resort_id=r.resort_id "
+			+ "INNER JOIN Period ps on ps.id=a.period_id "
+			+ "where a.dtype='ResortAppointment' and r.resort_id=?1 and "
+			+ "(ps.start_date, ps.end_date) OVERLAPS (CAST(?2 as date), CAST(?3 as date))",nativeQuery = true)
+	public List<ResortAppointment> getAllByResortAndPeriod(int resortId, Date start,Date end);
+	
+	@Query("select a from Appointment a where TYPE(a)=ResortAppointment and a.resort.resortowner.id=?1")
+	public List<ResortAppointment> getAllResortAppointmentsByResortOwner(int resortOwnerId);
+	
+	@Query(value="select dtype, a.id, a.period_id, ps.end_date as endDate,a.status, appoint_type, additional_services, price, ps.start_date, a.address_id, user_id, tutor_service_id, boat_id, r.resort_owner_id,r.resort_id,  "
+			+ "    r.name from Appointment a INNER JOIN  resort as r on a.resort_id=r.resort_id"
+			+ "INNER JOIN Period ps on ps.id=a.period_id "
+			+ "where a.dtype='ResortAppointment' and r.resort_owner_id=?1 and "
+			+ "(ps.start_date, ps.end_date) OVERLAPS (CAST(?2 as date), CAST(?3 as date))",nativeQuery = true)
+	public List<ResortAppointment> getAllByResortOwnerAndPeriod(int resortOwnerId, Date start,Date end);
+	
+	
+	
+	
+	//BOATS
 	@Query("select a from Appointment a where TYPE(a)=BoatAppointment")
 	public List<BoatAppointment> getAllBoatAppoints();
 	

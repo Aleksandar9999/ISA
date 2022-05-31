@@ -31,7 +31,7 @@ import com.isa.FishingBooker.exceptions.UndefinedServicePricesException;
 @Entity
 public class Resort {
 	@Id
-	@Column(name="boat_id")
+	@Column(name="resort_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@Column(name = "name")
@@ -71,7 +71,7 @@ public class Resort {
 	
 	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinColumn(name="resort_owner_id")
-	private ResortOwner resortOwner;
+	private ResortOwner resortowner;
 	
 	
 	public Resort() {}
@@ -228,15 +228,15 @@ public class Resort {
 	
 	@JsonIgnore
 	public ResortOwner getResortOwner() {
-		return resortOwner;
+		return resortowner;
 	}
 
-	public void setResortOwner(ResortOwner resortOwner) {
-		this.resortOwner = resortOwner;
+	public void setResortOwner(ResortOwner resortowner) {
+		this.resortowner = resortowner;
 	}
 	
 	public int getResortOwnerId() {
-		return resortOwner.getId();
+		return resortowner.getId();
 	}
 	
 	public Resort addNewCustomer(User user) {

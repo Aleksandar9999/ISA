@@ -32,6 +32,7 @@ import com.isa.FishingBooker.repository.CompleteAppointmentRepository;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
 import com.isa.FishingBooker.service.interfaces.AppointmentService;
 import com.isa.FishingBooker.service.interfaces.BoatsService;
+import com.isa.FishingBooker.service.interfaces.ResortsService;
 import com.isa.FishingBooker.service.interfaces.TutorServicesService;
 import com.isa.FishingBooker.service.interfaces.UserCategorySettingsService;
 import com.isa.FishingBooker.service.interfaces.UsersService;
@@ -53,6 +54,9 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 	
 	@Autowired
 	private BoatsService boatsService;
+	
+	@Autowired
+	private ResortsService resortsService;
 
 	@Override
 	public List<TutorServiceAppointment> getAllTutorServiceAppointmentsByTutor(int id) {
@@ -655,6 +659,118 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 	public List<CompletedAppointment> getAllCompletedAppointmentsInPeriodByBoatOwnerId(int boatOwnerId,
 			java.sql.Date start, java.sql.Date end) {
 		return completeAppointmentRepository.getAllInPeriodByBoatOwnerId(boatOwnerId,start,end);
+	}
+
+	
+	
+	///RESORTS
+
+	@Override
+	public List<ResortAppointment> getAllResortAppointmentsByResort(int id) {
+		return ((AppointmentRepository) repository).getAllAppointmentsByResort(id);
+	}
+
+
+	@Override
+	public void addNewResortAppointment(ResortAppointment app) {
+		Resort resort = resortsService.getById(app.getResort().getId());
+		app.setResort(resort);
+		app.setAddress(resort.getResortAddress());
+		app.setType(AppointmentType.RESORT);
+		try {
+			app.validateNewResortAppointmentPeriod(app.getPeriod());
+		} catch (PeriodOverlapException ex) {
+			double priceWithoutDiscount = resort.calculatePrice((int) app.getPeriod().getDurationInDays());
+			double procentageForClient = userCategoryService
+					.findDiscountProcentage(userService.getById(app.getUser().getId()).getPoints());
+			app.setPrice(priceWithoutDiscount - (priceWithoutDiscount * procentageForClient / 100));
+			updateResortAvailablePeriods(resort, app);
+			super.addNew(app);
+			emailService.sendReservationMail(userService.getById(app.getUser().getId()));
+			return;
+		}
+		throw new TutorservicePeriodException();
+		
+	}
+	
+	@Transactional
+	private void updateResortAvailablePeriods(Resort r, ResortAppointment app) {
+		r.updateStandardPeriod(app.getPeriod());
+		resortsService.update(r);
+	}
+		
+	
+
+
+	@Override
+	public void addNewResortAppointmentByResortOwner(ResortAppointment app, boolean validateUser) {
+		if (!validateUseCurrentAppointmentResort(app.getUser().getId(), app.getResort().getId()))
+			throw new UserAppointmentInProgressException();
+		this.addNewResortAppointment(app);
+		
+	}
+	
+	private boolean validateUseCurrentAppointmentResort(Integer userid, int resortId) {
+		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+		Period currentPeriod = new Period(currentDate, currentDate);
+		Resort resort = resortsService.getById(resortId);
+		for (ResortAppointment appointment : ((AppointmentRepository) repository)
+				.getAllByResortOwnerAndUserBeforeCurrentDate(userid, resort.getResortOwner().getId())) {
+			try {
+				appointment.getPeriod().overlap(currentPeriod);
+			} catch (PeriodOverlapException e) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	@Override
+	public void addNewResortAppointmentFromDiscount(ResortAppointment app) {
+		Resort resort = resortsService.getById(app.getResort().getId());
+		app.setResort(resort);
+		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
+				.getAuthentication();
+		User usr = (User) aut.getPrincipal();
+		app.setUser(usr);
+		app.setAddress(resort.getResortAddress());
+		app.setType(AppointmentType.RESORT);
+		super.addNew(app);
+		emailService.sendReservationMail(userService.getById(app.getUser().getId()));		
+		
+	}
+
+
+	@Override
+	public List<ResortAppointment> getAllByResortAndPeriod(int resortId, java.sql.Date start, java.sql.Date end) {
+		return ((AppointmentRepository) repository).getAllByResortAndPeriod(resortId, start, end);
+	}
+
+
+	@Override
+	public List<ResortAppointment> getAllPendingByResortId(int id) {
+		return ((AppointmentRepository) repository).getAllPendingByResortId(id);
+	}
+
+
+	@Override
+	public List<ResortAppointment> getAllByResortOwnerAndPeriod(int resortOwnerId, java.sql.Date start,
+			java.sql.Date end) {
+		return ((AppointmentRepository) repository).getAllByResortOwnerAndPeriod(resortOwnerId, start, end);
+	}
+
+
+	@Override
+	public List<ResortAppointment> getAllResortAppointmentsByResortOwner(int id) {
+		return ((AppointmentRepository) repository).getAllResortAppointmentsByResortOwner(id);
+	}
+
+
+	@Override
+	public List<CompletedAppointment> getAllCompletedAppointmentsInPeriodByResortOwnerId(int resortOwnerId,
+			java.sql.Date start, java.sql.Date end) {
+		return completeAppointmentRepository.getAllInPeriodByResortOwnerId(resortOwnerId,start,end);
 	}
 
 	

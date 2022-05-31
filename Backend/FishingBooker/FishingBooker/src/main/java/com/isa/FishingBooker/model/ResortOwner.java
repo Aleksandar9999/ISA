@@ -10,6 +10,10 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class ResortOwner extends User {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@OneToMany(mappedBy = "resortowner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Resort> resorts = new HashSet<Resort>();
 	

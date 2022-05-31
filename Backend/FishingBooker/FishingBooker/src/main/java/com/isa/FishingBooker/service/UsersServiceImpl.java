@@ -157,4 +157,9 @@ public class UsersServiceImpl extends CustomGenericService<User> implements User
 		return (BoatOwner) ((UserRepository) repository).findBoatOwnerWithBoats(id);
 	}
 	
+	@Override
+	public ResortOwner getResortOwnerById(int id) {
+		return (ResortOwner) ((UserRepository) repository).findResortOwnerWithResorts(id);
+	}
+	
 }
