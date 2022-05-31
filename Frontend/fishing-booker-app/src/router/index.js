@@ -54,6 +54,7 @@ import BoatReportList from '../components/BoatsPanel/Boats/BoatBusinessReport/Bo
 //import BoatOwnerChart from '../components/BoatsPanel/Boats/BoatOwnerChart.vue';
 
 import ResortsList from '../components/ResortsPanel/Resorts/ResortsList.vue'
+import ResortPage from '../components/ResortsPanel/Resorts/Resort/ResortPage.vue'
 
 
 
@@ -104,6 +105,7 @@ const routes = [
  // {path: "/boatowner/charts",name:"Boatowner charts",component: BoatOwnerChart},
 
  {path: "/resortowners/:idresortowner/resorts", name: "Resorts", component: ResortsList},
+ {path: "/resortowners/:idresortowner/resorts/:idresort", name: "Resort", component: ResortPage},
 
 
 

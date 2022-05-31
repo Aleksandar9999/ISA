@@ -31,7 +31,7 @@ public class ResortsPricesController {
 	}
 
 	@PostMapping("api/resorts/{idresort}/prices")
-	@PreAuthorize("hasRole('BOATOWNER')")
+	@PreAuthorize("hasRole('RESORTOWNER')")
 	public ResponseEntity<?> addResortPrice(@RequestBody ResortRentPrice price,
 			@PathVariable("idresort") int idresort) {
 		Resort resort = resortsService.getById(idresort);
