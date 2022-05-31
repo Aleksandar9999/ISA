@@ -28,6 +28,7 @@ public class AppointmentReportController {
 	private CustomModelMapper<AppointmentReport, AppointmentReportDTO> mapper;
 	private final String api = "api/appointment-report";
 	private final String apiboat = "api/boat/appointment-report";
+	private final String apiresort = "api/resort/appointment-report";
 
 
 	@PreAuthorize("hasRole('TUTOR')")
@@ -85,6 +86,38 @@ public class AppointmentReportController {
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok().build();
 	}
+	
+	//resort
+		@PreAuthorize("hasRole('RESORTOWNER')")
+		@PostMapping(apiresort + "/bad-comment")
+		public ResponseEntity<?> addBadCommentReportResort(@RequestBody AppointmentReportDTO report) {
+			service.addBadCommentReport(mapper.convertToEntity(report),report.getAppointmentId());
+			return ResponseEntity.ok().build();
+		}
+
+
+		@PreAuthorize("hasRole('RESORTOWNER')")
+		@PostMapping(apiresort + "/not-show-up")
+		public ResponseEntity<?> addNotShopUpReportResort(@RequestBody AppointmentReportDTO report) {
+			service.addNotShopUpReport(report.getAppointmentId());
+			return ResponseEntity.ok().build();
+		}
+
+
+		@PreAuthorize("hasRole('RESORTOWNER')")
+		@PostMapping(apiresort + "/ok-comment")
+		public ResponseEntity<?> addOkCommentReportResort(@RequestBody AppointmentReportDTO report) {
+			service.addOkCommentReport(report.getAppointmentId(),report.getComment());
+			return ResponseEntity.ok().build();
+		};
+		
+		@PreAuthorize("hasRole('RESORTOWNER')")
+		@GetMapping(apiresort + "/appointment/{id}")
+		public ResponseEntity<?> isReportCreatedResort(@PathVariable("id") int id) {
+			if (service.getByAppointmentId(id) == null)
+				return ResponseEntity.notFound().build();
+			return ResponseEntity.ok().build();
+		}
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping(api + "/bad-comment/{id}/accept")
@@ -100,7 +133,7 @@ public class AppointmentReportController {
 		return ResponseEntity.ok().build();
 	};
 
-	@PreAuthorize("hasAnyRole('TUTOR', 'ADMIN','BOATOWNER')")
+	@PreAuthorize("hasAnyRole('TUTOR', 'ADMIN','BOATOWNER','RESORTOWNER')")
 	@GetMapping(api)
 	public ResponseEntity<?> getAll() {
 		return ResponseEntity.ok(service.getAll());

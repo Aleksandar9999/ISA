@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.dto.BoatAppointmentDTO;
+import com.isa.FishingBooker.dto.ResortAppointmentDTO;
 import com.isa.FishingBooker.dto.TutorServiceAppointmentDTO;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.mapper.calendar.MonthCalendarMapper;
@@ -42,6 +43,8 @@ public class AppointmentController {
 	@Autowired
 	private CustomModelMapper<BoatAppointment, BoatAppointmentDTO> boatAppointmentModelMapper;
 
+	@Autowired
+	private CustomModelMapper<ResortAppointment, ResortAppointmentDTO> resortAppointmentModelMapper;
 	@SuppressWarnings("rawtypes")
 	@Autowired
 	private YearCalendarMapper yearCalendarMapper;
@@ -156,6 +159,80 @@ public class AppointmentController {
 	}
 	
 	//KRAJ ZA BRODOVE
+	
+	
+	
+	//ZA VIKENDICE
+	
+	
+	
+	@GetMapping("api/appointments/resort/{id}/calendar/week")
+	public ResponseEntity<?> getAllResortCalendarWeek(@RequestParam(name = "startDate", defaultValue = "") String startDate,
+			@RequestParam(name = "endDate", defaultValue = "") String endDate, @PathVariable("id") int idresort) {
+		if (!(startDate.isEmpty() && endDate.isEmpty())) {
+				LocalDate endDateLocal = Date.valueOf(startDate).toLocalDate().plusDays(7);
+				return ResponseEntity.ok(service.getAllByResortAndPeriod(idresort, Date.valueOf(startDate),
+						Date.valueOf(endDateLocal)));
+		}
+		return ResponseEntity.ok(service.getAllResortAppointmentsByResort(idresort));
+	}
+
+	@SuppressWarnings("unchecked")
+	@GetMapping("api/appointments/resort/{id}/calendar/month")
+	public ResponseEntity<?> getAllResortCalendarMonth(@RequestParam(name = "startDate", defaultValue = "") String startDate,
+			@RequestParam(name = "endDate", defaultValue = "") String endDate, @PathVariable("id") int idresort) {
+		
+		if (!(startDate.isEmpty() && endDate.isEmpty())) {
+				return ResponseEntity.ok(monthCalendarMapper.convertToDtos(
+						service.getAllByResortAndPeriod(idresort, Date.valueOf(startDate), Date.valueOf(endDate)),
+						LocalDate.parse(startDate), LocalDate.parse(endDate)));
+		}
+		return ResponseEntity.ok(service.getAllResortAppointmentsByResort(idresort));
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@GetMapping("api/appointments/resort/{id}/calendar/year")
+	public ResponseEntity<?> getAllResortCalendarYear(@RequestParam(name = "startDate", defaultValue = "") String startDate,
+			@RequestParam(name = "endDate", defaultValue = "") String endDate, @PathVariable("id") int idresort) {
+		if (!(startDate.isEmpty() && endDate.isEmpty())) {
+			return ResponseEntity.ok(yearCalendarMapper.convertToDtos(
+					service.getAllByResortAndPeriod(idresort, Date.valueOf(startDate), Date.valueOf(endDate))));
+		}
+		return ResponseEntity.ok(service.getAllResortAppointmentsByResort(idresort));
+	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@GetMapping("api/appointments/resort")
+	public ResponseEntity<ArrayList<ResortAppointment>> getAllResortAppointments() {
+		return ResponseEntity.ok((ArrayList<ResortAppointment>) service.getResortApointments());
+	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@PostMapping("api/appointments/resort")
+	public ResponseEntity<?> addResortAppointment(@RequestBody ResortAppointmentDTO dto) {
+		ResortAppointment appointment = resortAppointmentModelMapper.convertToEntity(dto);
+		service.addNewResortAppointment(appointment);
+		return ResponseEntity.ok(resortAppointmentModelMapper.convertToDto(appointment));
+	}
+
+	@PreAuthorize("hasRole('RESORTOWNER')")
+	@PostMapping("api/appointments/resort/resortowner")
+	public ResponseEntity<?> addResortAppointmentByResortOwner(@RequestBody ResortAppointmentDTO dto) {
+		ResortAppointment appointment = resortAppointmentModelMapper.convertToEntity(dto);
+		service.addNewResortAppointmentByResortOwner(appointment, true);
+		return ResponseEntity.ok(resortAppointmentModelMapper.convertToDto(appointment));
+	}
+
+	@GetMapping("api/resort/{idresort}/appointments")
+	public ResponseEntity<?> getAllAppointmentsByResort(@PathVariable("idresort") Integer idresort) {
+		return ResponseEntity.ok(resortAppointmentModelMapper
+				.convertToDtos(service.getAllResortAppointmentsByResort(idresort)));
+	}
+	
+	
+	//KRAJ ZA VIKENDICE
+	
 
 	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/resortAppointments")

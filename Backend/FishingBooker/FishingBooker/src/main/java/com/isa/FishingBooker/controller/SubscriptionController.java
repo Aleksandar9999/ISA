@@ -81,5 +81,13 @@ public class SubscriptionController {
 				.collect(Collectors.toList()).size() == 0 ? ResponseEntity.notFound().build()
 						: ResponseEntity.ok().build();
 	}
+	
+	@PreAuthorize("hasRole('USER')")
+	@GetMapping("/api/subscriptions/resort/{id}")
+	public ResponseEntity<?> isSubscribedResort(@PathVariable("id") int id) {
+		return service.getSubscriptionForUser().getBoats().stream().filter(ts -> ts.getId().equals(id))
+				.collect(Collectors.toList()).size() == 0 ? ResponseEntity.notFound().build()
+						: ResponseEntity.ok().build();
+	}
 
 }
