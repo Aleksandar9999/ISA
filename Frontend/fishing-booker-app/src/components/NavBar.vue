@@ -27,6 +27,13 @@
           >{{ item.title }}</router-link
         >
       </li>
+          <li v-for="item in resortOwnerNavigationList" :key="item.url">
+        <router-link
+          v-if="loggedIn == true && userRole == 'RESORTOWNER'"
+          :to="item.url"
+          >{{ item.title }}</router-link
+        >
+      </li>
       <li v-for="item in adminNavigationList" :key="item.url">
         <router-link
           v-if="loggedIn == true && userRole == 'ADMIN'"
@@ -121,7 +128,8 @@ export default {
       userid: "",
       tutorNavigationList: {},
       adminNavigationList:{},
-      boatOwnerNavigationList:{}
+      boatOwnerNavigationList:{},
+      resortOwnerNavigationList:{}
     };
   },
   mounted() {},
@@ -211,6 +219,25 @@ export default {
                 title: "Business report boats",
                 url: "/business/reports/boats",
               },
+              //   3: {
+              //   title: "Boat owner charts",
+              //   url: "/boatowner/charts",
+              // },
+            };
+          });
+        }
+           else if(localStorage.getItem("roles")?.split(" ")[1] == "ROLE_RESORTOWNER"){
+          this.userRole='RESORTOWNER';
+          this.$axios.get(`${config.apiStart}/api/users/me`,config.requestHeader).then((resp) => {         
+            this.resortOwnerNavigationList = {
+              1: {
+                title: "My Resorts",
+                url: `/resortowners/${resp.data.id}/resorts`,
+              },
+              //  2: {
+              //   title: "Business report boats",
+              //   url: "/business/reports/boats",
+              // },
               //   3: {
               //   title: "Boat owner charts",
               //   url: "/boatowner/charts",

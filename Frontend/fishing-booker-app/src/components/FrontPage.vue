@@ -75,7 +75,7 @@
             </tr>           
           </thead>       
           <tbody class="tbl-content" v-for="item in dataList" :key="item">
-                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.resortAddress.street + ' ' + item.resortAddress.country }}</td><td>{{item.numOfRooms}}</td><td>{{item.numOfBeds}}</td><td><router-link :to="{name:profileName, params:{id:item.id} }">Page</router-link></td></tr>
+                <tr><td>{{item.id}}</td><td>{{item.name}}</td><td>{{item.resortAddress.street + ' ' + item.resortAddress.country }}</td><td>{{item.numOfRooms}}</td><td>{{item.numOfBeds}}</td><td><a :href=getResortPageHref(item)>Page</a></td></tr>
           </tbody>                   
       </table>
       </div>     
@@ -159,6 +159,11 @@ export default {
         console.log("Ovo je za hrefBoatPage")
         console.log(item);
         return `/boatowners/${item.boatOwnerId}/boats/${item.id}`
+      },
+       getResortPageHref(item){
+        console.log("Ovo je za hrefResortPage")
+        console.log(item);
+        return `/resortowners/${item.resortOwnerId}/resorts/${item.id}`
       },
       changeTab(type){
         this.tabType=type;
@@ -364,7 +369,7 @@ export default {
           
         } else{
           this.dataList=[]
-          axios.get('http://localhost:8080/resorts').then(response =>
+          axios.get('http://localhost:8080/api/resorts/valid').then(response =>
           this.fillDataLists(response)
           )
         }
@@ -380,7 +385,7 @@ export default {
           )
           
         } else{
-          axios.get('http://localhost:8080/resorts').then(response =>
+          axios.get('http://localhost:8080/api/users/resortowners/resorts').then(response =>
           this.searchData=response.data
           )
         }
@@ -388,7 +393,6 @@ export default {
 
     },
     mounted(){
-      this.changeTab('resort');
       this.getData();    
       if(!localStorage.jwtToken){
         localStorage.logedIn=false;

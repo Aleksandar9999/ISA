@@ -50,17 +50,8 @@ public class ResortsServiceImplementation extends CustomGenericService<Resort> i
 		
 	}
 
-	@Override
-	public List<Resort> getAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public Resort getById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public void update(Resort item) {

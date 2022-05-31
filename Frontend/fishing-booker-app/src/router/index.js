@@ -48,10 +48,13 @@ import DiscountOffer from '../components/DiscountOffers.vue'
 
 import BoatsList from '../components/BoatsPanel/Boats/BoatsList.vue'
 import BoatPage from '../components/BoatsPanel/Boats/Boat/BoatPage.vue'
-import BoatAvailablePeriods from '../components/BoatsPanel/Boats/Reservations/BoatAvailablePeriods.vue';
-import ReservationsList from '../components/BoatsPanel/Boats/Reservations/ReservationsList.vue';
-import BoatReportList from '../components/BoatsPanel/Boats/BoatBusinessReport/BoatReportList.vue';
+import BoatAvailablePeriods from '../components/BoatsPanel/Boats/Reservations/BoatAvailablePeriods.vue'
+import ReservationsList from '../components/BoatsPanel/Boats/Reservations/ReservationsList.vue'
+import BoatReportList from '../components/BoatsPanel/Boats/BoatBusinessReport/BoatReportList.vue'
 //import BoatOwnerChart from '../components/BoatsPanel/Boats/BoatOwnerChart.vue';
+
+import ResortsList from '../components/ResortsPanel/Resorts/ResortsList.vue'
+
 
 
 
@@ -99,6 +102,9 @@ const routes = [
   {path: "/boat/:idboat/appointments", name: "BoatAppointmentsPage", component: ReservationsList},
   {path: "/business/reports/boats",name:"ReportListBoats",component: BoatReportList},
  // {path: "/boatowner/charts",name:"Boatowner charts",component: BoatOwnerChart},
+
+ {path: "/resortowners/:idresortowner/resorts", name: "Resorts", component: ResortsList},
+
 
 
 {
