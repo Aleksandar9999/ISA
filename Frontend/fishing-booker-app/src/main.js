@@ -8,6 +8,7 @@ import axios from "axios"
 import config from "./configuration/config"
 import OpenLayersMap from 'vue3-openlayers'
 import 'vue3-openlayers/dist/vue3-openlayers.css'
+
 const app =createApp(App)
 app.use(OpenLayersMap)
 app.use(router)
@@ -16,5 +17,7 @@ axios.defaults.headers['Authorization']=config.requestHeader.headers.Authorizati
 app.config.globalProperties.$axios=axios
 app.config.globalProperties.$firebaseStorage=storage
 new WaveUI(app, {})
+
+
 
 app.mount('#app')
