@@ -58,6 +58,8 @@ import ReservationsList from '../components/BoatsPanel/Boats/Reservations/Reserv
 import BoatReportList from '../components/BoatsPanel/Boats/BoatBusinessReport/BoatReportList.vue'
 //import BoatOwnerChart from '../components/BoatsPanel/Boats/BoatOwnerChart.vue';
 
+import Chart from '../components/BoatsPanel/Boats/Chart.vue';
+
 import ResortsList from '../components/ResortsPanel/Resorts/ResortsList.vue'
 import ResortPage from '../components/ResortsPanel/Resorts/Resort/ResortPage.vue'
 import ResortAvailablePeriods from '../components/ResortsPanel/Resorts/Reservations/ResortAvailablePeriods.vue'
@@ -119,6 +121,8 @@ const routes = [
  {path: "/resortowners/:idresortowner/resorts/:idresort", name: "Resort", component: ResortPage},
  {path: "/resorts/:idresort/all-standard-periods", name: "ResortPeriodsPage", component: ResortAvailablePeriods},
  {path: "/resort/:idresort/appointments", name: "ResortAppointmentsPage", component: ResortReservationList},
+
+ {path: "/chart", name: "Chart", component: Chart},
 
 
 

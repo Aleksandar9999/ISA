@@ -10,6 +10,7 @@
   "dependencies": {
     "@fawmi/vue-google-maps": "^0.9.67",
     "axios": "^0.24.0",
+    "chart.js": "^3.8.0",
     "core-js": "^3.6.5",
     "firebase": "^8.1.0",
     "leaflet": "^1.8.0",
