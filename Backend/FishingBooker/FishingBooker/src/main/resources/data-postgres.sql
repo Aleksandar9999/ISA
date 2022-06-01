@@ -12,13 +12,15 @@ INSERT INTO ROLE (name) VALUES ('ROLE_TUTOR');
 INSERT INTO ROLE (name) VALUES ('ROLE_BOATOWNER');
 INSERT INTO ROLE (name) VALUES ('ROLE_RESORTOWNER');
 
-insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count,points) values ('User','marko.trifunovic135@gmail.com', 'bojan', 'Blagoje', 'Adzic', '021334563','CONFIRMED',1,0,45);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('User','marko.trifunovic135@gmail.com', 'bojan', 'Blagoje', 'Adzic', '021334563','CONFIRMED',1,0);
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count,points) values ('BoatOwner','badzaa@gmail.com', 'bojan', 'Bosko', 'Adzic', '021554263','ADMIN_CONFIRMED',1,0,40);
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count,points) values ('ResortOwner','radomBoj@gmail.com', 'bojan', 'Radomir', 'Bojanic', '015553363','ADMIN_CONFIRMED',2,0,50);
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('Tutor','dragoOrasanin@gmail.com', 'bojan', 'Drago', 'Orasanin','015252161','ADMIN_CONFIRMED',2,0);
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,password_changed,penalty_count) values ('Admin','admin@gmail.com', 'admin', 'admin', 'admin','015252161','ADMIN_CONFIRMED',3,'true',0);
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count,points) values ('Tutor','abrkljac9@gmail.com', 'bojan', 'Mihailo', 'Radic','015235561','ADMIN_CONFIRMED',1,0,40);
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count,points) values ('BoatOwner','fresh.trifunovic@gmail.com', 'bojan', 'Marko', 'Trifunovic', '02166654263','ADMIN_CONFIRMED',1,0,45);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('ResortOwner','marko.trifunovic@gmail.com', 'bojan', 'Aleksa', 'Stojanovic','016235561','ADMIN_CONFIRMED',1,0);
+
 
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (1, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (2, 1); 
@@ -33,6 +35,8 @@ INSERT INTO USER_ROLE (user_id, role_id) VALUES (6, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (6, 3);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (7, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (7, 4);
+INSERT INTO USER_ROLE (user_id, role_id) VALUES (8, 1);
+INSERT INTO USER_ROLE (user_id, role_id) VALUES (8, 5);
 
 insert into boat (name, type_of_boat, length, engine_id, engine_power, max_speed, navigation_equipment, boat_address_id, description, max_person, rules, fishing_equipment, cancel_percentage, boat_owner_id, rate,status) values ('Vesna','Fishing boat','5 meter','1','15 HP', 80, 'GPS', 1,'Middle size fishing boat.', 7,'No alcohol. No smoking.', '7 fishing rods and decoys.',0 , 2, 5,'CONFIRMED');
 insert into boat (name, type_of_boat, length, engine_id, engine_power, max_speed, navigation_equipment, boat_address_id, description, max_person, rules, fishing_equipment, cancel_percentage, boat_owner_id, rate,status) values ('Orkan','Fishing boat','4.5 meter','1','13 HP', 70, 'GPS', 3,'Middle size fishing boat.', 5,'No alcohol. No smoking.', '4 fishing rods and decoys.',0 , 2, 4,'CONFIRMED');
@@ -190,7 +194,7 @@ insert into user_category_settings (name, discount_procentage, revenue_procentag
 insert into period (start_date) values('2022-01-01 00:00:00');
 insert into points_settings (points_for_clients, points_for_owners, valid_id, creator_id,penalty) values (2,3,32,5,1); 
 
-insert into period (start_date, end_date) values('2022-05-13 13:00:00','2022-06-20 13:00:00'); --33
+insert into period (start_date, end_date) values('2022-05-30 13:00:00','2022-06-20 13:00:00'); --33
 insert into period (start_date, end_date) values('2022-02-01 13:00:00','2022-02-15 13:00:00');
 insert into period (start_date, end_date) values('2022-02-03 11:00:00','2022-02-17 13:00:00');
 insert into period (start_date, end_date) values('2022-05-01 11:00:00','2022-05-12 13:00:00'); --36

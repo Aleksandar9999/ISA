@@ -50,7 +50,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment ,Intege
 	@Query("select a from Appointment a where TYPE(a)=ResortAppointment and a.resort.id=?1 and a.status='PENDING'")
 	public List<ResortAppointment> getAllPendingByResortId(int id);
 	
-	@Query(value="select dtype, a.id, a.period_id, ps.end_date as endDate,a.status, appoint_type, additional_services, price, ps.start_date, a.address_id, user_id, tutor_service_id, boat_id, r.resort_owner_id,r.resort_id, "
+	@Query(value="select dtype, a.id, a.period_id, ps.end_date as endDate,a.status, appoint_type, additional_services,a.max_person, price, ps.start_date, a.address_id, user_id, tutor_service_id, boat_id, r.resort_owner_id,r.resort_id, "
 			+ "    r.name from Appointment a INNER JOIN resort as r on a.resort_id=r.resort_id "
 			+ "INNER JOIN Period ps on ps.id=a.period_id "
 			+ "where a.dtype='ResortAppointment' and r.resort_id=?1 and "
@@ -60,7 +60,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment ,Intege
 	@Query("select a from Appointment a where TYPE(a)=ResortAppointment and a.resort.resortowner.id=?1")
 	public List<ResortAppointment> getAllResortAppointmentsByResortOwner(int resortOwnerId);
 	
-	@Query(value="select dtype, a.id, a.period_id, ps.end_date as endDate,a.status, appoint_type, additional_services, price, ps.start_date, a.address_id, user_id, tutor_service_id, boat_id, r.resort_owner_id,r.resort_id,  "
+	@Query(value="select dtype, a.id, a.period_id, ps.end_date as endDate,a.status, appoint_type, additional_services,a.max_person price, ps.start_date, a.address_id, user_id, tutor_service_id, boat_id, r.resort_owner_id,r.resort_id,  "
 			+ "    r.name from Appointment a INNER JOIN  resort as r on a.resort_id=r.resort_id"
 			+ "INNER JOIN Period ps on ps.id=a.period_id "
 			+ "where a.dtype='ResortAppointment' and r.resort_owner_id=?1 and "

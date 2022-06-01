@@ -28,7 +28,7 @@
 <script>
  import axios from "axios";
  import config from "../../../configuration/config";
- //import YearlyCalendarBoat from "./BoatCalendar/BoatCalendarYear/YearlyCalendarBoat.vue";
+ import YearlyCalendarResort from "./ResortCalendar/ResortCalendarYear/YearlyCalendarResort.vue";
  export default {
    props: ["item", "showAdminButton"],
    data() {
@@ -39,7 +39,7 @@
        showAppointments:"",
         showCalendar:"",
        showAdminButtons:false,
-      // year: YearlyCalendarBoat.year,
+      year: YearlyCalendarResort.year,
        rate:''
      };
    },
@@ -93,7 +93,7 @@
               "/resorts/" + this.item_local.id +"/all-standard-periods";
                 this.showAppointments= 
               "/resort/" + this.item_local.id +"/appointments";
-            //   this.showCalendar="/boat/" + this.item_local.id + "/calendar/year/" + this.year;
+               this.showCalendar="/resort/" + this.item_local.id + "/calendar/year/" + this.year;
 
          }
        },

@@ -29,6 +29,11 @@ import WeeklyCalendarBoat from '../components/BoatsPanel/Boats/BoatCalendar/Boat
 import YearlyCalendarBoat from '../components/BoatsPanel/Boats/BoatCalendar/BoatCalendarYear/YearlyCalendarBoat.vue'
 
 
+import MonthlyCalendarResort from '../components/ResortsPanel/Resorts/ResortCalendar/ResortCalendarMonths/MonthlyCalendarResort.vue'
+import WeeklyCalendarResort from '../components/ResortsPanel/Resorts/ResortCalendar/ResortCalendarWeeks/WeeklyCalendarResort.vue'
+import YearlyCalendarResort from '../components/ResortsPanel/Resorts/ResortCalendar/ResortCalendarYear/YearlyCalendarResort.vue'
+
+
 import UsersList from '../components/AdminPanel/Users/UsersList.vue'
 import DeleteRequestsList from '../components/AdminPanel/Users/DeleteRequests/DeleteRequestsList.vue'
 
@@ -79,6 +84,10 @@ const routes = [
   {path: "/boat/:idboat/calendar/year/:year", name: "YearlyCalendarBoat", component: YearlyCalendarBoat},
   {path: "/boat/:idboat/calendar/year/:year/month/:month", name: "MonthlyCalendarBoat", component: MonthlyCalendarBoat},
   {path: "/boat/:idboat/calendar/week/:date", name: "WeeklyCalendarBoat", component: WeeklyCalendarBoat},
+
+  {path: "/resort/:idresort/calendar/year/:year", name: "YearlyCalendarResort", component: YearlyCalendarResort},
+  {path: "/resort/:idresort/calendar/year/:year/month/:month", name: "MonthlyCalendarResort", component: MonthlyCalendarResort},
+  {path: "/resort/:idresort/calendar/week/:date", name: "WeeklyCalendarResort", component: WeeklyCalendarResort},
 
   {path: "/tutors/:idtutor/services", name: "TutorServices", component: TutorServicesList},
   {path: "/tutors/:idtutor/available-periods", name: "TutorAvailablePeriods", component: TutorAvailablePeriods},
