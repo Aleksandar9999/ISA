@@ -5,6 +5,8 @@ insert into address (street, country, city, lat, lng) values ('Balzakova 20', 'S
 insert into address (street, country, city, lat, lng) values ('Amajic', 'Srbija', 'Mali Zvornik', 0, 0);
 insert into address (street, country, city, lat, lng) values ('Vrhpolje', 'Srbija', 'Ljubovija', 0, 0);
 insert into address (street, country, city, lat, lng) values ('Ledinci', 'Srbija', 'Ledinci', 0, 0);
+insert into address (street, country, city, lat, lng) values ('Ravanicka 11', 'Srbija', 'Novi Sad', 0, 0);
+
 
 INSERT INTO ROLE (name) VALUES ('ROLE_USER');
 INSERT INTO ROLE (name) VALUES ('ROLE_ADMIN');
@@ -38,7 +40,7 @@ INSERT INTO USER_ROLE (user_id, role_id) VALUES (7, 4);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (8, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (8, 5);
 
-insert into boat (name, type_of_boat, length, engine_id, engine_power, max_speed, navigation_equipment, boat_address_id, description, max_person, rules, fishing_equipment, cancel_percentage, boat_owner_id, rate,status) values ('Vesna','Fishing boat','5 meter','1','15 HP', 80, 'GPS', 1,'Middle size fishing boat.', 7,'No alcohol. No smoking.', '7 fishing rods and decoys.',0 , 2, 5,'CONFIRMED');
+insert into boat (name, type_of_boat, length, engine_id, engine_power, max_speed, navigation_equipment, boat_address_id, description, max_person, rules, fishing_equipment, cancel_percentage, boat_owner_id, rate,status) values ('Vesna','Fishing boat','5 meter','1','15 HP', 80, 'GPS', 7,'Middle size fishing boat.', 7,'No alcohol. No smoking.', '7 fishing rods and decoys.',0 , 2, 5,'CONFIRMED');
 insert into boat (name, type_of_boat, length, engine_id, engine_power, max_speed, navigation_equipment, boat_address_id, description, max_person, rules, fishing_equipment, cancel_percentage, boat_owner_id, rate,status) values ('Orkan','Fishing boat','4.5 meter','1','13 HP', 70, 'GPS', 3,'Middle size fishing boat.', 5,'No alcohol. No smoking.', '4 fishing rods and decoys.',0 , 2, 4,'CONFIRMED');
 
 insert into resort (name, description, resort_address_id, num_of_rooms, num_of_beds, rules, resort_owner_id, rate,status) values ('Drinski raj','Resort on coast of Zvornik lake with dock and beach.', 4, 2, 4, 'Forbiden entrance to non checked and authorised persons to resort objects.', 3, 3,'CONFIRMED');

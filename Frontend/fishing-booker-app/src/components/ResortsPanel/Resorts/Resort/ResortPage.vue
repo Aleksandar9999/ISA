@@ -152,11 +152,11 @@ export default {
             });
             this.map.addLayer(this.layer);
             },
-        getCoordinates(resortAddress){
-            axios.get('http://api.positionstack.com/v1/forward', { params:{access_key:'45de5b2b92f8621fa59de13c67664029',query:resortAddress}}).then(
-            response=>this.drawMap(response.data.data[0].latitude,response.data.data[0].longitude)                           
+       getCoordinates(resortAddres){
+            axios.get(`https://api.geoapify.com/v1/geocode/search?text=${resortAddres}&lang=en&apiKey=eb75636fea4f4542982403ca8d5c6808`).then(
+            response=>this.drawMap(response.data.features[0].properties.lat,response.data.features[0].properties.lon)                           
             ).catch(error => console.log(error))
-            console.log(resortAddress);
+            console.log(resortAddres);
         },
         createMap(){
             this.getCoordinates( this.resort_info.resortAddress.street +',' +  this.resort_info.resortAddress.city + ',' + this.resort_info.resortAddress.country  )
