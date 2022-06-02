@@ -34,6 +34,7 @@ export default {
       startDate: "",
       firstInYear: "",
       headingText: "",
+      firstDate: "2019-01-01",
     };
   },
   mounted() {
@@ -41,8 +42,8 @@ export default {
   },
   methods: {
     fetchMonths() {
-      let firstDate = `${this.$route.params.year}-01-01`;
-      this.firstInYear = moment(firstDate);
+       this.firstDate = `${this.$route.params.year}-01-01`;
+      this.firstInYear = moment(  this.firstDate);
       this.headingText = this.firstInYear.format("yyyy");
       this.createRequest(this.$route.params.year);
     },

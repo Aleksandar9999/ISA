@@ -95,7 +95,7 @@
              "/boats/" + this.item_local.id +"/all-standard-periods";
                this.showAppointments= 
              "/boat/" + this.item_local.id +"/appointments";
-              this.showCalendar="/boat/" + this.item_local.id + "/calendar/year/" + this.year;
+              this.showCalendar="/boat/" + this.item_local.id + "/calendar/year/2021" ;
 
          }
        },

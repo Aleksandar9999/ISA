@@ -8,9 +8,11 @@ import axios from "axios"
 import config from "./configuration/config"
 import OpenLayersMap from 'vue3-openlayers'
 import 'vue3-openlayers/dist/vue3-openlayers.css'
+import VueApexCharts from "vue3-apexcharts"
 
 const app =createApp(App)
 app.use(OpenLayersMap)
+app.use(VueApexCharts)
 app.use(router)
 axios.defaults.headers['Authorization']=config.requestHeader.headers.Authorization
 
