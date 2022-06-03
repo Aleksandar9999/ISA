@@ -160,6 +160,19 @@ public class BoatsServiceImplementation extends CustomGenericService<Boat> imple
 		}
 		return retList;
 	}
+	@Override
+	public double avgRateBoat (int boatownerId) {
+		double rateSum = 0;
+		double avgRate=0;
+		int brojac=0;
+		List<Boat> boats =((BoatRepository) repository).findAllValidByBoatOwner(boatownerId);
+		for(Boat boat : boats) {
+			rateSum += boat.getRate();
+			brojac++;
+		}
+		avgRate = rateSum/brojac;
+		return avgRate;
+	}
 
 	@Override
 	public void updateInfo(Boat newInfo) {

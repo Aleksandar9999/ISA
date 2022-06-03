@@ -5,7 +5,7 @@
     <td>{{ item.maxPerson }}</td>
     <td>{{ item.rules }}</td>
     <td>{{ item.status }}</td>
-    <td>{{ rate }}</td>
+    <td>{{ item.rate }}</td>
     <td>
       <a :href="showBoat">More info</a>
     </td>

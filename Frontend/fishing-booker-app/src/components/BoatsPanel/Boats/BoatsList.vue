@@ -1,6 +1,13 @@
 <template>
   <div style="margin-top: 3%">
     <w-flex justify-end class="pa3" style="padding-right: 20%; padding-left: 20%" >
+      <div class="xs3 pa1">
+        <div class="white py3">
+         <w-button @click="getAverageRate">Get average grade of boats</w-button>
+         <b style="font-size:16px; color:black; margin-left:5%;">{{this.data.avgRate}}</b>
+        </div>
+        
+      </div>
       <span style="padding-right: 5%">
           <w-input type="text" placeholder="Name" name="name" v-model=search.name />
       </span>
@@ -40,6 +47,7 @@ export default {
       showDialog: false,
       itemRow: BoatInfo,
       data: [],
+      avgRate: 0,
       search:{
         name:'',
         maxPerson:''
@@ -50,7 +58,7 @@ export default {
         "Max number of persons",
         "Rules",
         "Status",
-        "RATE",
+        "Average grade",
         "More info",
         "Periods",
         "Appointments",
@@ -72,6 +80,20 @@ export default {
 		},
   },
   methods: {
+    getAverageRate(){
+      
+          this.$axios
+            .get(
+              config.apiStart +
+            `/api/boatowners/${this.$route.params.idboatowner}/avgrate/boats`,
+          config.requestHeader
+            )
+            .then((resp) => {
+              console.log(resp.data);
+              this.data.avgRate = resp.data;
+                console.log(this.data.avgRate);
+            });  
+    },
     deletedBoat() {
       this.fetchData();
       this.$forceUpdate();
@@ -87,6 +109,7 @@ export default {
           this.data = resp.data;
           console.log(resp.data)
         });
+
     },
     showModalDialog() {
       this.showDialog = true;

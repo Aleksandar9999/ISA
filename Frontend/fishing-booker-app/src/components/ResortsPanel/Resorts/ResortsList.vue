@@ -50,7 +50,7 @@ export default {
         "Number of rooms",
         "Rules",
         "Status",
-        "RATE",
+        "Average grade",
         "More info",
         "Periods",
         "Appointments",

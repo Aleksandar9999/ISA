@@ -93,7 +93,7 @@
               "/resorts/" + this.item_local.id +"/all-standard-periods";
                 this.showAppointments= 
               "/resort/" + this.item_local.id +"/appointments";
-               this.showCalendar="/resort/" + this.item_local.id + "/calendar/year/" + this.year;
+               this.showCalendar="/resort/" + this.item_local.id + "/calendar/year/2021" ;
 
          }
        },

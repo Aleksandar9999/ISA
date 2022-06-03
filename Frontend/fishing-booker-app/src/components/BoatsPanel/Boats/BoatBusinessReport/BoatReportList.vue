@@ -98,6 +98,7 @@ export default {
         numberOfCancelledAppointments: 0,
         numberOfSuccessfulAppointments: 0,
         numberOfAppointments: 0,
+
       },
     };
   },

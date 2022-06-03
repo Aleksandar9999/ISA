@@ -24,4 +24,5 @@ public interface BoatsService extends Service<Boat> {
 	public List<Boat> getAllBoatsAvailablePeriods(Timestamp start, int duration, int maxPerson);
 	public void updateInfo(Boat newInfo);
 	public Boat getBoatById(int id);
+	public double avgRateBoat (int boatownerId);
 }

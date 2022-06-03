@@ -91,6 +91,12 @@ public class BoatsController {
 		boatsService.delete(id);
 		return ResponseEntity.ok().build();
 	}
+	
+	@PreAuthorize("hasAnyRole('BOATOWNER')")
+	@GetMapping("api/boatowners/{id}/avgrate/boats")
+	public ResponseEntity<?> getAverageRateBoats(@PathVariable("id") int boatOwnerId) {
+		return ResponseEntity.ok(boatsService.avgRateBoat(boatOwnerId));
+	}
 
 	private void validateBoatOwner(Boat entity) {
 		if (!entity.getBoatOwner().getId().equals(UsersController.getLoggedInUserId()))

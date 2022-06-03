@@ -57,6 +57,8 @@ public class BusinessReportController {
 		return ResponseEntity.ok(appointmentService.getAllBoatAppointmentsByBoatOwner(boatOwnerId));
 	}
 	
+
+	
 	@PreAuthorize("hasAnyRole('BOATOWNER')")
 	@GetMapping("api/business-report/boats/me")
 	public ResponseEntity<?> getReportForLoggedinBoatOwner(@RequestParam(name = "startDate", defaultValue = "") String startDate,
