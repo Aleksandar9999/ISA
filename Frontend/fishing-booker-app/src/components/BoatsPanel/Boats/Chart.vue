@@ -10,7 +10,6 @@
         margin-bottom: 20px;
       "
     >
-      <line-chart :data="dataChart" :options="{responsive: true, maintainAspectRatio: false}"></line-chart>
       <canvas id="appChart"></canvas>
       <div>
         <button @click="appChartYearly()" mat-button color="primary">
