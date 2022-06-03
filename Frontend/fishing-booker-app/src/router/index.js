@@ -115,7 +115,7 @@ const routes = [
   {path: "/boatowners/:idboatowner/boats", name: "Boats", component: BoatsList},
   {path: "/boatowners/:idboatowner/boats/:idboat", name: "Boat", component: BoatPage},
   {path: "/boats/:idboat/all-standard-periods", name: "BoatPeriodsPage", component: BoatAvailablePeriods},
-  {path: "/boat/:idboat/appointments", name: "BoatAppointmentsPage", component: ReservationsList},
+  {path: "/boatowners/:idboatowner/boat/:idboat/appointments", name: "BoatAppointmentsPage", component: ReservationsList},
   {path: "/business/reports/boats",name:"ReportListBoats",component: BoatReportList},
  // {path: "/boatowner/charts",name:"Boatowner charts",component: BoatOwnerChart},
 

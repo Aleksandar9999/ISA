@@ -122,7 +122,7 @@ export default {
   mounted() {
      axios
       .get(
-        `${config.apiStart}/api/users/boatowners/${this.id}/boats`,
+        `${config.apiStart}/api/users/boatowners/${this.$route.params.idboatowner}/boats`,
         config.requestHeader
       )
       .then((resp) => (this.boats = resp.data));
@@ -167,13 +167,14 @@ export default {
           this.success = true;
           this.hideDialog();
           console.log(resp);
+         window.location.reload();
         })
         .catch((error) => {
           alert(
             `${error.response.data.error}\n\n${error.response.data.message}`
           );
         });
-         window.location.reload();
+      
     },
   },
   watch: {

@@ -167,13 +167,14 @@ export default {
           this.success = true;
           this.hideDialog();
           console.log(resp);
+          window.location.reload();
         })
         .catch((error) => {
           alert(
             `${error.response.data.error}\n\n${error.response.data.message}`
           );
         });
-         window.location.reload();
+      
     },
   },
   watch: {

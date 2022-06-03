@@ -94,6 +94,8 @@
             this.showPeriods= 
              "/boats/" + this.item_local.id +"/all-standard-periods";
                this.showAppointments= 
+               "/boatowners/" +
+             this.item_local.boatOwnerId +
              "/boat/" + this.item_local.id +"/appointments";
               this.showCalendar="/boat/" + this.item_local.id + "/calendar/year/2021" ;
 
