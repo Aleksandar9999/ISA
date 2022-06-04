@@ -42,7 +42,7 @@ public class BoatAppointment extends Appointment {
 	}
 
 	@JsonIgnore
-	public int getBoatOwnerId() {
+	public Integer getBoatOwnerId() {
 		return boat.getBoatOwner().getId();
 	}
 

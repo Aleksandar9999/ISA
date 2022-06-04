@@ -1,6 +1,8 @@
 package com.isa.FishingBooker.service;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.isa.FishingBooker.dto.BoatAppointmentDTO;
+import com.isa.FishingBooker.dto.FinanceDTO;
+import com.isa.FishingBooker.dto.ReservationNumDTO;
 import com.isa.FishingBooker.exceptions.PeriodOverlapException;
 import com.isa.FishingBooker.exceptions.TutorservicePeriodException;
 import com.isa.FishingBooker.exceptions.UserAppointmentInProgressException;
@@ -28,6 +33,7 @@ import com.isa.FishingBooker.model.TutorService;
 import com.isa.FishingBooker.model.TutorServiceAppointment;
 import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.AppointmentRepository;
+import com.isa.FishingBooker.repository.BoatRepository;
 import com.isa.FishingBooker.repository.CompleteAppointmentRepository;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
 import com.isa.FishingBooker.service.interfaces.AppointmentService;
@@ -57,6 +63,12 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 	
 	@Autowired
 	private ResortsService resortsService;
+	
+	@Autowired
+	private AppointmentRepository appointmentRepository;
+	
+	@Autowired
+	private BoatRepository boatRepository;
 
 	@Override
 	public List<TutorServiceAppointment> getAllTutorServiceAppointmentsByTutor(int id) {
@@ -772,6 +784,97 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 			java.sql.Date start, java.sql.Date end) {
 		return completeAppointmentRepository.getAllInPeriodByResortOwnerId(resortOwnerId,start,end);
 	}
+
+
+	@Override
+	public ReservationNumDTO getAllReservationsForCharts() {
+		   List<BoatAppointment> all = ((AppointmentRepository) repository).getAllBoatAppoints();
+	        List<BoatAppointment> results = new ArrayList<>();
+	        int nedelja=0;
+	        int mesec=0;
+	        int godina=0;
+	        
+	    	TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
+					.getAuthentication();
+	    	User currentUser = (User) aut.getPrincipal();
+	        Date today = new Date();
+	        
+
+	        for(BoatAppointment ba : all) {
+	            if(ba.getBoatOwnerId().equals(currentUser.getId())) {
+	                results.add(ba);
+	            }
+	        }
+	        
+	        for(BoatAppointment ba1 : results ) {
+	        	if(ba1.inPeriod(LocalDateTime.now().minusWeeks(1))){
+	        		nedelja+=1;
+	        	}
+	        	if(ba1.inPeriod(LocalDateTime.now().minusMonths(1))){
+	        		mesec+=1;
+	        	}
+	        	if(ba1.inPeriod(LocalDateTime.now().minusYears(1))){
+	        		godina+=1;
+	        	}
+	        }
+	        return new ReservationNumDTO(currentUser.getId(),nedelja,mesec,godina);
+	        
+	}
+
+
+	@Override
+	public List<ReservationNumDTO> getNumberOfReservations(int boatOwnerId) {
+		List<ReservationNumDTO> list = new ArrayList<>();
+		   List<Boat> boats = boatRepository.findAllValidByBoatOwner(boatOwnerId);
+//		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
+//				.getAuthentication();
+//        User currentUser = (User) aut.getPrincipal();
+//       int currentUserId = currentUser.getId();
+		   LocalDateTime date = LocalDateTime.now();
+       
+        for(Boat b : boats){
+            list.add(new ReservationNumDTO(b.getId(), appointmentRepository.getNumberOfAppointmentsByBoatOwner(b.getId(), date.minusWeeks(1),date),
+            		appointmentRepository.getNumberOfAppointmentsByBoatOwner(b.getId(),date.minusMonths(1),date),
+            		appointmentRepository.getNumberOfAppointmentsByBoatOwner(b.getId(), date.minusYears(1),date)));
+        }
+        return list;
+	}
+	
+	public Date convertLocalDateTimeToDateUsingTimestamp(LocalDateTime dateToConvert) {
+	    return java.sql.Timestamp.valueOf(dateToConvert);
+	}
+
+
+
+	@Override
+	public List<FinanceDTO> getFinances(int boatOwnerId, Timestamp begin,Timestamp end) {
+		 List<FinanceDTO> finances = new ArrayList<>();
+	      //  RegisteredUser user = registeredUserRepository.getUserByUsername(username);
+	        List<BoatAppointment> reservations = new ArrayList<>();
+	        reservations = appointmentRepository.getAllBoatAppointmentsByBoatOwner(boatOwnerId);
+	     
+	        for(BoatAppointment r : reservations){
+	        	 if(r.getPeriod().getStartDate().after(begin) && r.getPeriod().getStartDate().before(end)){
+	                 finances.add(new FinanceDTO(r.getId(), r.getPrice()));
+	        }
+	        //finances sum earning with same name
+	        for(int i = 0; i < finances.size(); i++){
+	            for(int j = i + 1; j < finances.size(); j++){
+	                if(finances.get(i).getId()==(finances.get(j).getId())){
+	                  finances.get(i).setEarning(finances.get(i).getEarning() + finances.get(j).getEarning());
+	                    
+	                    finances.remove(j);
+	                    j--;
+	                }
+	            }
+	        }
+	       
+	}
+	        return finances;
+	}
+	
+	  
+	
 
 	
 

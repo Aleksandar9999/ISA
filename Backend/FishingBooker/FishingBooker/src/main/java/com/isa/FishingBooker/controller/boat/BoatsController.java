@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,12 +17,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.controller.UsersController;
+import com.isa.FishingBooker.dto.BoatAppointmentDTO;
 import com.isa.FishingBooker.dto.BoatDTO;
+import com.isa.FishingBooker.dto.FinanceDTO;
+import com.isa.FishingBooker.dto.ReservationNumDTO;
+import com.isa.FishingBooker.dto.TimeDTO;
 import com.isa.FishingBooker.dto.TutorServiceDTO;
 import com.isa.FishingBooker.exceptions.AuthorizationException;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.model.Boat;
+import com.isa.FishingBooker.model.BoatAppointment;
 import com.isa.FishingBooker.model.TutorService;
+import com.isa.FishingBooker.service.interfaces.AppointmentService;
 import com.isa.FishingBooker.service.interfaces.BoatsService;
 import com.isa.FishingBooker.service.interfaces.TutorServicesService;
 
@@ -32,6 +39,9 @@ public class BoatsController {
 	protected BoatsService boatsService;
 	@Autowired
 	private CustomModelMapper<Boat, BoatDTO> boatMapper;
+	
+	@Autowired
+	private AppointmentService appointmentService;
 
 	@GetMapping("api/boats")
 	public ResponseEntity<?> getAll() {
@@ -97,6 +107,24 @@ public class BoatsController {
 	public ResponseEntity<?> getAverageRateBoats(@PathVariable("id") int boatOwnerId) {
 		return ResponseEntity.ok(boatsService.avgRateBoat(boatOwnerId));
 	}
+	
+	@PreAuthorize("hasAnyRole('BOATOWNER')")
+	@GetMapping("/api/boatReservationsForCharts")
+	    public ResponseEntity<?> getReservationsForCharts()
+	    {
+	        return new ResponseEntity<>(appointmentService.getAllReservationsForCharts(), HttpStatus.OK);
+	    }
+	
+	
+	  @GetMapping("/api/getNumberOfReservations/boatowner/{boatownerid}")
+	    public List<ReservationNumDTO> getNumberOfReservations(@PathVariable("boatownerid") int boatOwnerId){
+	        return appointmentService.getNumberOfReservations(boatOwnerId);
+	    }
+
+	    @PostMapping("/api/finances/boatowner")
+	    public List<FinanceDTO> getFinances(@RequestBody TimeDTO timeDTO){
+	        return appointmentService.getFinances(timeDTO.getId(), timeDTO.getStartTime(), timeDTO.getEndTime());
+	    }
 
 	private void validateBoatOwner(Boat entity) {
 		if (!entity.getBoatOwner().getId().equals(UsersController.getLoggedInUserId()))

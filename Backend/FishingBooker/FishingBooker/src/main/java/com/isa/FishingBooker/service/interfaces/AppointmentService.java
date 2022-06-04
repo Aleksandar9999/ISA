@@ -1,9 +1,13 @@
 package com.isa.FishingBooker.service.interfaces;
 
 import java.sql.Date;
-
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import com.isa.FishingBooker.dto.BoatAppointmentDTO;
+import com.isa.FishingBooker.dto.FinanceDTO;
+import com.isa.FishingBooker.dto.ReservationNumDTO;
 import com.isa.FishingBooker.model.*;
 
 public interface AppointmentService extends Service<Appointment> {
@@ -39,6 +43,10 @@ public interface AppointmentService extends Service<Appointment> {
 	public List<BoatAppointment> getAllByBoatOwnerAndPeriod(int boatOwnerId, Date start, Date end);
 	public List<BoatAppointment> getAllBoatAppointmentsByBoatOwner(int id);
 	public List<CompletedAppointment> getAllCompletedAppointmentsInPeriodByBoatOwnerId(int boatOwnerId,Date start,Date end);
+	public ReservationNumDTO getAllReservationsForCharts();
+	 List<ReservationNumDTO> getNumberOfReservations(int boatOwnerId);
+//
+	  List<FinanceDTO> getFinances(int boatOwnerId, Timestamp startbegin, Timestamp end);
 	
 	
 	
