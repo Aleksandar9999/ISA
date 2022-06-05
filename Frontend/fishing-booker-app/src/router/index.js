@@ -64,6 +64,7 @@ import ResortsList from '../components/ResortsPanel/Resorts/ResortsList.vue'
 import ResortPage from '../components/ResortsPanel/Resorts/Resort/ResortPage.vue'
 import ResortAvailablePeriods from '../components/ResortsPanel/Resorts/Reservations/ResortAvailablePeriods.vue'
 import ResortReservationList from '../components/ResortsPanel/Resorts/Reservations/ResortReservationList.vue'
+import ResortChart from '../components/ResortsPanel/Resorts/ResortChart.vue'
 
 
 
@@ -115,14 +116,15 @@ const routes = [
   {path: "/boats/:idboat/all-standard-periods", name: "BoatPeriodsPage", component: BoatAvailablePeriods},
   {path: "/boatowners/:idboatowner/boat/:idboat/appointments", name: "BoatAppointmentsPage", component: ReservationsList},
   {path: "/business/reports/boats",name:"ReportListBoats",component: BoatReportList},
- // {path: "/boatowner/charts",name:"Boatowner charts",component: BoatOwnerChart},
+  {path: "/chart", name: "Chart", component: Chart},
 
  {path: "/resortowners/:idresortowner/resorts", name: "Resorts", component: ResortsList},
  {path: "/resortowners/:idresortowner/resorts/:idresort", name: "Resort", component: ResortPage},
  {path: "/resorts/:idresort/all-standard-periods", name: "ResortPeriodsPage", component: ResortAvailablePeriods},
  {path: "/resort/:idresort/appointments", name: "ResortAppointmentsPage", component: ResortReservationList},
+ {path: "/resortchart", name: "ResortChart", component: ResortChart},
 
- {path: "/chart", name: "Chart", component: Chart},
+
  
 
 

@@ -45,7 +45,6 @@ public interface AppointmentService extends Service<Appointment> {
 	public List<CompletedAppointment> getAllCompletedAppointmentsInPeriodByBoatOwnerId(int boatOwnerId,Date start,Date end);
 	public ReservationNumDTO getAllReservationsForCharts();
 	 List<ReservationNumDTO> getNumberOfReservations(int boatOwnerId);
-//
 	  List<FinanceDTO> getFinances(int boatOwnerId, Timestamp startbegin, Timestamp end);
 	
 	
@@ -62,6 +61,8 @@ public interface AppointmentService extends Service<Appointment> {
 	public List<ResortAppointment> getAllByResortOwnerAndPeriod(int resortOwnerId, Date start, Date end);
 	public List<ResortAppointment> getAllResortAppointmentsByResortOwner(int id);
 	public List<CompletedAppointment> getAllCompletedAppointmentsInPeriodByResortOwnerId(int resortOwnerId,Date start,Date end);
+	 List<ReservationNumDTO> getNumberOfReservationsResort(int resortOwnerId);
+	  List<FinanceDTO> getFinancesResort(int resortOwnerId, Timestamp startbegin, Timestamp end);
 	
 	
 	public String cancelReservation(Integer id);

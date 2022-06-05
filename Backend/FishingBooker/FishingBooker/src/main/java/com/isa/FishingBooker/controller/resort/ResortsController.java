@@ -17,11 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isa.FishingBooker.controller.UsersController;
 import com.isa.FishingBooker.dto.BoatDTO;
+import com.isa.FishingBooker.dto.FinanceDTO;
+import com.isa.FishingBooker.dto.ReservationNumDTO;
 import com.isa.FishingBooker.dto.ResortDTO;
+import com.isa.FishingBooker.dto.TimeDTO;
 import com.isa.FishingBooker.exceptions.AuthorizationException;
 import com.isa.FishingBooker.mapper.CustomModelMapper;
 import com.isa.FishingBooker.model.Boat;
 import com.isa.FishingBooker.model.Resort;
+import com.isa.FishingBooker.service.interfaces.AppointmentService;
 import com.isa.FishingBooker.service.interfaces.BoatsService;
 import com.isa.FishingBooker.service.interfaces.ResortsService;
 
@@ -33,6 +37,9 @@ public class ResortsController {
 	protected ResortsService resortsService;
 	@Autowired
 	private CustomModelMapper<Resort, ResortDTO> resortMapper;
+	
+	@Autowired
+	private AppointmentService appointmentService;
 
 	@GetMapping("api/resorts")
 	public ResponseEntity<?> getAll() {
@@ -92,6 +99,16 @@ public class ResortsController {
 		resortsService.delete(id);
 		return ResponseEntity.ok().build();
 	}
+	
+	  @GetMapping("/api/getNumberOfReservations/resortowner/{resortownerid}")
+	    public List<ReservationNumDTO> getNumberOfReservations(@PathVariable("resortownerid") int resortownerid){
+	        return appointmentService.getNumberOfReservationsResort(resortownerid);
+	    }
+
+	    @PostMapping("/api/finances/resortowner")
+	    public List<FinanceDTO> getFinances(@RequestBody TimeDTO timeDTO){
+	        return appointmentService.getFinancesResort(timeDTO.getId(), timeDTO.getStartTime(), timeDTO.getEndTime());
+	    }
 
 	private void validateResortOwner(Resort entity) {
 		if (!entity.getResortOwner().getId().equals(UsersController.getLoggedInUserId()))

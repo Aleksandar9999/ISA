@@ -35,6 +35,7 @@ import com.isa.FishingBooker.model.User;
 import com.isa.FishingBooker.repository.AppointmentRepository;
 import com.isa.FishingBooker.repository.BoatRepository;
 import com.isa.FishingBooker.repository.CompleteAppointmentRepository;
+import com.isa.FishingBooker.repository.ResortRepository;
 import com.isa.FishingBooker.security.auth.TokenBasedAuthentication;
 import com.isa.FishingBooker.service.interfaces.AppointmentService;
 import com.isa.FishingBooker.service.interfaces.BoatsService;
@@ -69,6 +70,9 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 	
 	@Autowired
 	private BoatRepository boatRepository;
+	
+	@Autowired
+	private ResortRepository resortRepository;
 
 	@Override
 	public List<TutorServiceAppointment> getAllTutorServiceAppointmentsByTutor(int id) {
@@ -855,6 +859,53 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 	     
 	        for(BoatAppointment r : reservations){
 	        	 if(r.getPeriod().getStartDate().after(begin) && r.getPeriod().getStartDate().before(end)){
+	                 finances.add(new FinanceDTO(r.getId(), r.getPrice()));
+	        }
+	        //finances sum earning with same name
+	        for(int i = 0; i < finances.size(); i++){
+	            for(int j = i + 1; j < finances.size(); j++){
+	                if(finances.get(i).getId()==(finances.get(j).getId())){
+	                  finances.get(i).setEarning(finances.get(i).getEarning() + finances.get(j).getEarning());
+	                    
+	                    finances.remove(j);
+	                    j--;
+	                }
+	            }
+	        }
+	       
+	}
+	        return finances;
+	}
+
+
+	@Override
+	public List<ReservationNumDTO> getNumberOfReservationsResort(int resortOwnerId) {
+		List<ReservationNumDTO> list = new ArrayList<>();
+		   List<Resort> resorts = resortRepository.findAllValidByResortOwner(resortOwnerId);
+//		TokenBasedAuthentication aut = (TokenBasedAuthentication) SecurityContextHolder.getContext()
+//				.getAuthentication();
+//     User currentUser = (User) aut.getPrincipal();
+//    int currentUserId = currentUser.getId();
+		   LocalDateTime date = LocalDateTime.now();
+    
+     for(Resort r : resorts){
+         list.add(new ReservationNumDTO(r.getId(), appointmentRepository.getNumberOfAppointmentsByResortOwner(r.getId(), date.minusWeeks(1),date),
+         		appointmentRepository.getNumberOfAppointmentsByResortOwner(r.getId(),date.minusMonths(1),date),
+         		appointmentRepository.getNumberOfAppointmentsByResortOwner(r.getId(), date.minusYears(1),date)));
+     }
+     return list;
+	}
+
+
+	@Override
+	public List<FinanceDTO> getFinancesResort(int resortOwnerId, Timestamp startbegin, Timestamp end) {
+		 List<FinanceDTO> finances = new ArrayList<>();
+	      //  RegisteredUser user = registeredUserRepository.getUserByUsername(username);
+	        List<ResortAppointment> reservations = new ArrayList<>();
+	        reservations = appointmentRepository.getAllResortAppointmentsByResortOwner(resortOwnerId);
+	     
+	        for(ResortAppointment r : reservations){
+	        	 if(r.getPeriod().getStartDate().after(startbegin) && r.getPeriod().getStartDate().before(end)){
 	                 finances.add(new FinanceDTO(r.getId(), r.getPrice()));
 	        }
 	        //finances sum earning with same name

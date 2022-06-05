@@ -71,6 +71,13 @@ public interface AppointmentRepository extends JpaRepository<Appointment ,Intege
 			+ "(ps.start_date, ps.end_date) OVERLAPS (CAST(?2 as date), CAST(?3 as date))",nativeQuery = true)
 	public List<ResortAppointment> getAllByResortOwnerAndPeriod(int resortOwnerId, Date start,Date end);
 	
+	@Query(value="select count(a) "
+			+ "from   Appointment a INNER JOIN resort as r on a.resort_id=r.resort_id "
+			+ "INNER JOIN Period ps on ps.id=a.period_id "
+			+ "where  r.resort_owner_id=?1 and "
+			+ "(ps.start_date, ps.end_date) OVERLAPS (CAST(?2 as date), CAST(?3 as date))",nativeQuery = true)
+	public Integer getNumberOfAppointmentsByResortOwner(int resortOwnerId, LocalDateTime start,LocalDateTime end);
+	
 	
 	
 	

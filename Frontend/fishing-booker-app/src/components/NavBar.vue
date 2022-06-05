@@ -230,14 +230,10 @@ export default {
                 title: "My Resorts",
                 url: `/resortowners/${resp.data.id}/resorts`,
               },
-              //  2: {
-              //   title: "Business report boats",
-              //   url: "/business/reports/boats",
-              // },
-              //   3: {
-              //   title: "Boat owner charts",
-              //   url: "/boatowner/charts",
-              // },
+              2: {
+                title: "Resort owner charts",
+                url: "/resortchart",
+              },
             };
           });
         }
