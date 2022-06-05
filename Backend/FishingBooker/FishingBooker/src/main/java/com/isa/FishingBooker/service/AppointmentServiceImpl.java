@@ -837,9 +837,11 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 		   LocalDateTime date = LocalDateTime.now();
        
         for(Boat b : boats){
-            list.add(new ReservationNumDTO(b.getId(), appointmentRepository.getNumberOfAppointmentsByBoatOwner(b.getId(), date.minusWeeks(1),date),
-            		appointmentRepository.getNumberOfAppointmentsByBoatOwner(b.getId(),date.minusMonths(1),date),
-            		appointmentRepository.getNumberOfAppointmentsByBoatOwner(b.getId(), date.minusYears(1),date)));
+            list.add(new ReservationNumDTO(b.getId(),
+            		appointmentRepository.getNumberOfAppointmentsByBoatOwner(b.getBoatOwnerId(), date.minusWeeks(1),b.getId()),
+            		appointmentRepository.getNumberOfAppointmentsByBoatOwner(b.getBoatOwnerId(),date.minusMonths(1),b.getId()),
+            		appointmentRepository.getNumberOfAppointmentsByBoatOwner(b.getBoatOwnerId(), date.minusYears(1),b.getId()) ) );
+            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+b.getId());
         }
         return list;
 	}

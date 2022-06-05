@@ -203,7 +203,7 @@ insert into user_category_settings (name, discount_procentage, revenue_procentag
 insert into period (start_date) values('2022-01-01 00:00:00');
 insert into points_settings (points_for_clients, points_for_owners, valid_id, creator_id,penalty) values (2,3,32,5,1); 
 
-insert into period (start_date, end_date) values('2022-05-30 13:00:00','2022-06-20 13:00:00'); --33
+insert into period (start_date, end_date) values('2022-05-30 13:00:00','2022-06-15 13:00:00'); --33
 insert into period (start_date, end_date) values('2022-02-01 13:00:00','2022-02-15 13:00:00');
 insert into period (start_date, end_date) values('2022-02-03 11:00:00','2022-02-17 13:00:00');
 insert into period (start_date, end_date) values('2022-05-01 11:00:00','2022-05-12 13:00:00'); --36

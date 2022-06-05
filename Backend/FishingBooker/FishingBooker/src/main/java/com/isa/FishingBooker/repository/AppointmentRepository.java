@@ -110,20 +110,20 @@ public interface AppointmentRepository extends JpaRepository<Appointment ,Intege
 	@Query("select a from Appointment a where TYPE(a)=BoatAppointment and a.boat.boatowner.id=?1")
 	public List<BoatAppointment> getAllBoatAppointmentsByBoatOwner(int boatOwnerId);
 
+	@Query(value="select count(a) "
+			+ "from   Appointment a INNER JOIN boat as b on a.boat_id=b.boat_id "
+			+ "INNER JOIN Period as ps on ps.id=a.period_id "
+			+ "where  b.boat_owner_id=:id and b.boat_id=:boatid and "
+			+ "((ps.start_date >= :date and (ps.end_date <= NOW())) OR (ps.start_date >= :date and ps.start_date <= NOW() and (ps.end_date >= NOW()))  ) ",nativeQuery = true)
+	public Integer getNumberOfAppointmentsByBoatOwner(@Param("id")int id,@Param("date") LocalDateTime date,@Param("boatid")int boatid);
+
+//	
 //	@Query(value="select count(a) "
 //			+ "from   Appointment a INNER JOIN boat as b on a.boat_id=b.boat_id "
 //			+ "INNER JOIN Period ps on ps.id=a.period_id "
-//			+ "where  b.boat_owner_id=:id and "
-//			+ "ps.start_date >= :date and ps.end_date <= current_timestamp")
-//	public Integer getNumberOfAppointmentsByBoatOwner(@Param("id")int id,@Param("date") LocalDateTime date);
-
-	
-	@Query(value="select count(a) "
-			+ "from   Appointment a INNER JOIN boat as b on a.boat_id=b.boat_id "
-			+ "INNER JOIN Period ps on ps.id=a.period_id "
-			+ "where  b.boat_owner_id=?1 and "
-			+ "(ps.start_date, ps.end_date) OVERLAPS (CAST(?2 as date), CAST(?3 as date))",nativeQuery = true)
-	public Integer getNumberOfAppointmentsByBoatOwner(int boatOwnerId, LocalDateTime start,LocalDateTime end);
+//			+ "where  b.boat_owner_id=?1 and "
+//			+ "(ps.start_date, ps.end_date) OVERLAPS (CAST(?2 as timestamp), CAST(?3 as timestamp))",nativeQuery = true)
+//	public Integer getNumberOfAppointmentsByBoatOwner(int boatOwnerId, LocalDateTime start,LocalDateTime end);
 	
 	@Query(value="select dtype, a.id, a.period_id, ps.end_date as endDate,a.status, appoint_type, additional_services, b.max_person, price, ps.start_date, a.address_id, user_id, tutor_service_id, resort_id, b.boat_owner_id,b.boat_id,  "
 			+ "    b.name from Appointment a INNER JOIN boat as b on a.boat_id=b.boat_id "
