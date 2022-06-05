@@ -9,8 +9,11 @@ import config from "./configuration/config"
 import OpenLayersMap from 'vue3-openlayers'
 import 'vue3-openlayers/dist/vue3-openlayers.css'
 import VueApexCharts from "vue3-apexcharts"
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 const app =createApp(App)
+app.component('Datepicker', Datepicker);
 app.use(OpenLayersMap)
 app.use(VueApexCharts)
 app.use(router)

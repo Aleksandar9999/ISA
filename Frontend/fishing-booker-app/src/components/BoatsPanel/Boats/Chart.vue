@@ -1,197 +1,209 @@
 <template>
-    <div  >
-    <div
-      class="card mx-auto"
-      style="
-        width: 400px;
-        margin-top: 20px;
-        margin-right: 20px;
-        margin-left: 40px;
-        margin-bottom: 20px;
-      "
-    >
-      <canvas id="appChart"></canvas>
-      <div>
-        <button @click="appChartYearly()" mat-button color="primary">
-          Yearly
-        </button>
-        <button @click="appChartMonthly()" mat-button color="primary">
-          Monthly
-        </button>
-        <button @click="appChartWeekly()" mat-button color="primary">
-          Weekly
-        </button>
-      </div>
+ <div class="columns ml-5" style="display:flex; justify-content: center;">
+    <div class="col-5 m-5 box" style="width:500px; ">
+      <p class="subtitle has-text-centered">Number of reservation per boat</p>
+    <Bar
+        :chart-options="chartOptions"
+        :chart-data="chartData"
+        :chart-id="chartId"
+        :dataset-id-key="datasetIdKey"
+        :plugins="plugins"
+        :css-classes="cssClasses"
+        :styles="styles"
+        :width="width"
+        :height="height"
+    />
     </div>
-  </div>
+    <div class="col-5 m-5 box" style="width:500px; margin-left:5%;">
+      <p class="subtitle has-text-centered">Profit for boatowner</p>
+      <Bar
+          :chart-options="chartOptionsDoughnut"
+          :chart-data="chartDataDoughnut"
+          :chart-id="chartId"
+          :dataset-id-key="datasetIdKey"
+          :plugins="plugins"
+          :css-classes="cssClasses"
+          :styles="styles"
+          :width="width"
+          :height="height"
+      />
+        <div class="box" style="margin: 0px 5% 0px 5%">
+          <Datepicker  
+           placeholder="Click to select date..."
+            v-model="dates"
+            range
+            @selected="getFinances()"></Datepicker>
+            <button @click="getFinances()">Get finances</button>
+        </div>
+      <p class="subtitle has-text-centered mt-5" style="margin-top:5%;"> Total earnings in the period  <br> from: {{startTime.substring(0,10)}} to: {{endTime.substring(0,10)}} is <strong>{{totalEarnings}}€</strong></p>
+    </div>
+    </div>
 </template>
 
 <script>
+import { Bar } from 'vue-chartjs'
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+import axios from "axios";
+import config from "../../../configuration/config";
 
-import Chart from 'chart.js/auto';
-
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 
 export default{
-   components: { 
-     
-   },
-   data() {
-    return {
-      boatOwnerId: this.$route.params.idboatowner,
-      appChart: Chart,
-      myChart: Chart,
-      currentTime: new Date(),
-      yearLabels: [
-    ((new Date()).getFullYear()- 2).toString(),
-    ((new Date()).getFullYear() - 1).toString(),
-    ((new Date()).getFullYear()).toString(),
-    ((new Date()).getFullYear() + 1).toString(),
-      ],
-
-    monthsLabels: [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ],
-    daysLabels:  [],
-    labels:  [],
-  yearAppSum: [0, 0, 0],
-  monthsAppSum: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  daysAppSum: [0, 0, 0, 0],
-  data5: [
-    10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170,
-    180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300, 310,
-  ],
-  data1: [
-    10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170,
-    180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300, 310,
-  ],
-  data2:[
-    10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170,
-    180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300, 310,
-  ],
-   };
-  },
-  methods: {
-    loadChartAppointment(){
-  },
-   addDaysLabels(){
-    let labelsDays = [];
-    var month = this.currentTime.getMonth();
-    var d = new Date(this.currentTime.getFullYear(), month, 0);
-    var lastDay = d.getDate();
-    console.log(lastDay.toString());
-    for (let i = 1; i <= 3; i++) {
-      labelsDays.push(String(i * 7));
-      console.log(i);
-    }
-    labelsDays.push(String(lastDay));
-    return labelsDays;
-  },
-  appChartYearly() {
-      console.log(this.myChart.data.datasets[0]);
-    //this.myChart.data.datasets[0].data = [1,2];
-  
-    this.myChart.data.datasets[0].labels = ['1','2'];
-    
-    // this._doctorStatisticsService
-    //   .getAppointmentsCountYearly(this.doctorId)
-    //   .subscribe((data) => {
-    //     this.appChart.data.datasets[0].data = data.yearlySum;
-    //     this.appChart.update();
-    //   });
-    // this.appChart.config.type = 'pie' as ChartType;
-    this.myChart.update();
-  },
-  appChartMonthly() {
-    this.myChart.data.labels = this.monthsLabels;
-    // this.appChart.config.type = 'bar' as ChartType;
-    // this._doctorStatisticsService
-    //   .getAppointmentsCountMonthly(this.doctorId)
-    //   .subscribe((data) => {
-    //     this.appChart.data.datasets[0].data = data.monthlySum;
-    //     this.appChart.update();
-    //   });
-    this.myChart.update();
-  },
-    appChartWeekly() {
-    this.myChart.data.labels = this.daysLabels;
-    // this.appChart.config.type = 'bar' as ChartType;
-    // this._doctorStatisticsService
-    //   .getAppointmentsCountWeekly(this.doctorId)
-    //   .subscribe((data) => {
-    //     this.appChart.data.datasets[0].data = data.weeklySum;
-    //     this.appChart.update();
-    //   });
-    this.myChart.update();
-  },
-  
-
-  },
-  
-  mounted(){
-var appChartItem = document.getElementById('appChart').getContext('2d');
- this.myChart = new Chart(appChartItem, {
-    type: 'bar',
-    data: {
-        labels: ['Januar', 'Februar', 'Mart', 'April', 'Maj', 'Jun','Jul','Septembar','Oktobar','Novembar','Decembar'],
-        datasets: [{
-            label: '# of Votes',
-            data: this.data5,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
+  name: 'BarChart',
+  components: { Bar },
+  props: {
+    chartId: {
+      type: String,
+      default: 'bar-chart'
     },
-    options: {
+    datasetIdKey: {
+      type: String,
+      default: 'label'
+    },
+    width: {
+      type: Number,
+      default: 400
+    },
+    height: {
+      type: Number,
+      default: 400
+    },
+    cssClasses: {
+      default: '',
+      type: String
+    },
+    styles: {
+      type: Object,
+      default: () => {}
+    },
+    plugins: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  data() {
+     return {
+      user: null,
+      totalEarnings: 0,
+      dates:[],
+      startTime: '2022-01-01 00:00',
+      endTime: '2023-01-01 00:00',
+      chartData: {
+        labels: [ 'Boat' ],
+        datasets: [
+            {
+              label: 'Last Week',
+              backgroundColor: '#CAD2C5',
+              data: [0]
+            },
+            {
+              label: 'Last Month',
+              backgroundColor: '#52796F',
+              data: [0]
+            },
+            {
+              label: 'Last Year',
+              backgroundColor: '#2F3E46',
+              data: [0]
+            },
+        ]
+      },
+      chartDataDoughnut: {
+        labels: ['Boat'],
+        datasets: [
+          {
+            label: 'Earnings per appointment',
+            backgroundColor: ['#52796F'],
+            data: [0]
+          }
+        ]
+      },
+      chartOptions: {
+        responsive: true,
         scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
+          y: {
+            suggestedMax: 15,
+            ticks: {
+              stepSize: 2,
+              max: 1000
+            },
+          },
+        },
+      },
+      chartOptionsDoughnut: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
     }
-  });
-  this.myChart;
-  // this.appChartItem = document.getElementById('appChart');
-   //  this.loadChartAppointment();
-     console.log(this.data5);
-      console.log(this.yearLabels);
+  },
+  async mounted() {
+    this.user = JSON.parse(localStorage.getItem('id'))
+    console.log(this.user);
+    await this.getNumOfReservations();
+    await this.getInitialFinances();
+  },
 
-     this.daysLabels = this.addDaysLabels();
-     this.myChart.data.labels = this.monthsLabels;
-     this.myChart.update();
-     console.log(this.daysLabels);
-     console.log(this.myChart.data);
-    }
-  
+  methods:{
+    async getNumOfReservations(){
+      const response = await axios.get(`${config.apiStart}/api/getNumberOfReservations/boatowner/${this.user}`)
+      if (response.data) {
+        console.log(response.data)
+        this.chartData.labels = response.data.map(data => data.id)
+        this.chartData.datasets[0].data = response.data.map(data => data.reservationNumWeek)
+        this.chartData.datasets[1].data = response.data.map(data => data.reservationNumMonth)
+        this.chartData.datasets[2].data = response.data.map(data => data.reservationNumYear)
+      }
+    },
+    async getFinances(){
+      console.log("lalala");
+      let sYear = this.dates[0].getFullYear()
+      let sMonth = this.formatDateMonth(new Date(this.dates[0]));
+      let sDay = this.formatDateDay(new Date(this.dates[0]));
+      let eYear = this.dates[this.dates.length - 1].getFullYear()
+      let eMonth = this.formatDateMonth(new Date(this.dates.slice(-1)[0]));
+      let eDay = this.formatDateDay(new Date(this.dates.slice(-1)[0]));
+      this.startTime =`${sYear}-${sMonth}-${sDay} 00:00`
+      this.endTime= `${eYear}-${eMonth}-${eDay} 00:00`
+      const response = await axios.post(`${config.apiStart}/api/finances/boatowner`, {
+        id: this.user,
+        startTime: this.startTime,
+        endTime: this.endTime,
+      })
+      if(response.data){
+        console.log(response.data)
+        this.chartDataDoughnut.datasets[0].data = response.data.map(data => data.earning)
+        this.chartDataDoughnut.labels = response.data.map(data => data.id)
+        this.totalEarnings = response.data.reduce((acc, cur) => acc + cur.earning, 0)
+      }
+    },
+    async getInitialFinances(){
+      const response = await axios.post(`${config.apiStart}/api/finances/boatowner`, {
+        id: this.user,
+        startTime: this.startTime,
+        endTime: this.endTime,
+      })
+      if(response.data){
+        console.log(response.data)
+        this.chartDataDoughnut.datasets[0].data = response.data.map(data => data.earning)
+        this.chartDataDoughnut.labels = response.data.map(data => data.id)
+        this.totalEarnings = response.data.reduce((acc, cur) => acc + cur.earning, 0)
+      }
+    },
+    formatDateMonth(date) {
+      if (date.getMonth() + 1 < 10)
+        return `0${date.getMonth() + 1}`
+      else
+        return `${date.getMonth() + 1}`
+    },
+    formatDateDay(date) {
+      if (date.getDate() < 10)
+        return `0${date.getDate()}`
+      else
+        return `${date.getDate()}`
+    },
+  }
 }
-
-
-
 </script>
 
 
