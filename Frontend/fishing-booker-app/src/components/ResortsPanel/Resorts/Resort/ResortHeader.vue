@@ -202,6 +202,7 @@ export default {
       .then(resp=>{this.resort_form=resp.data; alert("Updated");})
       .catch((err)=>{
         alert(err.response.data.message)
+        window.location.reload();
        })
     },
     nameChanged($event) {

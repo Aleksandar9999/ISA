@@ -6,6 +6,9 @@ insert into address (street, country, city, lat, lng) values ('Amajic', 'Srbija'
 insert into address (street, country, city, lat, lng) values ('Vrhpolje', 'Srbija', 'Ljubovija', 0, 0);
 insert into address (street, country, city, lat, lng) values ('Ledinci', 'Srbija', 'Ledinci', 0, 0);
 insert into address (street, country, city, lat, lng) values ('Ravanicka 11', 'Srbija', 'Novi Sad', 0, 0);
+insert into address (street, country, city, lat, lng) values ('Fruskogorska 14', 'Srbija', 'Novi Sad', 0, 0);--8
+insert into address (street, country, city, lat, lng) values ('Bulevar evrope 2', 'Srbija', 'Novi Sad', 0, 0);
+insert into address (street, country, city, lat, lng) values ('Narodnog fronta 2', 'Srbija', 'Novi Sad', 0, 0);
 
 
 INSERT INTO ROLE (name) VALUES ('ROLE_USER');
@@ -20,8 +23,8 @@ insert into users (dtype, email, password, name, surname, phone_number, status, 
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('Tutor','dragoOrasanin@gmail.com', 'bojan', 'Drago', 'Orasanin','015252161','ADMIN_CONFIRMED',2,0);
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,password_changed,penalty_count) values ('Admin','admin@gmail.com', 'admin', 'admin', 'admin','015252161','ADMIN_CONFIRMED',3,'true',0);
 insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count,points) values ('Tutor','abrkljac9@gmail.com', 'bojan', 'Mihailo', 'Radic','015235561','ADMIN_CONFIRMED',1,0,40);
-insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count,points) values ('BoatOwner','fresh.trifunovic@gmail.com', 'bojan', 'Marko', 'Trifunovic', '02166654263','ADMIN_CONFIRMED',1,0,45);
-insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('ResortOwner','marko.trifunovic@gmail.com', 'bojan', 'Aleksa', 'Stojanovic','016235561','ADMIN_CONFIRMED',1,0);
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count,points) values ('BoatOwner','fresh.trifunovic@gmail.com', 'bojan', 'Marko', 'Trifunovic', '02166654263','ADMIN_CONFIRMED',1,0,45);---user id 7
+insert into users (dtype, email, password, name, surname, phone_number, status, address_id,penalty_count) values ('ResortOwner','marko.trifunovic@gmail.com', 'bojan', 'Aleksa', 'Stojanovic','016235561','ADMIN_CONFIRMED',1,0);---user id 8
 
 
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (1, 1);
@@ -56,10 +59,15 @@ insert into boat_rent_price (number_of_days, price) values (1,1500);
 insert into boat_rent_price (number_of_days, price) values (5,5000);
 insert into boat_rent_price (number_of_days, price) values (10,15000);
 insert into boat_rent_price (number_of_days, price) values (1,1500);
+insert into boat_rent_price (number_of_days, price) values (1,2000);
+insert into boat_rent_price (number_of_days, price) values (1,2000);
 
-insert into resort_rent_price (number_of_days, price) values (1,1500);
+
+insert into resort_rent_price (number_of_days, price) values (1,1500); --1
 insert into resort_rent_price (number_of_days, price) values (5,5000);
 insert into resort_rent_price (number_of_days, price) values (10,15000);
+insert into resort_rent_price (number_of_days, price) values (1,2000);
+insert into resort_rent_price (number_of_days, price) values (1,2000); --5
 
 
 insert into resort_prices (resort_resort_id, prices_resortrent_price_id) values (1,1);
@@ -207,9 +215,53 @@ insert into period (start_date, end_date) values('2022-02-01 13:00:00','2022-02-
 insert into period (start_date, end_date) values('2022-02-03 11:00:00','2022-02-17 13:00:00');
 insert into period (start_date, end_date) values('2022-05-01 11:00:00','2022-05-12 13:00:00'); --36
 
+insert into period (start_date, end_date) values('2022-06-01 13:00:00','2022-06-15 13:00:00'); --37
+insert into period (start_date, end_date) values('2022-05-10 13:00:00','2022-05-15 13:00:00');
+insert into period (start_date, end_date) values('2022-07-01 11:00:00','2022-08-01 13:00:00');
+insert into period (start_date, end_date) values('2022-08-01 11:00:00','2022-09-01 13:00:00'); --40
+insert into period (start_date, end_date) values('2022-05-20 11:00:00','2022-05-25 13:00:00'); --41
+
+
+insert into period (start_date, end_date) values('2022-06-01 13:00:00','2022-06-15 13:00:00'); --42
+insert into period (start_date, end_date) values('2022-05-10 13:00:00','2022-05-15 13:00:00');
+insert into period (start_date, end_date) values('2022-07-01 11:00:00','2022-08-01 13:00:00');
+insert into period (start_date, end_date) values('2022-08-01 11:00:00','2022-09-01 13:00:00'); --45
+insert into period (start_date, end_date) values('2022-05-20 11:00:00','2022-05-25 13:00:00'); --46
+
+
 insert into boat_boat_available(boat_boat_id,boat_available_id) values (1,36);
 insert into boat_boat_available(boat_boat_id,boat_available_id) values (1,34);
 insert into boat_boat_available(boat_boat_id,boat_available_id) values (2,35);
 
+
+
+
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,user_id,status) values ('BoatAppointment', 33, 5, 'No additional services.', 26000.00,'BOAT', 4, 1,1,'SUCCESSFUL');
 insert into resort_resort_available (resort_resort_id, resort_available_id) values (1,13);
+
+---fresh.trifunovic(boatowner)
+insert into boat (name, type_of_boat, length, engine_id, engine_power, max_speed, navigation_equipment, boat_address_id, description, max_person, rules, fishing_equipment, cancel_percentage, boat_owner_id, rate,status) values ('Titanik','Fishing boat','5 meter','1','15 HP', 80, 'GPS', 7,'Middle size fishing boat.', 7,'No alcohol. No smoking.', '7 fishing rods and decoys.',0 , 7, 4.25,'CONFIRMED');
+insert into boat (name, type_of_boat, length, engine_id, engine_power, max_speed, navigation_equipment, boat_address_id, description, max_person, rules, fishing_equipment, cancel_percentage, boat_owner_id, rate,status) values ('Brzi gonzales','Cruising boat','12 meter','2A5','100 HP', 150, 'RADAR', 8,'Big boat for driving around and having fun.', 12,'No alcohol. No smoking.', 'A fridge full of beer',0 , 7, 4.8,'CONFIRMED');
+insert into boat_boat_available(boat_boat_id,boat_available_id) values (3,39);
+insert into boat_boat_available(boat_boat_id,boat_available_id) values (4,40);
+insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,user_id,status) values ('BoatAppointment', 38, 5, 'No additional services.', 10000.00,'BOAT', 4, 3,1,'SUCCESSFUL');
+insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,user_id,status) values ('BoatAppointment', 37, 5, 'No additional services.', 28000.00,'BOAT', 4, 4,1,'SUCCESSFUL');
+insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,user_id,status) values ('BoatAppointment', 41, 5, 'No additional services.', 10000.00,'BOAT', 4, 3,1,'SUCCESSFUL'); --16
+insert into boat_prices (boat_boat_id, prices_boatrent_price_id) values (3,5);
+insert into boat_prices (boat_boat_id, prices_boatrent_price_id) values (4,6);
+
+insert into revisions (dtype, comment, rate, status, boat_appointment_id, creator_id) values ('BoatAppointmentRevision','Great expirience.',5, 4, 14,1);
+insert into revisions (dtype, comment, rate, status, boat_appointment_id, creator_id) values ('BoatAppointmentRevision','Boat was bad.',2, 4, 16,1);
+
+
+---marko.trifunovic(resortowner)
+insert into resort (name, description, resort_address_id, num_of_rooms, num_of_beds, rules, resort_owner_id, rate,status) values ('Vila elita','Best house for parties in Novi Sad', 9, 2, 4, 'Forbiden entrance to non checked and authorised persons to resort objects.', 8, 3,'CONFIRMED');
+insert into resort (name, description, resort_address_id, num_of_rooms, num_of_beds, rules, resort_owner_id, rate,status) values ('Exclusive house','If you want to spend a great day with your family,this is the place', 10, 4, 2, 'Forbiden entrance to non checked and authorised persons to resort objects.',8 , 3,'CONFIRMED');
+insert into resort_resort_available (resort_resort_id, resort_available_id) values (4,44);
+insert into resort_resort_available (resort_resort_id, resort_available_id) values (5,45);
+insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, resort_id,user_id,status) values ('ResortAppointment', 43, 2, 'No additional services.', 10000.00,'RESORT', 4, 4,1,'SUCCESSFUL');
+insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, resort_id,user_id,status) values ('ResortAppointment', 46, 3, 'No additional services.', 10000.00,'RESORT', 4, 5,1,'SUCCESSFUL');--18
+insert into resort_prices (resort_resort_id, prices_resortrent_price_id) values (4,4);
+insert into resort_prices (resort_resort_id, prices_resortrent_price_id) values (5,5);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Great expirience.',4.8, 4, 17,1);
+insert into revisions (dtype, comment, rate, status, resort_appointment_id, creator_id) values ('ResortAppointmentRevision','Boat was bad.',2.5, 4, 18,1);
