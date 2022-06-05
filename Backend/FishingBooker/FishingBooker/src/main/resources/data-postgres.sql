@@ -194,8 +194,7 @@ insert into revisions (dtype, comment, rate, status, resort_appointment_id, crea
 
 insert into period (start_date, end_date) values('2021-01-01 00:00:00','2021-12-31 00:00:00');
 insert into period (start_date) values('2022-01-01 00:00:00');
-insert into system_data (procentage, valid_id) values (5,30);
-insert into system_data (procentage, valid_id) values (3,31);
+
 
 insert into user_category_settings (name, discount_procentage, revenue_procentage, points_margine) values ('Regular',0,50,0);
 insert into user_category_settings (name, discount_procentage, revenue_procentage, points_margine) values ('Silver',5,65,40);

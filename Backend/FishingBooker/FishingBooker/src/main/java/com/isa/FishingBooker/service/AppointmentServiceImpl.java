@@ -840,8 +840,7 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
             list.add(new ReservationNumDTO(b.getId(),
             		appointmentRepository.getNumberOfAppointmentsByBoatOwner(b.getBoatOwnerId(), date.minusWeeks(1),b.getId()),
             		appointmentRepository.getNumberOfAppointmentsByBoatOwner(b.getBoatOwnerId(),date.minusMonths(1),b.getId()),
-            		appointmentRepository.getNumberOfAppointmentsByBoatOwner(b.getBoatOwnerId(), date.minusYears(1),b.getId()) ) );
-            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+b.getId());
+            		appointmentRepository.getNumberOfAppointmentsByBoatOwner(b.getBoatOwnerId(), date.minusYears(1),b.getId()) ) );      
         }
         return list;
 	}
@@ -891,9 +890,10 @@ public class AppointmentServiceImpl extends CustomGenericService<Appointment> im
 		   LocalDateTime date = LocalDateTime.now();
     
      for(Resort r : resorts){
-         list.add(new ReservationNumDTO(r.getId(), appointmentRepository.getNumberOfAppointmentsByResortOwner(r.getId(), date.minusWeeks(1),date),
-         		appointmentRepository.getNumberOfAppointmentsByResortOwner(r.getId(),date.minusMonths(1),date),
-         		appointmentRepository.getNumberOfAppointmentsByResortOwner(r.getId(), date.minusYears(1),date)));
+    	 list.add(new ReservationNumDTO(r.getId(),
+         		appointmentRepository.getNumberOfAppointmentsByResortOwner(r.getResortOwnerId(), date.minusWeeks(1),r.getId()),
+         		appointmentRepository.getNumberOfAppointmentsByResortOwner(r.getResortOwnerId(),date.minusMonths(1),r.getId()),
+         		appointmentRepository.getNumberOfAppointmentsByResortOwner(r.getResortOwnerId(), date.minusYears(1),r.getId()) ) );     
      }
      return list;
 	}

@@ -178,7 +178,7 @@ export default{
       }
     },
     async getInitialFinances(){
-      const response = await axios.post(`${config.apiStart}/api/finances/boatowner`, {
+      const response = await axios.post(`${config.apiStart}/api/finances/resortowner`, {
         id: this.user,
         startTime: this.startTime,
         endTime: this.endTime,
