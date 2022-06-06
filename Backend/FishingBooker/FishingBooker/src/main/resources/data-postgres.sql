@@ -245,7 +245,7 @@ insert into boat (name, type_of_boat, length, engine_id, engine_power, max_speed
 insert into boat_boat_available(boat_boat_id,boat_available_id) values (3,39);
 insert into boat_boat_available(boat_boat_id,boat_available_id) values (4,40);
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,user_id,status) values ('BoatAppointment', 38, 5, 'No additional services.', 10000.00,'BOAT', 4, 3,1,'SUCCESSFUL');
-insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,user_id,status) values ('BoatAppointment', 37, 5, 'No additional services.', 28000.00,'BOAT', 4, 4,1,'SUCCESSFUL');
+insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,user_id,status) values ('BoatAppointment', 37, 5, 'No additional services.', 28000.00,'BOAT', 4, 4,1,'PENDING');
 insert into appointment (dtype, period_id, max_person, additional_services, price, appoint_type, address_id, boat_id,user_id,status) values ('BoatAppointment', 41, 5, 'No additional services.', 10000.00,'BOAT', 4, 3,1,'SUCCESSFUL'); --16
 insert into boat_prices (boat_boat_id, prices_boatrent_price_id) values (3,5);
 insert into boat_prices (boat_boat_id, prices_boatrent_price_id) values (4,6);

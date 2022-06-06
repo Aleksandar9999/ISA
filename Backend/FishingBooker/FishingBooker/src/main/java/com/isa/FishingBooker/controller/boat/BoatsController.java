@@ -115,12 +115,13 @@ public class BoatsController {
 	        return new ResponseEntity<>(appointmentService.getAllReservationsForCharts(), HttpStatus.OK);
 	    }
 	
-	
+	@PreAuthorize("hasAnyRole('BOATOWNER')")
 	  @GetMapping("/api/getNumberOfReservations/boatowner/{boatownerid}")
 	    public List<ReservationNumDTO> getNumberOfReservations(@PathVariable("boatownerid") int boatOwnerId){
 	        return appointmentService.getNumberOfReservations(boatOwnerId);
 	    }
 
+	@PreAuthorize("hasAnyRole('BOATOWNER')")
 	    @PostMapping("/api/finances/boatowner")
 	    public List<FinanceDTO> getFinances(@RequestBody TimeDTO timeDTO){
 	        return appointmentService.getFinances(timeDTO.getId(), timeDTO.getStartTime(), timeDTO.getEndTime());
