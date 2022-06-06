@@ -144,7 +144,7 @@ public class ResortsServiceImplementation extends CustomGenericService<Resort> i
 
 	@Override
 	public List<DiscountOffer> getAllDiscountOffers(int idResort) {
-		Resort resort = this.getById(idResort);
+		Resort resort = getById(idResort);
 		return resort.getDiscountOffers().stream().collect(Collectors.toList());
 		
 	}

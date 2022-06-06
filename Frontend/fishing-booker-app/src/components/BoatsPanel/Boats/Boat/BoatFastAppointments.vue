@@ -6,7 +6,7 @@
       </w-flex>
       <FastAppointmentCard
         v-for="(fast_appoinement, index) in fast_appoinements_local"
-        :key="index" :showReserveButton="false"
+        :key="index" :showReserveButton="showReserveButton"
         :fast_appoinement="fast_appoinement"
       />
     </w-card>
@@ -21,6 +21,7 @@ export default {
   data() {
     return {
       fast_appoinements_local: [],
+      showReserveButton: false,
     };
   },
   components: {
@@ -29,7 +30,20 @@ export default {
   methods: {
     showDialog() {
       this.$emit("showDiscountOfferDialog", true);
+    },
+     showReserveButtonFunc() {
+    if (localStorage.roles.trim() === "ROLE_USER")
+        this.showReserveButton=true;
+    },
+     currentDateTime() {
+      const current = new Date();
+      const date = current.getFullYear()+'-'+(current.getMonth()+1)+'-'+current.getDate();
+      const time = current.getHours() + ":" + current.getMinutes();
+      const dateTime = date +' '+ time;
+
+      return dateTime;
     }
+ 
   },
   mounted() {
     axios
@@ -43,6 +57,7 @@ export default {
       .then((resp) => {
         this.fast_appoinements_local = resp.data;
       });
+      this.showReserveButtonFunc();
   },
 };
 </script>
